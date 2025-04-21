@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
+
+import 'core/theme/app_theme.dart';
 
 void main() {
   runApp(const MyApp());
@@ -26,6 +29,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp.router(
       title: 'Voluntariado App',
       routerConfig: _router,
+      theme: appTheme,
     );
   }
 }
@@ -38,9 +42,9 @@ class HomePage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Home')),
       body: Center(
-        child: ElevatedButton(
+        child: AppButton.filled(
+          label: 'Go to Login',
           onPressed: () => context.go('/login'),
-          child: const Text('Go to Login'),
         ),
       ),
     );
@@ -55,9 +59,9 @@ class LoginPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(title: const Text('Login')),
       body: Center(
-        child: ElevatedButton(
+        child: AppButton.tonal(
+          label: 'Back to Home',
           onPressed: () => context.go('/'),
-          child: const Text('Back to Home'),
         ),
       ),
     );
