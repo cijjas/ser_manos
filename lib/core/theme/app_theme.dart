@@ -18,10 +18,12 @@ final ThemeData appTheme = ThemeData(
     onPrimaryContainer: AppColors.primary100,
 
     // SECONDARY
-    secondary: AppColors.secondary100,
+    secondary: AppColors.secondary200,
     onSecondary: AppColors.neutral0,
     secondaryContainer: AppColors.secondary25,
     onSecondaryContainer: AppColors.secondary100,
+    onSecondaryFixed: AppColors.secondary80,
+
 
     // ERROR
     error: AppColors.error100,
@@ -31,6 +33,7 @@ final ThemeData appTheme = ThemeData(
     // BACKGROUND & SURFACE
     surface: AppColors.neutral0,
     onSurface: AppColors.neutral100,
+    surfaceContainer: AppColors.neutral25,
     surfaceContainerHighest: AppColors.neutral10,
     onSurfaceVariant: AppColors.neutral75,
 
