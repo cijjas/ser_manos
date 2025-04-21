@@ -1,52 +1,65 @@
-// // core/components/vacants.dart
-// import 'package:flutter/material.dart';
-// import 'package:lucide_icons/lucide_icons.dart';
-//
-// class Vacants extends StatelessWidget {
-//   final int count;
-//
-//   const Vacants({super.key, required this.count});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     final ColorScheme colorScheme = Theme.of(context).colorScheme;
-//     final bool isAvailable = count > 0;
-//
-//     return Container(
-//       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-//       decoration: BoxDecoration(
-//         color: isAvailable ? colorScheme.primary.withOpacity(0.1) : colorScheme.surfaceVariant,
-//         borderRadius: BorderRadius.circular(8),
-//       ),
-//       child: Row(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Text(
-//             'Vacantes:',
-//             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-//               color: colorScheme.onSurface,
-//             ),
-//           ),
-//           const SizedBox(width: 8),
-//           Icon(
-//             LucideIcons.user,
-//             size: 20,
-//             color: isAvailable
-//                 ? colorScheme.primary
-//                 : colorScheme.primary.withOpacity(0.4),
-//           ),
-//           const SizedBox(width: 4),
-//           Text(
-//             '$count',
-//             style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-//               color: isAvailable
-//                   ? colorScheme.primary
-//                   : colorScheme.primary.withOpacity(0.4),
-//               fontWeight: FontWeight.bold,
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
+import 'package:flutter/material.dart';
+import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
+
+import '../../atoms/icons/app_icons.dart';
+
+class VacantsDisplay extends StatefulWidget {
+  final int initialNumber;
+
+  const VacantsDisplay({
+    super.key,
+    required this.initialNumber,
+  });
+
+  @override
+  State<VacantsDisplay> createState() => _VacantsDisplayState();
+}
+
+class _VacantsDisplayState extends State<VacantsDisplay> {
+  late int number;
+
+  @override
+  void initState() {
+    super.initState();
+    number = widget.initialNumber; // Initialize the state with the initial number
+  }
+
+  void incrementNumber() {
+    setState(() {
+      number++;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(8, 4, 8, 4),
+      decoration: BoxDecoration(
+        color: number != 0 ? Theme.of(context).colorScheme.secondaryContainer : Theme.of(context).colorScheme.surfaceContainer,
+        borderRadius: BorderRadius.circular(4),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Vacantes:',
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          const SizedBox(width: 8), // gap
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              AppIcon(icon: AppIcons.PERSONA, size: 20, color: number != 0 ? AppIconsColor.SECONDARY : AppIconsColor.SECONDARY_DISABLED),
+              Text(
+                number.toString(),
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: number != 0 ? Theme.of(context).colorScheme.secondary : Theme.of(context).colorScheme.onSecondaryFixed,
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
