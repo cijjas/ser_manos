@@ -13,18 +13,20 @@ class AppTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final bool obscureText;
   final Widget? suffixIcon;
-  final bool alwaysShowLabel;
+  final Widget? prefixIcon;
+  final FloatingLabelBehavior labelBehavior;
 
   const AppTextField({
     super.key,
     required this.labelText,
-    required this.hintText,
+    this.hintText = "",
     this.controller,
     this.onChanged,
     this.keyboardType = TextInputType.text, // Default to text input
     this.obscureText = false, // Default to not obscured
     this.suffixIcon,
-    this.alwaysShowLabel = false,
+    this.prefixIcon,
+    this.labelBehavior = FloatingLabelBehavior.auto,
   });
 
   @override
@@ -39,7 +41,7 @@ class AppTextField extends StatelessWidget {
         hintText: hintText,
         labelStyle: AppTypography.caption.copyWith(color: AppColors.neutral75),
         hintStyle: AppTypography.subtitle01.copyWith(color: AppColors.neutral50),
-        floatingLabelBehavior: alwaysShowLabel ? FloatingLabelBehavior.always : FloatingLabelBehavior.auto,
+        floatingLabelBehavior: labelBehavior,
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.neutral75, width: 1.0),
         ),
@@ -49,7 +51,8 @@ class AppTextField extends StatelessWidget {
         errorBorder: const OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.error100, width: 2.0),
         ),
-        suffixIcon: suffixIcon
+        suffixIcon: suffixIcon,
+        prefixIcon: prefixIcon,
       ),
     );
   }
@@ -58,17 +61,17 @@ class AppTextField extends StatelessWidget {
 class PasswordField extends StatefulWidget {
   final String labelText;
   final String hintText;
-  final bool alwaysShowLabel;
+  final FloatingLabelBehavior labelBehavior;
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
 
   const PasswordField({
     super.key,
     required this.labelText,
-    required this.hintText,
+    this.hintText = "",
     this.controller,
     this.onChanged,
-    this.alwaysShowLabel = false,
+    this.labelBehavior = FloatingLabelBehavior.auto,
   });
 
   @override
@@ -86,7 +89,7 @@ class _PasswordFieldState extends State<PasswordField> {
       controller: widget.controller,
       onChanged: widget.onChanged,
       obscureText: _obscureText,
-      alwaysShowLabel: widget.alwaysShowLabel,
+      labelBehavior: widget.labelBehavior,
       suffixIcon: IconButton(
         icon: AppIcon(
           icon: _obscureText ? AppIcons.MOSTRAR : AppIcons.OCULTAR,
@@ -98,6 +101,46 @@ class _PasswordFieldState extends State<PasswordField> {
           });
         },
       ),
+    );
+  }
+}
+
+class SearchField extends StatelessWidget {
+  final String labelText;
+  final String hintText;
+  final TextEditingController? controller;
+  final ValueChanged<String>? onChanged;
+  final TextInputType keyboardType;
+  final FloatingLabelBehavior labelBehavior;
+  final bool obscureText;
+  final Widget? suffixIcon;
+  final Widget? prefixIcon;
+
+  const SearchField({
+    super.key,
+    required this.labelText,
+    this.hintText = "",
+    this.controller,
+    this.onChanged,
+    this.keyboardType = TextInputType.text, // Default to text input
+    this.obscureText = false, // Default to not obscured
+    this.suffixIcon,
+    this.prefixIcon,
+    this.labelBehavior = FloatingLabelBehavior.auto,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppTextField(
+      labelText: labelText,
+      hintText: hintText,
+      controller: controller,
+      onChanged: onChanged,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      suffixIcon: suffixIcon,
+      labelBehavior: labelBehavior,
+      prefixIcon: const AppIcon(icon: AppIcons.BUSCAR, overrideColor: AppColors.neutral75),
     );
   }
 }

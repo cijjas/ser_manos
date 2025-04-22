@@ -17,7 +17,6 @@ class AppTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.fromLTRB(0,0,0,3), // 3px white space around the button
       color: Colors.white, // White background for the margin
       child: MaterialButton(
         onPressed: onTap, // Trigger the external state change

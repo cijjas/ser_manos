@@ -9,9 +9,11 @@ import '../../molecules/tabs/tab.dart';
 
 class AppHeader extends StatelessWidget {
   final Widget body;
+  final int selectedIndex;
 
   const AppHeader({
     super.key,
+    this.selectedIndex = 0,
     this.body = const SizedBox(),
   });
 
@@ -37,20 +39,22 @@ class AppHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: AppTab(label: "Postularse", onTap: () => debugPrint('Postularse tapped'), isSelected: true),
+                child: AppTab(label: "Postularse", onTap: () => debugPrint('Postularse tapped'), isSelected: selectedIndex == 0),
               ),
               Expanded(
-                child: AppTab(label: "Mi perfil", onTap: () => debugPrint('Mi perfil tapped'), isSelected: false),
+                child: AppTab(label: "Mi perfil", onTap: () => debugPrint('Mi perfil tapped'), isSelected: selectedIndex == 1),
               ),
               Expanded(
-                child: AppTab(label: "Novedades", onTap: () => debugPrint('Novedades tapped'), isSelected: false),
+                child: AppTab(label: "Novedades", onTap: () => debugPrint('Novedades tapped'), isSelected: selectedIndex == 2),
               ),
             ],
           ),
-            Container(
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-              color: AppColors.neutral0,
-              child: body,
+            Expanded(child:
+              Container(
+                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                color: AppColors.secondary10,
+                child: body,
+              ),
             ),
         ],
       )
