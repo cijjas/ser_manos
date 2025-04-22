@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/text_field.dart';
 
-import '../atoms/symbols/app_symbol_text.dart';
-import '../molecules/status_bar/status_bar.dart';
+import '../../atoms/symbols/app_symbol_text.dart';
+import '../../molecules/status_bar/status_bar.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});

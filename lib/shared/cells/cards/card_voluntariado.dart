@@ -39,7 +39,7 @@ class CardVoluntariado extends StatelessWidget {
             height: 138, // Set the desired height
             child: Image.network(
               imgUrl,
-              fit: BoxFit.fill,
+              fit: BoxFit.cover,
             ),
           ),
           Container(

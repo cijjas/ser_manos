@@ -24,7 +24,7 @@ class CardNovedades extends StatelessWidget {
     required this.description,
     required this.imgUrl,
   });
-
+// TODO recheck sizing in news page
   @override
   Widget build(BuildContext context) {
     return Container(

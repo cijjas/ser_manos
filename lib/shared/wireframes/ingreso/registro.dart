@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/text_field.dart';
 
-import '../atoms/symbols/app_symbol_text.dart';
-import '../molecules/status_bar/status_bar.dart';
+import '../../atoms/symbols/app_symbol_text.dart';
+import '../../molecules/status_bar/status_bar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -79,7 +79,7 @@ class _LoginPageState extends State<RegisterPage> {
                         AppTextField(
                           labelText: "Nombre",
                           hintText: "Ej: Juan",
-                          alwaysShowLabel: true,
+                          labelBehavior: FloatingLabelBehavior.always,
                           keyboardType: TextInputType.name,
                           controller: _nameController,
                           onChanged: (_) => _updateCanRegister(),
@@ -87,7 +87,7 @@ class _LoginPageState extends State<RegisterPage> {
                         AppTextField(
                           labelText: "Apellido",
                           hintText: "Ej: Barcena",
-                          alwaysShowLabel: true,
+                          labelBehavior: FloatingLabelBehavior.always,
                           keyboardType: TextInputType.name,
                           controller: _surnameController,
                           onChanged: (_) => _updateCanRegister(),
@@ -95,7 +95,7 @@ class _LoginPageState extends State<RegisterPage> {
                         AppTextField(
                           labelText: "Email",
                           hintText: "Ej: juanbarcena@mail.com",
-                          alwaysShowLabel: true,
+                          labelBehavior: FloatingLabelBehavior.always,
                           keyboardType: TextInputType.emailAddress,
                           controller: _emailController,
                           onChanged: (_) => _updateCanRegister(),
@@ -103,7 +103,7 @@ class _LoginPageState extends State<RegisterPage> {
                         PasswordField(
                           labelText: "Contraseña",
                           hintText: "Ej: ABCD1234",
-                          alwaysShowLabel: true,
+                          labelBehavior: FloatingLabelBehavior.always,
                           controller: _passwordController,
                           onChanged: (_) => _updateCanRegister(),
                         ),
