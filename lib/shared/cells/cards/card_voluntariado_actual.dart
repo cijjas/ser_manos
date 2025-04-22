@@ -9,64 +9,55 @@ import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
 
 // TODO check what to do with the widget state
-class CardVoluntariado extends StatelessWidget {
+class CardVoluntariadoActual extends StatelessWidget {
   final String type;
   final String name;
-  final String imgUrl;
 
-  const CardVoluntariado({
+  const CardVoluntariadoActual({
     super.key,
     required this.type,
     required this.name,
-    required this.imgUrl,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 328,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: AppColors.neutral0,
-        borderRadius: AppBorderRadius.border2,
+        borderRadius: AppBorderRadius.border6,
         boxShadow: AppShadows.shadow2,
+        border: Border.all(
+          color: AppColors.primary100,
+          width: 2.0
+        ),
       ),
       clipBehavior: Clip.antiAlias,
       child:Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SizedBox(
-            width: 328,
-            height: 138, // Set the desired height
-            child: Image.network(
-              imgUrl,
-              fit: BoxFit.fill,
-            ),
-          ),
           Container(
-            padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),
-            child:
-            Row(
+            padding: const EdgeInsets.all(16),
+            child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 4,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(type.toUpperCase(), style: AppTypography.caption),
-                        Text(name, style: AppTypography.subtitle01)
-                      ],
-                    ),
-                    const VacantsDisplay(initialNumber: 10),
-                  ]
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    spacing: 4,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(type.toUpperCase(), style: AppTypography.caption),
+                          Text(name, style: AppTypography.subtitle01)
+                        ],
+                      )
+                    ]
                 ),
                 const Row(
                   spacing: 16,
                   children: [
-                    AppIcon(icon: AppIcons.FAVORITO_OUTLINE, size: 24, color: AppIconsColor.PRIMARY),
                     AppIcon(icon: AppIcons.UBICACION, size: 24, color: AppIconsColor.PRIMARY),
                   ],
                 )

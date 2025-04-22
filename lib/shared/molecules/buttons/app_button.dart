@@ -35,7 +35,6 @@ class AppButton extends StatelessWidget {
     };
 
     final ButtonStyle style = ButtonStyle(
-      minimumSize: WidgetStateProperty.all(const Size(328, 44)),
       padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
       backgroundColor: WidgetStateProperty.all(bgColor),
       foregroundColor: WidgetStateProperty.all(fgColor),
