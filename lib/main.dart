@@ -1,83 +1,101 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:go_router/go_router.dart';
-import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
-import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
-import 'package:ser_manos/shared/molecules/components/vacants.dart';
-import 'package:flutter/foundation.dart';
-import 'package:ser_manos/shared/molecules/tabs/tab.dart';
-
-import 'core/theme/app_theme.dart';
-import 'core/theme/colors.dart';
+import 'package:ser_manos/shared/molecules/buttons/floating_button.dart';
+import 'package:ser_manos/shared/molecules/buttons/short_button.dart';
+import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 
 void main() {
-  debugPaintSizeEnabled = false; // Enables visual debugging
   runApp(const MyApp());
 }
-
-final GoRouter _router = GoRouter(
-  routes: [
-    GoRoute(
-      path: '/',
-      builder: (context, state) => const HomePage(),
-    ),
-    GoRoute(
-      path: '/login',
-      builder: (context, state) => const LoginPage(),
-    ),
-  ],
-);
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'Voluntariado App',
-      routerConfig: _router,
-      theme: appTheme,
+    return const MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: ButtonDemoPage(),
     );
   }
 }
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class ButtonDemoPage extends StatelessWidget {
+  const ButtonDemoPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Home')),
-      body: Center(
-        /*child: AppButton.filled(
-          label: 'Go to Login',
-          onPressed: () => context.go('/login'),
-        ),*/
-        child: AppTab(label: "Test", onTap: () => {print("Tab")}, isSelected: false,),
-        // child: CardVoluntariado(type: 'Acción Social', name: 'Un Techo para mi País', imgUrl: 'https://picsum.photos/300/200'),
+      appBar: const StatusBar(style: StatusBarStyle.blue, timeText: '', showPlaceHolders: false,),
+      body: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            const Text("CTA Buttons", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            AppButton(
+              label: 'Registrarse',
+              onPressed: () => debugPrint('Filled CTA pressed'),
+              type: AppButtonType.filled,
+            ),
+            const SizedBox(height: 8),
+            AppButton(
+              label: 'Registrarse',
+              onPressed: () => debugPrint('Tonal CTA pressed'),
+              type: AppButtonType.tonal,
+            ),
+            const SizedBox(height: 8),
+            AppButton(
+              label: 'Registrarse',
+              onPressed: null, // Disabled
+              type: AppButtonType.filled,
+            ),
+            const SizedBox(height: 24),
 
-       // child: AppIcon(icon: AppIcons.MOSTRAR, color: AppIconsColor.PRIMARY)
-      ),
-    );
-  }
-}
-
-class LoginPage extends StatelessWidget {
-  const LoginPage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
-      body: Center(
-        child: AppButton.tonal(
-          label: 'Back to Home',
-          onPressed: () => context.go('/'),
+            const Text("Short Buttons", style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ShortButton(
+                  label: 'Completar',
+                  icon: Icons.add,
+                  onPressed: () => debugPrint('Short pressed'),
+                  variant: ShortButtonVariant.regular,
+                ),
+                const ShortButton(
+                  label: 'Completar',
+                  icon: Icons.add,
+                  onPressed: null,
+                  variant: ShortButtonVariant.regular,
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                ShortButton(
+                  label: 'Completar',
+                  icon: Icons.add,
+                  onPressed: () => debugPrint('Short pressed'),
+                  variant: ShortButtonVariant.compact,
+                ),
+                const ShortButton(
+                  label: 'Completar',
+                  icon: Icons.add,
+                  onPressed: null,
+                  variant: ShortButtonVariant.compact,
+                ),
+              ],
+            ),
+          ],
         ),
+      ),
+      floatingActionButton: AppFloatingButton(
+        icon: Icons.navigation,
+        onPressed: () => debugPrint('FAB pressed'),
       ),
     );
   }
