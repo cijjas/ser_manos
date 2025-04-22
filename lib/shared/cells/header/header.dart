@@ -3,14 +3,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 
-import '../../atoms/wordmark/app_wordmark.dart';
+import '../../atoms/symbols/app_wordmark.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../molecules/tabs/tab.dart';
 
 class AppHeader extends StatelessWidget {
+  final Widget body;
 
   const AppHeader({
     super.key,
+    this.body = const SizedBox(),
   });
 
 
@@ -44,7 +46,12 @@ class AppHeader extends StatelessWidget {
                 child: AppTab(label: "Novedades", onTap: () => debugPrint('Novedades tapped'), isSelected: false),
               ),
             ],
-          )
+          ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              color: AppColors.neutral0,
+              child: body,
+            ),
         ],
       )
     );

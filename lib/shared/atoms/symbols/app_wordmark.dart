@@ -1,9 +1,4 @@
-
-
-// I want to include a svg in a rectangle:
-
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_svg/svg.dart';
 
 class AppWordmark extends StatelessWidget {
   final double width;
