@@ -1,4 +1,3 @@
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
@@ -8,9 +7,9 @@ import 'package:ser_manos/shared/tokens/typography.dart';
 import '../atoms/symbols/app_symbol_text.dart';
 import '../molecules/status_bar/status_bar.dart';
 
-class IngresoPage extends StatelessWidget {
+class WelcomePage extends StatelessWidget {
 
-  const IngresoPage({
+  const WelcomePage({
     super.key,
   });
 
@@ -21,7 +20,7 @@ class IngresoPage extends StatelessWidget {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.start,
@@ -31,10 +30,15 @@ class IngresoPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                spacing: 32,
                 children: [
                   AppSymbolText(),
-                  Text("\"El esfuerzo desinteresado para llevar alegría a los demás será el comienzo de una vida más feliz para nosotros\"",
+                  SizedBox(height: 30),
+                  Text("¡Bienvenido!",
+                    style: AppTypography.headline01,
+                    textAlign: TextAlign.center,
+                  ),
+                  SizedBox(height: 48),
+                  Text("Nunca subestimes tu habilidad para mejorar la vida de alguien.",
                     style: AppTypography.subtitle01,
                     textAlign: TextAlign.center,
                   )
@@ -45,8 +49,7 @@ class IngresoPage extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 children: [
-                  AppButton(label: "Iniciar Sesión", onPressed: ()=> debugPrint("Iniciar Sesión"), type: AppButtonType.filled, fillWidth: true),
-                  AppButton(label: "Resgistrarse", onPressed: ()=> debugPrint("Registrarse"), type: AppButtonType.tonal, fillWidth: true),
+                  AppButton(label: "Comenzar", onPressed: ()=> debugPrint("Comenzar"), type: AppButtonType.filled, fillWidth: true),
                 ],
               )
             )

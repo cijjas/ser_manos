@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
@@ -8,12 +10,14 @@ class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final AppButtonType type;
+  final bool fillWidth;
 
   const AppButton({
     super.key,
     required this.label,
     required this.onPressed,
     this.type = AppButtonType.filled,
+    this.fillWidth = false,
   });
 
   @override
@@ -45,12 +49,15 @@ class AppButton extends StatelessWidget {
       ),
     );
 
-    return TextButton(
-      onPressed: onPressed,
-      style: style,
-      child: Text(
-        label,
-        textAlign: TextAlign.center,
+    return SizedBox(
+      width: fillWidth ? double.infinity : null,
+      child: TextButton(
+        onPressed: onPressed,
+        style: style,
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
+        ),
       ),
     );
   }

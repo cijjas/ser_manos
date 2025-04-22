@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:ser_manos/shared/samples/card_test_page.dart';
 import 'package:ser_manos/shared/wireframes/ingreso.dart';
 
 void main() {
-  debugPaintSizeEnabled = true; // Enables visual debugging
+  debugPaintSizeEnabled = false; // Enables visual debugging
   runApp(const MyApp());
 }
 
