@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:ser_manos/core/theme/shadow.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 
 import '../../atoms/icons/app_icons.dart';
 import '../../molecules/components/vacants.dart';
+import '../../tokens/shadow.dart';
 
 // TODO check what to do with the widget state
 class CardVoluntariado extends StatelessWidget {
@@ -25,7 +25,7 @@ class CardVoluntariado extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(8),
-        boxShadow: AppShadows.sombra2,
+        boxShadow: AppShadows.shadow2,
       ),
       clipBehavior: Clip.antiAlias,
       child:Column(
