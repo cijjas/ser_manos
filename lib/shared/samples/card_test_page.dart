@@ -1,28 +1,70 @@
+import 'package:flutter/material.dart';
 
-import 'package:flutter/cupertino.dart';
-
+import '../cells/header/header.dart';
 import '../cells/cards/card_novedades.dart';
 import '../cells/cards/card_voluntariado_actual.dart';
-import '../cells/header/header.dart';
+import '../cells/cards/card_informacion.dart';
 
+/// ---------------------------------------------------------------------------
+/// Página de pruebas de tarjetas (Novedades, Voluntariado, Información fija)
+/// ---------------------------------------------------------------------------
 class CardTestPage extends StatelessWidget {
   const CardTestPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const AppHeader(body:
-    Column(
-        spacing: 16,
-        children: [
-          CardNovedades(type: "Reporte 2820", name: "Ser donante voluntario",
-              description: "Desde el Hospital Centenario recalcan la importancia de la donación voluntaria de Sangre sad asdasdasd asdsadaa aaaaaaaa",
-              imgUrl: 'https://picsum.photos/300/200'),
-          CardVoluntariadoActual(
-              type: "Accion Social",
-              name: "Un techo para mi pais"
-          )
-        ]
-    )
+    return AppHeader(
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // ----------------------------------------------------------------
+            // Tarjetas existentes
+            // ----------------------------------------------------------------
+            const CardNovedades(
+              type: 'Reporte 2820',
+              name: 'Ser donante voluntario',
+              description:
+              'Desde el Hospital Centenario recalcan la importancia... '
+                  'asdasdasd asdsadaa aaaaaaaa',
+              imgUrl: 'https://picsum.photos/300/200',
+            ),
+            const SizedBox(height: 16),
+
+            const CardVoluntariadoActual(
+              type: 'Acción Social',
+              name: 'Un techo para mi país',
+            ),
+            const SizedBox(height: 16),
+
+            // ----------------------------------------------------------------
+            // Tarjetas de información (fijas: SIEMPRE 2 ítems)
+            // ----------------------------------------------------------------
+            const CardInformacion(
+              title: 'Título',
+              label1: 'Label',
+              content1: 'Content',
+              label2: 'Label',
+              content2: 'Content',
+            ),
+            const SizedBox(height: 16),
+
+            const CardInformacion(
+              title: 'Dirección',
+              label1: 'Calle',
+              content1: 'Av. Siempre Viva 742',
+              label2: 'Ciudad',
+              content2: 'Springfield',
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
+
+/// ---------------------------------------------------------------------------
+/// Punto de entrada independiente para lanzar esta pantalla directamente.
+/// ---------------------------------------------------------------------------
+void main() => runApp(const MaterialApp(home: CardTestPage()));
