@@ -3,7 +3,9 @@ import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 
 import '../../atoms/icons/app_icons.dart';
 import '../../molecules/components/vacants.dart';
+import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
+import '../../tokens/typography.dart';
 
 // TODO check what to do with the widget state
 class CardVoluntariado extends StatelessWidget {
@@ -23,7 +25,7 @@ class CardVoluntariado extends StatelessWidget {
     return Container(
       width: 328,
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.surface,
+        color: AppColors.neutral0,
         borderRadius: BorderRadius.circular(8),
         boxShadow: AppShadows.shadow2,
       ),
@@ -53,8 +55,8 @@ class CardVoluntariado extends StatelessWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(type.toUpperCase(), style: Theme.of(context).textTheme.labelSmall),
-                        Text(name, style: Theme.of(context).textTheme.titleMedium)
+                        Text(type.toUpperCase(), style: AppTypography.caption),
+                        Text(name, style: AppTypography.subtitle01)
                       ],
                     ),
                     const VacantsDisplay(initialNumber: 10),

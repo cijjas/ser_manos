@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../tokens/colors.dart';
 import 'app_icons.dart';
 
 class AppIcon extends StatelessWidget {
@@ -21,24 +22,22 @@ class AppIcon extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final ColorScheme colorScheme = Theme.of(context).colorScheme;
-    // TODO change color from onSurface to ??
     final Color iconColor;
     switch (color) {
       case AppIconsColor.PRIMARY:
-        iconColor = colorScheme.primary;
+        iconColor = AppColors.primary100;
         break;
       case AppIconsColor.SECONDARY:
-        iconColor = colorScheme.secondary;
+        iconColor = AppColors.secondary200;
         break;
       case AppIconsColor.SECONDARY_DISABLED:
-        iconColor = colorScheme.onSecondaryFixed;
+        iconColor = AppColors.secondary80;
         break;
       case AppIconsColor.DISABLED:
-        iconColor = colorScheme.onSurface.withOpacity(0.38);
+        iconColor = AppColors.neutral25;
         break;
       default:
-        iconColor = colorScheme.onSurface;
+        iconColor = AppColors.neutral0;
     }
 
     return Icon(
