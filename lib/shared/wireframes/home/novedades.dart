@@ -1,15 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
 import 'package:ser_manos/shared/cells/cards/card_novedades.dart';
-import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
-import 'package:ser_manos/shared/molecules/input/text_field.dart';
-import 'package:ser_manos/shared/tokens/border_radius.dart';
 
 import '../../cells/header/header.dart';
-import '../../tokens/colors.dart';
-import '../../tokens/typography.dart';
 
 class NewsPiece {
   final String type;

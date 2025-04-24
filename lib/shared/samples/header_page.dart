@@ -7,6 +7,6 @@ class HeaderPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppHeader();
+    return const AppHeader();
   }
 }
