@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
@@ -66,7 +65,7 @@ class HomePage extends StatelessWidget {
         children: [
           Container(
             padding: const EdgeInsets.fromLTRB(0, 8, 0, 32),
-            child: SearchField(
+            child: const SearchField(
               labelText: "Buscar",
               hintText: "Buscar",
               labelBehavior: FloatingLabelBehavior.never,

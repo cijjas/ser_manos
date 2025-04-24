@@ -13,16 +13,16 @@ class CardTestPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppHeader(
+    return const AppHeader(
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             // ----------------------------------------------------------------
             // Tarjetas existentes
             // ----------------------------------------------------------------
-            const CardNovedades(
+            CardNovedades(
               type: 'Reporte 2820',
               name: 'Ser donante voluntario',
               description:
@@ -30,27 +30,27 @@ class CardTestPage extends StatelessWidget {
                   'asdasdasd asdsadaa aaaaaaaa',
               imgUrl: 'https://picsum.photos/300/200',
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
-            const CardVoluntariadoActual(
+            CardVoluntariadoActual(
               type: 'Acción Social',
               name: 'Un techo para mi país',
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
             // ----------------------------------------------------------------
             // Tarjetas de información (fijas: SIEMPRE 2 ítems)
             // ----------------------------------------------------------------
-            const CardInformacion(
+            CardInformacion(
               title: 'Título',
               label1: 'Label',
               content1: 'Content',
               label2: 'Label',
               content2: 'Content',
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
 
-            const CardInformacion(
+            CardInformacion(
               title: 'Dirección',
               label1: 'Calle',
               content1: 'Av. Siempre Viva 742',
