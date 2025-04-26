@@ -63,8 +63,13 @@ class AppButton extends StatelessWidget {
       };
     }
 
-    return SizedBox(
-      width: buttonWidth,
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        // If buttonWidth is `null` (hug) we impose no extra limit.
+        // If buttonWidth is a number (e.g. 328), we set it as the *maximum* width
+        // so the button can still shrink when the parent is narrower.
+        maxWidth: buttonWidth ?? double.infinity,
+      ),
       child: TextButton(
         onPressed: onPressed,
         style: style,
