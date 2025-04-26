@@ -1,16 +1,16 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
 enum AppButtonType { filled, tonal }
+enum AppButtonWidthType { fixed, hug }
 
 class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final AppButtonType type;
   final bool fillWidth;
+  final AppButtonWidthType widthType;
 
   const AppButton({
     super.key,
@@ -18,6 +18,7 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.type = AppButtonType.filled,
     this.fillWidth = false,
+    this.widthType = AppButtonWidthType.fixed, // default fixed 328px
   });
 
   @override
@@ -39,7 +40,9 @@ class AppButton extends StatelessWidget {
     };
 
     final ButtonStyle style = ButtonStyle(
-      padding: WidgetStateProperty.all(const EdgeInsets.symmetric(horizontal: 16)),
+      padding: WidgetStateProperty.all(
+        const EdgeInsets.fromLTRB(8, 12, 8, 12),
+      ),
       backgroundColor: WidgetStateProperty.all(bgColor),
       foregroundColor: WidgetStateProperty.all(fgColor),
       textStyle: WidgetStateProperty.all(AppTypography.button),
@@ -49,8 +52,19 @@ class AppButton extends StatelessWidget {
       ),
     );
 
+    double? buttonWidth;
+
+    if (fillWidth) {
+      buttonWidth = double.infinity;
+    } else {
+      buttonWidth = switch (widthType) {
+        AppButtonWidthType.fixed => 328,
+        AppButtonWidthType.hug => null,
+      };
+    }
+
     return SizedBox(
-      width: fillWidth ? double.infinity : null,
+      width: buttonWidth,
       child: TextButton(
         onPressed: onPressed,
         style: style,
