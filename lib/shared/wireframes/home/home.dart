@@ -6,7 +6,6 @@ import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
 import 'package:ser_manos/shared/molecules/input/text_field.dart';
 import 'package:ser_manos/shared/tokens/border_radius.dart';
 
-import '../../cells/header/header.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
@@ -60,51 +59,49 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppHeader(
-      body: Column(
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Container(
-            padding: const EdgeInsets.fromLTRB(0, 8, 0, 32),
-            child: SearchField(
-              labelText: "Buscar",
-              hintText: "Buscar",
-              labelBehavior: FloatingLabelBehavior.never,
-              suffixIcon: AppIcon(icon: AppIcons.MAPA, color: AppIconsColor.PRIMARY),
-            ),
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(0, 8, 0, 32),
+          child: SearchField(
+            labelText: "Buscar",
+            hintText: "Buscar",
+            labelBehavior: FloatingLabelBehavior.never,
+            suffixIcon: AppIcon(icon: AppIcons.MAPA, color: AppIconsColor.PRIMARY),
           ),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text("Voluntariados", style: AppTypography.headline01),
-                const SizedBox(height: 16),
-                voluntariados.isNotEmpty ? Expanded(child:
-                  ListView.builder(
-                    itemCount: voluntariados.length,
-                    itemBuilder: (context, index) {
-                      final voluntariado = voluntariados[index];
-                      return Padding(padding:  const EdgeInsets.symmetric(vertical: 12.0),
-                        child: CardVoluntariado(type: voluntariado.type,
-                            name: voluntariado.name, imgUrl: voluntariado.imageUrl));
-                    },
-                  )
-                ) : Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: const BoxDecoration(
-                    color: AppColors.neutral0,
-                    borderRadius: AppBorderRadius.border4
-                  ),
-                  child: const Text("Actualmente no hay voluntariados vigentes. Pronto se irán ircorporando nuevos",
-                    style: AppTypography.subtitle01,
-                    textAlign: TextAlign.center,
-                  ),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text("Voluntariados", style: AppTypography.headline01),
+              const SizedBox(height: 16),
+              voluntariados.isNotEmpty ? Expanded(child:
+                ListView.builder(
+                  itemCount: voluntariados.length,
+                  itemBuilder: (context, index) {
+                    final voluntariado = voluntariados[index];
+                    return Padding(padding:  const EdgeInsets.symmetric(vertical: 12.0),
+                      child: CardVoluntariado(type: voluntariado.type,
+                          name: voluntariado.name, imgUrl: voluntariado.imageUrl));
+                  },
+                )
+              ) : Container(
+                padding: const EdgeInsets.all(24),
+                decoration: const BoxDecoration(
+                  color: AppColors.neutral0,
+                  borderRadius: AppBorderRadius.border4
                 ),
-              ],
-            )
+                child: const Text("Actualmente no hay voluntariados vigentes. Pronto se irán ircorporando nuevos",
+                  style: AppTypography.subtitle01,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           )
-        ]
-      ),
+        )
+      ],
     );
   }
 }

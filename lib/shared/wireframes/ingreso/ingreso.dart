@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
@@ -43,8 +44,9 @@ class IngresoPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Column(
+                // TODO: sacar go to falso (implementar login)
                 children: [
-                  AppButton(label: "Iniciar Sesión", onPressed: ()=> debugPrint("Iniciar Sesión"), type: AppButtonType.filled, fillWidth: true),
+                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go('/home/postularse'), type: AppButtonType.filled, fillWidth: true),
                   AppButton(label: "Resgistrarse", onPressed: ()=> debugPrint("Registrarse"), type: AppButtonType.tonal, fillWidth: true),
                 ],
               )

@@ -1,6 +1,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 
 import '../../atoms/symbols/app_wordmark.dart';
@@ -39,15 +40,28 @@ class AppHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Expanded(
-                child: AppTab(label: "Postularse", onTap: () => debugPrint('Postularse tapped'), isSelected: selectedIndex == 0),
+                child: AppTab(
+                  label: 'Postularse',
+                  isSelected: selectedIndex == 0,
+                  onTap: () => context.go('/home/postularse'),
+                ),
               ),
               Expanded(
-                child: AppTab(label: "Mi perfil", onTap: () => debugPrint('Mi perfil tapped'), isSelected: selectedIndex == 1),
+                child: AppTab(
+                  label: 'Mi perfil',
+                  isSelected: selectedIndex == 1,
+                  onTap: () => context.go('/home/perfil'),
+                ),
               ),
               Expanded(
-                child: AppTab(label: "Novedades", onTap: () => debugPrint('Novedades tapped'), isSelected: selectedIndex == 2),
+                child: AppTab(
+                  label: 'Novedades',
+                  isSelected: selectedIndex == 2,
+                  onTap: () => context.go('/home/novedades'),
+                ),
               ),
             ],
+
           ),
             Expanded(child:
               Container(
