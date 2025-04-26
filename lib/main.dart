@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
-import 'package:ser_manos/shared/wireframes/home/home.dart';
-import 'package:ser_manos/shared/wireframes/home/novedades.dart';
-import 'package:ser_manos/shared/wireframes/ingreso/ingreso.dart';
+import 'package:ser_manos/router/app_router.dart';
 
 void main() {
-  debugPaintSizeEnabled = false; // Enables visual debugging
   runApp(const MyApp());
 }
 
@@ -14,9 +10,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      home: NewsPage(),
+      routerConfig: appRouter,
     );
   }
 }

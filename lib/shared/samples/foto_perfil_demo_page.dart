@@ -8,20 +8,20 @@ class FotoPerfilDemoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppHeader(
+    return const AppHeader(
       body: Center(
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: const [
-            const FotoPerfil.lg(
+          children: [
+            FotoPerfil.lg(
               imageUrl: 'https://picsum.photos/id/1011/300/300',
             ),
             SizedBox(height: 24),
-            const FotoPerfil.sm(
+            FotoPerfil.sm(
               imageUrl: 'https://picsum.photos/id/1025/300/300',
             ),
             SizedBox(height: 24),
-            const FotoPerfil.sm(
+            FotoPerfil.sm(
               imageUrl: 'https://bad.domain/not_found.jpg', // prueba estado error
             ),
           ],
