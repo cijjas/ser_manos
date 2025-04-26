@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/text_field.dart';
 
@@ -25,6 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     // Add your login logic here
     debugPrint('Email: $email');
     debugPrint('Password: $password');
+    context.go('/home/postularse');
   }
 
   void _updateCanLogin() {
@@ -100,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   AppButton(
                     label: "No tengo cuenta",
-                    onPressed: () => debugPrint("No tengo cuenta"),
+                    onPressed: () => context.go('/register'),
                     type: AppButtonType.tonal,
                     fillWidth: true,
                   ),

@@ -7,6 +7,8 @@ import 'package:ser_manos/shared/wireframes/home/home.dart';
 import 'package:ser_manos/shared/wireframes/home/novedades.dart';
 
 import '../shared/cells/header/header.dart';
+import '../shared/wireframes/ingreso/iniciar_sesion.dart';
+import '../shared/wireframes/ingreso/registro.dart';
 
 /// Helper to map current location <--> tab index
 int tabIndexFromLocation(String loc) {
@@ -22,6 +24,15 @@ final GoRouter appRouter = GoRouter(
       path: '/',
       builder: (_, __) => const IngresoPage(),
     ),
+    GoRoute(
+      path: '/login',
+      builder: (_, __) => const LoginPage(),
+    ),
+    GoRoute(
+      path: '/register',
+      builder: (_, __) => const RegisterPage(),
+    ),
+
 
     /// ---------------- HOME + three tabs ----------------
     ShellRoute(
