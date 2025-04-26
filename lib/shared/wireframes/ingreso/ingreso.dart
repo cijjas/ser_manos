@@ -46,8 +46,8 @@ class IngresoPage extends StatelessWidget {
               child: Column(
                 // TODO: sacar go to falso (implementar login)
                 children: [
-                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go('/home/postularse'), type: AppButtonType.filled, fillWidth: true),
-                  AppButton(label: "Resgistrarse", onPressed: ()=> debugPrint("Registrarse"), type: AppButtonType.tonal, fillWidth: true),
+                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go('/login'), type: AppButtonType.filled, fillWidth: true),
+                  AppButton(label: "Resgistrarse", onPressed: ()=> context.go('/register'), type: AppButtonType.tonal, fillWidth: true),
                 ],
               )
             )

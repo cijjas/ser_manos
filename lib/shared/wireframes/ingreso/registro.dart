@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/text_field.dart';
 
@@ -130,7 +131,7 @@ class _LoginPageState extends State<RegisterPage> {
                   ),
                   AppButton(
                     label: "Ya tengo cuenta",
-                    onPressed: () => debugPrint("Ya tengo cuenta"),
+                    onPressed: () => context.go('/login'),
                     type: AppButtonType.tonal,
                     fillWidth: true,
                   ),
