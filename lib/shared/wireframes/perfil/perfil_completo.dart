@@ -116,3 +116,19 @@ class PerfilCompletoPage extends StatelessWidget {
     );
   }
 }
+
+/// Ejecución de la página de demo
+void main() {
+  runApp(const MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: PerfilCompletoPage(
+      imageUrl: 'https://picsum.photos/id/1005/300/300',
+      role: 'Voluntario',
+      name: 'Juan Cruz Gonzalez',
+      email: 'mimail@mail.com',
+      birthDate: '10/10/1990',
+      gender: 'Hombre',
+      phone: '+5491165863216',
+    ),
+  ));
+}
