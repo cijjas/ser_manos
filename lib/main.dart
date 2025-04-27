@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ser_manos/router/app_router.dart';
+import 'package:flutter/rendering.dart';
+import 'package:ser_manos/shared/wireframes/home/novedades.dart';
 
 void main() {
   runApp(const MyApp());
