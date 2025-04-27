@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/tokens/border_radius.dart';
 
-import '../../atoms/icons/app_icons.dart';
 import '../../molecules/buttons/app_button.dart';
-import '../../molecules/buttons/short_button.dart';
-import '../../molecules/components/vacants.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';

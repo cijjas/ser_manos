@@ -1,5 +1,4 @@
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../molecules/buttons/app_button.dart';
@@ -33,7 +32,7 @@ class ButtonDemoPage extends StatelessWidget {
               type: AppButtonType.tonal,
             ),
             const SizedBox(height: 8),
-            AppButton(
+            const AppButton(
               label: 'Registrarse',
               onPressed: null, // Disabled
               type: AppButtonType.filled,

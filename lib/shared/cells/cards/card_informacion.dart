@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../../tokens/colors.dart';
+import '../../tokens/typography.dart';
 
 class CardInformacion extends StatelessWidget {
   final String title;
@@ -22,7 +24,7 @@ class CardInformacion extends StatelessWidget {
       width: 328,
       height: 136,
       decoration: BoxDecoration(
-        color: const Color(0xFFFAFAFA),
+        color: AppColors.neutral0,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
@@ -36,20 +38,13 @@ class CardInformacion extends StatelessWidget {
               horizontal: 16,
             ),
             decoration: const BoxDecoration(
-              color: Color(0xFFCAE5FB),
+              color: AppColors.secondary25,
               borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
             ),
             alignment: Alignment.centerLeft,
             child: Text(
               title,
-              style: const TextStyle(
-                fontFamily: 'Roboto',
-                fontWeight: FontWeight.w400,
-                fontSize: 16,
-                height: 24 / 16,
-                letterSpacing: 0.15,
-                color: Colors.black,
-              ),
+              style: AppTypography.subtitle01
             ),
           ),
 
@@ -62,7 +57,7 @@ class CardInformacion extends StatelessWidget {
               horizontal: 16,
             ),
             decoration: const BoxDecoration(
-              color: Color(0xFFFAFAFA),
+              color: AppColors.neutral0,
               borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
             ),
             child: Column(
@@ -94,26 +89,14 @@ class _InfoItem extends StatelessWidget {
         // Label encima
         Text(
           label.toUpperCase(),
-          style: const TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w500,
-            fontSize: 10,
-            height: 16 / 10,
-            letterSpacing: 1.5,
-            color: Color(0xFF666666),
-          ),
+          style: AppTypography.overline.copyWith(
+            color: AppColors.neutral75
+          )
         ),
         // Content justo debajo, sin espacio extra
         Text(
           value,
-          style: const TextStyle(
-            fontFamily: 'Roboto',
-            fontWeight: FontWeight.w400,
-            fontSize: 14,
-            height: 20 / 14,
-            letterSpacing: 0.25,
-            color: Colors.black,
-          ),
+          style: AppTypography.body01,
         ),
       ],
     );

@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
-import 'package:ser_manos/shared/tokens/typography.dart';
 
 import '../../molecules/status_bar/status_bar.dart';
 

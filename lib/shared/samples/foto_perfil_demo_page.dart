@@ -35,7 +35,7 @@ class FotoPerfilDemoPage extends StatelessWidget {
 void main() => runApp(const _DemoApp());
 
 class _DemoApp extends StatelessWidget {
-  const _DemoApp({super.key});
+  const _DemoApp();
 
   @override
   Widget build(BuildContext context) {
