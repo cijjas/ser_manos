@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
-import 'package:ser_manos/shared/molecules/input/text_field.dart';
+import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
+import '../../tokens/colors.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -25,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     // Add your login logic here
     debugPrint('Email: $email');
     debugPrint('Password: $password');
-    context.go('/home/postularse');
+    context.go('/welcome');
   }
 
   void _updateCanLogin() {
@@ -42,6 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(
         style: StatusBarStyle.light,
         timeText: '',

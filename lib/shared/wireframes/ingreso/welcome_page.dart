@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
@@ -47,7 +48,12 @@ class WelcomePage extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 children: [
-                  AppButton(label: "Comenzar", onPressed: ()=> debugPrint("Comenzar"), type: AppButtonType.filled, fillWidth: true),
+                  AppButton(
+                    label: "Comenzar",
+                    onPressed: () => context.go('/home/postularse'),
+                    type: AppButtonType.filled,
+                    fillWidth: true,
+                  ),
                 ],
               )
             )

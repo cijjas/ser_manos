@@ -2,13 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 // wireframes / pages
-import 'package:ser_manos/shared/wireframes/ingreso/ingreso.dart';
+import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
 import 'package:ser_manos/shared/wireframes/home/home.dart';
-import 'package:ser_manos/shared/wireframes/home/novedades.dart';
+import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
+import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
 import '../shared/cells/header/header.dart';
-import '../shared/wireframes/ingreso/iniciar_sesion.dart';
-import '../shared/wireframes/ingreso/registro.dart';
+import '../shared/wireframes/home/voluntariado.dart';
+import '../shared/wireframes/home/voluntariado-map.dart';
+import '../shared/wireframes/ingreso/login_page.dart';
+import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/perfil/perfil_completo.dart';
 
 /// Helper to map current location <--> tab index
@@ -23,7 +26,7 @@ final GoRouter appRouter = GoRouter(
   routes: [
     GoRoute(
       path: '/',
-      builder: (_, __) => const IngresoPage(),
+      builder: (_, __) => const EntryPage(),
     ),
     GoRoute(
       path: '/login',
@@ -33,7 +36,10 @@ final GoRouter appRouter = GoRouter(
       path: '/register',
       builder: (_, __) => const RegisterPage(),
     ),
-
+    GoRoute(
+      path: '/welcome',
+      builder: (_, __) => const WelcomePage(),
+    ),
 
     /// ---------------- HOME + three tabs ----------------
     ShellRoute(
@@ -60,6 +66,13 @@ final GoRouter appRouter = GoRouter(
         GoRoute(
           path: '/home/postularse',
           builder: (_, __) => HomePage(),
+        ),
+        GoRoute(
+          path: '/voluntariado',
+          builder: (_, state) {
+            final voluntariado = state.extra! as Voluntariado;
+            return VoluntariadoMapPage(voluntariado: voluntariado);
+          },
         ),
         GoRoute(
           path: '/home/novedades',
