@@ -9,6 +9,7 @@ import 'package:ser_manos/shared/wireframes/home/novedades.dart';
 import '../shared/cells/header/header.dart';
 import '../shared/wireframes/ingreso/iniciar_sesion.dart';
 import '../shared/wireframes/ingreso/registro.dart';
+import '../shared/wireframes/perfil/perfil_completo.dart';
 
 /// Helper to map current location <--> tab index
 int tabIndexFromLocation(String loc) {
@@ -45,12 +46,20 @@ final GoRouter appRouter = GoRouter(
       },
       routes: [
         GoRoute(
-          path: '/home/postularse',
-          builder: (_, __) => HomePage(),
+          path: '/home/perfil',
+          builder: (_, __) => const PerfilCompletoPage(
+            imageUrl: 'https://picsum.photos/id/1005/300/300',
+            role: 'Voluntario',
+            name: 'Juan Cruz Gonzalez',
+            email: 'mimail@mail.com',
+            birthDate: '10/10/1990',
+            gender: 'Hombre',
+            phone: '+5491165863216',
+          ),
         ),
         GoRoute(
-          path: '/home/perfil',
-          builder: (_, __) => const Placeholder(),
+          path: '/home/postularse',
+          builder: (_, __) => HomePage(),
         ),
         GoRoute(
           path: '/home/novedades',

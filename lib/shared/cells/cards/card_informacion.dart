@@ -24,7 +24,7 @@ class CardInformacion extends StatelessWidget {
       width: 328,
       height: 136,
       decoration: BoxDecoration(
-        color: AppColors.neutral0,
+        color: AppColors.neutral10,  // <-- background is NEUTRAL10 now
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
@@ -38,35 +38,32 @@ class CardInformacion extends StatelessWidget {
               horizontal: 16,
             ),
             decoration: const BoxDecoration(
-              color: AppColors.secondary25,
+              color: AppColors.secondary25,  // <-- header stays SECONDARY25
               borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
             ),
             alignment: Alignment.centerLeft,
             child: Text(
               title,
-              style: AppTypography.subtitle01
+              style: AppTypography.subtitle01,
             ),
           ),
 
-          // Info items container
-          Container(
-            width: double.infinity,
-            height: 96,
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 16,
-            ),
-            decoration: const BoxDecoration(
-              color: AppColors.neutral0,
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _InfoItem(label1, content1),
-                _InfoItem(label2, content2),
-              ],
+          // Info items
+          Expanded(
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(
+                vertical: 8,
+                horizontal: 16,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _InfoItem(label1, content1),
+                  _InfoItem(label2, content2),
+                ],
+              ),
             ),
           ),
         ],
@@ -86,14 +83,12 @@ class _InfoItem extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Label encima
         Text(
           label.toUpperCase(),
           style: AppTypography.overline.copyWith(
-            color: AppColors.neutral75
-          )
+            color: AppColors.neutral75,
+          ),
         ),
-        // Content justo debajo, sin espacio extra
         Text(
           value,
           style: AppTypography.body01,

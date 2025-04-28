@@ -17,7 +17,7 @@ class IngresoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StatusBar(style: StatusBarStyle.blue, timeText: '', showPlaceHolders: false),
+      appBar: const StatusBar(style: StatusBarStyle.light, timeText: '', showPlaceHolders: false),
       body: Container(
         width: double.infinity,
         height: double.infinity,
