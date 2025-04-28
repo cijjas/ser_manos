@@ -5,6 +5,7 @@ import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
 import 'package:ser_manos/shared/molecules/input/text_field.dart';
 import 'package:ser_manos/shared/tokens/border_radius.dart';
 
+import '../../molecules/input/search_field.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
@@ -64,10 +65,14 @@ class HomePage extends StatelessWidget {
         Container(
           padding: const EdgeInsets.fromLTRB(0, 8, 0, 32),
           child: SearchField(
-            labelText: "Buscar",
-            hintText: "Buscar",
-            labelBehavior: FloatingLabelBehavior.never,
-            suffixIcon: AppIcon(icon: AppIcons.MAPA, color: AppIconsColor.PRIMARY),
+            hintText: 'Buscar',
+            emptySuffix: const AppIcon(
+              icon: AppIcons.MAPA,
+              color: AppIconsColor.PRIMARY,
+            ),
+            onChanged: (query) {
+              // filter your list…
+            },
           ),
         ),
         Expanded(

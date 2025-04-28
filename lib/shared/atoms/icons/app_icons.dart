@@ -45,7 +45,8 @@ enum AppIconsColor {
   DISABLED,
   PRIMARY,
   SECONDARY,
-  SECONDARY_DISABLED;
+  SECONDARY_DISABLED,
+  NEUTRAL_75;
 
   const AppIconsColor();
 
