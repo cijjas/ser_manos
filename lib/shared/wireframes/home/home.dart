@@ -56,15 +56,15 @@ class HomePage extends StatelessWidget {
 
   HomePage({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      children: [
-        Container(
-          padding: const EdgeInsets.fromLTRB(0, 8, 0, 32),
-          child: SearchField(
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // -- Search Field --
+          SearchField(
             hintText: 'Buscar',
             emptySuffix: const AppIcon(
               icon: AppIcons.MAPA,
@@ -74,38 +74,40 @@ class HomePage extends StatelessWidget {
               // filter your list…
             },
           ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text("Voluntariados", style: AppTypography.headline01),
-              const SizedBox(height: 16),
-              voluntariados.isNotEmpty ? Expanded(child:
-                ListView.builder(
-                  itemCount: voluntariados.length,
-                  itemBuilder: (context, index) {
-                    final voluntariado = voluntariados[index];
-                    return Padding(padding:  const EdgeInsets.symmetric(vertical: 12.0),
-                      child: CardVoluntariado(type: voluntariado.type,
-                          name: voluntariado.name, imgUrl: voluntariado.imageUrl));
-                  },
-                )
-              ) : Container(
-                padding: const EdgeInsets.all(24),
-                decoration: const BoxDecoration(
-                  color: AppColors.neutral0,
-                  borderRadius: AppBorderRadius.border4
-                ),
-                child: const Text("Actualmente no hay voluntariados vigentes. Pronto se irán ircorporando nuevos",
-                  style: AppTypography.subtitle01,
-                  textAlign: TextAlign.center,
-                ),
+          const SizedBox(height: 32),
+
+          // -- Title --
+          const Text(
+            "Voluntariados",
+            style: AppTypography.headline01,
+          ),
+          const SizedBox(height: 16),
+
+          // -- Cards list --
+          if (voluntariados.isNotEmpty)
+            ...voluntariados.map((voluntariado) => Padding(
+              padding: const EdgeInsets.only(bottom: 24),
+              child: CardVoluntariado(
+                type: voluntariado.type,
+                name: voluntariado.name,
+                imgUrl: voluntariado.imageUrl,
               ),
-            ],
-          )
-        )
-      ],
+            ))
+          else
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: const BoxDecoration(
+                color: AppColors.neutral0,
+                borderRadius: AppBorderRadius.border4,
+              ),
+              child: const Text(
+                "Actualmente no hay voluntariados vigentes. Pronto se irán incorporando nuevos.",
+                style: AppTypography.subtitle01,
+                textAlign: TextAlign.center,
+              ),
+            ),
+        ],
+      ),
     );
   }
 }

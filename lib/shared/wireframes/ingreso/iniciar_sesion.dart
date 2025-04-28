@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const StatusBar(
-        style: StatusBarStyle.blue,
+        style: StatusBarStyle.light,
         timeText: '',
         showPlaceHolders: false,
       ),

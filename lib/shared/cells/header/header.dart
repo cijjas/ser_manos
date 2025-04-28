@@ -64,7 +64,6 @@ class AppHeader extends StatelessWidget {
           ),
             Expanded(child:
               Container(
-                padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                 color: AppColors.secondary10,
                 child: body,
               ),
