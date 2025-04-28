@@ -29,7 +29,7 @@
     - [ ] Buscador
 - [ ] Componentes
     - [x] Vacantes
-    - [ ] Foto perfil
+    - [x] Foto perfil
 
 ## Células
 - [x] Modales
@@ -38,8 +38,8 @@
     - [ ] Card novedades
     - [ ] Card voluntariado actual
     - [ ] Card input
-    - [ ] Card información
-    - [ ] Foto perfil
+    - [x] Card información
+    - [x] Foto perfil
     - [ ] Card ubicación
 - [ ] Header
     - [ ] Header
@@ -64,18 +64,18 @@
         - [ ] 4
         - [ ] 5
     - [ ] Mi perfil
-        - [ ] 1
-        - [ ] 2
+        - [x] 1
+        - [x] 2
     - [ ] Pantalla modal de perfil
     - [ ] Novedades
         - [ ] 1
         - [ ] 2
     - [ ] Voluntariado
-        - [ ] 1
-        - [ ] 2
-        - [ ] 3
-        - [ ] 4
-        - [ ] 5
+        - [x] 1
+        - [x] 2
+        - [x] 3
+        - [x] 4
+        - [x] 5
 - [ ] Flows
     - [x] Ingreso
     - [ ] Home
