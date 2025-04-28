@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
-import 'package:ser_manos/shared/molecules/input/text_field.dart';
+import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
@@ -31,7 +31,7 @@ class _LoginPageState extends State<RegisterPage> {
     debugPrint('Surname: $surname');
     debugPrint('Email: $email');
     debugPrint('Password: $password');
-
+    context.go('/welcome');
   }
 
   void _updateCanRegister() {

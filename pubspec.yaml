@@ -1,6 +1,7 @@
 name: ser_manos
 description: 'App de voluntariado para DAMM 2025'
 publish_to: 'none'
+version: 1.0.0+1
 
 environment:
   sdk: ">=3.0.0 <4.0.0"
@@ -16,6 +17,7 @@ dependencies:
   intl: ^0.18.1
   flutter_svg: ^2.0.10
   cached_network_image: ^3.3.1
+  google_maps_flutter: ^2.5.0   # or the newest stable
 
 
 dev_dependencies:

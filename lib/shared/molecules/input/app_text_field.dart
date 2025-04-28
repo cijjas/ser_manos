@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
-
-import '../../atoms/icons/app_icons.dart';
 
 class AppTextField extends StatelessWidget {
   final String labelText;
@@ -16,26 +13,32 @@ class AppTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final FloatingLabelBehavior labelBehavior;
 
+  /// NEW  ➜  add a validator (optional) so it plays nice inside a `Form`
+  final FormFieldValidator<String>? validator;
+
   const AppTextField({
     super.key,
     required this.labelText,
-    this.hintText = "",
+    this.hintText = '',
     this.controller,
     this.onChanged,
-    this.keyboardType = TextInputType.text, // Default to text input
-    this.obscureText = false, // Default to not obscured
+    this.keyboardType = TextInputType.text,
+    this.obscureText = false,
     this.suffixIcon,
     this.prefixIcon,
     this.labelBehavior = FloatingLabelBehavior.auto,
+    this.validator,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(          // <-- switched from TextField ➜ TextFormField
       controller: controller,
       onChanged: onChanged,
       keyboardType: keyboardType,
       obscureText: obscureText,
+      validator: validator,        // <-- wire it up
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
@@ -43,13 +46,13 @@ class AppTextField extends StatelessWidget {
         hintStyle: AppTypography.subtitle01.copyWith(color: AppColors.neutral50),
         floatingLabelBehavior: labelBehavior,
         border: const OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.neutral75, width: 1.0),
+          borderSide: BorderSide(color: AppColors.neutral75, width: 1),
         ),
         focusedBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.secondary200, width: 2.0),
+          borderSide: BorderSide(color: AppColors.secondary200, width: 2),
         ),
         errorBorder: const OutlineInputBorder(
-          borderSide: BorderSide(color: AppColors.error100, width: 2.0),
+          borderSide: BorderSide(color: AppColors.error100, width: 2),
         ),
         suffixIcon: suffixIcon,
         prefixIcon: prefixIcon,
@@ -58,6 +61,9 @@ class AppTextField extends StatelessWidget {
   }
 }
 
+
+
+
 class PasswordField extends StatefulWidget {
   final String labelText;
   final String hintText;
@@ -65,13 +71,17 @@ class PasswordField extends StatefulWidget {
   final TextEditingController? controller;
   final ValueChanged<String>? onChanged;
 
+  /// NEW ➜  forward the validator
+  final FormFieldValidator<String>? validator;
+
   const PasswordField({
     super.key,
     required this.labelText,
-    this.hintText = "",
+    this.hintText = '',
     this.controller,
     this.onChanged,
     this.labelBehavior = FloatingLabelBehavior.auto,
+    this.validator,
   });
 
   @override
@@ -90,16 +100,13 @@ class _PasswordFieldState extends State<PasswordField> {
       onChanged: widget.onChanged,
       obscureText: _obscureText,
       labelBehavior: widget.labelBehavior,
+      validator: widget.validator,           // <-- pass through
       suffixIcon: IconButton(
-        icon: AppIcon(
-          icon: _obscureText ? AppIcons.MOSTRAR : AppIcons.OCULTAR,
-          overrideColor: AppColors.neutral75,
+        icon: Icon(
+          _obscureText ? Icons.visibility_off : Icons.visibility,
+          color: AppColors.neutral75,
         ),
-        onPressed: () {
-          setState(() {
-            _obscureText = !_obscureText;
-          });
-        },
+        onPressed: () => setState(() => _obscureText = !_obscureText),
       ),
     );
   }

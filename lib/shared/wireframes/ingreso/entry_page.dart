@@ -8,9 +8,9 @@ import 'package:ser_manos/shared/tokens/typography.dart';
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 
-class IngresoPage extends StatelessWidget {
+class EntryPage extends StatelessWidget {
 
-  const IngresoPage({
+  const EntryPage({
     super.key,
   });
 
