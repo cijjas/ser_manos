@@ -42,6 +42,8 @@ class AppIcon extends StatelessWidget {
         return AppColors.secondary80;
       case AppIconsColor.DISABLED:
         return AppColors.neutral25;
+      case AppIconsColor.NEUTRAL_75:
+        return AppColors.neutral75;
       default:
         return AppColors.neutral0;
     }
