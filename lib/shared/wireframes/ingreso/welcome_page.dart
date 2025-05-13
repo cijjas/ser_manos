@@ -5,6 +5,7 @@ import 'package:ser_manos/shared/tokens/typography.dart';
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
+import '../../tokens/colors.dart';
 
 class WelcomePage extends StatelessWidget {
 
@@ -15,6 +16,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(style: StatusBarStyle.light, timeText: '', showPlaceHolders: false),
       body: Container(
         width: double.infinity,
@@ -52,7 +54,6 @@ class WelcomePage extends StatelessWidget {
                     label: "Comenzar",
                     onPressed: () => context.go('/home/postularse'),
                     type: AppButtonType.filled,
-                    fillWidth: true,
                   ),
                 ],
               )

@@ -124,7 +124,6 @@ class _LoginPageState extends State<RegisterPage> {
                         label: "Registrarse",
                         onPressed: canRegister ? _handleRegister : null,
                         type: AppButtonType.filled,
-                        fillWidth: true,
                       );
                     },
                   ),
@@ -132,7 +131,6 @@ class _LoginPageState extends State<RegisterPage> {
                     label: "Ya tengo cuenta",
                     onPressed: () => context.go('/login'),
                     type: AppButtonType.tonal,
-                    fillWidth: true,
                   ),
                 ],
               ),

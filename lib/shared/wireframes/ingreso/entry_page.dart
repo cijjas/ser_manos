@@ -7,6 +7,7 @@ import 'package:ser_manos/shared/tokens/typography.dart';
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
+import '../../tokens/colors.dart';
 
 class EntryPage extends StatelessWidget {
 
@@ -17,7 +18,8 @@ class EntryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StatusBar(style: StatusBarStyle.light, timeText: '', showPlaceHolders: false),
+        backgroundColor: AppColors.neutral0,
+        appBar: const StatusBar(style: StatusBarStyle.light, timeText: '', showPlaceHolders: false),
       body: Container(
         width: double.infinity,
         height: double.infinity,
@@ -46,8 +48,8 @@ class EntryPage extends StatelessWidget {
               child: Column(
                 // TODO: sacar go to falso (implementar login)
                 children: [
-                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go('/login'), type: AppButtonType.filled, fillWidth: true),
-                  AppButton(label: "Resgistrarse", onPressed: ()=> context.go('/register'), type: AppButtonType.tonal, fillWidth: true),
+                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go('/login'), type: AppButtonType.filled),
+                  AppButton(label: "Resgistrarse", onPressed: ()=> context.go('/register'), type: AppButtonType.tonal),
                 ],
               )
             )

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "977267188706",
+    "project_id": "ser-manaos",
+    "storage_bucket": "ser-manaos.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:977267188706:android:f6527a321dfd2187eecfbb",
+        "android_client_info": {
+          "package_name": "com.example.ser_manos"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGfGHwUIXzAwxbrKpgomviyuY2vQxcTk0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

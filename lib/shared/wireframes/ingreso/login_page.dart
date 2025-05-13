@@ -97,7 +97,6 @@ class _LoginPageState extends State<LoginPage> {
                         label: "Iniciar Sesión",
                         onPressed: canLogin ? _handleLogin : null,
                         type: AppButtonType.filled,
-                        fillWidth: true,
                       );
                     },
                   ),
@@ -105,7 +104,6 @@ class _LoginPageState extends State<LoginPage> {
                     label: "No tengo cuenta",
                     onPressed: () => context.go('/register'),
                     type: AppButtonType.tonal,
-                    fillWidth: true,
                   ),
                 ],
               ),

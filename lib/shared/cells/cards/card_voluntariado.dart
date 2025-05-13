@@ -14,7 +14,7 @@ class CardVoluntariado extends StatelessWidget {
   final String type;
   final String name;
   final String imgUrl;
-  final VoidCallback? onTap;            // NEW (optional)
+  final VoidCallback? onTap;
 
   const CardVoluntariado({
     super.key,
@@ -27,7 +27,6 @@ class CardVoluntariado extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final card = Container(
-      width: 328,
       decoration: const BoxDecoration(
         color: AppColors.neutral0,
         borderRadius: AppBorderRadius.border2,
@@ -38,7 +37,7 @@ class CardVoluntariado extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            width: 328,
+            width: double.infinity,
             height: 138,
             child: Image.network(imgUrl, fit: BoxFit.cover),
           ),
@@ -71,7 +70,6 @@ class CardVoluntariado extends StatelessWidget {
       ),
     );
 
-    // ⬇︎ only wrap with GestureDetector if an onTap is supplied
     return onTap == null ? card : GestureDetector(onTap: onTap, child: card);
   }
 }

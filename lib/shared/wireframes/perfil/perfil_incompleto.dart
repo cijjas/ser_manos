@@ -98,7 +98,6 @@ AppButton(
 label: 'Cerrar sesión',
 onPressed: onLogoutPressed,
 type: AppButtonType.tonal,
-fillWidth: true,
 textColor: AppColors.error100,
 ),
 ],

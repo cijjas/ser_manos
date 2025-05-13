@@ -3,14 +3,11 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
 enum AppButtonType { filled, tonal }
-enum AppButtonWidthType { fixed, hug }
 
 class AppButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
   final AppButtonType type;
-  final bool fillWidth;
-  final AppButtonWidthType widthType;
   final Color? textColor;
 
   const AppButton({
@@ -18,8 +15,6 @@ class AppButton extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.type = AppButtonType.filled,
-    this.fillWidth = false,
-    this.widthType = AppButtonWidthType.fixed,
     this.textColor,
   });
 
@@ -55,24 +50,14 @@ class AppButton extends StatelessWidget {
       ),
     );
 
-    final double? maxButtonWidth = switch (widthType) {
-      AppButtonWidthType.fixed => 328,
-      AppButtonWidthType.hug => null,
-    };
-
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxWidth: maxButtonWidth ?? double.infinity,
-      ),
-      child: SizedBox(
-        width: fillWidth ? double.infinity : null,
-        child: TextButton(
-          onPressed: onPressed,
-          style: style,
-          child: Text(
-            label,
-            textAlign: TextAlign.center,
-          ),
+    return SizedBox(
+      width: double.infinity,
+      child: TextButton(
+        onPressed: onPressed,
+        style: style,
+        child: Text(
+          label,
+          textAlign: TextAlign.center,
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
@@ -9,49 +10,52 @@ import '../../molecules/status_bar/status_bar.dart';
 class AppHeaderSection extends StatelessWidget {
   final String title;
 
-  const AppHeaderSection({
-    super.key,
-    required this.title,
-  });
-
-
+  const AppHeaderSection({super.key, required this.title});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: const StatusBar(
-          style: StatusBarStyle.blue, timeText: '', showPlaceHolders: false),
-      body: IntrinsicHeight(
-        child: Container(
-          alignment: Alignment.topLeft,
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // status‑bar colour / time placeholders
+        const StatusBar(
+          style: StatusBarStyle.blue,
+          timeText: '',
+          showPlaceHolders: false,
+        ),
+
+        // coloured header bar
+        Container(
           padding: const EdgeInsets.fromLTRB(16, 20, 40, 20),
           width: double.infinity,
           color: AppColors.secondary90,
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.max,
             children: [
+              // back icon
               Material(
                 color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => print("test"),
+                child: GestureDetector(
+                  onTap: () => context.pop(),
                   child: const AppIcon(icon: AppIcons.ATRAS),
                 ),
               ),
+              const SizedBox(width: 16),
+
+              // centred title
               Expanded(
                 child: Text(
                   title,
                   textAlign: TextAlign.center,
-                  // Ensures the text is centered within the Expanded widget
                   style: AppTypography.subtitle01.copyWith(
-                      color: AppColors.neutral0),
+                    color: AppColors.neutral0,
+                  ),
                 ),
               ),
             ],
           ),
         ),
-      ),
+      ],
     );
   }
 }
