@@ -1,16 +1,22 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// ESTO NO ES NADA SOLO ESTABA VIENDO COMMO FUNCIONA ESTO pero bueno quizas se necesita despues
-class AuthState {
-  final bool isLoggedIn;
-  const AuthState({required this.isLoggedIn});
-}
+import '../services/auth_service.dart';
 
-class AuthNotifier extends Notifier<AuthState> {
-  @override
-  AuthState build() => const AuthState(isLoggedIn: false);
+// TODO use this somewhere
 
-  void login() => state = const AuthState(isLoggedIn: true);
-  void logout() => state = const AuthState(isLoggedIn: false);
-}
+// Provider for the auth service
+final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
-final authProvider = NotifierProvider<AuthNotifier, AuthState>(() => AuthNotifier());
+// Stream provider that tracks the authentication state
+final authStateProvider = StreamProvider<User?>((ref) {
+  return FirebaseAuth.instance.authStateChanges();
+});
+
+final isLoggedInProvider = Provider<bool>((ref) {
+  final authState = ref.watch(authStateProvider);
+  return authState.when(
+    data: (user) => user != null,
+    loading: () => false,
+    error: (_, __) => false,
+  );
+});
