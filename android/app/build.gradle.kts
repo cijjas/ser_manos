@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.example.ser_manos"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    ndkVersion = flutter.ndkVersion // "29.0.13113456" // TODO check hardcoded
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -39,6 +39,11 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
         }
+    }
+
+    // TODO check
+    dependencies {
+        implementation("com.google.android.gms:play-services-auth:20.7.0")
     }
 }
 

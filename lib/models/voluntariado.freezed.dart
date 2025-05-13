@@ -23,12 +23,11 @@ mixin _$Voluntariado {
   String get id => throw _privateConstructorUsedError;
   String get nombre => throw _privateConstructorUsedError;
   String get tipo => throw _privateConstructorUsedError;
-  int get vacantes => throw _privateConstructorUsedError;
-  bool get isLiked => throw _privateConstructorUsedError;
-  @LatLngConverter()
+  int get vacantes =>
+      throw _privateConstructorUsedError; // required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+  @GeoPointConverter()
   LatLng get location =>
-      throw _privateConstructorUsedError; // ✅ use the converter
-  VoluntariadoStatus get estado => throw _privateConstructorUsedError;
+      throw _privateConstructorUsedError; //    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   String get descripcion => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
   String? get notas => throw _privateConstructorUsedError;
@@ -54,9 +53,7 @@ abstract class $VoluntariadoCopyWith<$Res> {
       String nombre,
       String tipo,
       int vacantes,
-      bool isLiked,
-      @LatLngConverter() LatLng location,
-      VoluntariadoStatus estado,
+      @GeoPointConverter() LatLng location,
       String descripcion,
       String resumen,
       String? notas});
@@ -81,9 +78,7 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     Object? nombre = null,
     Object? tipo = null,
     Object? vacantes = null,
-    Object? isLiked = null,
     Object? location = null,
-    Object? estado = null,
     Object? descripcion = null,
     Object? resumen = null,
     Object? notas = freezed,
@@ -105,18 +100,10 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
           ? _value.vacantes
           : vacantes // ignore: cast_nullable_to_non_nullable
               as int,
-      isLiked: null == isLiked
-          ? _value.isLiked
-          : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
-      estado: null == estado
-          ? _value.estado
-          : estado // ignore: cast_nullable_to_non_nullable
-              as VoluntariadoStatus,
       descripcion: null == descripcion
           ? _value.descripcion
           : descripcion // ignore: cast_nullable_to_non_nullable
@@ -146,9 +133,7 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
       String nombre,
       String tipo,
       int vacantes,
-      bool isLiked,
-      @LatLngConverter() LatLng location,
-      VoluntariadoStatus estado,
+      @GeoPointConverter() LatLng location,
       String descripcion,
       String resumen,
       String? notas});
@@ -171,9 +156,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     Object? nombre = null,
     Object? tipo = null,
     Object? vacantes = null,
-    Object? isLiked = null,
     Object? location = null,
-    Object? estado = null,
     Object? descripcion = null,
     Object? resumen = null,
     Object? notas = freezed,
@@ -195,18 +178,10 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           ? _value.vacantes
           : vacantes // ignore: cast_nullable_to_non_nullable
               as int,
-      isLiked: null == isLiked
-          ? _value.isLiked
-          : isLiked // ignore: cast_nullable_to_non_nullable
-              as bool,
       location: null == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
-      estado: null == estado
-          ? _value.estado
-          : estado // ignore: cast_nullable_to_non_nullable
-              as VoluntariadoStatus,
       descripcion: null == descripcion
           ? _value.descripcion
           : descripcion // ignore: cast_nullable_to_non_nullable
@@ -231,9 +206,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
       required this.nombre,
       required this.tipo,
       required this.vacantes,
-      required this.isLiked,
-      @LatLngConverter() required this.location,
-      required this.estado,
+      @GeoPointConverter() required this.location,
       required this.descripcion,
       required this.resumen,
       this.notas});
@@ -249,14 +222,11 @@ class _$VoluntariadoImpl implements _Voluntariado {
   final String tipo;
   @override
   final int vacantes;
+// required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   @override
-  final bool isLiked;
-  @override
-  @LatLngConverter()
+  @GeoPointConverter()
   final LatLng location;
-// ✅ use the converter
-  @override
-  final VoluntariadoStatus estado;
+//    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   @override
   final String descripcion;
   @override
@@ -266,7 +236,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
 
   @override
   String toString() {
-    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, isLiked: $isLiked, location: $location, estado: $estado, descripcion: $descripcion, resumen: $resumen, notas: $notas)';
+    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, descripcion: $descripcion, resumen: $resumen, notas: $notas)';
   }
 
   @override
@@ -279,10 +249,8 @@ class _$VoluntariadoImpl implements _Voluntariado {
             (identical(other.tipo, tipo) || other.tipo == tipo) &&
             (identical(other.vacantes, vacantes) ||
                 other.vacantes == vacantes) &&
-            (identical(other.isLiked, isLiked) || other.isLiked == isLiked) &&
             (identical(other.location, location) ||
                 other.location == location) &&
-            (identical(other.estado, estado) || other.estado == estado) &&
             (identical(other.descripcion, descripcion) ||
                 other.descripcion == descripcion) &&
             (identical(other.resumen, resumen) || other.resumen == resumen) &&
@@ -292,7 +260,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, nombre, tipo, vacantes,
-      isLiked, location, estado, descripcion, resumen, notas);
+      location, descripcion, resumen, notas);
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
@@ -316,9 +284,7 @@ abstract class _Voluntariado implements Voluntariado {
       required final String nombre,
       required final String tipo,
       required final int vacantes,
-      required final bool isLiked,
-      @LatLngConverter() required final LatLng location,
-      required final VoluntariadoStatus estado,
+      @GeoPointConverter() required final LatLng location,
       required final String descripcion,
       required final String resumen,
       final String? notas}) = _$VoluntariadoImpl;
@@ -333,14 +299,11 @@ abstract class _Voluntariado implements Voluntariado {
   @override
   String get tipo;
   @override
-  int get vacantes;
+  int get vacantes; // required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   @override
-  bool get isLiked;
-  @override
-  @LatLngConverter()
-  LatLng get location; // ✅ use the converter
-  @override
-  VoluntariadoStatus get estado;
+  @GeoPointConverter()
+  LatLng
+      get location; //    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   @override
   String get descripcion;
   @override

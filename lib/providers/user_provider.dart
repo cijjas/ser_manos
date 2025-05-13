@@ -4,9 +4,9 @@ import '../services/user_service.dart';
 
 final userServiceProvider = Provider((ref) => UserService());
 
-final userProvider = StreamProvider.family<User?, String>((ref, userId) {
+/*final userProvider = StreamProvider.family<User?, String>((ref, userId) {
   return ref.read(userServiceProvider).watchUser(userId);
-});
+});*/
 
 
 final userByIdProvider = StreamProvider.family<User, String>((ref, id) {

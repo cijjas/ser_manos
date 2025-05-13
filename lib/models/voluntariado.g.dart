@@ -12,10 +12,8 @@ _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
       nombre: json['nombre'] as String,
       tipo: json['tipo'] as String,
       vacantes: (json['vacantes'] as num).toInt(),
-      isLiked: json['isLiked'] as bool,
-      location: const LatLngConverter()
-          .fromJson(json['location'] as Map<String, dynamic>),
-      estado: $enumDecode(_$VoluntariadoStatusEnumMap, json['estado']),
+      location:
+          const GeoPointConverter().fromJson(json['location'] as GeoPoint),
       descripcion: json['descripcion'] as String,
       resumen: json['resumen'] as String,
       notas: json['notas'] as String?,
@@ -27,18 +25,8 @@ Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
       'nombre': instance.nombre,
       'tipo': instance.tipo,
       'vacantes': instance.vacantes,
-      'isLiked': instance.isLiked,
-      'location': const LatLngConverter().toJson(instance.location),
-      'estado': _$VoluntariadoStatusEnumMap[instance.estado]!,
+      'location': const GeoPointConverter().toJson(instance.location),
       'descripcion': instance.descripcion,
       'resumen': instance.resumen,
       'notas': instance.notas,
     };
-
-const _$VoluntariadoStatusEnumMap = {
-  VoluntariadoStatus.postulado: 'postulado',
-  VoluntariadoStatus.participando: 'participando',
-  VoluntariadoStatus.participandoOtro: 'participandoOtro',
-  VoluntariadoStatus.noVacantes: 'noVacantes',
-  VoluntariadoStatus.none: 'none',
-};
