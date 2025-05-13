@@ -1,42 +1,101 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/providers/auth_provider.dart';
+import 'package:ser_manos/providers/user_provider.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
+import 'package:ser_manos/models/user.dart' as model;
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 
-class RegisterPage extends StatefulWidget {
+class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
   @override
-  State<RegisterPage> createState() => _LoginPageState();
+  ConsumerState<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<RegisterPage> {
+class _RegisterPageState extends ConsumerState<RegisterPage> {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _surnameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final ValueNotifier<bool> _canRegister = ValueNotifier(false);
+  bool _isLoading = false;
+  String? _errorMessage;
 
-  void _handleRegister() {
+  Future<void> _handleRegister() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
     final name = _nameController.text.trim();
     final surname = _surnameController.text.trim();
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-    // Add your login logic here
-    debugPrint('Name: $name');
-    debugPrint('Surname: $surname');
-    debugPrint('Email: $email');
-    debugPrint('Password: $password');
-    context.go('/welcome');
+    try {
+      // Register user with Firebase Auth
+      final UserCredential credential = await ref.read(authServiceProvider).register(email, password);
+
+      // Get the user ID from Firebase Auth
+      final String userId = credential.user!.uid;
+
+      // Create user document in Firestore
+      final user = model.User(
+        id: userId,
+        nombre: name,
+        apellido: surname,
+        email: email,
+        // Add other required fields based on your User model
+      );
+
+      // Use UserService to store the user data
+      await ref.read(createUserProvider(user).future);
+
+
+      // TODO: Store additional user data (name, surname) in Firestore
+      // You'll need to extend AuthService to handle this
+
+      if (context.mounted) {
+        context.go('/welcome');
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        switch (e.code) {
+          case 'email-already-in-use':
+            _errorMessage = 'Este email ya está registrado.';
+            break;
+          case 'invalid-email':
+            _errorMessage = 'El formato del email no es válido.';
+            break;
+          case 'weak-password':
+            _errorMessage = 'La contraseña es demasiado débil.';
+            break;
+          default:
+            _errorMessage = 'Error: ${e.message}';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Error al registrar usuario.';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _updateCanRegister() {
-    _canRegister.value = _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty &&
-        _nameController.text.isNotEmpty && _surnameController.text.isNotEmpty;
+    _canRegister.value = _emailController.text.isNotEmpty &&
+        _passwordController.text.isNotEmpty &&
+        _nameController.text.isNotEmpty &&
+        _surnameController.text.isNotEmpty;
   }
 
   @override
@@ -109,6 +168,15 @@ class _LoginPageState extends State<RegisterPage> {
                         ),
                       ],
                     ),
+                    if (_errorMessage != null)
+                      Padding(
+                        padding: const EdgeInsets.only(top: 16.0),
+                        child: Text(
+                          _errorMessage!,
+                          style: const TextStyle(color: Colors.red),
+                          textAlign: TextAlign.center,
+                        ),
+                      ),
                   ],
                 ),
               ),
@@ -121,15 +189,15 @@ class _LoginPageState extends State<RegisterPage> {
                     valueListenable: _canRegister,
                     builder: (context, canRegister, child) {
                       return AppButton(
-                        label: "Registrarse",
-                        onPressed: canRegister ? _handleRegister : null,
+                        label: _isLoading ? "Registrando..." : "Registrarse",
+                        onPressed: (_isLoading || !canRegister) ? null : _handleRegister,
                         type: AppButtonType.filled,
                       );
                     },
                   ),
                   AppButton(
                     label: "Ya tengo cuenta",
-                    onPressed: () => context.go('/login'),
+                    onPressed: _isLoading ? null : () => context.go('/login'),
                     type: AppButtonType.tonal,
                   ),
                 ],

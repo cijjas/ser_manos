@@ -11,7 +11,6 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       nombre: json['nombre'] as String,
       apellido: json['apellido'] as String,
       email: json['email'] as String,
-      password: json['password'] as String,
       telefono: json['telefono'] as String?,
       fechaNacimiento: json['fechaNacimiento'] == null
           ? null
@@ -26,7 +25,6 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'nombre': instance.nombre,
       'apellido': instance.apellido,
       'email': instance.email,
-      'password': instance.password,
       'telefono': instance.telefono,
       'fechaNacimiento': instance.fechaNacimiento?.toIso8601String(),
       'genero': instance.genero,

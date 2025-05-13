@@ -10,7 +10,6 @@ class User with _$User {
     required String nombre,
     required String apellido,
     required String email,
-    required String password,
     String? telefono,
     DateTime? fechaNacimiento,
     String? genero,

@@ -12,3 +12,8 @@ final userServiceProvider = Provider((ref) => UserService());
 final userByIdProvider = StreamProvider.family<User, String>((ref, id) {
   return ref.read(userServiceProvider).watchOne(id);
 });
+
+final createUserProvider =
+    FutureProvider.family<void, User>((ref, user) async {
+  await ref.read(userServiceProvider).createUser(user);
+});

@@ -24,7 +24,6 @@ mixin _$User {
   String get nombre => throw _privateConstructorUsedError;
   String get apellido => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get password => throw _privateConstructorUsedError;
   String? get telefono => throw _privateConstructorUsedError;
   DateTime? get fechaNacimiento => throw _privateConstructorUsedError;
   String? get genero => throw _privateConstructorUsedError;
@@ -49,7 +48,6 @@ abstract class $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
-      String password,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -75,7 +73,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? nombre = null,
     Object? apellido = null,
     Object? email = null,
-    Object? password = null,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -97,10 +94,6 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
               as String,
       telefono: freezed == telefono
           ? _value.telefono
@@ -134,7 +127,6 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
-      String password,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -157,7 +149,6 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? nombre = null,
     Object? apellido = null,
     Object? email = null,
-    Object? password = null,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -179,10 +170,6 @@ class __$$UserImplCopyWithImpl<$Res>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as String,
-      password: null == password
-          ? _value.password
-          : password // ignore: cast_nullable_to_non_nullable
               as String,
       telefono: freezed == telefono
           ? _value.telefono
@@ -212,7 +199,6 @@ class _$UserImpl implements _User {
       required this.nombre,
       required this.apellido,
       required this.email,
-      required this.password,
       this.telefono,
       this.fechaNacimiento,
       this.genero,
@@ -230,8 +216,6 @@ class _$UserImpl implements _User {
   @override
   final String email;
   @override
-  final String password;
-  @override
   final String? telefono;
   @override
   final DateTime? fechaNacimiento;
@@ -242,7 +226,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, password: $password, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
+    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
   }
 
   @override
@@ -255,8 +239,6 @@ class _$UserImpl implements _User {
             (identical(other.apellido, apellido) ||
                 other.apellido == apellido) &&
             (identical(other.email, email) || other.email == email) &&
-            (identical(other.password, password) ||
-                other.password == password) &&
             (identical(other.telefono, telefono) ||
                 other.telefono == telefono) &&
             (identical(other.fechaNacimiento, fechaNacimiento) ||
@@ -269,7 +251,7 @@ class _$UserImpl implements _User {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, nombre, apellido, email,
-      password, telefono, fechaNacimiento, genero, imagenUrl);
+      telefono, fechaNacimiento, genero, imagenUrl);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -293,7 +275,6 @@ abstract class _User implements User {
       required final String nombre,
       required final String apellido,
       required final String email,
-      required final String password,
       final String? telefono,
       final DateTime? fechaNacimiento,
       final String? genero,
@@ -309,8 +290,6 @@ abstract class _User implements User {
   String get apellido;
   @override
   String get email;
-  @override
-  String get password;
   @override
   String? get telefono;
   @override

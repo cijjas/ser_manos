@@ -1,5 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
@@ -7,26 +10,61 @@ import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
 
-class LoginPage extends StatefulWidget {
+class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  ConsumerState<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginPageState extends ConsumerState<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final ValueNotifier<bool> _canLogin = ValueNotifier(false);
+  bool _isLoading = false;
+  String? _errorMessage;
 
-  void _handleLogin() {
+  Future<void> _handleLogin() async {
+    setState(() {
+      _isLoading = true;
+      _errorMessage = null;
+    });
+
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-    // Add your login logic here
-    debugPrint('Email: $email');
-    debugPrint('Password: $password');
-    context.go('/welcome');
+    try {
+      // Use the AuthService through Riverpod provider
+      await ref.read(authServiceProvider).signIn(email, password);
+
+      if (context.mounted) {
+        context.go('/welcome');
+      }
+    } on FirebaseAuthException catch (e) {
+      setState(() {
+        switch (e.code) {
+          case 'user-not-found':
+            _errorMessage = 'No existe usuario con ese email.';
+            break;
+          case 'wrong-password':
+            _errorMessage = 'Contraseña incorrecta.';
+            break;
+          case 'invalid-credential':
+            _errorMessage = 'Credenciales inválidas.';
+            break;
+          default:
+            _errorMessage = 'Error: ${e.message}';
+        }
+      });
+    } catch (e) {
+      setState(() {
+        _errorMessage = 'Error al iniciar sesión.';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   void _updateCanLogin() {
@@ -42,6 +80,9 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
+    // Listen for authentication state changes
+    final authState = ref.watch(authStateProvider);
+
     return Scaffold(
       backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(
@@ -83,6 +124,15 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                     ],
                   ),
+                  if (_errorMessage != null)
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16.0),
+                      child: Text(
+                        _errorMessage!,
+                        style: const TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                 ],
               ),
             ),
@@ -94,15 +144,15 @@ class _LoginPageState extends State<LoginPage> {
                     valueListenable: _canLogin,
                     builder: (context, canLogin, child) {
                       return AppButton(
-                        label: "Iniciar Sesión",
-                        onPressed: canLogin ? _handleLogin : null,
+                        label: _isLoading ? "Iniciando sesión..." : "Iniciar Sesión",
+                        onPressed: (_isLoading || !canLogin) ? null : _handleLogin,
                         type: AppButtonType.filled,
                       );
                     },
                   ),
                   AppButton(
                     label: "No tengo cuenta",
-                    onPressed: () => context.go('/register'),
+                    onPressed: _isLoading ? null : () => context.go('/register'),
                     type: AppButtonType.tonal,
                   ),
                 ],
