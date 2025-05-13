@@ -14,10 +14,10 @@ class UserService {
     return User.fromJson(doc.data()!);
   }
 
-  Stream<User?> watchUser(String id) {
-    return _users.doc(id).snapshots().map((doc) {
-      if (!doc.exists) return null;
-      return User.fromJson(doc.data()!);
-    });
+  /// Stream of one user (by id) — live updates
+  Stream<User> watchOne(String id) {
+    return _users.doc(id).snapshots().where((doc) => doc.exists).map(
+          (doc) => User.fromJson(doc.data()!),
+    );
   }
 }

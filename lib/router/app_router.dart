@@ -8,11 +8,8 @@ import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
 import '../shared/cells/header/header.dart';
-// import '../shared/wireframes/home/voluntariado.dart';
-import '../shared/wireframes/home/voluntariado_map.dart';
 import '../shared/wireframes/ingreso/login_page.dart';
 import '../shared/wireframes/ingreso/register_page.dart';
-import '../shared/wireframes/novedades/novedad.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/perfil_completo.dart';
 
@@ -87,12 +84,15 @@ final GoRouter appRouter = GoRouter(
 
 
     GoRoute(
-      path: '/novedad',
+      path: '/novedad/:id',
+      name: 'novedad',
       builder: (context, state) {
-        final novedad = state.extra as Novedad;
-        return NovedadDetail(novedad: novedad);
+        final id = state.pathParameters['id']!;
+        return NovedadDetail(id: id);   // <-- only the id
       },
     ),
+
+
 
   ],
 );
