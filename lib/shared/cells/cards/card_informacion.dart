@@ -21,7 +21,7 @@ class CardInformacion extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 328,
+      width: double.infinity,
       height: 136,
       decoration: BoxDecoration(
         color: AppColors.neutral10,  // <-- background is NEUTRAL10 now
@@ -29,6 +29,7 @@ class CardInformacion extends StatelessWidget {
       ),
       child: Column(
         children: [
+
           // Header
           Container(
             width: double.infinity,

@@ -180,7 +180,6 @@ class _BottomSection extends StatelessWidget {
             label: 'Postularme',
             onPressed: onApply,
             type: AppButtonType.filled,
-            fillWidth: true,
             ),
           ],
         );
@@ -218,7 +217,6 @@ class _BottomSection extends StatelessWidget {
               label: 'Postularme',
               onPressed: null, // disabled
               type: AppButtonType.filled,
-              fillWidth: true,
             ),
           ],
         );
@@ -240,11 +238,10 @@ class _BottomSection extends StatelessWidget {
                   AppTypography.button.copyWith(color: AppColors.primary100)),
             ),
             const SizedBox(height: 16),
-            AppButton(
+            const AppButton(
               label: 'Postularme',
               onPressed: null,
               type: AppButtonType.filled,
-              fillWidth: true,
             ),
           ],
         );

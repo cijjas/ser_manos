@@ -68,7 +68,7 @@ class _SearchFieldState extends State<SearchField> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 328,
+      width: double.infinity,
       height: 48,
       decoration: const BoxDecoration(
         color: AppColors.neutral0,

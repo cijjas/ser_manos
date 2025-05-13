@@ -3,15 +3,17 @@ import 'package:go_router/go_router.dart';
 
 // wireframes / pages
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
-import 'package:ser_manos/shared/wireframes/home/home.dart';
+import 'package:ser_manos/shared/wireframes/home/home_page.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
 import '../shared/cells/header/header.dart';
-import '../shared/wireframes/home/voluntariado.dart';
-import '../shared/wireframes/home/voluntariado-map.dart';
+// import '../shared/wireframes/home/voluntariado.dart';
+import '../shared/wireframes/home/voluntariado_map.dart';
 import '../shared/wireframes/ingreso/login_page.dart';
 import '../shared/wireframes/ingreso/register_page.dart';
+import '../shared/wireframes/novedades/novedad.dart';
+import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/perfil_completo.dart';
 
 /// Helper to map current location <--> tab index
@@ -67,18 +69,30 @@ final GoRouter appRouter = GoRouter(
           path: '/home/postularse',
           builder: (_, __) => HomePage(),
         ),
-        GoRoute(
-          path: '/voluntariado',
-          builder: (_, state) {
-            final voluntariado = state.extra! as Voluntariado;
-            return VoluntariadoMapPage(voluntariado: voluntariado);
-          },
-        ),
+        // GoRoute(
+        //   path: '/voluntariado',
+        //   builder: (_, state) {
+        //     final voluntariado = state.extra! as Voluntariado;
+        //     return VoluntariadoMapPage(voluntariado: voluntariado);
+        //   },
+        // ),
         GoRoute(
           path: '/home/novedades',
           builder: (_, __) => NewsPage(),
         ),
+
       ],
     ),
+
+
+
+    GoRoute(
+      path: '/novedad',
+      builder: (context, state) {
+        final novedad = state.extra as Novedad;
+        return NovedadDetail(novedad: novedad);
+      },
+    ),
+
   ],
 );
