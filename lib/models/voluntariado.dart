@@ -1,7 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:ser_manos/converters/geoPoint_converter.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../converters/latlng_converter.dart';
+import '../converters/geoPoint_converter.dart';
 
 part 'voluntariado.freezed.dart';
 part 'voluntariado.g.dart';
@@ -21,9 +23,9 @@ class Voluntariado with _$Voluntariado {
     required String nombre,
     required String tipo,
     required int vacantes,
-    required bool isLiked,
-    @LatLngConverter() required LatLng location,
-    required VoluntariadoStatus estado,
+// required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+    @GeoPointConverter() required LatLng location,
+//    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
     required String descripcion,
     required String resumen,
     String? notas,
