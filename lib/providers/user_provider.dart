@@ -7,3 +7,8 @@ final userServiceProvider = Provider((ref) => UserService());
 final userProvider = StreamProvider.family<User?, String>((ref, userId) {
   return ref.read(userServiceProvider).watchUser(userId);
 });
+
+
+final userByIdProvider = StreamProvider.family<User, String>((ref, id) {
+  return ref.read(userServiceProvider).watchOne(id);
+});
