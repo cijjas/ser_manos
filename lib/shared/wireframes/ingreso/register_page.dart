@@ -57,14 +57,17 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       // Use UserService to store the user data
       await ref.read(createUserProvider(user).future);
 
-
-      // TODO: Store additional user data (name, surname) in Firestore
-      // You'll need to extend AuthService to handle this
-
       if (context.mounted) {
         context.go('/welcome');
       }
     } on FirebaseAuthException catch (e) {
+      // If Firestore write fails but Auth user was created, delete that user to rollback
+      // TODO preguntar usar Cloud Function para crear el usuario de un en el onCreate
+      final currentUser = FirebaseAuth.instance.currentUser;
+      if (currentUser != null) {
+        await currentUser.delete();
+      }
+
       setState(() {
         switch (e.code) {
           case 'email-already-in-use':
