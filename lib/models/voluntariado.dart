@@ -6,6 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../converters/geoPoint_converter.dart';
 
 part 'voluntariado.freezed.dart';
+
 part 'voluntariado.g.dart';
 
 enum VoluntariadoStatus {
@@ -26,11 +27,17 @@ class Voluntariado with _$Voluntariado {
 // required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
     @GeoPointConverter() required LatLng location,
 //    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+    required String imageUrl,
     required String descripcion,
     required String resumen,
+    required List<String> requisitos,
+    required List<String> disponibilidad, // TODO que deje de ser string?
     String? notas,
   }) = _Voluntariado;
 
-  factory Voluntariado.fromJson(Map<String, dynamic> json) =>
-      _$VoluntariadoFromJson(json);
+  factory Voluntariado.fromJson(String id, Map<String, dynamic> json) =>
+      _$VoluntariadoFromJson({
+        "id": id,
+        ...json,
+      });
 }

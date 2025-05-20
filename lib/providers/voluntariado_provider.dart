@@ -7,3 +7,7 @@ final voluntariadoServiceProvider = Provider((ref) => VoluntariadoService());
 final voluntariadosProvider = StreamProvider<List<Voluntariado>>((ref) {
   return ref.read(voluntariadoServiceProvider).watchAll();
 });
+
+final voluntariadoProvider = StreamProvider.family<Voluntariado, String>((ref, id) {
+  return ref.read(voluntariadoServiceProvider).watchOne(id);
+});

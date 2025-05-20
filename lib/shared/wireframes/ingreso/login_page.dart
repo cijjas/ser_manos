@@ -6,6 +6,7 @@ import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
+import '../../../providers/user_provider.dart';
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
@@ -34,11 +35,18 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     final password = _passwordController.text.trim();
 
     try {
-      // Use the AuthService through Riverpod provider
       await ref.read(authServiceProvider).signIn(email, password);
 
       if (context.mounted) {
-        context.go('/welcome');
+        final updatedUser = await ref.read(currentUserProvider.future);
+
+        if (context.mounted) {
+          if (!(updatedUser.hasSeenOnboarding ?? true)) {
+            context.go('/welcome');
+          } else {
+            context.go('/home/postularse');
+          }
+        }
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -68,7 +76,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _updateCanLogin() {
-    _canLogin.value = _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
+    _canLogin.value =
+        _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
   }
 
   @override
@@ -144,15 +153,19 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     valueListenable: _canLogin,
                     builder: (context, canLogin, child) {
                       return AppButton(
-                        label: _isLoading ? "Iniciando sesión..." : "Iniciar Sesión",
-                        onPressed: (_isLoading || !canLogin) ? null : _handleLogin,
+                        label: _isLoading
+                            ? "Iniciando sesión..."
+                            : "Iniciar Sesión",
+                        onPressed:
+                            (_isLoading || !canLogin) ? null : _handleLogin,
                         type: AppButtonType.filled,
                       );
                     },
                   ),
                   AppButton(
                     label: "No tengo cuenta",
-                    onPressed: _isLoading ? null : () => context.go('/register'),
+                    onPressed:
+                        _isLoading ? null : () => context.go('/register'),
                     type: AppButtonType.tonal,
                   ),
                 ],
