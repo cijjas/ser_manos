@@ -1,17 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
+import '../../../providers/user_provider.dart';
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
 
-class WelcomePage extends StatelessWidget {
+class WelcomePage extends ConsumerStatefulWidget {
 
   const WelcomePage({
     super.key,
   });
+
+  @override
+  ConsumerState<ConsumerStatefulWidget> createState() {
+    return _WelcomePageState();
+  }
+}
+
+class _WelcomePageState extends ConsumerState<WelcomePage> {
+
+  Future<void> onBeginPress(BuildContext context) async {
+    await ref.read(markOnboardingCompleteProvider);
+
+    context.go('/home/postularse');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +68,7 @@ class WelcomePage extends StatelessWidget {
                 children: [
                   AppButton(
                     label: "Comenzar",
-                    onPressed: () => context.go('/home/postularse'),
+                    onPressed: () => onBeginPress(context),
                     type: AppButtonType.filled,
                   ),
                 ],
@@ -63,4 +79,6 @@ class WelcomePage extends StatelessWidget {
       )
     );
   }
+
+
 }

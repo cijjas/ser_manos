@@ -4,56 +4,34 @@
 // Incluye parte fija y una sección variable según el estado del usuario.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:ser_manos/models/voluntariado.dart';
+import 'package:ser_manos/providers/voluntariado_provider.dart';
 
+import '../../../models/user.dart';
+import '../../../providers/user_provider.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../molecules/components/vacants.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
-/// Estados posibles con respecto al voluntariado
-enum VoluntariadoUserState {
-  available,  // hay vacantes y el usuario libre
-  applied,    // se postuló, espera confirmación
-  accepted,   // fue aceptado
-  full,       // sin vacantes
-  busyOther,  // participa en otro voluntariado
-}
-
 // ──────────────────────────────────────────────────────────────────────
 
-class VoluntariadoDetallePage extends StatelessWidget {
+class VoluntariadoDetallePage extends ConsumerWidget {
   const VoluntariadoDetallePage({
     super.key,
     // datos fijos
-    required this.imageUrl,
-    required this.type,
-    required this.title,
-    required this.subtitle,
-    required this.activityDescription,
-    required this.address,
-    required this.requirements,
-    required this.availability,
-    required this.vacants,
-    // estado y callbacks
-    required this.state,
+    required this.voluntariadoId,
     this.onApply,
     this.onWithdraw,
     this.onAbandon,
   });
 
   // Datos de la actividad
-  final String imageUrl;
-  final String type;
-  final String title;
-  final String subtitle;
-  final String activityDescription;
-  final String address;
-  final List<String> requirements;
-  final List<String> availability;
-  final int vacants;
+  final String voluntariadoId;
 
-  // Estado
-  final VoluntariadoUserState state;
+  // final List<String> requirements;
+  // final List<String> availability;
 
   // Acciones
   final VoidCallback? onApply;
@@ -61,7 +39,26 @@ class VoluntariadoDetallePage extends StatelessWidget {
   final VoidCallback? onAbandon;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final voluntariadoAsync = ref.watch(voluntariadoProvider(voluntariadoId));
+    final currentUserAsync = ref.watch(currentUserProvider);
+
+    return voluntariadoAsync.when(
+      data: (voluntariado) {
+        return currentUserAsync.when(
+          data: (user) => _buildContent(context, voluntariado, user),
+          loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+          error: (err, _) => Scaffold(body: Center(child: Text('Error de usuario: $err'))),
+        );
+      },
+      loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, _) => Scaffold(body: Center(child: Text('Error: $error'))),
+    );
+  }
+
+
+  Widget _buildContent(BuildContext context, Voluntariado voluntariado, User user) {
+    // Determine user state based on user and voluntariado data
     final media = MediaQuery.of(context);
 
     return Scaffold(
@@ -77,7 +74,7 @@ class VoluntariadoDetallePage extends StatelessWidget {
                   SizedBox(
                     height: media.size.width * 0.6,
                     width: double.infinity,
-                    child: Image.network(imageUrl, fit: BoxFit.cover),
+                    child: Image.network(voluntariado.imageUrl, fit: BoxFit.cover),
                   ),
                   Positioned(
                     top: 8,
@@ -97,23 +94,23 @@ class VoluntariadoDetallePage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(type.toUpperCase(),
+                    Text(voluntariado.tipo.toUpperCase(),
                         style: AppTypography.overline
                             .copyWith(color: AppColors.neutral75)),
                     const SizedBox(height: 4),
-                    Text(title, style: AppTypography.headline01),
+                    Text(voluntariado.nombre, style: AppTypography.headline01),
                     const SizedBox(height: 16),
-                    Text(subtitle,
+                    Text(voluntariado.resumen,
                         style: AppTypography.body01
                             .copyWith(color: AppColors.secondary200)),
 
                     const SizedBox(height: 32),
                     Text('Sobre la actividad', style: AppTypography.headline02),
                     const SizedBox(height: 8),
-                    Text(activityDescription, style: AppTypography.body01),
+                    Text(voluntariado.descripcion, style: AppTypography.body01),
 
                     const SizedBox(height: 32),
-                    _LocationCard(address: address),
+                    _LocationCard(address: voluntariado.location.toString()),
                     const SizedBox(height: 32),
 
                     Text('Participar del voluntariado',
@@ -122,21 +119,21 @@ class VoluntariadoDetallePage extends StatelessWidget {
 
                     Text('Requisitos', style: AppTypography.subtitle01),
                     const SizedBox(height: 8),
-                    _BulletList(lines: requirements),
+                    _BulletList(lines: voluntariado.requisitos),
 
                     const SizedBox(height: 16),
                     Text('Disponibilidad', style: AppTypography.subtitle01),
                     const SizedBox(height: 8),
-                    _BulletList(lines: availability),
+                    _BulletList(lines: voluntariado.disponibilidad),
 
                     const SizedBox(height: 24),
-                    VacantsDisplay(initialNumber: vacants),
+                    VacantsDisplay(initialNumber: voluntariado.vacantes),
 
                     const SizedBox(height: 32),
 
                     // Sección variable al final
                     _BottomSection(
-                      state: state,
+                      state: _determineUserState(voluntariado, user),
                       onApply: onApply,
                       onWithdraw: onWithdraw,
                       onAbandon: onAbandon,
@@ -367,60 +364,90 @@ class _BulletList extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────
-// Demo rápida con los 5 estados en un TabBar
-void main() {
-  runApp(
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: DefaultTabController(
-        length: 5,
-        child: Scaffold(
-          appBar: AppBar(
-            title: const Text('Demo estados voluntariado'),
-            bottom: const TabBar(
-              isScrollable: true,
-              tabs: [
-                Tab(text: 'available'),
-                Tab(text: 'applied'),
-                Tab(text: 'accepted'),
-                Tab(text: 'full'),
-                Tab(text: 'busy'),
-              ],
-            ),
-          ),
-          body: TabBarView(
-            children: [
-              _buildPage(VoluntariadoUserState.available),
-              _buildPage(VoluntariadoUserState.applied),
-              _buildPage(VoluntariadoUserState.accepted),
-              _buildPage(VoluntariadoUserState.full),
-              _buildPage(VoluntariadoUserState.busyOther),
-            ],
-          ),
-        ),
-      ),
-    ),
-  );
+VoluntariadoUserState _determineUserState(Voluntariado voluntariado, User user) {
+  // Find if user has this voluntariado in their list
+  try {
+    final userVoluntariado = user.voluntariados?.firstWhere(
+          (v) => v.id == voluntariado.id,
+    );
+
+    if (userVoluntariado != null) {
+      return userVoluntariado.estado;
+    }
+  } catch (_) {
+    // Not found in list - continue to next checks
+  }
+
+  // Check if user is busy with another voluntariado
+  if (user.voluntariados?.any((v) => v.estado == VoluntariadoUserState.accepted) ?? false) {
+    return VoluntariadoUserState.busyOther;
+  }
+
+  if (voluntariado.vacantes <= 0) {
+    return VoluntariadoUserState.full;
+  }
+
+  // Default available state
+  return VoluntariadoUserState.available;
 }
 
-/// Helper para la demo
-Widget _buildPage(VoluntariadoUserState state) {
-  return VoluntariadoDetallePage(
-    imageUrl: 'https://picsum.photos/id/1032/800/400',
-    type: 'Acción Social',
-    title: 'Un Techo para mi País',
-    subtitle:
-    'El propósito principal de \"Un techo para mi país\" es reducir el déficit habitacional y mejorar las condiciones de vida de las personas que no tienen acceso a una vivienda adecuada.',
-    activityDescription:
-    'Te necesitamos para construir las viviendas de las personas que necesitan un techo. Estas están prefabricadas en madera y deberás ayudar en carpintería, montaje, pintura y demás actividades de la construcción.',
-    address: 'Echeverría 3560, Capital Federal.',
-    requirements: ['Mayor de edad.', 'Poder levantar cosas pesadas.'],
-    availability: ['Mayor de edad.', 'Poder levantar cosas pesadas.'],
-    vacants: state == VoluntariadoUserState.full ? 0 : 10,
-    state: state,
-    onApply: () => debugPrint('apply'),
-    onWithdraw: () => debugPrint('withdraw'),
-    onAbandon: () => debugPrint('abandon'),
-  );
-}
+
+
+//
+// // ──────────────────────────────────────────────────────────────────────
+// // Demo rápida con los 5 estados en un TabBar
+// void main() {
+//   runApp(
+//     MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       home: DefaultTabController(
+//         length: 5,
+//         child: Scaffold(
+//           appBar: AppBar(
+//             title: const Text('Demo estados voluntariado'),
+//             bottom: const TabBar(
+//               isScrollable: true,
+//               tabs: [
+//                 Tab(text: 'available'),
+//                 Tab(text: 'applied'),
+//                 Tab(text: 'accepted'),
+//                 Tab(text: 'full'),
+//                 Tab(text: 'busy'),
+//               ],
+//             ),
+//           ),
+//           body: TabBarView(
+//             children: [
+//               _buildPage(VoluntariadoUserState.available),
+//               _buildPage(VoluntariadoUserState.applied),
+//               _buildPage(VoluntariadoUserState.accepted),
+//               _buildPage(VoluntariadoUserState.full),
+//               _buildPage(VoluntariadoUserState.busyOther),
+//             ],
+//           ),
+//         ),
+//       ),
+//     ),
+//   );
+// }
+
+// /// Helper para la demo
+// Widget _buildPage(VoluntariadoUserState state) {
+//   return VoluntariadoDetallePage(
+//     imageUrl: 'https://picsum.photos/id/1032/800/400',
+//     type: 'Acción Social',
+//     title: 'Un Techo para mi País',
+//     subtitle:
+//     'El propósito principal de \"Un techo para mi país\" es reducir el déficit habitacional y mejorar las condiciones de vida de las personas que no tienen acceso a una vivienda adecuada.',
+//     activityDescription:
+//     'Te necesitamos para construir las viviendas de las personas que necesitan un techo. Estas están prefabricadas en madera y deberás ayudar en carpintería, montaje, pintura y demás actividades de la construcción.',
+//     address: 'Echeverría 3560, Capital Federal.',
+//     requirements: ['Mayor de edad.', 'Poder levantar cosas pesadas.'],
+//     availability: ['Mayor de edad.', 'Poder levantar cosas pesadas.'],
+//     vacants: state == VoluntariadoUserState.full ? 0 : 10,
+//     state: state,
+//     onApply: () => debugPrint('apply'),
+//     onWithdraw: () => debugPrint('withdraw'),
+//     onAbandon: () => debugPrint('abandon'),
+//   );
+// }
