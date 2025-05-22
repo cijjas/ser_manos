@@ -10,6 +10,7 @@ import 'package:ser_manos/providers/voluntariado_provider.dart';
 
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
+import '../../cells/modals/confirm_modal.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../molecules/components/vacants.dart';
 import '../../tokens/colors.dart';
@@ -20,23 +21,63 @@ import '../../tokens/typography.dart';
 class VoluntariadoDetallePage extends ConsumerWidget {
   const VoluntariadoDetallePage({
     super.key,
-    // datos fijos
     required this.voluntariadoId,
-    this.onApply,
-    this.onWithdraw,
-    this.onAbandon,
   });
 
-  // Datos de la actividad
   final String voluntariadoId;
 
-  // final List<String> requirements;
-  // final List<String> availability;
+  Future<void> _handleApply(
+      BuildContext context, WidgetRef ref, User user) async {
+    final result = await ref
+        .read(userServiceProvider)
+        .postulateToVoluntariado(user, voluntariadoId);
+    // TODO remove snackbar
+    if (result) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Postulación enviada.")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Ya estás postulado.")),
+      );
+    }
+  }
 
-  // Acciones
-  final VoidCallback? onApply;
-  final VoidCallback? onWithdraw;
-  final VoidCallback? onAbandon;
+  Future<void> _handleWithdraw(
+      BuildContext context, WidgetRef ref, User user) async {
+    final result = await ref
+        .read(userServiceProvider)
+        .withdrawPostulation(user, voluntariadoId);
+    // TODO remove snackbar
+    if (result) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Postulación retirada.")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No se pudo retirar la postulación.")),
+      );
+    }
+  }
+
+  Future<void> _handleAbandon(
+      BuildContext context, WidgetRef ref, User user) async {
+    final result = await ref
+        .read(userServiceProvider)
+        .abandonVoluntariado(user, voluntariadoId);
+    // TODO remove snackbar
+    if (result) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("Voluntariado abandonado.")),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No se pudo abandonar el voluntariado.")),
+      );
+    }
+  }
+
+  // TODO modal
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -46,20 +87,53 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     return voluntariadoAsync.when(
       data: (voluntariado) {
         return currentUserAsync.when(
-          data: (user) => _buildContent(context, voluntariado, user),
-          loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
-          error: (err, _) => Scaffold(body: Center(child: Text('Error de usuario: $err'))),
+          data: (user) {
+            return _buildContent(
+              context,
+              voluntariado,
+              user,
+              () => _handleApply(context, ref, user),
+              () => _handleWithdraw(context, ref, user),
+              () => _handleAbandon(context, ref, user),
+            );
+          },
+          loading: () =>
+              const Scaffold(body: Center(child: CircularProgressIndicator())),
+          error: (err, _) =>
+              Scaffold(body: Center(child: Text('Error de usuario: $err'))),
         );
       },
-      loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      loading: () =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (error, _) => Scaffold(body: Center(child: Text('Error: $error'))),
     );
   }
 
-
-  Widget _buildContent(BuildContext context, Voluntariado voluntariado, User user) {
+  Widget _buildContent(
+    BuildContext context,
+    Voluntariado voluntariado,
+    User user,
+    Future<void> Function()? onApply,
+    Future<void> Function()? onWithdraw,
+    Future<void> Function()? onAbandon,
+  ) {
     // Determine user state based on user and voluntariado data
     final media = MediaQuery.of(context);
+
+    // Create wrapped functions that will show modals and invalidate providers
+
+
+    Future<void> wrappedApply() async {
+      _showConfirmModal(context, voluntariado, () => onApply != null ? onApply() : {}, ActionType.postulate);
+    }
+
+    Future<void> wrappedWithdraw() async {
+      _showConfirmModal(context, voluntariado, () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
+    }
+
+    Future<void> wrappedAbandon() async {
+      _showConfirmModal(context, voluntariado, () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
+    }
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
@@ -74,13 +148,15 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                   SizedBox(
                     height: media.size.width * 0.6,
                     width: double.infinity,
-                    child: Image.network(voluntariado.imageUrl, fit: BoxFit.cover),
+                    child:
+                        Image.network(voluntariado.imageUrl, fit: BoxFit.cover),
                   ),
                   Positioned(
                     top: 8,
                     left: 8,
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back, color: AppColors.neutral0),
+                      icon: const Icon(Icons.arrow_back,
+                          color: AppColors.neutral0),
                       onPressed: () => Navigator.of(context).maybePop(),
                     ),
                   ),
@@ -134,8 +210,8 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                     // Sección variable al final
                     _BottomSection(
                       state: _determineUserState(voluntariado, user),
-                      onApply: onApply,
-                      onWithdraw: onWithdraw,
+                      onApply: wrappedApply,
+                      onWithdraw: wrappedWithdraw,
                       onAbandon: onAbandon,
                     ),
 
@@ -151,6 +227,22 @@ class VoluntariadoDetallePage extends ConsumerWidget {
   }
 }
 
+
+void _showConfirmModal(BuildContext context, Voluntariado voluntariado, Function() onConfirm, ActionType actionType) {
+  showDialog(
+    context: context,
+    builder: (context) => ConfirmApplicationModal(
+      title: voluntariado.nombre,
+      onConfirm: () {
+        Navigator.pop(context);
+        onConfirm();
+      },
+      onCancel: () => Navigator.pop(context),
+      actionType: actionType,
+    ),
+  );
+}
+
 // ──────────────────────────────────────────────────────────────────────
 // Sección variable
 class _BottomSection extends StatelessWidget {
@@ -162,9 +254,9 @@ class _BottomSection extends StatelessWidget {
   });
 
   final VoluntariadoUserState state;
-  final VoidCallback? onApply;
-  final VoidCallback? onWithdraw;
-  final VoidCallback? onAbandon;
+  final Future<void> Function()? onApply;
+  final Future<void> Function()? onWithdraw;
+  final Future<void> Function()? onAbandon;
 
   @override
   Widget build(BuildContext context) {
@@ -174,19 +266,18 @@ class _BottomSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppButton(
-            label: 'Postularme',
-            onPressed: onApply,
-            type: AppButtonType.filled,
+              label: 'Postularme',
+              onPressed: onApply,
+              type: AppButtonType.filled,
             ),
           ],
         );
-
 
       case VoluntariadoUserState.applied:
         return _InfoWithLink(
           title: 'Te has postulado',
           subtitle:
-          'Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.',
+              'Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.',
           linkLabel: 'Retirar postulación',
           onLinkPressed: onWithdraw,
         );
@@ -195,7 +286,7 @@ class _BottomSection extends StatelessWidget {
         return _InfoWithLink(
           title: 'Estas participando',
           subtitle:
-          'La organización confirmó que ya estas\nparticipando de este voluntariado',
+              'La organización confirmó que ya estas\nparticipando de este voluntariado',
           linkLabel: 'Abandonar voluntariado',
           onLinkPressed: onAbandon,
         );
@@ -231,8 +322,8 @@ class _BottomSection extends StatelessWidget {
             TextButton(
               onPressed: onAbandon,
               child: Text('Abandonar voluntariado actual',
-                  style:
-                  AppTypography.button.copyWith(color: AppColors.primary100)),
+                  style: AppTypography.button
+                      .copyWith(color: AppColors.primary100)),
             ),
             const SizedBox(height: 16),
             const AppButton(
@@ -266,14 +357,17 @@ class _InfoWithLink extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(title, style: AppTypography.headline02, textAlign: TextAlign.center),
+        Text(title,
+            style: AppTypography.headline02, textAlign: TextAlign.center),
         const SizedBox(height: 8),
-        Text(subtitle, style: AppTypography.body01, textAlign: TextAlign.center),
+        Text(subtitle,
+            style: AppTypography.body01, textAlign: TextAlign.center),
         const SizedBox(height: 16),
         TextButton(
           onPressed: onLinkPressed,
           child: Text(linkLabel,
-              style: AppTypography.button.copyWith(color: AppColors.primary100)),
+              style:
+                  AppTypography.button.copyWith(color: AppColors.primary100)),
         ),
       ],
     );
@@ -284,6 +378,7 @@ class _InfoWithLink extends StatelessWidget {
 // Card de ubicación (mapa placeholder)
 class _LocationCard extends StatelessWidget {
   const _LocationCard({required this.address});
+
   final String address;
 
   @override
@@ -308,7 +403,7 @@ class _LocationCard extends StatelessWidget {
             decoration: BoxDecoration(
               color: AppColors.secondary10,
               borderRadius:
-              const BorderRadius.vertical(top: Radius.circular(4)),
+                  const BorderRadius.vertical(top: Radius.circular(4)),
             ),
             child: Text('Ubicación', style: AppTypography.headline02),
           ),
@@ -341,6 +436,7 @@ class _LocationCard extends StatelessWidget {
 // Lista con bullets
 class _BulletList extends StatelessWidget {
   const _BulletList({required this.lines});
+
   final List<String> lines;
 
   @override
@@ -364,11 +460,12 @@ class _BulletList extends StatelessWidget {
   }
 }
 
-VoluntariadoUserState _determineUserState(Voluntariado voluntariado, User user) {
+VoluntariadoUserState _determineUserState(
+    Voluntariado voluntariado, User user) {
   // Find if user has this voluntariado in their list
   try {
     final userVoluntariado = user.voluntariados?.firstWhere(
-          (v) => v.id == voluntariado.id,
+      (v) => v.id == voluntariado.id,
     );
 
     if (userVoluntariado != null) {
@@ -379,7 +476,9 @@ VoluntariadoUserState _determineUserState(Voluntariado voluntariado, User user) 
   }
 
   // Check if user is busy with another voluntariado
-  if (user.voluntariados?.any((v) => v.estado == VoluntariadoUserState.accepted) ?? false) {
+  if (user.voluntariados
+          ?.any((v) => v.estado == VoluntariadoUserState.accepted) ??
+      false) {
     return VoluntariadoUserState.busyOther;
   }
 
@@ -390,8 +489,6 @@ VoluntariadoUserState _determineUserState(Voluntariado voluntariado, User user) 
   // Default available state
   return VoluntariadoUserState.available;
 }
-
-
 
 //
 // // ──────────────────────────────────────────────────────────────────────

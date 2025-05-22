@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/shared/wireframes/error/error_page.dart';
 
 // wireframes / pages
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
@@ -16,6 +17,7 @@ import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/perfil_completo.dart';
 import '../shared/wireframes/voluntariados/voluntariado.dart';
+import 'go_router_observer.dart';
 
 /// Helper to map current location <--> tab index
 int tabIndexFromLocation(String loc) {
@@ -28,6 +30,9 @@ final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
 
   return GoRouter(
+    observers: [FirebaseAnalyticsObserver()],
+    restorationScopeId: 'router', // TODO check usage
+    errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
     initialLocation: '/',
     redirect: (context, state) {
       // Handle auth state
@@ -57,18 +62,22 @@ final routerProvider = Provider<GoRouter>((ref) {
     routes: [
       GoRoute(
         path: '/',
+        name: "EntryScreen",
         builder: (_, __) => const EntryPage(),
       ),
       GoRoute(
         path: '/login',
+        name: "LoginScreen",
         builder: (_, __) => const LoginPage(),
       ),
       GoRoute(
         path: '/register',
+        name: "RegisterScreen",
         builder: (_, __) => const RegisterPage(),
       ),
       GoRoute(
         path: '/welcome',
+        name: "WelcomeScreen",
         builder: (_, __) => const WelcomePage(),
       ),
 
@@ -84,6 +93,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         routes: [
           GoRoute(
             path: '/home/perfil',
+            name: "ProfileTab",
             builder: (_, __) => const PerfilCompletoPage(
               imageUrl: 'https://picsum.photos/id/1005/300/300',
               role: 'Voluntario',
@@ -96,40 +106,38 @@ final routerProvider = Provider<GoRouter>((ref) {
           ),
           GoRoute(
             path: '/home/postularse',
+            name: "VolunteeringTab",
             builder: (_, __) => HomePage(),
           ),
-          GoRoute(
-            path: '/voluntariado',
-            builder: (_, state) {
-              print('state.extra: ${state.extra}');
-              final voluntariadoId = state.extra! as String;
-              return VoluntariadoDetallePage(voluntariadoId: voluntariadoId);
-            },
-          ),
+
           GoRoute(
             path: '/home/novedades',
+            name: "NewsTab",
             builder: (_, __) => NewsPage(),
           ),
 
         ],
       ),
       GoRoute(
+        path: '/voluntariado',
+        name: "VolunteeringDetailsScreen",
+        builder: (_, state) {
+          final voluntariadoId = state.extra is String ? state.extra as String : '';
+          if (voluntariadoId.isEmpty) {
+            return const ErrorPage(message: 'Missing activity ID');
+          }
+          return VoluntariadoDetallePage(voluntariadoId: voluntariadoId);
+        },
+      ),
+      GoRoute(
         path: '/novedad/:id',
-        name: 'novedad',
+        name: 'NewsDetailScreen',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
           return NovedadDetail(id: id);   // <-- only the id
         },
       ),
+
     ],
   );
 });
-
-
-final GoRouter appRouter = GoRouter(
-  initialLocation: '/',
-  routes: [
-
-
-  ],
-);
