@@ -1,6 +1,7 @@
 import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../models/voluntariado.dart';
 
 class VoluntariadoService {
@@ -23,4 +24,43 @@ class VoluntariadoService {
     );
   }
 
+
+  Future<bool> decrementAvailableSlots(String id) async {
+    try {
+      final voluntariadoRef = _ref.doc(id);
+      return FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
+        final snapshot = await transaction.get(voluntariadoRef);
+        if (!snapshot.exists) return false;
+
+        final currentSlots = snapshot.data()!['availableSlots'] as int;
+        if (currentSlots <= 0) throw Exception('No available slots');
+
+        transaction.update(voluntariadoRef, {'availableSlots': currentSlots - 1});
+        return true;
+      });
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(e, stack,
+          reason: 'Failed to decrement available slots', fatal: false);
+      return false;
+    }
+  }
+
+  // Add this to your VoluntariadoService class
+  Future<bool> incrementAvailableSlots(String voluntariadoId) async {
+    try {
+      final voluntariadoRef = _ref.doc(voluntariadoId);
+      return FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
+        final snapshot = await transaction.get(voluntariadoRef);
+        if (!snapshot.exists) return false;
+
+        final currentSlots = snapshot.data()!['availableSlots'] as int;
+        transaction.update(voluntariadoRef, {'availableSlots': currentSlots + 1});
+        return true;
+      });
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(e, stack,
+          reason: 'Failed to increment available slots', fatal: false);
+      return false;
+    }
+  }
 }

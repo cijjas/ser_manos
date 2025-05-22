@@ -13,7 +13,7 @@ enum VoluntariadoUserState {
   busyOther,  // participa en otro voluntariado
 }
 
-@freezed
+@Freezed(toJson: true)
 class UserVoluntariado with _$UserVoluntariado {
   const factory UserVoluntariado({
     required String id,
@@ -22,10 +22,9 @@ class UserVoluntariado with _$UserVoluntariado {
 
   factory UserVoluntariado.fromJson(Map<String, dynamic> json) =>
       _$UserVoluntariadoFromJson(json);
-
 }
 
-@freezed
+@Freezed(toJson: true)
 class User with _$User {
   const factory User({
     required String id,
