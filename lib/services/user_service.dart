@@ -20,4 +20,10 @@ class UserService {
           (doc) => User.fromJson(doc.data()!),
     );
   }
+
+  Future<void> updateUser(User user) {
+    return _users
+        .doc(user.id)
+        .set(user.toJson(), SetOptions(merge: true));
+  }
 }

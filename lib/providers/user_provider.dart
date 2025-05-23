@@ -17,3 +17,8 @@ final createUserProvider =
     FutureProvider.family<void, User>((ref, user) async {
   await ref.read(userServiceProvider).createUser(user);
 });
+
+final updateUserProvider =
+    FutureProvider.family<void, User>((ref, user) async {
+  await ref.read(userServiceProvider).updateUser(user);
+});

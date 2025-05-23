@@ -12,6 +12,8 @@ import '../shared/wireframes/ingreso/login_page.dart';
 import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/perfil_completo.dart';
+import '../shared/wireframes/perfil/editar_perfil.dart';
+import '../shared/wireframes/perfil/perfil_wrapper.dart';
 
 /// Helper to map current location <--> tab index
 int tabIndexFromLocation(String loc) {
@@ -52,15 +54,13 @@ final GoRouter appRouter = GoRouter(
       routes: [
         GoRoute(
           path: '/home/perfil',
-          builder: (_, __) => const PerfilCompletoPage(
-            imageUrl: 'https://picsum.photos/id/1005/300/300',
-            role: 'Voluntario',
-            name: 'Juan Cruz Gonzalez',
-            email: 'mimail@mail.com',
-            birthDate: '10/10/1990',
-            gender: 'Hombre',
-            phone: '+5491165863216',
-          ),
+          builder: (_, __) => const PerfilWrapperPage(),
+          routes: [
+            GoRoute(
+              path: 'editar',
+              builder: (_, __) => const EditarPerfilPage(),
+            ),
+          ],
         ),
         GoRoute(
           path: '/home/postularse',
