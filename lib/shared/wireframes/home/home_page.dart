@@ -52,8 +52,8 @@ class HomePage extends ConsumerWidget {
                 child: CardVoluntariado(
                   type: v.tipo,
                   name: v.nombre,
-                  imgUrl: "https://picsum.photos/seed/${v.id}/600/400",
-                  onTap: () => context.go('/voluntariado', extra: v),
+                  imgUrl: v.imageUrl,
+                  onTap: () => context.go('/voluntariado', extra: v.id),
                 ),
               )).toList(),
             )

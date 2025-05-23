@@ -4,10 +4,6 @@ import 'package:ser_manos/models/novedad.dart';
 class NovedadService {
   final _ref = FirebaseFirestore.instance.collection('novedades');
 
-  Future<void> createNovedad(Novedad n) async {
-    await _ref.doc(n.id).set(n.toJson());
-  }
-
   Future<List<Novedad>> getAll() async {
     final query = await _ref.get();
     return query.docs.map((doc) => Novedad.fromJson(doc.data())).toList();

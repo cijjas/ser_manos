@@ -25,8 +25,11 @@ dependencies:
   json_annotation: ^4.8.1
   firebase_core: ^3.13.0
   cloud_firestore: ^5.6.7
-  firebase_auth: ^5.5.3
   share_plus: ^7.2.1
+  firebase_auth: ^5.5.3
+  firebase_analytics: ^11.4.5
+  firebase_crashlytics: ^4.3.5
+
   image_picker: ^0.8.7+3
   firebase_storage: ^12.4.5
 
