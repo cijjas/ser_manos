@@ -14,6 +14,174 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
+UserVoluntariado _$UserVoluntariadoFromJson(Map<String, dynamic> json) {
+  return _UserVoluntariado.fromJson(json);
+}
+
+/// @nodoc
+mixin _$UserVoluntariado {
+  String get id => throw _privateConstructorUsedError;
+  VoluntariadoUserState get estado => throw _privateConstructorUsedError;
+
+  /// Serializes this UserVoluntariado to a JSON map.
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+
+  /// Create a copy of UserVoluntariado
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $UserVoluntariadoCopyWith<UserVoluntariado> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $UserVoluntariadoCopyWith<$Res> {
+  factory $UserVoluntariadoCopyWith(
+          UserVoluntariado value, $Res Function(UserVoluntariado) then) =
+      _$UserVoluntariadoCopyWithImpl<$Res, UserVoluntariado>;
+  @useResult
+  $Res call({String id, VoluntariadoUserState estado});
+}
+
+/// @nodoc
+class _$UserVoluntariadoCopyWithImpl<$Res, $Val extends UserVoluntariado>
+    implements $UserVoluntariadoCopyWith<$Res> {
+  _$UserVoluntariadoCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of UserVoluntariado
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? estado = null,
+  }) {
+    return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      estado: null == estado
+          ? _value.estado
+          : estado // ignore: cast_nullable_to_non_nullable
+              as VoluntariadoUserState,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$UserVoluntariadoImplCopyWith<$Res>
+    implements $UserVoluntariadoCopyWith<$Res> {
+  factory _$$UserVoluntariadoImplCopyWith(_$UserVoluntariadoImpl value,
+          $Res Function(_$UserVoluntariadoImpl) then) =
+      __$$UserVoluntariadoImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({String id, VoluntariadoUserState estado});
+}
+
+/// @nodoc
+class __$$UserVoluntariadoImplCopyWithImpl<$Res>
+    extends _$UserVoluntariadoCopyWithImpl<$Res, _$UserVoluntariadoImpl>
+    implements _$$UserVoluntariadoImplCopyWith<$Res> {
+  __$$UserVoluntariadoImplCopyWithImpl(_$UserVoluntariadoImpl _value,
+      $Res Function(_$UserVoluntariadoImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of UserVoluntariado
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = null,
+    Object? estado = null,
+  }) {
+    return _then(_$UserVoluntariadoImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      estado: null == estado
+          ? _value.estado
+          : estado // ignore: cast_nullable_to_non_nullable
+              as VoluntariadoUserState,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$UserVoluntariadoImpl implements _UserVoluntariado {
+  const _$UserVoluntariadoImpl({required this.id, required this.estado});
+
+  factory _$UserVoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserVoluntariadoImplFromJson(json);
+
+  @override
+  final String id;
+  @override
+  final VoluntariadoUserState estado;
+
+  @override
+  String toString() {
+    return 'UserVoluntariado(id: $id, estado: $estado)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UserVoluntariadoImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.estado, estado) || other.estado == estado));
+  }
+
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  int get hashCode => Object.hash(runtimeType, id, estado);
+
+  /// Create a copy of UserVoluntariado
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UserVoluntariadoImplCopyWith<_$UserVoluntariadoImpl> get copyWith =>
+      __$$UserVoluntariadoImplCopyWithImpl<_$UserVoluntariadoImpl>(
+          this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$UserVoluntariadoImplToJson(
+      this,
+    );
+  }
+}
+
+abstract class _UserVoluntariado implements UserVoluntariado {
+  const factory _UserVoluntariado(
+      {required final String id,
+      required final VoluntariadoUserState estado}) = _$UserVoluntariadoImpl;
+
+  factory _UserVoluntariado.fromJson(Map<String, dynamic> json) =
+      _$UserVoluntariadoImpl.fromJson;
+
+  @override
+  String get id;
+  @override
+  VoluntariadoUserState get estado;
+
+  /// Create a copy of UserVoluntariado
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UserVoluntariadoImplCopyWith<_$UserVoluntariadoImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
 User _$UserFromJson(Map<String, dynamic> json) {
   return _User.fromJson(json);
 }
@@ -24,6 +192,9 @@ mixin _$User {
   String get nombre => throw _privateConstructorUsedError;
   String get apellido => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  bool? get hasSeenOnboarding => throw _privateConstructorUsedError;
+  List<UserVoluntariado>? get voluntariados =>
+      throw _privateConstructorUsedError;
   String? get telefono => throw _privateConstructorUsedError;
   DateTime? get fechaNacimiento => throw _privateConstructorUsedError;
   String? get genero => throw _privateConstructorUsedError;
@@ -48,6 +219,8 @@ abstract class $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
+      bool? hasSeenOnboarding,
+      List<UserVoluntariado>? voluntariados,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -73,6 +246,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? nombre = null,
     Object? apellido = null,
     Object? email = null,
+    Object? hasSeenOnboarding = freezed,
+    Object? voluntariados = freezed,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -95,6 +270,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      hasSeenOnboarding: freezed == hasSeenOnboarding
+          ? _value.hasSeenOnboarding
+          : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      voluntariados: freezed == voluntariados
+          ? _value.voluntariados
+          : voluntariados // ignore: cast_nullable_to_non_nullable
+              as List<UserVoluntariado>?,
       telefono: freezed == telefono
           ? _value.telefono
           : telefono // ignore: cast_nullable_to_non_nullable
@@ -127,6 +310,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
+      bool? hasSeenOnboarding,
+      List<UserVoluntariado>? voluntariados,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -149,6 +334,8 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? nombre = null,
     Object? apellido = null,
     Object? email = null,
+    Object? hasSeenOnboarding = freezed,
+    Object? voluntariados = freezed,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -171,6 +358,14 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
+      hasSeenOnboarding: freezed == hasSeenOnboarding
+          ? _value.hasSeenOnboarding
+          : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      voluntariados: freezed == voluntariados
+          ? _value._voluntariados
+          : voluntariados // ignore: cast_nullable_to_non_nullable
+              as List<UserVoluntariado>?,
       telefono: freezed == telefono
           ? _value.telefono
           : telefono // ignore: cast_nullable_to_non_nullable
@@ -199,10 +394,13 @@ class _$UserImpl implements _User {
       required this.nombre,
       required this.apellido,
       required this.email,
+      this.hasSeenOnboarding,
+      final List<UserVoluntariado>? voluntariados,
       this.telefono,
       this.fechaNacimiento,
       this.genero,
-      this.imagenUrl});
+      this.imagenUrl})
+      : _voluntariados = voluntariados;
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -216,6 +414,18 @@ class _$UserImpl implements _User {
   @override
   final String email;
   @override
+  final bool? hasSeenOnboarding;
+  final List<UserVoluntariado>? _voluntariados;
+  @override
+  List<UserVoluntariado>? get voluntariados {
+    final value = _voluntariados;
+    if (value == null) return null;
+    if (_voluntariados is EqualUnmodifiableListView) return _voluntariados;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
+  @override
   final String? telefono;
   @override
   final DateTime? fechaNacimiento;
@@ -226,7 +436,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
+    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, voluntariados: $voluntariados, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
   }
 
   @override
@@ -239,6 +449,10 @@ class _$UserImpl implements _User {
             (identical(other.apellido, apellido) ||
                 other.apellido == apellido) &&
             (identical(other.email, email) || other.email == email) &&
+            (identical(other.hasSeenOnboarding, hasSeenOnboarding) ||
+                other.hasSeenOnboarding == hasSeenOnboarding) &&
+            const DeepCollectionEquality()
+                .equals(other._voluntariados, _voluntariados) &&
             (identical(other.telefono, telefono) ||
                 other.telefono == telefono) &&
             (identical(other.fechaNacimiento, fechaNacimiento) ||
@@ -250,8 +464,18 @@ class _$UserImpl implements _User {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, apellido, email,
-      telefono, fechaNacimiento, genero, imagenUrl);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      nombre,
+      apellido,
+      email,
+      hasSeenOnboarding,
+      const DeepCollectionEquality().hash(_voluntariados),
+      telefono,
+      fechaNacimiento,
+      genero,
+      imagenUrl);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -275,6 +499,8 @@ abstract class _User implements User {
       required final String nombre,
       required final String apellido,
       required final String email,
+      final bool? hasSeenOnboarding,
+      final List<UserVoluntariado>? voluntariados,
       final String? telefono,
       final DateTime? fechaNacimiento,
       final String? genero,
@@ -290,6 +516,10 @@ abstract class _User implements User {
   String get apellido;
   @override
   String get email;
+  @override
+  bool? get hasSeenOnboarding;
+  @override
+  List<UserVoluntariado>? get voluntariados;
   @override
   String? get telefono;
   @override
