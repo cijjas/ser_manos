@@ -1,4 +1,5 @@
 // voluntariados_page.dart
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
@@ -7,6 +8,7 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 // These files will contain the refactored/new widgets.
 import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 
+import '../../../services/notification_service.dart';
 import '../../molecules/input/search_field.dart';
 import '../../../providers/home_providers.dart';
 // It's good practice for pages to not directly depend on specific data providers
@@ -19,8 +21,11 @@ import 'voluntariado_map_background.dart';
 // Import AppColors if needed for SearchField background or text color adjustments
 // import '../../tokens/colors.dart';
 
+
+
 class VoluntariadosPage extends ConsumerWidget {
   const VoluntariadosPage({super.key});
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -31,6 +36,7 @@ class VoluntariadosPage extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+
         SearchField(
           hintText: 'Buscar',
           emptySuffix: AppIcon(
