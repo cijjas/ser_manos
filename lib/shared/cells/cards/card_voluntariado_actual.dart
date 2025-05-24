@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
+import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
 
 import '../../atoms/icons/app_icons.dart';
 import '../../tokens/border_radius.dart';
@@ -8,15 +10,16 @@ import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
 
 // TODO check what to do with the widget state
-class CardVoluntariadoActual extends StatelessWidget {
-  final String type;
-  final String name;
+class CardVoluntariadoActual extends CardVoluntariado {
 
   const CardVoluntariadoActual({
     super.key,
-    required this.type,
-    required this.name,
-  });
+    required Voluntariado voluntariado,
+    required VoidCallback? onTap,
+  }) : super(
+    voluntariado: voluntariado,
+    onTap: onTap,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -48,8 +51,8 @@ class CardVoluntariadoActual extends StatelessWidget {
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(type.toUpperCase(), style: AppTypography.caption),
-                          Text(name, style: AppTypography.subtitle01)
+                          Text(voluntariado.tipo.toUpperCase(), style: AppTypography.caption),
+                          Text(voluntariado.nombre, style: AppTypography.subtitle01)
                         ],
                       )
                     ]
