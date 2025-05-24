@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../models/user.dart';
+import 'package:collection/collection.dart';
 
 class UserService {
   final _users = FirebaseFirestore.instance.collection('users');
@@ -40,7 +41,8 @@ class UserService {
       if (user.voluntariados != null && user.voluntariados!.isNotEmpty) {
         final existingVoluntariado = user.voluntariados!.firstWhere(
             (v) => v.id == voluntariadoId,
-            orElse: () => UserVoluntariado(id: voluntariadoId, estado: newState));
+            orElse: () =>
+                UserVoluntariado(id: voluntariadoId, estado: newState));
         newVoluntariado = existingVoluntariado.copyWith(estado: newState);
       } else {
         newVoluntariado = UserVoluntariado(
@@ -51,8 +53,7 @@ class UserService {
 
       final List<UserVoluntariado> updatedVoluntariados = [
         ...user.voluntariados?.where((v) => v.id != voluntariadoId) ?? [],
-        if (newState != VoluntariadoUserState.available)
-          newVoluntariado
+        if (newState != VoluntariadoUserState.available) newVoluntariado
       ];
 
       // Update in Firestore
@@ -66,9 +67,13 @@ class UserService {
           .logEvent(name: 'voluntariado_state_updated', parameters: {
         'voluntariadoId': voluntariadoId,
         'oldState': user.voluntariados
-            ?.firstWhere((v) => v.id == voluntariadoId, orElse: () => UserVoluntariado(id: voluntariadoId, estado: VoluntariadoUserState.available))
-            .estado
-            .toString() ?? 'not found',
+                ?.firstWhere((v) => v.id == voluntariadoId,
+                    orElse: () => UserVoluntariado(
+                        id: voluntariadoId,
+                        estado: VoluntariadoUserState.available))
+                .estado
+                .toString() ??
+            'not found',
         'newState': newState.toString(),
         'userId': user.id,
       });
@@ -175,6 +180,12 @@ class UserService {
         voluntariadoId, user, VoluntariadoUserState.available);
   }
 
+  Stream<UserVoluntariado?> watchParticipating(String userId) {
+    return _users.doc(userId).snapshots().map((doc) =>
+        User.fromJson(doc.data()!).voluntariados?.firstWhereOrNull(
+            (vol) => vol.estado == VoluntariadoUserState.accepted));
+  }
+
   Future<User?> getUser(String id) async {
     final doc = await _users.doc(id).get();
     if (!doc.exists) return null;
@@ -189,9 +200,7 @@ class UserService {
 
   Future<User?> updateUser(User user) async {
     try {
-      await _users
-          .doc(user.id)
-          .set(user.toJson(), SetOptions(merge: true));
+      await _users.doc(user.id).set(user.toJson(), SetOptions(merge: true));
       return user;
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(

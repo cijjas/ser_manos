@@ -24,7 +24,6 @@ class VoluntariadoService {
     );
   }
 
-
   Future<bool> decrementAvailableSlots(String id) async {
     try {
       final voluntariadoRef = _ref.doc(id);
