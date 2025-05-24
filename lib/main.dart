@@ -9,15 +9,16 @@ import 'firebase_options.dart';
 import 'package:ser_manos/router/app_router.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
+void main() {
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-  FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
 
-  runZonedGuarded(() {
+    FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
+
     runApp(
       const ProviderScope(child: MyApp()),
     );

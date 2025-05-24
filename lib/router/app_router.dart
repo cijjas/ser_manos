@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/wireframes/error/error_page.dart';
+import 'package:ser_manos/shared/wireframes/home/voluntariados_page.dart';
 
 // wireframes / pages
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
-import 'package:ser_manos/shared/wireframes/home/home_page.dart';
+import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
@@ -44,10 +45,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (authState.isLoading) return null;
 
       // Auth-related locations
-      final isAuthRoute =
-          state.matchedLocation == '/'
-          || state.matchedLocation == '/login'
-          || state.matchedLocation == '/register';
+      final isAuthRoute = [
+        '/',
+        '/login',
+        '/register',
+        '/welcome', // para que cuando se loggue no valla directo a /postularse y pase por welcome primero
+      ].contains(state.matchedLocation);
 
       // If user is logged in but on auth page, redirect to home
       if (isLoggedIn && isAuthRoute) {
@@ -107,12 +110,12 @@ final routerProvider = Provider<GoRouter>((ref) {
         GoRoute(
           path: '/home/postularse',
           name: "VolunteeringTab",
-          builder: (_, __) => HomePage(),
+          builder: (_, __) => const VoluntariadosPage(),
         ),
         GoRoute(
           path: '/home/novedades',
           name: "NewsTab",
-          builder: (_, __) => NewsPage(),
+          builder: (_, __) => const NewsPage(),
         ),
 
         ],

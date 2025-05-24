@@ -31,11 +31,15 @@ class AppFloatingButton extends StatelessWidget {
           splashColor: AppColors.neutral75.withOpacity(0.1),
           child: Padding(
             padding: const EdgeInsets.all(12),
-            child: Icon(
-              icon,
-              size: 24,
-              color: isDisabled ? AppColors.neutral25 : AppColors.primary100,
+            child: Transform.rotate(
+              angle: 45 * 3.1415926535 / 180, // 45 degrees in radians
+              child: Icon(
+                icon,
+                size: 24,
+                color: isDisabled ? AppColors.neutral25 : AppColors.primary100,
+              ),
             ),
+
           ),
         ),
       ),
