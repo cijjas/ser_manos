@@ -26,9 +26,7 @@ class PerfilIncompletoPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppHeader(
-      selectedIndex: 1,
-      body: Container(
+    return Container(
         color: AppColors.neutral0,
         width: double.infinity,
         child: SafeArea(
@@ -108,7 +106,6 @@ class PerfilIncompletoPage extends StatelessWidget {
             ],
           ),
         ),
-      ),
     );
   }
 }

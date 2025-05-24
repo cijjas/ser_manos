@@ -9,6 +9,8 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
 class PerfilCompletoPage extends StatelessWidget {
+  final VoidCallback onLogoutPressed;
+
   const PerfilCompletoPage({
     super.key,
     required this.imageUrl,
@@ -18,6 +20,7 @@ class PerfilCompletoPage extends StatelessWidget {
     required this.birthDate,
     required this.gender,
     required this.phone,
+    required this.onLogoutPressed,
   });
 
   final String imageUrl;
@@ -111,7 +114,7 @@ class PerfilCompletoPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     AppButton(
                       label: 'Cerrar sesión',
-                      onPressed: () {/* tu lógica de logout */},
+                      onPressed: onLogoutPressed,
                       type: AppButtonType.tonal,
                       textColor: AppColors.error100,
                     ),
