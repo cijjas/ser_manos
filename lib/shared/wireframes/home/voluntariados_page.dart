@@ -9,6 +9,7 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 
 import '../../../providers/voluntariado_provider.dart';
+import '../../../services/auth_service.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
 import '../../molecules/input/search_field.dart';
 import '../../../providers/home_providers.dart';
@@ -33,6 +34,7 @@ class VoluntariadosPage extends ConsumerWidget {
     final participatingVoluntariado =
         ref.watch(voluntariadoParticipatingProvider);
 
+
     final voluntariadosAsync = ref.watch(voluntariadosProvider);
 
     // Common UI: SearchField and Title section
@@ -40,6 +42,7 @@ class VoluntariadosPage extends ConsumerWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
+
         SearchField(
           hintText: 'Buscar',
           emptySuffix: AppIcon(

@@ -151,6 +151,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.neutral0,
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close, size: 24),
