@@ -26,18 +26,19 @@ class ConfirmApplicationModal extends StatelessWidget {
     required this.onCancel,
     required this.actionType,
   });
-
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
       ),
+      clipBehavior: Clip.antiAlias,
       child: Container(
         width: 280,
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+        color: AppColors.neutral0,
         child: Column(
-          mainAxisSize: MainAxisSize.min, // Important to constrain height
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
@@ -48,10 +49,9 @@ class ConfirmApplicationModal extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               title,
-              style: AppTypography.headline02.copyWith(color: AppColors.neutral100), // TODO check?
+              style: AppTypography.headline02.copyWith(color: AppColors.neutral100),
             ),
             const SizedBox(height: 24),
-            // TODO fix button style/positioning
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -77,4 +77,5 @@ class ConfirmApplicationModal extends StatelessWidget {
       ),
     );
   }
+
 }

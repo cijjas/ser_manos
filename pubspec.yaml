@@ -36,6 +36,10 @@ dependencies:
   firebase_messaging: ^15.2.6
   flutter_local_notifications: ^19.2.0
 
+#  Launch url to maps
+  url_launcher: ^6.2.4
+  maps_launcher: ^2.2.0
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
