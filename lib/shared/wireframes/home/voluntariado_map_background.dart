@@ -76,9 +76,7 @@ class MapViewCardsOverlay extends ConsumerWidget {
                           maxWidth: 330, // fixed width same as list view
                         ),
                         child: CardVoluntariado(
-                          type: voluntariado.tipo,
-                          name: voluntariado.nombre,
-                          imgUrl: voluntariado.imageUrl,
+                          voluntariado: voluntariado,
                           onTap: () => context.go('/voluntariado', extra: voluntariado.id),
                         ),
                       ),
