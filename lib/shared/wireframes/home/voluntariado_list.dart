@@ -3,23 +3,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../models/voluntariado.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../tokens/border_radius.dart';
 
+// TODO current coluntariados
+
+
 /// Renders only the vertical list of voluntariado cards.
 /// To be used inside a scrollable parent or an Expanded widget with SingleChildScrollView.
 class VoluntariadoListItems extends ConsumerWidget {
-  const VoluntariadoListItems({super.key});
+  final List<Voluntariado> voluntariados;
+
+  const VoluntariadoListItems({
+    super.key,
+    required this.voluntariados,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final voluntariadosAsync = ref.watch(voluntariadosProvider);
 
-    return voluntariadosAsync.when(
-      data: (voluntariados) => voluntariados.isNotEmpty
+    return voluntariados.isNotEmpty
           ? Column(
         mainAxisSize: MainAxisSize.min, // Take up only necessary space
         children: voluntariados
@@ -55,29 +62,6 @@ class VoluntariadoListItems extends ConsumerWidget {
             textAlign: TextAlign.center,
           ),
         ),
-      ),
-      loading: () => const Padding(
-        padding: EdgeInsets.symmetric(vertical: 64.0), // Padding for loader
-        child: Center(child: CircularProgressIndicator()),
-      ),
-      error: (e, _) => Padding(
-        padding: const EdgeInsets.symmetric(vertical: 64.0), // Padding for error
-        child: Center(child: Text('Error: $e', textAlign: TextAlign.center)),
-      ),
-    );
+      );
   }
 }
-
-// The original `VoluntariadoListView` class (from your third code block) should be
-// removed or refactored, as its responsibilities (SearchField, Title, view switching)
-// are now handled by `VoluntariadosPage`. `VoluntariadosPage` will use `VoluntariadoListItems` instead.
-/*
-class VoluntariadoListView extends ConsumerWidget {
-  const VoluntariadoListView({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    // ... original problematic content ...
-  }
-}
-*/

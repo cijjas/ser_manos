@@ -24,9 +24,7 @@ class Voluntariado with _$Voluntariado {
     required String nombre,
     required String tipo,
     required int vacantes,
-// required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
     @GeoPointConverter() required LatLng location,
-//    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
     required String imageUrl,
     required String descripcion,
     required String resumen,
