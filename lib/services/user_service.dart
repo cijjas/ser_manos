@@ -180,10 +180,17 @@ class UserService {
     return User.fromJson(doc.data()!);
   }
 
-  Future<User?> updateUser(String id, Map<String, dynamic> data) async {
+  Stream<User> watchOne(String id) {
+    return _users.doc(id).snapshots().where((doc) => doc.exists).map(
+          (doc) => User.fromJson(doc.data()!),
+        );
+  }
+
+  Future<void> updateUser(User user) {
     try {
-      await _users.doc(id).update(data);
-      return getUser(id);
+      return _users
+          .doc(user.id)
+          .set(user.toJson(), SetOptions(merge: true));
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(
         e,
@@ -193,17 +200,5 @@ class UserService {
       );
       rethrow;
     }
-  }
-
-  Stream<User> watchOne(String id) {
-    return _users.doc(id).snapshots().where((doc) => doc.exists).map(
-          (doc) => User.fromJson(doc.data()!),
-        );
-  }
-
-  Future<void> updateUser(User user) {
-    return _users
-        .doc(user.id)
-        .set(user.toJson(), SetOptions(merge: true));
   }
 }
