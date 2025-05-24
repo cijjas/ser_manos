@@ -61,6 +61,7 @@ class UserService {
           'voluntariados': updatedVoluntariados.map((v) => v.toJson()).toList(),
         },
       );
+
       FirebaseAnalytics.instance
           .logEvent(name: 'voluntariado_state_updated', parameters: {
         'voluntariadoId': voluntariadoId,
@@ -186,11 +187,12 @@ class UserService {
         );
   }
 
-  Future<void> updateUser(User user) {
+  Future<User?> updateUser(User user) async {
     try {
-      return _users
+      await _users
           .doc(user.id)
           .set(user.toJson(), SetOptions(merge: true));
+      return user;
     } catch (e) {
       FirebaseCrashlytics.instance.recordError(
         e,
