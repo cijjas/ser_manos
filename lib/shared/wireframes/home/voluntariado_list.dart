@@ -27,7 +27,7 @@ class VoluntariadoListItems extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 24), // Spacing between cards
           child: CardVoluntariado(
             voluntariado: v,
-            onTap: () => context.go('/voluntariado', extra: v.id),
+            onTap: () => context.push('/voluntariado', extra: v.id),
           ),
         ))
             .toList(),

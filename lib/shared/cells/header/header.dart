@@ -1,4 +1,4 @@
-
+import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
@@ -7,7 +7,7 @@ import '../../atoms/symbols/app_wordmark.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../molecules/tabs/tab.dart';
 
-class AppHeader extends StatelessWidget {
+class AppHeader extends StatefulWidget {
   final Widget body;
   final int selectedIndex;
 
@@ -17,7 +17,30 @@ class AppHeader extends StatelessWidget {
     this.body = const SizedBox(),
   });
 
+  @override
+  State<AppHeader> createState() => _AppHeaderState();
+}
 
+
+class _AppHeaderState extends State<AppHeader> {
+  int? _lastIndex;
+
+  @override
+  void didUpdateWidget(AppHeader oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.selectedIndex != _lastIndex) {
+      _lastIndex = widget.selectedIndex;
+
+      final screenName = switch (widget.selectedIndex) {
+        0 => "VolunteeringsTab",
+        1 => "ProfileTab",
+        2 => "NewsTab",
+        _ => "UnknownTab",
+      };
+
+      FirebaseAnalytics.instance.logScreenView(screenName: screenName, screenClass: screenName);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,21 +64,21 @@ class AppHeader extends StatelessWidget {
               Expanded(
                 child: AppTab(
                   label: 'Postularse',
-                  isSelected: selectedIndex == 0,
+                  isSelected: widget.selectedIndex == 0,
                   onTap: () => context.go('/home/postularse'),
                 ),
               ),
               Expanded(
                 child: AppTab(
                   label: 'Mi perfil',
-                  isSelected: selectedIndex == 1,
+                  isSelected: widget.selectedIndex == 1,
                   onTap: () => context.go('/home/perfil'),
                 ),
               ),
               Expanded(
                 child: AppTab(
                   label: 'Novedades',
-                  isSelected: selectedIndex == 2,
+                  isSelected: widget.selectedIndex == 2,
                   onTap: () => context.go('/home/novedades'),
                 ),
               ),
@@ -65,7 +88,7 @@ class AppHeader extends StatelessWidget {
             Expanded(child:
               Container(
                 color: AppColors.secondary10,
-                child: body,
+                child: widget.body,
               ),
             ),
         ],
