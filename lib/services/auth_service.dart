@@ -87,4 +87,8 @@ class AuthService {
     }
 
   }
+
+  Future<void> signOut() {
+    return _auth.signOut();
+  }
 }
