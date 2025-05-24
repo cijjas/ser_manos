@@ -14,11 +14,17 @@ class FirebaseAnalyticsObserver extends NavigatorObserver {
     super.didReplace(newRoute: newRoute, oldRoute: oldRoute);
   }
 
+  @override
+  void didPop(Route route, Route? previousRoute) {
+    _logScreenView(previousRoute);
+    super.didPop(route, previousRoute);
+  }
+
   void _logScreenView(Route<dynamic>? route) {
     if (route?.settings.name != null) {
       FirebaseAnalytics.instance.logScreenView(
         screenName: route!.settings.name,
-        screenClass: route.runtimeType.toString(),
+        screenClass: route.settings.name,
       );
     }
   }
