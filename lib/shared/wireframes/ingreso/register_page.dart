@@ -10,6 +10,7 @@ import 'package:ser_manos/models/user.dart' as model;
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
+import '../../tokens/colors.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -113,6 +114,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(
         style: StatusBarStyle.light,
         timeText: '',

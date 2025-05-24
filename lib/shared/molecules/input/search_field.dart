@@ -14,12 +14,14 @@ class SearchField extends StatefulWidget {
     this.hintText = 'Buscar',
     this.onChanged,
     required this.emptySuffix,
+    this.onEmptySuffixTap, // Added callback
   }) : super(key: key);
 
   final TextEditingController? controller;
   final String hintText;
   final ValueChanged<String>? onChanged;
   final Widget emptySuffix;
+  final VoidCallback? onEmptySuffixTap; // Added callback
 
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -90,11 +92,20 @@ class _SearchFieldState extends State<SearchField> {
             icon: const Icon(Icons.close_rounded,
                 color: AppColors.neutral75),
             splashRadius: 20,
-            onPressed: () => _ctrl.clear(),
+            onPressed: () {
+              _ctrl.clear();
+              widget.onChanged?.call(''); // Notify listener on clear
+            } ,
           )
-              : Padding(
-            padding: const EdgeInsetsDirectional.only(end: 8),
-            child: widget.emptySuffix,
+              : Padding( // Maintain original padding for the suffix icon area
+            padding: const EdgeInsetsDirectional.only(end: 8.0),
+            child: IconButton(
+              icon: widget.emptySuffix, // This is already an AppIcon widget
+              onPressed: widget.onEmptySuffixTap,
+              splashRadius: 20,
+              padding: EdgeInsets.zero, // Remove IconButton's default padding
+              constraints: const BoxConstraints(), // Remove IconButton's default min size if needed
+            ),
           ),
         ),
       ),
