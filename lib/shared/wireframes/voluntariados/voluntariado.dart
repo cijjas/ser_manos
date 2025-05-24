@@ -203,7 +203,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                     _BulletList(lines: voluntariado.disponibilidad),
 
                     const SizedBox(height: 24),
-                    VacantsDisplay(initialNumber: voluntariado.vacantes),
+                    VacantsDisplay(number: voluntariado.vacantes),
 
                     const SizedBox(height: 32),
 
