@@ -33,18 +33,24 @@ class DateField extends StatelessWidget {
       controller: controller,
       readOnly: true,
       validator: validator,
-      prefixIcon: const Icon(
-        Icons.calendar_month,
-        color: AppColors.primary100,
-        size: 20,
+      // movemos el icono al final y ajustamos su tamaño a 24
+      suffixIcon: const SizedBox(
+        width: 24,
+        height: 24,
+        child: Icon(
+          Icons.calendar_month,
+          color: AppColors.primary100,
+          size: 24,
+        ),
       ),
       onTap: () async {
         final now = DateTime.now();
         final picked = await showDatePicker(
           context: context,
-          initialDate: initialDate ?? (controller.text.isNotEmpty
-              ? DateFormat('dd/MM/yyyy').parse(controller.text)
-              : now),
+          initialDate: initialDate ??
+              (controller.text.isNotEmpty
+                  ? DateFormat('dd/MM/yyyy').parse(controller.text)
+                  : now),
           firstDate: firstDate ?? DateTime(1900),
           lastDate: lastDate ?? now,
           locale: Platform.isIOS ? const Locale('es') : null,
