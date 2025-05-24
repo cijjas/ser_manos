@@ -62,7 +62,10 @@ class PerfilWrapperPage extends ConsumerWidget {
               return PerfilIncompletoPage(
                 name: fullName,
                 onCompletePressed: () => context.go('/home/perfil/editar'),
-                onLogoutPressed: () => ref.read(authServiceProvider).signOut(),
+                onLogoutPressed: () {
+                  ref.read(authServiceProvider).signOut();
+                  context.go('/login');
+                },
               );
             } else {
               return PerfilCompletoPage(
@@ -73,6 +76,10 @@ class PerfilWrapperPage extends ConsumerWidget {
                 birthDate: birthDate,
                 gender: gender,
                 phone: phone,
+                onLogoutPressed: () {
+                  ref.read(authServiceProvider).signOut();
+                  context.go('/login');
+                },
               );
             }
           },
