@@ -23,13 +23,23 @@ final currentUserProvider = StreamProvider<User>((ref) {
 });
 
 // Updated provider that uses the current user automatically
-final markOnboardingCompleteProvider = FutureProvider<User?>((ref) async {
-  // Get the current user from currentUserProvider
-  final user = await ref.watch(currentUserProvider.future);
+// final markOnboardingCompleteProvider = FutureProvider<User?>((ref) async {
+//   // Get the current user from currentUserProvider
+//   final user = await ref.watch(currentUserProvider.future);
+//
+//   // Update the user's onboarding status
+//   return ref.read(userServiceProvider).updateUser(
+//       user
+//       //{'hasSeenOnboarding': true}
+//   );
+// });
 
-  // Update the user's onboarding status
-  return ref.read(userServiceProvider).updateUser(
-      user.id,
-      {'hasSeenOnboarding': true}
-  );
+final updateUserProvider =
+    FutureProvider.family<void, User>((ref, user) async {
+  await ref.read(userServiceProvider).updateUser(user);
+});
+
+/// StreamProvider que observa cambios en un documento `users/{id}`
+final userByIdProvider = StreamProvider.family<User, String>((ref, id) {
+  return ref.read(userServiceProvider).watchOne(id);
 });

@@ -1,11 +1,13 @@
+// lib/shared/wireframes/perfil/perfil_completo.dart
+
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import '../../molecules/components/foto_perfil.dart';
 import '../../cells/cards/card_informacion.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
-/// Página que muestra el perfil completo según el diseño compartido.
 class PerfilCompletoPage extends StatelessWidget {
   const PerfilCompletoPage({
     super.key,
@@ -40,7 +42,6 @@ class PerfilCompletoPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    // FOTO DE PERFIL + DATOS PRINCIPALES
                     FotoPerfil.lg(imageUrl: imageUrl),
                     const SizedBox(height: 24),
                     Text(
@@ -49,7 +50,6 @@ class PerfilCompletoPage extends StatelessWidget {
                         color: AppColors.neutral75,
                         letterSpacing: 1.5,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -57,7 +57,6 @@ class PerfilCompletoPage extends StatelessWidget {
                       style: AppTypography.subtitle01.copyWith(
                         color: AppColors.neutral100,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                     const SizedBox(height: 8),
                     Text(
@@ -65,7 +64,6 @@ class PerfilCompletoPage extends StatelessWidget {
                       style: AppTypography.body01.copyWith(
                         color: AppColors.secondary200,
                       ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -73,7 +71,6 @@ class PerfilCompletoPage extends StatelessWidget {
 
               const SizedBox(height: 32),
 
-              // TARJETAS DE INFORMACIÓN
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
@@ -99,20 +96,22 @@ class PerfilCompletoPage extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              // BOTONES
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
                     AppButton(
                       label: 'Editar perfil',
-                      onPressed: () {},
+                      onPressed: () {
+                        // <- aquí navegamos usando go_router
+                        context.go('/home/perfil/editar');
+                      },
                       type: AppButtonType.filled,
                     ),
                     const SizedBox(height: 16),
                     AppButton(
                       label: 'Cerrar sesión',
-                      onPressed: () {},
+                      onPressed: () {/* tu lógica de logout */},
                       type: AppButtonType.tonal,
                       textColor: AppColors.error100,
                     ),

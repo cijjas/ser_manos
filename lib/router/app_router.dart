@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/wireframes/error/error_page.dart';
+import 'package:ser_manos/shared/wireframes/home/voluntariados_page.dart';
 
 // wireframes / pages
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
-import 'package:ser_manos/shared/wireframes/home/home_page.dart';
+import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
@@ -16,6 +17,8 @@ import '../shared/wireframes/ingreso/login_page.dart';
 import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/perfil_completo.dart';
+import '../shared/wireframes/perfil/editar_perfil.dart';
+import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/voluntariados/voluntariado.dart';
 import 'go_router_observer.dart';
 
@@ -42,10 +45,12 @@ final routerProvider = Provider<GoRouter>((ref) {
       if (authState.isLoading) return null;
 
       // Auth-related locations
-      final isAuthRoute =
-          state.matchedLocation == '/'
-          || state.matchedLocation == '/login'
-          || state.matchedLocation == '/register';
+      final isAuthRoute = [
+        '/',
+        '/login',
+        '/register',
+        '/welcome', // para que cuando se loggue no valla directo a /postularse y pase por welcome primero
+      ].contains(state.matchedLocation);
 
       // If user is logged in but on auth page, redirect to home
       if (isLoggedIn && isAuthRoute) {
@@ -81,40 +86,37 @@ final routerProvider = Provider<GoRouter>((ref) {
         builder: (_, __) => const WelcomePage(),
       ),
 
-      /// ---------------- HOME + three tabs ----------------
-      ShellRoute(
-        builder: (context, state, child) {
-          final idx = tabIndexFromLocation(state.uri.toString());
-          return AppHeader(
-            selectedIndex: idx,
-            body: child,
-          );
-        },
-        routes: [
-          GoRoute(
-            path: '/home/perfil',
-            name: "ProfileTab",
-            builder: (_, __) => const PerfilCompletoPage(
-              imageUrl: 'https://picsum.photos/id/1005/300/300',
-              role: 'Voluntario',
-              name: 'Juan Cruz Gonzalez',
-              email: 'mimail@mail.com',
-              birthDate: '10/10/1990',
-              gender: 'Hombre',
-              phone: '+5491165863216',
+    /// ---------------- HOME + three tabs ----------------
+    ShellRoute(
+      builder: (context, state, child) {
+        final idx = tabIndexFromLocation(state.uri.toString());
+        return AppHeader(
+          selectedIndex: idx,
+          body: child,
+        );
+      },
+      routes: [
+        GoRoute(
+          path: '/home/perfil',
+          name: "ProfileTab",
+          builder: (_, __) => const PerfilWrapperPage(),
+          routes: [
+            GoRoute(
+              path: 'editar',
+              builder: (_, __) => const EditarPerfilPage(),
             ),
-          ),
-          GoRoute(
-            path: '/home/postularse',
-            name: "VolunteeringTab",
-            builder: (_, __) => HomePage(),
-          ),
-
-          GoRoute(
-            path: '/home/novedades',
-            name: "NewsTab",
-            builder: (_, __) => NewsPage(),
-          ),
+          ],
+        ),
+        GoRoute(
+          path: '/home/postularse',
+          name: "VolunteeringTab",
+          builder: (_, __) => const VoluntariadosPage(),
+        ),
+        GoRoute(
+          path: '/home/novedades',
+          name: "NewsTab",
+          builder: (_, __) => const NewsPage(),
+        ),
 
         ],
       ),
