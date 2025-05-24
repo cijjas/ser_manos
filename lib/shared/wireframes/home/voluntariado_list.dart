@@ -29,7 +29,7 @@ class VoluntariadoListItems extends ConsumerWidget {
             type: v.tipo,
             name: v.nombre,
             imgUrl: v.imageUrl,
-            onTap: () => context.go('/voluntariado', extra: v.id),
+            onTap: () => context.push('/voluntariado', extra: v.id),
           ),
         ))
             .toList(),
