@@ -30,138 +30,35 @@ class VoluntariadosPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final isMapView = ref.watch(isMapViewProvider);
-    final participatingVoluntariado =
-        ref.watch(voluntariadoParticipatingProvider);
-
-    final voluntariadosAsync = ref.watch(voluntariadosProvider);
-
-    // Common UI: SearchField and Title section
-    Widget searchAndTitleSection = Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        SearchField(
-          hintText: 'Buscar',
-          emptySuffix: AppIcon(
-            icon: isMapView ? AppIcons.LISTA : AppIcons.MAPA,
-            color: AppIconsColor.PRIMARY,
-          ),
-          onEmptySuffixTap: () {
-            ref.read(isMapViewProvider.notifier).state = !isMapView;
-          },
-          onChanged: (query) {
-            // Hook up your search logic here
-          },
-        ),
-        // const SizedBox(height: 32),
-        // if (!isMapView) ...[
-        //   // if (ref.watch(voluntariadoParticipatingListProvider).isNotEmpty) ...[
-        //   //   const Text(
-        //   //     "Tu actividad",
-        //   //     style: AppTypography.headline01,
-        //   //   ),
-        //   //   const SizedBox(height: 16),
-        //   // ],
-        //   // const Text(
-        //   //   "Voluntariados",
-        //   //   style: AppTypography.headline01,
-        //   // ),
-        //   const SizedBox(height: 16),
-        // ],
-      ],
-    );
 
     return Scaffold(
-      // Ensures that the map background can go edge-to-edge if desired
-      // backgroundColor: isMapView ? Colors.transparent : Theme.of(context).scaffoldBackgroundColor,
       backgroundColor: AppColors.secondary10,
       body: Stack(
         children: [
-          // Layer 1: Map Background (only in map view)
-          if (isMapView)
-            const Positioned.fill(
-              // Ensures the background fills the entire Stack
-              child: VoluntariadoMapBackground(), // From voluntariado_map.dart
-            ),
+          if (isMapView) const Positioned.fill(child: VoluntariadoMapBackground()),
 
-          // Layer 2: Content (Search, Title, and conditional list/map-cards)
           SafeArea(
-            // Ensures content avoids notches and system UI
             child: Padding(
-              // Overall padding for the content area
               padding: const EdgeInsets.symmetric(horizontal: 24),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 16), // Top padding within SafeArea
-                  searchAndTitleSection,
+                  const SizedBox(height: 16),
+                  const SearchAndToggleViewHeader(),
                   Expanded(
-                      child: isMapView
-                          // In Map View: Show the overlay cards at the bottom
-                          ? const MapViewCardsOverlay() // From voluntariado_map.dart
-                          // In List View: Show the scrollable list of items
-                          : SingleChildScrollView(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  const SizedBox(height: 16),
-                                  participatingVoluntariado.when(
-                                    data: (voluntariado) {
-                                      print(voluntariado);
-                                      if (voluntariado == null) {
-                                        return const SizedBox(); // or another placeholder
-                                      }
-
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          const Text(
-                                            "Tu actividad",
-                                            style: AppTypography.headline01,
-                                          ),
-                                          const SizedBox(height: 16),
-                                          SingleChildScrollView(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 16),
-                                            child: CardVoluntariadoActual(
-                                              voluntariado: voluntariado,
-                                              onTap: () => context.push(
-                                                  '/voluntariado',
-                                                  extra: voluntariado.id),
-                                            ),
-                                          )
-                                        ],
-                                      );
-                                    },
-                                    error: (e, _) => VoluntariadoError(
-                                        message:
-                                            "Error al cargar tu actividad." +
-                                                e.toString()),
-                                    loading: () => const VoluntariadoLoading(),
-                                  ),
-                                  const Text(
-                                    "Voluntariados",
-                                    style: AppTypography.headline01,
-                                  ),
-                                  SizedBox(height: 16),
-                                  voluntariadosAsync.when(
-                                      data: (voluntariados) => Container(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 16),
-                                            // Padding at the end of the scroll
-                                            child: VoluntariadoListItems(
-                                              voluntariados: voluntariados,
-                                            ), // From voluntariado_list.dart
-                                          ),
-                                      error: (e, _) => const VoluntariadoError(
-                                          message:
-                                              "Error al cargar tu actividad."),
-                                      loading: () =>
-                                          const VoluntariadoLoading()),
-                                ],
-                              ),
-                            )),
+                    child: isMapView
+                        ? const MapViewCardsOverlay()
+                        : const SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(height: 16),
+                          ParticipatingVoluntariadoSection(),
+                          VoluntariadosListSection(),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -171,6 +68,88 @@ class VoluntariadosPage extends ConsumerWidget {
     );
   }
 }
+
+
+class SearchAndToggleViewHeader extends ConsumerWidget {
+  const SearchAndToggleViewHeader({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isMapView = ref.watch(isMapViewProvider);
+
+    return SearchField(
+      hintText: 'Buscar',
+      emptySuffix: AppIcon(
+        icon: isMapView ? AppIcons.LISTA : AppIcons.MAPA,
+        color: AppIconsColor.PRIMARY,
+      ),
+      onEmptySuffixTap: () {
+        ref.read(isMapViewProvider.notifier).state = !isMapView;
+      },
+      onChanged: (query) {
+        ref.read(voluntariadoSearchQueryProvider.notifier).state = query;
+      },
+    );
+  }
+}
+
+class ParticipatingVoluntariadoSection extends ConsumerWidget {
+  const ParticipatingVoluntariadoSection({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final participatingVoluntariado = ref.watch(voluntariadoParticipatingProvider);
+
+    return participatingVoluntariado.when(
+      data: (voluntariado) {
+        if (voluntariado == null) return const SizedBox();
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text("Tu actividad", style: AppTypography.headline01),
+            const SizedBox(height: 16),
+            SingleChildScrollView(
+              padding: const EdgeInsets.only(bottom: 16),
+              child: CardVoluntariadoActual(
+                voluntariado: voluntariado,
+                onTap: () => context.push('/voluntariado', extra: voluntariado.id),
+              ),
+            ),
+          ],
+        );
+      },
+      error: (e, _) => VoluntariadoError(message: "Error al cargar tu actividad.\n${e.toString()}"),
+      loading: () => const VoluntariadoLoading(),
+    );
+  }
+}
+
+
+class VoluntariadosListSection extends ConsumerWidget {
+  const VoluntariadosListSection({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final voluntariadosAsync = ref.watch(voluntariadosProvider);
+
+    return voluntariadosAsync.when(
+      data: (voluntariados) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text("Voluntariados", style: AppTypography.headline01),
+          const SizedBox(height: 16),
+          VoluntariadoListItems(voluntariados: voluntariados),
+          const SizedBox(height: 16),
+        ],
+      ),
+      error: (e, _) => const VoluntariadoError(message: "Error al cargar los voluntariados."),
+      loading: () => const VoluntariadoLoading(),
+    );
+  }
+}
+
+
 
 class VoluntariadoError extends StatelessWidget {
   final String message;

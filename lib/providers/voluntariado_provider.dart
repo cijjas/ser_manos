@@ -1,7 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ser_manos/providers/user_provider.dart';
-import '../models/user.dart';
 import '../models/voluntariado.dart';
 import '../services/voluntariado_service.dart';
 
@@ -15,9 +14,13 @@ final voluntariadoParticipatingProvider = StreamProvider<Voluntariado?>((ref) {
       (v) => v != null ? ref.watch(voluntariadoProvider(v.id)).value! : null);
 });
 
+final voluntariadoSearchQueryProvider = StateProvider<String>((ref) => '');
+
 final voluntariadosProvider = StreamProvider<List<Voluntariado>>((ref) {
-  return ref.read(voluntariadoServiceProvider).watchAll();
+  final query = ref.watch(voluntariadoSearchQueryProvider);
+  return ref.read(voluntariadoServiceProvider).watchFiltered(query);
 });
+
 
 final voluntariadoProvider =
     StreamProvider.family<Voluntariado, String>((ref, id) {

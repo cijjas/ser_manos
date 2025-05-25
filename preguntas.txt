@@ -1,3 +1,5 @@
 - Para el el real time, usar strems? Usarlos siempre?
 - Las vacantes no se modifican
 - Página de error?
+- como obtener la direccion en texto a partir de coordenadas?
+- Mapa?
