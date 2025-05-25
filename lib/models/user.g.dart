@@ -37,6 +37,9 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       voluntariados: (json['voluntariados'] as List<dynamic>?)
           ?.map((e) => UserVoluntariado.fromJson(e as Map<String, dynamic>))
           .toList(),
+      likedVoluntariados: (json['likedVoluntariados'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       telefono: json['telefono'] as String?,
       fechaNacimiento: json['fechaNacimiento'] == null
           ? null
@@ -53,6 +56,7 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'email': instance.email,
       'hasSeenOnboarding': instance.hasSeenOnboarding,
       'voluntariados': instance.voluntariados,
+      'likedVoluntariados': instance.likedVoluntariados,
       'telefono': instance.telefono,
       'fechaNacimiento': instance.fechaNacimiento?.toIso8601String(),
       'genero': instance.genero,

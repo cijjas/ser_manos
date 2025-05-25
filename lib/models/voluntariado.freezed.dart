@@ -23,11 +23,9 @@ mixin _$Voluntariado {
   String get id => throw _privateConstructorUsedError;
   String get nombre => throw _privateConstructorUsedError;
   String get tipo => throw _privateConstructorUsedError;
-  int get vacantes =>
-      throw _privateConstructorUsedError; // required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+  int get vacantes => throw _privateConstructorUsedError;
   @GeoPointConverter()
-  LatLng get location =>
-      throw _privateConstructorUsedError; //    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+  LatLng get location => throw _privateConstructorUsedError;
   String get imageUrl => throw _privateConstructorUsedError;
   String get descripcion => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
@@ -267,11 +265,9 @@ class _$VoluntariadoImpl implements _Voluntariado {
   final String tipo;
   @override
   final int vacantes;
-// required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   @override
   @GeoPointConverter()
   final LatLng location;
-//    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
   @override
   final String imageUrl;
   @override
@@ -383,11 +379,10 @@ abstract class _Voluntariado implements Voluntariado {
   @override
   String get tipo;
   @override
-  int get vacantes; // required bool isLiked, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+  int get vacantes;
   @override
   @GeoPointConverter()
-  LatLng
-      get location; //    required VoluntariadoStatus estado, // TODO, esto depende del usuario, no? No deberia estar dentro de la clase User?
+  LatLng get location;
   @override
   String get imageUrl;
   @override
