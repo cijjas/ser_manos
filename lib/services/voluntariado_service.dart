@@ -19,22 +19,39 @@ class VoluntariadoService {
   }
 
   Stream<List<Voluntariado>> watchAll() {
-    return _ref.snapshots().map((snap) => snap.docs.map((doc) =>
-        Voluntariado.fromJson(doc.id, doc.data())).toList()
-    );
+    return _ref.snapshots().map((snap) => snap.docs
+        .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
+        .toList());
+  }
+
+  Stream<List<Voluntariado>> watchFiltered(String query) {
+    final lower = query.toLowerCase();
+
+    return _ref.snapshots().map((snap) {
+      return snap.docs
+          .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
+          .where((v) =>
+              v.nombre.toLowerCase().contains(lower) ||
+              v.descripcion.toLowerCase().contains(lower) ||
+              v.descripcion.toLowerCase().contains(lower) ||
+              v.tipo.toLowerCase().contains(lower)) // TODO check this is "mision"
+          .toList();
+    });
   }
 
   Future<bool> decrementAvailableSlots(String id) async {
     try {
       final voluntariadoRef = _ref.doc(id);
-      return FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
+      return FirebaseFirestore.instance
+          .runTransaction<bool>((transaction) async {
         final snapshot = await transaction.get(voluntariadoRef);
         if (!snapshot.exists) return false;
 
         final currentSlots = snapshot.data()!['availableSlots'] as int;
         if (currentSlots <= 0) throw Exception('No available slots');
 
-        transaction.update(voluntariadoRef, {'availableSlots': currentSlots - 1});
+        transaction
+            .update(voluntariadoRef, {'availableSlots': currentSlots - 1});
         return true;
       });
     } catch (e, stack) {
@@ -48,12 +65,14 @@ class VoluntariadoService {
   Future<bool> incrementAvailableSlots(String voluntariadoId) async {
     try {
       final voluntariadoRef = _ref.doc(voluntariadoId);
-      return FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
+      return FirebaseFirestore.instance
+          .runTransaction<bool>((transaction) async {
         final snapshot = await transaction.get(voluntariadoRef);
         if (!snapshot.exists) return false;
 
         final currentSlots = snapshot.data()!['availableSlots'] as int;
-        transaction.update(voluntariadoRef, {'availableSlots': currentSlots + 1});
+        transaction
+            .update(voluntariadoRef, {'availableSlots': currentSlots + 1});
         return true;
       });
     } catch (e, stack) {

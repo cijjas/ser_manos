@@ -23,7 +23,7 @@ class CardVoluntariadoActual extends CardVoluntariado {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    final card =  Container(
       width: 328,
       decoration: BoxDecoration(
         color: AppColors.neutral0,
@@ -69,5 +69,6 @@ class CardVoluntariadoActual extends CardVoluntariado {
         ]
       ),
     );
+    return onTap == null ? card : GestureDetector(onTap: onTap, child: card);
   }
 }
