@@ -5,8 +5,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
@@ -186,7 +189,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                     Text(voluntariado.descripcion, style: AppTypography.body01),
 
                     const SizedBox(height: 32),
-                    _LocationCard(address: voluntariado.location.toString()),
+                    _LocationCard(address: voluntariado.location.toString(), location: voluntariado.location),
                     const SizedBox(height: 32),
 
                     Text('Participar del voluntariado',
@@ -374,12 +377,21 @@ class _InfoWithLink extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────
-// Card de ubicación (mapa placeholder)
 class _LocationCard extends StatelessWidget {
-  const _LocationCard({required this.address});
+  const _LocationCard({
+    required this.address,
+    required this.location,
+  });
 
   final String address;
+  final LatLng location;
+
+  void _openNativeMaps() {
+    MapsLauncher.launchCoordinates(
+      location.latitude,
+      location.longitude,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -387,40 +399,37 @@ class _LocationCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: AppColors.neutral0,
         borderRadius: BorderRadius.circular(4),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x14000000),
-            blurRadius: 4,
-            offset: Offset(0, 2),
-          )
-        ],
       ),
+      clipBehavior: Clip.antiAlias,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          // Header
           Container(
             padding: const EdgeInsets.all(12),
-            decoration: BoxDecoration(
-              color: AppColors.secondary10,
-              borderRadius:
-                  const BorderRadius.vertical(top: Radius.circular(4)),
+            color: AppColors.secondary25,
+            child: const Text('Ubicación', style: AppTypography.subtitle01),
+          ),
+
+          // Pressable "map" placeholder
+          GestureDetector(
+            onTap: _openNativeMaps,
+            child: Container(
+              height: 200,
+              color: AppColors.neutral25,
+              alignment: Alignment.center,
+              child: const Icon(Icons.map, size: 64, color: AppColors.neutral50),
             ),
-            child: Text('Ubicación', style: AppTypography.headline02),
           ),
+
+          // Address section
           Container(
-            height: 200,
-            color: AppColors.neutral25,
-            alignment: Alignment.center,
-            child: const Icon(Icons.map, size: 64, color: AppColors.neutral50),
-          ),
-          Padding(
+            color: AppColors.neutral10,
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Dirección',
-                    style: AppTypography.overline
-                        .copyWith(color: AppColors.neutral75)),
+                const Text('Dirección', style: AppTypography.overline),
                 const SizedBox(height: 4),
                 Text(address, style: AppTypography.body01),
               ],

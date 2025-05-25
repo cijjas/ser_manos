@@ -8,6 +8,7 @@ import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 import 'package:ser_manos/models/user.dart' as model;
 
+import '../../../services/fcm_token_service.dart';
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
@@ -57,10 +58,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
       // Use UserService to store the user data
       await ref.read(createUserProvider(user).future);
+      await saveFcmTokenToFirestore(userId); // 👈 add here
 
       if (context.mounted) {
         context.go('/welcome');
       }
+
     } on FirebaseAuthException catch (e) {
       // If Firestore write fails but Auth user was created, delete that user to rollback
       // TODO preguntar usar Cloud Function para crear el usuario de un en el onCreate
