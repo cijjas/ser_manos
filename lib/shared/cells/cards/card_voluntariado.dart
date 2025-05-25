@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/voluntariado.dart';
 import '../../atoms/icons/app_icons.dart';
@@ -55,13 +56,35 @@ class CardVoluntariado extends StatelessWidget {
 
                   ],
                 ),
-                const Row(
+                Row(
                   children: [
-                    AppIcon(icon: AppIcons.FAVORITO_OUTLINE, size: 24, color: AppIconsColor.PRIMARY),
-                    SizedBox(width: 16),
-                    AppIcon(icon: AppIcons.UBICACION, size: 24, color: AppIconsColor.PRIMARY),
+                    const AppIcon(
+                      icon: AppIcons.FAVORITO_OUTLINE,
+                      size: 24,
+                      color: AppIconsColor.PRIMARY,
+                    ),
+                    const SizedBox(width: 16),
+                    GestureDetector(
+                      onTap: () async {
+                        final lat = voluntariado.location.latitude;
+                        final lng = voluntariado.location.longitude;
+                        final url = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+
+                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('No se pudo abrir Google Maps')),
+                          );
+                        }
+                      },
+                      child: const AppIcon(
+                        icon: AppIcons.UBICACION,
+                        size: 24,
+                        color: AppIconsColor.PRIMARY,
+                      ),
+                    ),
                   ],
                 ),
+
               ],
             ),
           ),

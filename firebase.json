@@ -1,1 +1,46 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"ser-manaos","appId":"1:977267188706:android:f6527a321dfd2187eecfbb","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"ser-manaos","appId":"1:977267188706:ios:b8b7f168ed398414eecfbb","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"ser-manaos","configurations":{"android":"1:977267188706:android:f6527a321dfd2187eecfbb","ios":"1:977267188706:ios:b8b7f168ed398414eecfbb"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "ser-manaos",
+          "appId": "1:977267188706:android:f6527a321dfd2187eecfbb",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "ser-manaos",
+          "appId": "1:977267188706:ios:b8b7f168ed398414eecfbb",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "ser-manaos",
+          "configurations": {
+            "android": "1:977267188706:android:f6527a321dfd2187eecfbb",
+            "ios": "1:977267188706:ios:b8b7f168ed398414eecfbb"
+          }
+        }
+      }
+    }
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ],
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" run build"
+      ]
+    }
+  ]
+}

@@ -7,6 +7,7 @@ import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
 import '../../../providers/user_provider.dart';
+import '../../../services/fcm_token_service.dart';
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
@@ -36,18 +37,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     try {
       await ref.read(authServiceProvider).signIn(email, password);
+      final updatedUser = await ref.read(currentUserProvider.future);
+      await saveFcmTokenToFirestore(updatedUser.id);
 
       if (context.mounted) {
-        final updatedUser = await ref.read(currentUserProvider.future);
-
-        if (context.mounted) {
-          if (!(updatedUser.hasSeenOnboarding ?? true)) {
-            context.go('/welcome');
-          } else {
-            context.go('/home/postularse');
-          }
+        if (!(updatedUser.hasSeenOnboarding ?? true)) {
+          context.go('/welcome');
+        } else {
+          context.go('/home/postularse');
         }
       }
+
     } on FirebaseAuthException catch (e) {
       setState(() {
         switch (e.code) {
