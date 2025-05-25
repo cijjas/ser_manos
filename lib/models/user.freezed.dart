@@ -195,6 +195,7 @@ mixin _$User {
   bool? get hasSeenOnboarding => throw _privateConstructorUsedError;
   List<UserVoluntariado>? get voluntariados =>
       throw _privateConstructorUsedError;
+  List<String>? get likedVoluntariados => throw _privateConstructorUsedError;
   String? get telefono => throw _privateConstructorUsedError;
   DateTime? get fechaNacimiento => throw _privateConstructorUsedError;
   String? get genero => throw _privateConstructorUsedError;
@@ -221,6 +222,7 @@ abstract class $UserCopyWith<$Res> {
       String email,
       bool? hasSeenOnboarding,
       List<UserVoluntariado>? voluntariados,
+      List<String>? likedVoluntariados,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -248,6 +250,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? email = null,
     Object? hasSeenOnboarding = freezed,
     Object? voluntariados = freezed,
+    Object? likedVoluntariados = freezed,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -278,6 +281,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.voluntariados
           : voluntariados // ignore: cast_nullable_to_non_nullable
               as List<UserVoluntariado>?,
+      likedVoluntariados: freezed == likedVoluntariados
+          ? _value.likedVoluntariados
+          : likedVoluntariados // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
           : telefono // ignore: cast_nullable_to_non_nullable
@@ -312,6 +319,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String email,
       bool? hasSeenOnboarding,
       List<UserVoluntariado>? voluntariados,
+      List<String>? likedVoluntariados,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -336,6 +344,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? email = null,
     Object? hasSeenOnboarding = freezed,
     Object? voluntariados = freezed,
+    Object? likedVoluntariados = freezed,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -366,6 +375,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value._voluntariados
           : voluntariados // ignore: cast_nullable_to_non_nullable
               as List<UserVoluntariado>?,
+      likedVoluntariados: freezed == likedVoluntariados
+          ? _value._likedVoluntariados
+          : likedVoluntariados // ignore: cast_nullable_to_non_nullable
+              as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
           : telefono // ignore: cast_nullable_to_non_nullable
@@ -396,11 +409,13 @@ class _$UserImpl implements _User {
       required this.email,
       this.hasSeenOnboarding,
       final List<UserVoluntariado>? voluntariados,
+      final List<String>? likedVoluntariados,
       this.telefono,
       this.fechaNacimiento,
       this.genero,
       this.imagenUrl})
-      : _voluntariados = voluntariados;
+      : _voluntariados = voluntariados,
+        _likedVoluntariados = likedVoluntariados;
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -425,6 +440,17 @@ class _$UserImpl implements _User {
     return EqualUnmodifiableListView(value);
   }
 
+  final List<String>? _likedVoluntariados;
+  @override
+  List<String>? get likedVoluntariados {
+    final value = _likedVoluntariados;
+    if (value == null) return null;
+    if (_likedVoluntariados is EqualUnmodifiableListView)
+      return _likedVoluntariados;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   final String? telefono;
   @override
@@ -436,7 +462,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, voluntariados: $voluntariados, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
+    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, voluntariados: $voluntariados, likedVoluntariados: $likedVoluntariados, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
   }
 
   @override
@@ -453,6 +479,8 @@ class _$UserImpl implements _User {
                 other.hasSeenOnboarding == hasSeenOnboarding) &&
             const DeepCollectionEquality()
                 .equals(other._voluntariados, _voluntariados) &&
+            const DeepCollectionEquality()
+                .equals(other._likedVoluntariados, _likedVoluntariados) &&
             (identical(other.telefono, telefono) ||
                 other.telefono == telefono) &&
             (identical(other.fechaNacimiento, fechaNacimiento) ||
@@ -472,6 +500,7 @@ class _$UserImpl implements _User {
       email,
       hasSeenOnboarding,
       const DeepCollectionEquality().hash(_voluntariados),
+      const DeepCollectionEquality().hash(_likedVoluntariados),
       telefono,
       fechaNacimiento,
       genero,
@@ -501,6 +530,7 @@ abstract class _User implements User {
       required final String email,
       final bool? hasSeenOnboarding,
       final List<UserVoluntariado>? voluntariados,
+      final List<String>? likedVoluntariados,
       final String? telefono,
       final DateTime? fechaNacimiento,
       final String? genero,
@@ -520,6 +550,8 @@ abstract class _User implements User {
   bool? get hasSeenOnboarding;
   @override
   List<UserVoluntariado>? get voluntariados;
+  @override
+  List<String>? get likedVoluntariados;
   @override
   String? get telefono;
   @override

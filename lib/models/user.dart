@@ -33,6 +33,7 @@ class User with _$User {
     required String email,
     bool? hasSeenOnboarding,
     List<UserVoluntariado>? voluntariados,
+    List<String>? likedVoluntariados,
     String? telefono,
     DateTime? fechaNacimiento,
     String? genero,
