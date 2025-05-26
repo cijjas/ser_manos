@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../models/user.dart';
 import '../../../models/voluntariado.dart';
-import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
@@ -17,10 +17,14 @@ import '../../tokens/border_radius.dart';
 /// To be used inside a scrollable parent or an Expanded widget with SingleChildScrollView.
 class VoluntariadoListItems extends ConsumerWidget {
   final List<Voluntariado> voluntariados;
+  final void Function(String id)? onLikeTap;
+  final User? user;
 
   const VoluntariadoListItems({
     super.key,
     required this.voluntariados,
+    required this.user,
+    this.onLikeTap,
   });
 
   @override
@@ -35,6 +39,10 @@ class VoluntariadoListItems extends ConsumerWidget {
           child: CardVoluntariado(
             voluntariado: v,
             onTap: () => context.push('/voluntariado', extra: v.id),
+            onLikeTap: onLikeTap != null
+                ? (id) => onLikeTap!(id)
+                : null,
+            isLiked: user?.likedVoluntariados?.any((id) => id == v.id) ?? false,
           ),
         ))
             .toList(),
