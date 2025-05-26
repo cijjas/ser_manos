@@ -198,6 +198,42 @@ class UserService {
         );
   }
 
+  Future<void> toggleLikeVoluntariado(
+    User user,
+    String voluntariadoId,
+  ) async {
+    try {
+
+      final likedVoluntariados = [...user.likedVoluntariados ?? []];
+
+      if (likedVoluntariados.contains(voluntariadoId)) {
+        likedVoluntariados.remove(voluntariadoId);
+      } else {
+        likedVoluntariados.add(voluntariadoId);
+      }
+
+      await _users.doc(user.id).update({
+        'likedVoluntariados': likedVoluntariados,
+      });
+      // TODO check event is relevant?
+      FirebaseAnalytics.instance.logEvent(
+        name: 'toggle_like_voluntariado',
+        parameters: {
+          'userId': user.id,
+          'voluntariadoId': voluntariadoId,
+          'liked': !likedVoluntariados.contains(voluntariadoId) ? "true" : "false",
+        },
+      );
+    } catch (e) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        null,
+        reason: 'Failed to toggle like on voluntariado',
+        fatal: false,
+      );
+    }
+  }
+
   Future<User?> updateUser(User user) async {
     try {
       await _users.doc(user.id).set(user.toJson(), SetOptions(merge: true));

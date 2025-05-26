@@ -8,6 +8,7 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 // These files will contain the refactored/new widgets.
 import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 
+import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../../services/auth_service.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
@@ -27,6 +28,8 @@ import 'voluntariado_map_background.dart';
 
 class VoluntariadosPage extends ConsumerWidget {
   const VoluntariadosPage({super.key});
+
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -133,6 +136,14 @@ class VoluntariadosListSection extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final voluntariadosAsync = ref.watch(voluntariadosProvider);
+    final user = ref.watch(currentUserProvider).value;
+
+    Future<void> onLikeTap(WidgetRef ref, String voluntariadoId) async {
+      if (user == null) {
+        return;
+      }
+      await ref.read(userServiceProvider).toggleLikeVoluntariado(user, voluntariadoId);
+    }
 
     return voluntariadosAsync.when(
       data: (voluntariados) => Column(
@@ -140,7 +151,7 @@ class VoluntariadosListSection extends ConsumerWidget {
         children: [
           const Text("Voluntariados", style: AppTypography.headline01),
           const SizedBox(height: 16),
-          VoluntariadoListItems(voluntariados: voluntariados),
+          VoluntariadoListItems(voluntariados: voluntariados, onLikeTap: (id) => onLikeTap(ref, id), user: user),
           const SizedBox(height: 16),
         ],
       ),
@@ -149,7 +160,6 @@ class VoluntariadosListSection extends ConsumerWidget {
     );
   }
 }
-
 
 
 class VoluntariadoError extends StatelessWidget {

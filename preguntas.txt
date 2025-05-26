@@ -3,3 +3,4 @@
 - Página de error?
 - como obtener la direccion en texto a partir de coordenadas?
 - Mapa?
+- Pull to refresh -> Con real tme no necesitamos, no?

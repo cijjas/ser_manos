@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -14,13 +13,16 @@ import '../../tokens/typography.dart';
 // TODO check what to do with the widget state
 class CardVoluntariado extends StatelessWidget {
   final VoidCallback? onTap;
+  final void Function(String id)? onLikeTap;
   final Voluntariado voluntariado;
-
+  final bool isLiked;
 
   const CardVoluntariado({
     super.key,
     required this.voluntariado,
+    this.isLiked = false,
     this.onTap,
+    this.onLikeTap
   });
 
   @override
@@ -49,30 +51,39 @@ class CardVoluntariado extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(voluntariado.tipo.toUpperCase(), style: AppTypography.caption),
+                    Text(voluntariado.tipo.toUpperCase(),
+                        style: AppTypography.caption),
                     const SizedBox(height: 4),
                     Text(voluntariado.nombre, style: AppTypography.subtitle01),
                     VacantsDisplay(number: voluntariado.vacantes),
-
                   ],
                 ),
                 Row(
                   children: [
-                    const AppIcon(
-                      icon: AppIcons.FAVORITO_OUTLINE,
-                      size: 24,
-                      color: AppIconsColor.PRIMARY,
-                    ),
+                    GestureDetector(
+                        onTap: () async {
+                          if (onLikeTap != null) {
+                            onLikeTap!(voluntariado.id);
+                          }
+                        },
+                        child: AppIcon(
+                          icon: isLiked ? AppIcons.FAVORITO : AppIcons.FAVORITO_OUTLINE,
+                          size: 24,
+                          color: AppIconsColor.PRIMARY,
+                        )),
                     const SizedBox(width: 16),
                     GestureDetector(
                       onTap: () async {
                         final lat = voluntariado.location.latitude;
                         final lng = voluntariado.location.longitude;
-                        final url = Uri.parse('https://www.google.com/maps/search/?api=1&query=$lat,$lng');
+                        final url = Uri.parse(
+                            'https://www.google.com/maps/search/?api=1&query=$lat,$lng');
 
-                        if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
+                        if (!await launchUrl(url,
+                            mode: LaunchMode.externalApplication)) {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('No se pudo abrir Google Maps')),
+                            const SnackBar(
+                                content: Text('No se pudo abrir Google Maps')),
                           );
                         }
                       },
@@ -84,7 +95,6 @@ class CardVoluntariado extends StatelessWidget {
                     ),
                   ],
                 ),
-
               ],
             ),
           ),
