@@ -16,6 +16,7 @@ import '../../../providers/user_provider.dart';
 import '../../cells/modals/confirm_modal.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../molecules/components/vacants.dart';
+import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
@@ -140,93 +141,102 @@ class VoluntariadoDetallePage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // Imagen de cabecera
-              Stack(
+      body: Stack(
+        children: [
+          // 1. Scrollable content below everything
+          Positioned.fill(
+            top: 52, // Reserve space for StatusBar
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   SizedBox(
                     height: media.size.width * 0.6,
                     width: double.infinity,
-                    child:
-                        Image.network(voluntariado.imageUrl, fit: BoxFit.cover),
+                    child: Image.network(
+                      voluntariado.imageUrl,
+                      fit: BoxFit.cover,
+                    ),
                   ),
-                  Positioned(
-                    top: 8,
-                    left: 8,
-                    child: IconButton(
-                      icon: const Icon(Icons.arrow_back,
-                          color: AppColors.neutral0),
-                      onPressed: () => Navigator.of(context).maybePop(),
+                  const SizedBox(height: 24),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(voluntariado.tipo.toUpperCase(),
+                            style: AppTypography.overline
+                                .copyWith(color: AppColors.neutral75)),
+                        const SizedBox(height: 4),
+                        Text(voluntariado.nombre, style: AppTypography.headline01),
+                        const SizedBox(height: 16),
+                        Text(voluntariado.resumen,
+                            style: AppTypography.body01
+                                .copyWith(color: AppColors.secondary200)),
+                        const SizedBox(height: 32),
+                        Text('Sobre la actividad', style: AppTypography.headline02),
+                        const SizedBox(height: 8),
+                        Text(voluntariado.descripcion, style: AppTypography.body01),
+                        const SizedBox(height: 32),
+                        _LocationCard(
+                          address: voluntariado.location.toString(),
+                          location: voluntariado.location,
+                        ),
+                        const SizedBox(height: 32),
+                        Text('Participar del voluntariado',
+                            style: AppTypography.headline02),
+                        const SizedBox(height: 16),
+                        Text('Requisitos', style: AppTypography.subtitle01),
+                        const SizedBox(height: 8),
+                        _BulletList(lines: voluntariado.requisitos),
+                        const SizedBox(height: 16),
+                        Text('Disponibilidad', style: AppTypography.subtitle01),
+                        const SizedBox(height: 8),
+                        _BulletList(lines: voluntariado.disponibilidad),
+                        const SizedBox(height: 24),
+                        VacantsDisplay(number: voluntariado.vacantes),
+                        const SizedBox(height: 32),
+                        _BottomSection(
+                          state: _determineUserState(voluntariado, user),
+                          onApply: wrappedApply,
+                          onWithdraw: wrappedWithdraw,
+                          onAbandon: onAbandon,
+                        ),
+                        const SizedBox(height: 48),
+                      ],
                     ),
                   ),
                 ],
               ),
-
-              const SizedBox(height: 24),
-
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(voluntariado.tipo.toUpperCase(),
-                        style: AppTypography.overline
-                            .copyWith(color: AppColors.neutral75)),
-                    const SizedBox(height: 4),
-                    Text(voluntariado.nombre, style: AppTypography.headline01),
-                    const SizedBox(height: 16),
-                    Text(voluntariado.resumen,
-                        style: AppTypography.body01
-                            .copyWith(color: AppColors.secondary200)),
-
-                    const SizedBox(height: 32),
-                    Text('Sobre la actividad', style: AppTypography.headline02),
-                    const SizedBox(height: 8),
-                    Text(voluntariado.descripcion, style: AppTypography.body01),
-
-                    const SizedBox(height: 32),
-                    _LocationCard(address: voluntariado.location.toString(), location: voluntariado.location),
-                    const SizedBox(height: 32),
-
-                    Text('Participar del voluntariado',
-                        style: AppTypography.headline02),
-                    const SizedBox(height: 16),
-
-                    Text('Requisitos', style: AppTypography.subtitle01),
-                    const SizedBox(height: 8),
-                    _BulletList(lines: voluntariado.requisitos),
-
-                    const SizedBox(height: 16),
-                    Text('Disponibilidad', style: AppTypography.subtitle01),
-                    const SizedBox(height: 8),
-                    _BulletList(lines: voluntariado.disponibilidad),
-
-                    const SizedBox(height: 24),
-                    VacantsDisplay(number: voluntariado.vacantes),
-
-                    const SizedBox(height: 32),
-
-                    // Sección variable al final
-                    _BottomSection(
-                      state: _determineUserState(voluntariado, user),
-                      onApply: wrappedApply,
-                      onWithdraw: wrappedWithdraw,
-                      onAbandon: onAbandon,
-                    ),
-
-                    const SizedBox(height: 48),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
+
+          // 2. Status bar background + shadow
+          const Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: StatusBar(
+              style: StatusBarStyle.dark,
+              hasShadow: true,
+            ),
+          ),
+
+          // 3. Floating back button ABOVE the shadow
+          Positioned(
+            top: 8,
+            left: 8,
+            child: SafeArea(
+              child: IconButton(
+                icon: const Icon(Icons.arrow_back, color: AppColors.neutral0),
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+            ),
+          ),
+        ],
       ),
     );
+
   }
 }
 

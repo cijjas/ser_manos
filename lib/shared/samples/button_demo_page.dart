@@ -12,7 +12,7 @@ class ButtonDemoPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StatusBar(style: StatusBarStyle.blue, timeText: '', showPlaceHolders: false,),
+      appBar: const StatusBar(style: StatusBarStyle.blue),
       body: Padding(
         padding: const EdgeInsets.all(24),
         child: Column(

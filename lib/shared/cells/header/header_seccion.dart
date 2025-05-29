@@ -20,8 +20,6 @@ class AppHeaderSection extends StatelessWidget {
         // status‑bar colour / time placeholders
         const StatusBar(
           style: StatusBarStyle.blue,
-          timeText: '',
-          showPlaceHolders: false,
         ),
 
         // coloured header bar

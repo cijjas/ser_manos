@@ -42,31 +42,32 @@ class VoluntariadosPage extends ConsumerWidget {
           if (isMapView) const Positioned.fill(child: VoluntariadoMapBackground()),
 
           SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(height: 16),
-                  const SearchAndToggleViewHeader(),
-                  Expanded(
-                    child: isMapView
-                        ? const MapViewCardsOverlay()
-                        : const SingleChildScrollView(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          SizedBox(height: 16),
-                          ParticipatingVoluntariadoSection(),
-                          VoluntariadosListSection(),
-                        ],
-                      ),
+            child: Column(
+              children: [
+                const SizedBox(height: 16),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: const SearchAndToggleViewHeader(),
+                ),
+                Expanded(
+                  child: isMapView
+                      ? const MapViewCardsOverlay()
+                      : const SingleChildScrollView(
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16),
+                        ParticipatingVoluntariadoSection(),
+                        VoluntariadosListSection(),
+                      ],
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          ),
+          )
+
         ],
       ),
     );
