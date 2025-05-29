@@ -17,7 +17,7 @@ class AppHeaderModal extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const StatusBar(
-          style: StatusBarStyle.light, timeText: '', showPlaceHolders: false),
+          style: StatusBarStyle.light),
       body: IntrinsicHeight(
         child: Container(
           alignment: Alignment.topLeft,

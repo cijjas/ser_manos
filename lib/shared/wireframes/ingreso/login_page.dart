@@ -96,8 +96,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(
         style: StatusBarStyle.light,
-        timeText: '',
-        showPlaceHolders: false,
       ),
       body: Container(
         width: double.infinity,

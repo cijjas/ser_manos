@@ -45,7 +45,7 @@ class _AppHeaderState extends State<AppHeader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StatusBar(style: StatusBarStyle.blue, timeText: '', showPlaceHolders: false),
+      appBar: const StatusBar(style: StatusBarStyle.blue),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

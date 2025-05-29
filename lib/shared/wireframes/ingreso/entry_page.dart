@@ -19,7 +19,7 @@ class EntryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.neutral0,
-        appBar: const StatusBar(style: StatusBarStyle.light, timeText: '', showPlaceHolders: false),
+        appBar: const StatusBar(style: StatusBarStyle.light),
       body: Container(
         width: double.infinity,
         height: double.infinity,

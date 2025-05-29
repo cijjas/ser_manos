@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
@@ -61,7 +60,7 @@ class NovedadDetail extends ConsumerWidget {
                           AppButton(
                             label: "Compartir",
                             onPressed: () {
-                              final url = 'https://sermanos.app/novedad/${novedad.id}'; // adjust as needed
+                              final url = 'https://sermanos.app/novedad/${novedad.id}';
                               final text = '${novedad.titulo}\n\n${novedad.resumen}\n\n$url';
                               Share.share(text);
                             },

@@ -120,8 +120,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(
         style: StatusBarStyle.light,
-        timeText: '',
-        showPlaceHolders: false,
       ),
       body: Container(
         width: double.infinity,
