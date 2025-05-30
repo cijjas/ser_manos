@@ -53,12 +53,12 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         nombre: name,
         apellido: surname,
         email: email,
-        // Add other required fields based on your User model
       );
 
-      // Use UserService to store the user data
+      // TODO ver que onda esto
       await ref.read(createUserProvider(user).future);
-      await saveFcmTokenToFirestore(userId); // 👈 add here
+      await saveFcmTokenToFirestore(userId);
+      // ENDTODO
 
       if (context.mounted) {
         context.go('/welcome');

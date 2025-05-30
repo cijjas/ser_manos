@@ -9,6 +9,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final AppButtonType type;
   final Color? textColor;
+  final bool isLoading; // 👈 NUEVO
 
   const AppButton({
     super.key,
@@ -16,11 +17,12 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.type = AppButtonType.filled,
     this.textColor,
+    this.isLoading = false, // 👈 NUEVO
   });
 
   @override
   Widget build(BuildContext context) {
-    final bool isDisabled = onPressed == null;
+    final bool isDisabled = onPressed == null || isLoading;
 
     final Color bgColor = switch (type) {
       AppButtonType.filled => isDisabled ? AppColors.neutral25 : AppColors.primary100,
@@ -53,9 +55,18 @@ class AppButton extends StatelessWidget {
     return SizedBox(
       width: double.infinity,
       child: TextButton(
-        onPressed: onPressed,
+        onPressed: isDisabled ? null : onPressed,
         style: style,
-        child: Text(
+        child: isLoading
+            ? const SizedBox(
+          height: 16,
+          width: 16,
+          child: CircularProgressIndicator(
+            strokeWidth: 2,
+            color: AppColors.neutral0, // match foreground
+          ),
+        )
+            : Text(
           label,
           textAlign: TextAlign.center,
         ),

@@ -9,7 +9,6 @@ final novedadesProvider = StreamProvider<List<Novedad>>((ref) {
 });
 
 
-
 final novedadByIdProvider = StreamProvider.family<Novedad, String>((ref, id) {
   return ref.read(novedadServiceProvider).watchOne(id);
 });

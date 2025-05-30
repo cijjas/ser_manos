@@ -37,7 +37,7 @@ class CardNovedades extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    novedad.titulo.toUpperCase(),
+                    novedad.emisor.toUpperCase(),
                     style: AppTypography.overline.copyWith(
                       color: AppColors.neutral75,
                     ),
@@ -46,7 +46,7 @@ class CardNovedades extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(
-                    novedad.emisor,
+                    novedad.titulo,
                     style: AppTypography.subtitle01,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,

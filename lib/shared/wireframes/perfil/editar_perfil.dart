@@ -1,6 +1,6 @@
 // lib/shared/wireframes/perfil/editar_perfil.dart
-
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -20,7 +20,7 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
 class EditarPerfilPage extends ConsumerStatefulWidget {
-  const EditarPerfilPage({Key? key}) : super(key: key);
+  const EditarPerfilPage({super.key});
 
   @override
   ConsumerState<EditarPerfilPage> createState() => _EditarPerfilPageState();
@@ -28,12 +28,13 @@ class EditarPerfilPage extends ConsumerStatefulWidget {
 
 class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   final _formKey = GlobalKey<FormState>();
-  late TextEditingController _fechaCtrl;
-  late TextEditingController _telefonoCtrl;
-  late TextEditingController _emailCtrl;
+  late final TextEditingController _fechaCtrl;
+  late final TextEditingController _telefonoCtrl;
+  late final TextEditingController _emailCtrl;
 
   int? _sexoIndex;
   String? _fotoUrl;
+  bool _subiendo = false;
   User? _original;
   final _picker = ImagePicker();
 
@@ -43,28 +44,31 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     _fechaCtrl = TextEditingController();
     _telefonoCtrl = TextEditingController();
     _emailCtrl = TextEditingController();
+    _loadUser();
+  }
 
+  Future<void> _loadUser() async {
     final fbUser = ref.read(authStateProvider).maybeWhen(
       data: (u) => u,
       orElse: () => null,
     );
-    if (fbUser != null) {
-      ref.read(userByIdProvider(fbUser.uid).future).then((u) {
-        if (u != null) {
-          _original = u;
-          _emailCtrl.text = u.email;
-          _telefonoCtrl.text = u.telefono ?? '';
-          if (u.fechaNacimiento != null) {
-            _fechaCtrl.text = DateFormat('dd/MM/yyyy').format(u.fechaNacimiento!);
-          }
-          _sexoIndex = u.genero != null
-              ? ['Hombre', 'Mujer', 'No binario'].indexOf(u.genero!)
-              : null;
-          _fotoUrl = u.imagenUrl;
-          setState(() {});
-        }
-      });
-    }
+    if (fbUser == null) return;
+
+    final user = await ref.read(userByIdProvider(fbUser.uid).future);
+
+    setState(() {
+      _original = user;
+      _emailCtrl.text = user.email;
+      _telefonoCtrl.text = user.telefono ?? '';
+      if (user.fechaNacimiento != null) {
+        _fechaCtrl.text =
+            DateFormat('dd/MM/yyyy').format(user.fechaNacimiento!);
+      }
+      _sexoIndex = user.genero != null
+          ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
+          : null;
+      _fotoUrl = user.imagenUrl;
+    });
   }
 
   @override
@@ -75,33 +79,83 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     super.dispose();
   }
 
-  Future<void> _pickImage() async {
+  /* ───────────────────────────  IMAGEN (cámara / galería) ─────────────────────────── */
+
+  Future<void> _showImageSourceSelector() async {
+    final source = await showModalBottomSheet<ImageSource>(
+      context: context,
+      shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+      builder: (_) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.camera_alt),
+              title: const Text('Tomar una foto'),
+              onTap: () => Navigator.pop(context, ImageSource.camera),
+            ),
+            ListTile(
+              leading: const Icon(Icons.photo_library),
+              title: const Text('Elegir de galería'),
+              onTap: () => Navigator.pop(context, ImageSource.gallery),
+            ),
+          ],
+        ),
+      ),
+    );
+
+    if (source != null) _pickAndUpload(source);
+  }
+
+  Future<void> _pickAndUpload(ImageSource source) async {
+
     final fbUser = ref.read(authStateProvider).maybeWhen(
       data: (u) => u,
       orElse: () => null,
     );
     if (fbUser == null) return;
 
-    try {
-      final picked = await _picker.pickImage(
-        source: ImageSource.gallery,
-        imageQuality: 75,
+    final picked =
+    await _picker.pickImage(source: source, imageQuality: 75);
+    if (picked == null) return; // cancelado
+
+    final file = File(picked.path);
+    if (!file.existsSync()) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('La imagen no existe en disco (simulador).')),
       );
-      if (picked == null) return;
-      final file = File(picked.path);
-      final storageRef = FirebaseStorage.instance.ref('profile_images/${fbUser.uid}.jpg');
+      return;
+    }
+
+    setState(() => _subiendo = true);
+
+    try {
+      final storageRef = FirebaseStorage.instance
+          .ref()
+          .child('profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
+
       final snapshot = await storageRef.putFile(file);
-      final url = await snapshot.ref.getDownloadURL();
+      if (snapshot.state != TaskState.success) {
+        throw FirebaseException(plugin: 'firebase_storage', message: 'Upload failed');
+      }
+
+      final url = await storageRef.getDownloadURL();
       setState(() => _fotoUrl = url);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Foto actualizada correctamente')),
       );
     } on FirebaseException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al subir foto: ${e.message}')),
+        SnackBar(content: Text('Error al subir: ${e.message}')),
       );
+    } finally {
+      if (mounted) setState(() => _subiendo = false);
     }
+
   }
+
+  /* ───────────────────────────  GUARDAR PERFIL ─────────────────────────── */
 
   Future<void> _save() async {
     if (!_formKey.currentState!.validate()) return;
@@ -123,13 +177,17 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           : null,
       imagenUrl: _fotoUrl,
     );
+
     await ref.read(updateUserProvider(updated).future);
 
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(content: Text('Datos guardados exitosamente')),
     );
     context.go('/home/perfil');
   }
+
+  /* ───────────────────────────  UI ─────────────────────────── */
 
   @override
   Widget build(BuildContext context) {
@@ -148,25 +206,14 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         child: Form(
           key: _formKey,
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            padding:
+            const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: IconButton(
-                    padding: EdgeInsets.zero,
-                    alignment: Alignment.centerLeft,
-                    constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-                    icon: const Icon(Icons.close, size: 24),
-                    onPressed: () => context.pop(),
-                  ),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Datos de perfil',
-                  style: AppTypography.headline01.copyWith(color: AppColors.neutral100),
-                ),
+                Text('Datos de perfil',
+                    style: AppTypography.headline01
+                        .copyWith(color: AppColors.neutral100)),
                 const SizedBox(height: 24),
                 DateField(
                   label: 'Fecha de nacimiento',
@@ -184,18 +231,13 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 const SizedBox(height: 24),
                 CardFotoPerfil(
                   imageUrl: _fotoUrl,
-                  onChange: _pickImage,
+                  isLoading: _subiendo,
+                  onChange: _showImageSourceSelector,
                 ),
                 const SizedBox(height: 32),
-                Text(
-                  'Datos de contacto',
-                  style: AppTypography.headline01.copyWith(color: AppColors.neutral100),
-                ),
-                const SizedBox(height: 8),
-                Text(
-                  'Estos datos serán compartidos con la organización para ponerse en contacto contigo',
-                  style: AppTypography.subtitle01.copyWith(color: AppColors.neutral100),
-                ),
+                Text('Datos de contacto',
+                    style: AppTypography.headline01
+                        .copyWith(color: AppColors.neutral100)),
                 const SizedBox(height: 16),
                 AppTextField(
                   labelText: 'Teléfono',
@@ -211,7 +253,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   keyboardType: TextInputType.emailAddress,
                   validator: (v) {
                     if (v == null || v.isEmpty) return 'Requerido';
-                    if (_original != null && v.trim() == _original!.email) return null;
+                    if (_original != null &&
+                        v.trim() == _original!.email) {
+                      return null;
+                    }
                     final regex = RegExp(r'^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$');
                     return regex.hasMatch(v) ? null : 'Email inválido';
                   },
