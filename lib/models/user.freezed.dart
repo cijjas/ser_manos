@@ -200,6 +200,7 @@ mixin _$User {
   DateTime? get fechaNacimiento => throw _privateConstructorUsedError;
   String? get genero => throw _privateConstructorUsedError;
   String? get imagenUrl => throw _privateConstructorUsedError;
+  String? get fcmToken => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -226,7 +227,8 @@ abstract class $UserCopyWith<$Res> {
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
-      String? imagenUrl});
+      String? imagenUrl,
+      String? fcmToken});
 }
 
 /// @nodoc
@@ -255,6 +257,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
     Object? imagenUrl = freezed,
+    Object? fcmToken = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -301,6 +304,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.imagenUrl
           : imagenUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: freezed == fcmToken
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -323,7 +330,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
-      String? imagenUrl});
+      String? imagenUrl,
+      String? fcmToken});
 }
 
 /// @nodoc
@@ -349,6 +357,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
     Object? imagenUrl = freezed,
+    Object? fcmToken = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -395,6 +404,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.imagenUrl
           : imagenUrl // ignore: cast_nullable_to_non_nullable
               as String?,
+      fcmToken: freezed == fcmToken
+          ? _value.fcmToken
+          : fcmToken // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -413,7 +426,8 @@ class _$UserImpl implements _User {
       this.telefono,
       this.fechaNacimiento,
       this.genero,
-      this.imagenUrl})
+      this.imagenUrl,
+      this.fcmToken})
       : _voluntariados = voluntariados,
         _likedVoluntariados = likedVoluntariados;
 
@@ -459,10 +473,12 @@ class _$UserImpl implements _User {
   final String? genero;
   @override
   final String? imagenUrl;
+  @override
+  final String? fcmToken;
 
   @override
   String toString() {
-    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, voluntariados: $voluntariados, likedVoluntariados: $likedVoluntariados, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl)';
+    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, voluntariados: $voluntariados, likedVoluntariados: $likedVoluntariados, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl, fcmToken: $fcmToken)';
   }
 
   @override
@@ -487,7 +503,9 @@ class _$UserImpl implements _User {
                 other.fechaNacimiento == fechaNacimiento) &&
             (identical(other.genero, genero) || other.genero == genero) &&
             (identical(other.imagenUrl, imagenUrl) ||
-                other.imagenUrl == imagenUrl));
+                other.imagenUrl == imagenUrl) &&
+            (identical(other.fcmToken, fcmToken) ||
+                other.fcmToken == fcmToken));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -504,7 +522,8 @@ class _$UserImpl implements _User {
       telefono,
       fechaNacimiento,
       genero,
-      imagenUrl);
+      imagenUrl,
+      fcmToken);
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.
@@ -534,7 +553,8 @@ abstract class _User implements User {
       final String? telefono,
       final DateTime? fechaNacimiento,
       final String? genero,
-      final String? imagenUrl}) = _$UserImpl;
+      final String? imagenUrl,
+      final String? fcmToken}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -560,6 +580,8 @@ abstract class _User implements User {
   String? get genero;
   @override
   String? get imagenUrl;
+  @override
+  String? get fcmToken;
 
   /// Create a copy of User
   /// with the given fields replaced by the non-null parameter values.

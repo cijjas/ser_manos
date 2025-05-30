@@ -1,5 +1,3 @@
-// lib/shared/molecules/buttons/short_button.dart
-
 import 'package:flutter/material.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
@@ -11,6 +9,7 @@ class ShortButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final ShortButtonVariant variant;
+  final bool isLoading; // ← NUEVO
 
   const ShortButton({
     super.key,
@@ -18,13 +17,13 @@ class ShortButton extends StatelessWidget {
     this.icon,
     required this.onPressed,
     this.variant = ShortButtonVariant.regular,
+    this.isLoading = false, // ← DEFAULT false
   });
 
   @override
   Widget build(BuildContext context) {
-    final bool isDisabled = onPressed == null;
+    final bool isDisabled = onPressed == null || isLoading;
 
-    // Sólo padding horizontal; la altura la controla minimumSize
     final EdgeInsets padding = variant == ShortButtonVariant.compact
         ? const EdgeInsets.symmetric(horizontal: 12)
         : const EdgeInsets.symmetric(horizontal: 16);
@@ -34,36 +33,49 @@ class ShortButton extends StatelessWidget {
     final Color foregroundColor =
     isDisabled ? AppColors.neutral50 : AppColors.neutral0;
 
-    // Construimos el contenido (icon opcional + texto)
-    final children = <Widget>[];
-    if (icon != null) {
-      children.add(Icon(icon, size: 20, color: foregroundColor));
-      children.add(const SizedBox(width: 8));
+    Widget child;
+
+    if (isLoading) {
+      child = const SizedBox(
+        height: 16,
+        width: 16,
+        child: CircularProgressIndicator(
+          strokeWidth: 2,
+          valueColor: AlwaysStoppedAnimation<Color>(AppColors.neutral0),
+        ),
+      );
+    } else {
+      final children = <Widget>[];
+      if (icon != null) {
+        children.add(Icon(icon, size: 20, color: foregroundColor));
+        children.add(const SizedBox(width: 8));
+      }
+      children.add(Text(
+        label,
+        style: AppTypography.button.copyWith(color: foregroundColor),
+      ));
+
+      child = Row(
+        mainAxisSize: MainAxisSize.min,
+        children: children,
+      );
     }
-    children.add(Text(
-      label,
-      style: AppTypography.button.copyWith(color: foregroundColor),
-    ));
 
     return TextButton(
-      onPressed: onPressed,
+      onPressed: isDisabled ? null : onPressed,
       style: ButtonStyle(
-        // Fijamos altura mínima de 36px
-        minimumSize: MaterialStateProperty.all(const Size(0, 36)),
-        padding: MaterialStateProperty.all(padding),
-        backgroundColor: MaterialStateProperty.all(backgroundColor),
-        overlayColor: MaterialStateProperty.all(
+        minimumSize: WidgetStateProperty.all(const Size(0, 36)),
+        padding: WidgetStateProperty.all(padding),
+        backgroundColor: WidgetStateProperty.all(backgroundColor),
+        overlayColor: WidgetStateProperty.all(
           AppColors.neutral10.withOpacity(0.1),
         ),
-        shape: MaterialStateProperty.all(
+        shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         ),
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: children,
-      ),
+      child: child,
     );
   }
 }

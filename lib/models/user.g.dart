@@ -46,6 +46,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
           : DateTime.parse(json['fechaNacimiento'] as String),
       genero: json['genero'] as String?,
       imagenUrl: json['imagenUrl'] as String?,
+      fcmToken: json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
@@ -61,4 +62,5 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'fechaNacimiento': instance.fechaNacimiento?.toIso8601String(),
       'genero': instance.genero,
       'imagenUrl': instance.imagenUrl,
+      'fcmToken': instance.fcmToken,
     };

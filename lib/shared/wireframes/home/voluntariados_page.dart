@@ -45,9 +45,9 @@ class VoluntariadosPage extends ConsumerWidget {
             child: Column(
               children: [
                 const SizedBox(height: 16),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: const SearchAndToggleViewHeader(),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24),
+                  child: SearchAndToggleViewHeader(),
                 ),
                 Expanded(
                   child: isMapView
