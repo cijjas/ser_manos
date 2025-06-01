@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -73,19 +74,11 @@ class CardVoluntariado extends StatelessWidget {
                         )),
                     const SizedBox(width: 16),
                     GestureDetector(
-                      onTap: () async {
-                        final lat = voluntariado.location.latitude;
-                        final lng = voluntariado.location.longitude;
-                        final url = Uri.parse(
-                            'https://www.google.com/maps/search/?api=1&query=$lat,$lng');
-
-                        if (!await launchUrl(url,
-                            mode: LaunchMode.externalApplication)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content: Text('No se pudo abrir Google Maps')),
-                          );
-                        }
+                      onTap: () {
+                        MapsLauncher.launchCoordinates(
+                          voluntariado.location.latitude,
+                          voluntariado.location.longitude,
+                        );
                       },
                       child: const AppIcon(
                         icon: AppIcons.UBICACION,

@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -5,75 +6,84 @@ import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 
 class FotoPerfil extends StatelessWidget {
-  const FotoPerfil._({
-    super.key,
-    required this.imageUrl,
-    required this.diameter,
-    this.onTap,
-  });
-
-  // ────── constructores de conveniencia ──────
-  const factory FotoPerfil.sm({
-    Key? key,
-    required String imageUrl,
-    VoidCallback? onTap,
-  }) = FotoPerfil._sm;
-
-  const factory FotoPerfil.lg({
-    Key? key,
-    required String imageUrl,
-    VoidCallback? onTap,
-  }) = FotoPerfil._lg;
-
-  // implementaciones privadas para mantener const-ness
-  const FotoPerfil._sm({
-    Key? key,
-    required String imageUrl,
-    VoidCallback? onTap,
-  }) : this._(
-    key: key,
-    imageUrl: imageUrl,
-    diameter: 84,
-    onTap: onTap,
-  );
-
-  const FotoPerfil._lg({
-    Key? key,
-    required String imageUrl,
-    VoidCallback? onTap,
-  }) : this._(
-    key: key,
-    imageUrl: imageUrl,
-    diameter: 110,
-    onTap: onTap,
-  );
-
-  final String imageUrl;
+  final String? imageUrl;
+  final File? localImageFile;
   final double diameter;
   final VoidCallback? onTap;
 
+  const FotoPerfil({
+    super.key,
+    this.imageUrl,
+    this.localImageFile,
+    required this.diameter,
+    this.onTap,
+  }) : assert(imageUrl != null || localImageFile != null,
+  'Se debe proporcionar imageUrl o localImageFile');
+
+  // Constructores nombrados que no redirigen
+  factory FotoPerfil.sm({
+    Key? key,
+    String? imageUrl,
+    File? localImageFile,
+    VoidCallback? onTap,
+  }) {
+    return FotoPerfil(
+      key: key,
+      imageUrl: imageUrl,
+      localImageFile: localImageFile,
+      diameter: 84,
+      onTap: onTap,
+    );
+  }
+
+  factory FotoPerfil.lg({
+    Key? key,
+    String? imageUrl,
+    File? localImageFile,
+    VoidCallback? onTap,
+  }) {
+    return FotoPerfil(
+      key: key,
+      imageUrl: imageUrl,
+      localImageFile: localImageFile,
+      diameter: 110,
+      onTap: onTap,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    final avatar = ClipOval(
-      child: CachedNetworkImage(
-        imageUrl: imageUrl,
+    Widget imageContent;
+
+    if (localImageFile != null) {
+      imageContent = Image.file(
+        localImageFile!,
+        width: diameter,
+        height: diameter,
+        fit: BoxFit.cover,
+      );
+    } else {
+      imageContent = CachedNetworkImage(
+        imageUrl: imageUrl!,
         width: diameter,
         height: diameter,
         fit: BoxFit.cover,
         placeholder: (_, __) => Container(
           width: diameter,
           height: diameter,
-          color: AppColors.neutral100,
+          color: AppColors.neutral100.withOpacity(0.3),
         ),
         errorWidget: (_, __, ___) => Container(
           width: diameter,
           height: diameter,
-          color: AppColors.neutral100,
           alignment: Alignment.center,
-          child: const Icon(Icons.person, size: 32, color: Colors.grey),
+          color: AppColors.neutral100.withOpacity(0.3),
+          child: Icon(Icons.person, size: diameter * 0.5, color: Colors.grey),
         ),
-      ),
-    );
+      );
+    }
+
+    final avatar = ClipOval(child: imageContent);
 
     return Semantics(
       label: 'Foto de perfil',
@@ -83,7 +93,12 @@ class FotoPerfil extends StatelessWidget {
         elevation: 2,
         shadowColor: AppShadows.shadow1.first.color,
         clipBehavior: Clip.antiAlias,
-        child: onTap != null ? InkWell(onTap: onTap, child: avatar) : avatar,
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
+          customBorder: const CircleBorder(),
+          child: avatar,
+        ),
       ),
     );
   }

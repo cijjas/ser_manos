@@ -102,12 +102,8 @@ final routerProvider = Provider<GoRouter>((ref) {
           path: '/home/perfil',
           name: "ProfileTab",
           builder: (_, __) => const PerfilWrapperPage(),
-          routes: [
-            GoRoute(
-              path: 'editar',
-              builder: (_, __) => const EditarPerfilPage(),
-            ),
-          ],
+
+
         ),
         GoRoute(
           path: '/home/postularse',
@@ -141,6 +137,22 @@ final routerProvider = Provider<GoRouter>((ref) {
           return NovedadDetail(id: id);   // <-- only the id
         },
       ),
+
+      GoRoute(
+        path: '/home/perfil/editar',
+        pageBuilder: (context, state) => CustomTransitionPage(
+          child: const EditarPerfilPage(),
+          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+              SlideTransition(
+                position: Tween<Offset>(
+                  begin: const Offset(0, 1),
+                  end: Offset.zero,
+                ).animate(animation),
+                child: child,
+              ),
+        ),
+      ),
+
 
     ],
   );

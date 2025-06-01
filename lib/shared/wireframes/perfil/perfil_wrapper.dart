@@ -61,7 +61,7 @@ class PerfilWrapperPage extends ConsumerWidget {
             if (incomplete) {
               return PerfilIncompletoPage(
                 name: fullName,
-                onCompletePressed: () => context.go('/home/perfil/editar'),
+                onCompletePressed: () => context.push('/home/perfil/editar'),
                 onLogoutPressed: () {
                   ref.read(authServiceProvider).signOut();
                   context.go('/login');

@@ -106,8 +106,7 @@ class PerfilCompletoPage extends StatelessWidget {
                     AppButton(
                       label: 'Editar perfil',
                       onPressed: () {
-                        // <- aquí navegamos usando go_router
-                        context.go('/home/perfil/editar');
+                        context.push('/home/perfil/editar');
                       },
                       type: AppButtonType.filled,
                     ),
