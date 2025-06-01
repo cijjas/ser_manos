@@ -1,89 +1,101 @@
+
+// lib/shared/cells/cards/card_foto.dart
+import 'dart:io';
+
 import 'package:flutter/material.dart';
-import '../../tokens/colors.dart';
-import '../../tokens/typography.dart';
 
-import '../../../shared/molecules/buttons/short_button.dart';
-import '../../../shared/molecules/components/foto_perfil.dart';
+import '../../tokens/colors.dart'; // Asegúrate que la ruta es correcta
+import '../../tokens/typography.dart'; // Asegúrate que la ruta es correcta
+import '../../molecules/buttons/short_button.dart'; // Asegúrate que la ruta es correcta
+import '../../molecules/components/foto_perfil.dart'; // Asegúrate que la ruta es correcta
 
-/// Tarjeta para foto de perfil:
-/// - Si [imageUrl] != null: altura 100, márgenes V=16, botón "Cambiar foto" + avatar.
-/// - Si [imageUrl] == null: altura 52, márgenes V=14, botón "Subir foto" solo.
-/// - Si [isLoading] == true: muestra spinner y desactiva botón.
+
 class CardFotoPerfil extends StatelessWidget {
-  final String? imageUrl;
+  final String? imagenUrlRemota; // URL de la imagen ya guardada
+  final File? imagenLocal;      // Archivo de imagen local seleccionado
   final VoidCallback onChange;
-  final bool isLoading; // ← NUEVO
+  final bool isLoading;         // Indica si el proceso general de guardado está en curso
 
   const CardFotoPerfil({
     super.key,
-    this.imageUrl,
+    this.imagenUrlRemota,
+    this.imagenLocal,
     required this.onChange,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    final hasPhoto = imageUrl != null;
+    // Determinar si hay alguna foto para mostrar (local o remota)
+    final bool hasPhoto = imagenLocal != null || (imagenUrlRemota != null && imagenUrlRemota!.isNotEmpty);
+    final String buttonLabel = hasPhoto ? 'Cambiar foto' : 'Subir foto';
 
-    Widget _buildButton(String label) => SizedBox(
+    Widget buildButton(String label) => SizedBox(
       height: 36,
       child: ShortButton(
         label: label,
-        onPressed: isLoading ? null : onChange,
-        isLoading: isLoading, // si tu ShortButton soporta loader
+        onPressed: isLoading ? null : onChange, // Deshabilitar si está cargando
+        // Si tu ShortButton soporta un estado de carga interno, podrías usarlo aquí
+        // isLoading: isLoading,
       ),
     );
 
     return Container(
-      margin: EdgeInsets.symmetric(vertical: hasPhoto ? 16 : 14),
-      width: double.infinity,
-      height: hasPhoto ? 100 : 52,
+      margin: const EdgeInsets.symmetric(vertical: 14),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.secondary25,
-        borderRadius: BorderRadius.circular(4),
+        borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.antiAlias,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: isLoading
-          ? Center(
-        child: SizedBox(
-          height: 28,
-          width: 28,
-          child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: AppColors.primary100,
-          ),
-        ),
-      )
-          : hasPhoto
+      child: hasPhoto
           ? Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Foto de perfil',
-                    style: AppTypography.subtitle01
-                        .copyWith(color: AppColors.neutral100)),
+                Text(
+                  'Foto de perfil',
+                  style: AppTypography.subtitle01.copyWith(
+                    color: AppColors.neutral100,
+                  ),
+                ),
                 const SizedBox(height: 8),
-                _buildButton('Cambiar foto'),
+                ShortButton(
+                  label: 'Cambiar foto',
+                  onPressed: isLoading ? null : onChange,
+                ),
               ],
             ),
           ),
-          const SizedBox(width: 8),
-          FotoPerfil.sm(imageUrl: imageUrl!),
+          const SizedBox(width: 16),
+          FotoPerfil.sm(
+            imageUrl: imagenUrlRemota,
+            localImageFile: imagenLocal,
+            onTap: isLoading ? null : onChange,
+          ),
         ],
       )
           : Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text('Foto de perfil',
-              style: AppTypography.subtitle01
-                  .copyWith(color: AppColors.neutral100)),
-          _buildButton('Subir foto'),
+          Text(
+            'Foto de perfil',
+            style: AppTypography.subtitle01.copyWith(
+              color: AppColors.neutral100,
+            ),
+          ),
+          ShortButton(
+            label: 'Subir foto',
+            onPressed: isLoading ? null : onChange,
+          ),
         ],
       ),
     );
+
+
   }
 }

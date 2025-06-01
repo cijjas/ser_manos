@@ -25,9 +25,9 @@ class CardVoluntariadoActual extends CardVoluntariado {
   @override
   Widget build(BuildContext context) {
     final card =  Container(
-      width: 328,
+      width: double.infinity,
       decoration: BoxDecoration(
-        color: AppColors.neutral0,
+        color: AppColors.primary5,
         borderRadius: AppBorderRadius.border6,
         boxShadow: AppShadows.shadow2,
         border: Border.all(
