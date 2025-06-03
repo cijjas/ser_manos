@@ -65,6 +65,7 @@ class AppTextField extends StatelessWidget {
         floatingLabelBehavior: labelBehavior,
 
         // ─ Texto ─
+        floatingLabelStyle: AppTypography.caption.copyWith(color: AppColors.secondary200),
         labelStyle: AppTypography.caption.copyWith(color: AppColors.neutral75),
         hintStyle:
         AppTypography.subtitle01.copyWith(color: AppColors.neutral50),

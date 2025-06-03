@@ -21,7 +21,7 @@ Future<void> saveFcmTokenToFirestore(String userId) async {
     FirebaseCrashlytics.instance.recordError(
       e,
       stack,
-      reason: 'Failed to save FCM token to Firestore',
+      reason: '-> Failed to save FCM token to Firestore',
       fatal: false,
     );
     print('Error saving FCM token: $e');

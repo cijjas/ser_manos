@@ -37,6 +37,8 @@ dependencies:
   firebase_storage: ^12.4.5
   firebase_messaging: ^15.2.6
   flutter_local_notifications: ^19.2.0
+  flutter_form_builder: ^9.1.1
+  form_builder_validators: ^11.1.2
 
 #  Launch url to maps
   url_launcher: ^6.2.4
