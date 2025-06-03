@@ -5,9 +5,10 @@ import '../../tokens/typography.dart';
 import '../../tokens/colors.dart';
 
 enum ActionType {
-  postulate("Te estas por postular a"),
+  postulate("Te estás por postular a"),
   withdraw("¿Estás seguro de que quieres retirar tu postulación?"),
-  abandon("¿Estás seguro de que quieres abandonar tu voluntariado?");
+  abandon("¿Estás seguro de que quieres abandonar tu voluntariado?"),
+  logout("¿Estás seguro que quieres cerrar sesión?");
 
   final String message;
   const ActionType(this.message);
@@ -19,15 +20,25 @@ class ConfirmApplicationModal extends StatelessWidget {
   final VoidCallback onCancel;
   final ActionType actionType;
 
+  final String? confirmLabel;
+  final String? cancelLabel;
+  final String? message;
+
   const ConfirmApplicationModal({
     super.key,
     required this.title,
     required this.onConfirm,
     required this.onCancel,
     required this.actionType,
+    this.confirmLabel,
+    this.cancelLabel,
+    this.message,
   });
+
   @override
   Widget build(BuildContext context) {
+    final String effectiveMessage = message ?? actionType.message;
+
     return Dialog(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
@@ -41,12 +52,14 @@ class ConfirmApplicationModal extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              actionType.message,
-              style: AppTypography.subtitle01.copyWith(color: AppColors.neutral100),
-              textAlign: TextAlign.left,
-            ),
-            const SizedBox(height: 8),
+            if (effectiveMessage.isNotEmpty) ...[
+              Text(
+                effectiveMessage,
+                style: AppTypography.subtitle01.copyWith(color: AppColors.neutral100),
+                textAlign: TextAlign.left,
+              ),
+              const SizedBox(height: 8),
+            ],
             Text(
               title,
               style: AppTypography.headline02.copyWith(color: AppColors.neutral100),
@@ -57,7 +70,7 @@ class ConfirmApplicationModal extends StatelessWidget {
               children: [
                 Expanded(
                   child: AppButton(
-                    label: 'Cancelar',
+                    label: cancelLabel ?? 'Cancelar',
                     onPressed: onCancel,
                     type: AppButtonType.tonal,
                   ),
@@ -65,7 +78,7 @@ class ConfirmApplicationModal extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: AppButton(
-                    label: 'Confirmar',
+                    label: confirmLabel ?? 'Confirmar',
                     onPressed: onConfirm,
                     type: AppButtonType.tonal,
                   ),
@@ -77,5 +90,4 @@ class ConfirmApplicationModal extends StatelessWidget {
       ),
     );
   }
-
 }
