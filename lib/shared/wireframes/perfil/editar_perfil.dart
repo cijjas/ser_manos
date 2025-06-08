@@ -1,6 +1,6 @@
 // lib/shared/wireframes/perfil/editar_perfil.dart
 import 'dart:io';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
-
+import 'package:path_provider/path_provider.dart';
 import '../../../models/user.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
@@ -19,6 +19,8 @@ import '../../tokens/typography.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../molecules/input/form_builder_app_text_field.dart';
 import '../../molecules/input/form_builder_date_field.dart';
+import 'package:path/path.dart' as path;
+
 
 class EditarPerfilPage extends ConsumerStatefulWidget {
   const EditarPerfilPage({super.key});
@@ -106,12 +108,18 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   }
 
   Future<void> _seleccionarImagenLocal(ImageSource source) async {
-    final picked =
-    await _picker.pickImage(source: source, imageQuality: 75, maxWidth: 800);
+
+    final picked = await _picker.pickImage(
+      source: source,
+      imageQuality: 75,
+      maxWidth: 800,
+    );
+
     if (picked == null) return;
 
-    final file = File(picked.path);
-    if (!file.existsSync()) {
+    final tmpFile = File(picked.path);
+
+    if (!tmpFile.existsSync()) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('La imagen no existe en disco.')),
@@ -120,30 +128,58 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       return;
     }
 
-    setState(() => _imagenLocalParaSubir = file);
+// Copiar la imagen a un directorio seguro (Documents)
+    final appDir = await getApplicationDocumentsDirectory();
+    final fileName = path.basename(picked.path);
+    final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
+
+    setState(() => _imagenLocalParaSubir = savedImage);
+
   }
 
   Future<void> _save() async {
-    if (!_formKey.currentState!.saveAndValidate()) return;
+    if (!_formKey.currentState!.saveAndValidate()) {
+      print('Form not valid');
+      return;
+    }
 
     final values = _formKey.currentState!.value;
     final fbUser = ref.read(authStateProvider).maybeWhen(
       data: (u) => u,
       orElse: () => null,
     );
-    if (fbUser == null || _original == null) return;
+
+    if (fbUser == null || _original == null) {
+      print('fbUser or _original is null');
+      return;
+    }
 
     setState(() => _subiendoAlGuardar = true);
+
     String? urlImagenFinalParaGuardar = _fotoUrl;
 
     try {
+      print('Starting save...');
+      print('Current _fotoUrl: $_fotoUrl');
+      print('Current _imagenLocalParaSubir: $_imagenLocalParaSubir');
+
+      // Solo subir imagen si hay una nueva imagen local seleccionada
       if (_imagenLocalParaSubir != null) {
+        print('Uploading new image to Firebase Storage...');
+
+
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
         final metadata = SettableMetadata(contentType: 'image/jpeg');
-        final snapshot = await storageRef.putFile(_imagenLocalParaSubir!, metadata);
+
+
+        // https://github.com/firebase/flutterfire/issues/17328
+        final bytes = await _imagenLocalParaSubir!.readAsBytes();
+
+        final snapshot = await storageRef.putData(bytes, metadata);
+
 
         if (snapshot.state != TaskState.success) {
           throw FirebaseException(
@@ -151,8 +187,15 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
             message: 'Error al subir la imagen.',
           );
         }
-        urlImagenFinalParaGuardar = await storageRef.getDownloadURL();
+
+        final downloadUrl = await storageRef.getDownloadURL();
+        print('New image uploaded! URL: $downloadUrl');
+        urlImagenFinalParaGuardar = downloadUrl;
+      } else {
+        print('No new image selected, keeping current URL');
       }
+
+      print('Creating updated user object...');
 
       final updated = _original!.copyWith(
         email: values['email'].trim(),
@@ -164,29 +207,38 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         imagenUrl: urlImagenFinalParaGuardar,
       );
 
+      print('Calling updateUserProvider...');
       await ref.read(updateUserProvider(updated).future);
+      print('User updated successfully');
 
       if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Datos guardados exitosamente')),
       );
 
+      // Limpiar la imagen local después de guardar exitosamente
       setState(() {
+        print('Clearing _imagenLocalParaSubir and setting _fotoUrl');
         _imagenLocalParaSubir = null;
         _fotoUrl = urlImagenFinalParaGuardar;
       });
 
+      print('Navigating to /home/perfil');
       context.go('/home/perfil');
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al guardar: ${e.toString()}')),
-        );
-      }
+    } catch (e, stacktrace) {
+      // print
+      print('ERROR inside _save(): ${e.toString()}');
+      print('STACKTRACE: $stacktrace');
     } finally {
-      if (mounted) setState(() => _subiendoAlGuardar = false);
+      if (mounted) {
+        print('Exiting _save(), setting _subiendoAlGuardar to false');
+        setState(() => _subiendoAlGuardar = false);
+      }
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -220,7 +272,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   ),
                 ),
                 const SizedBox(height: 24),
-
                 // ───────────────── Fecha de nacimiento ─────────────────
                 FormBuilderDateField(
                   name: 'fechaNacimiento',
@@ -230,17 +281,16 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   validator: FormBuilderValidators.required(),
                 ),
                 const SizedBox(height: 24),
-
                 // ───────────────── Información de perfil (género) ─────────────────
                 CardInput(
                   title: 'Información de perfil',
                   options: const ['Hombre', 'Mujer', 'No binario'],
                   selectedIndex: _sexoIndex,
-                  onSelected:
-                  _subiendoAlGuardar ? null : (i) => setState(() => _sexoIndex = i),
+                  onSelected: _subiendoAlGuardar
+                      ? null
+                      : (i) => setState(() => _sexoIndex = i),
                 ),
                 const SizedBox(height: 24),
-
                 // ───────────────── Foto de perfil ─────────────────
                 CardFotoPerfil(
                   imagenUrlRemota: _fotoUrl,
@@ -249,7 +299,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   onChange: _showImageSourceSelector,
                 ),
                 const SizedBox(height: 32),
-
                 Text(
                   'Datos de contacto',
                   style: AppTypography.headline01.copyWith(
@@ -257,7 +306,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-
                 // ───────────────── Teléfono ─────────────────
                 FormBuilderAppTextField(
                   name: 'telefono',
@@ -267,7 +315,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   validator: FormBuilderValidators.required(),
                 ),
                 const SizedBox(height: 24),
-
                 // ───────────────── Email ─────────────────
                 FormBuilderAppTextField(
                   name: 'email',
@@ -280,7 +327,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   ]),
                 ),
                 const SizedBox(height: 32),
-
                 // ───────────────── Botón Guardar ─────────────────
                 AppButton(
                   label: _subiendoAlGuardar ? 'Guardando...' : 'Guardar datos',
