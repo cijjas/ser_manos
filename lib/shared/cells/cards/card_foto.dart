@@ -1,20 +1,20 @@
 
+// ================================================================
 // lib/shared/cells/cards/card_foto.dart
+// ================================================================
+
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-
-import '../../tokens/colors.dart'; // Asegúrate que la ruta es correcta
-import '../../tokens/typography.dart'; // Asegúrate que la ruta es correcta
-import '../../molecules/buttons/short_button.dart'; // Asegúrate que la ruta es correcta
-import '../../molecules/components/foto_perfil.dart'; // Asegúrate que la ruta es correcta
-
+import '../../tokens/colors.dart';
+import '../../tokens/typography.dart';
+import '../../molecules/buttons/short_button.dart';
+import '../../molecules/components/foto_perfil.dart';
 
 class CardFotoPerfil extends StatelessWidget {
-  final String? imagenUrlRemota; // URL de la imagen ya guardada
-  final File? imagenLocal;      // Archivo de imagen local seleccionado
+  final String? imagenUrlRemota;
+  final File? imagenLocal;
   final VoidCallback onChange;
-  final bool isLoading;         // Indica si el proceso general de guardado está en curso
+  final bool isLoading;
 
   const CardFotoPerfil({
     super.key,
@@ -26,19 +26,10 @@ class CardFotoPerfil extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Determinar si hay alguna foto para mostrar (local o remota)
-    final bool hasPhoto = imagenLocal != null || (imagenUrlRemota != null && imagenUrlRemota!.isNotEmpty);
-    final String buttonLabel = hasPhoto ? 'Cambiar foto' : 'Subir foto';
-
-    Widget buildButton(String label) => SizedBox(
-      height: 36,
-      child: ShortButton(
-        label: label,
-        onPressed: isLoading ? null : onChange, // Deshabilitar si está cargando
-        // Si tu ShortButton soporta un estado de carga interno, podrías usarlo aquí
-        // isLoading: isLoading,
-      ),
-    );
+    // Priorizar imagen local sobre la remota
+    final bool hasLocalImage = imagenLocal != null;
+    final bool hasRemoteImage = imagenUrlRemota != null && imagenUrlRemota!.isNotEmpty;
+    final bool hasAnyImage = hasLocalImage || hasRemoteImage;
 
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 14),
@@ -48,7 +39,7 @@ class CardFotoPerfil extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       clipBehavior: Clip.antiAlias,
-      child: hasPhoto
+      child: hasAnyImage
           ? Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -73,7 +64,7 @@ class CardFotoPerfil extends StatelessWidget {
           ),
           const SizedBox(width: 16),
           FotoPerfil.sm(
-            imageUrl: imagenUrlRemota,
+            imageUrl: hasLocalImage ? null : imagenUrlRemota,
             localImageFile: imagenLocal,
             onTap: isLoading ? null : onChange,
           ),
@@ -95,7 +86,5 @@ class CardFotoPerfil extends StatelessWidget {
         ],
       ),
     );
-
-
   }
 }

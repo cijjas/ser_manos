@@ -10,7 +10,7 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../cells/modals/confirm_modal.dart';
 
-/// Pantalla mostrada cuando el voluntario aún no completó su perfil.
+/// Pantalla mostrada cuando el voluntario no completó su perfil.
 class PerfilIncompletoPage extends StatelessWidget {
   const PerfilIncompletoPage({
     super.key,
@@ -38,7 +38,7 @@ class PerfilIncompletoPage extends StatelessWidget {
           onLogoutPressed();
         },
         onCancel: () => Navigator.pop(context),
-        actionType: ActionType.logout, // Por consistencia
+        actionType: ActionType.logout,
       )
     );
   }
@@ -52,7 +52,6 @@ class PerfilIncompletoPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            // ───── Bloque central (expandido y centrado) ─────
             Expanded(
               child: Center(
                 child: Column(
@@ -98,7 +97,6 @@ class PerfilIncompletoPage extends StatelessWidget {
               ),
             ),
 
-            // ───── Botones pegados abajo ─────
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Column(
