@@ -23,8 +23,7 @@ import '../../atoms/icons/_app_icon.dart';
 import '../../atoms/icons/app_icons.dart';
 import 'voluntariado_map_background.dart';
 
-// Import AppColors if needed for SearchField background or text color adjustments
-// import '../../tokens/colors.dart';
+
 
 class VoluntariadosPage extends ConsumerWidget {
   const VoluntariadosPage({super.key});
@@ -83,14 +82,20 @@ class SearchAndToggleViewHeader extends ConsumerWidget {
     final isMapView = ref.watch(isMapViewProvider);
 
     return SearchField(
-      hintText: 'Buscar',
-      emptySuffix: AppIcon(
-        icon: isMapView ? AppIcons.LISTA : AppIcons.MAPA,
-        color: AppIconsColor.PRIMARY,
+      emptySuffix: const AppIcon(
+          icon: AppIcons.LISTA ,
+          color: AppIconsColor.PRIMARY,
       ),
-      onEmptySuffixTap: () {
-        ref.read(isMapViewProvider.notifier).state = !isMapView;
-      },
+      // emptySuffix: const SizedBox.shrink(),
+      hintText: 'Buscar',
+      // Map/List
+      // emptySuffix: AppIcon(
+      //   icon: isMapView ? AppIcons.LISTA : AppIcons.MAPA,
+      //   color: AppIconsColor.PRIMARY,
+      // ),
+      // onEmptySuffixTap: () {
+      //   ref.read(isMapViewProvider.notifier).state = !isMapView;
+      // },
       onChanged: (query) {
         ref.read(voluntariadoSearchQueryProvider.notifier).state = query;
       },

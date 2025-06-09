@@ -6,7 +6,6 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/shadow.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
-/// SearchField 328×48 con prefijo lupa, sufijo dinámico (mapa/lista o clear “×”)
 class SearchField extends StatefulWidget {
   const SearchField({
     Key? key,

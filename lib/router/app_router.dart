@@ -51,7 +51,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         '/',
         '/login',
         '/register',
-        '/welcome', // para que cuando se loggue no valla directo a /postularse y pase por welcome primero
       ].contains(state.matchedLocation);
 
       // If user is logged in but on auth page, redirect to home
