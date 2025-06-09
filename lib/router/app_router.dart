@@ -10,6 +10,7 @@ import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
 import '../providers/auth_provider.dart';
+import '../providers/user_provider.dart';
 import '../services/notification_service.dart';
 import '../shared/cells/header/header.dart';
 import '../shared/wireframes/ingreso/login_page.dart';
@@ -29,6 +30,7 @@ int tabIndexFromLocation(String loc) {
 
 final routerProvider = Provider<GoRouter>((ref) {
   final authState = ref.watch(authStateProvider);
+  final currentUserAsync  = ref.watch(currentUserProvider);
 
   return GoRouter(
     observers: [FirebaseAnalyticsObserver()],
@@ -38,11 +40,24 @@ final routerProvider = Provider<GoRouter>((ref) {
     initialLocation: '/',
     redirect: (context, state) {
       // Handle auth state
+      if (authState.isLoading || currentUserAsync.isLoading) return null;
       final isLoggedIn = authState.valueOrNull != null;
+      final user       = currentUserAsync.valueOrNull;
 
-      // If we're still loading auth state, don't redirect yet
-      if (authState.isLoading) return null;
-
+      // Guard: force onboarding once
+      if (isLoggedIn &&
+          user != null &&
+          !(user.hasSeenOnboarding ?? false) &&
+          state.matchedLocation != '/welcome') {
+        return '/welcome';
+      }
+      // Guard: keep finished users out of /welcome
+      if (isLoggedIn &&
+          user != null &&
+          (user.hasSeenOnboarding ?? false) &&
+          state.matchedLocation == '/welcome') {
+        return '/home/postularse';
+      }
       // Auth-related locations
       final isAuthRoute = [
         '/',
