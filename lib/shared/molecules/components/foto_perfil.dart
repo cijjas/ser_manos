@@ -1,7 +1,10 @@
+// ================================================================
+// lib/shared/molecules/components/foto_perfil.dart
+// ================================================================
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 
@@ -17,10 +20,8 @@ class FotoPerfil extends StatelessWidget {
     this.localImageFile,
     required this.diameter,
     this.onTap,
-  }) : assert(imageUrl != null || localImageFile != null,
-  'Se debe proporcionar imageUrl o localImageFile');
+  });
 
-  // Constructores nombrados que no redirigen
   factory FotoPerfil.sm({
     Key? key,
     String? imageUrl,
@@ -55,6 +56,7 @@ class FotoPerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget imageContent;
 
+    // Priorizar imagen local sobre la remota
     if (localImageFile != null) {
       imageContent = Image.file(
         localImageFile!,
@@ -62,7 +64,7 @@ class FotoPerfil extends StatelessWidget {
         height: diameter,
         fit: BoxFit.cover,
       );
-    } else {
+    } else if (imageUrl != null && imageUrl!.isNotEmpty) {
       imageContent = CachedNetworkImage(
         imageUrl: imageUrl!,
         width: diameter,
@@ -72,6 +74,7 @@ class FotoPerfil extends StatelessWidget {
           width: diameter,
           height: diameter,
           color: AppColors.neutral100.withOpacity(0.3),
+          child: const CircularProgressIndicator(),
         ),
         errorWidget: (_, __, ___) => Container(
           width: diameter,
@@ -80,6 +83,15 @@ class FotoPerfil extends StatelessWidget {
           color: AppColors.neutral100.withOpacity(0.3),
           child: Icon(Icons.person, size: diameter * 0.5, color: Colors.grey),
         ),
+      );
+    } else {
+      // Placeholder cuando no hay imagen
+      imageContent = Container(
+        width: diameter,
+        height: diameter,
+        alignment: Alignment.center,
+        color: AppColors.neutral100.withOpacity(0.3),
+        child: Icon(Icons.person, size: diameter * 0.5, color: Colors.grey),
       );
     }
 

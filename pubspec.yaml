@@ -18,6 +18,7 @@ dependencies:
   go_router: ^13.0.1
   http: ^1.3.0
   path_provider: ^2.0.0
+  path: ^1.8.3
   intl: ^0.19.0
   flutter_svg: ^2.0.10
   flutter_markdown: ^0.6.18
@@ -38,6 +39,8 @@ dependencies:
   firebase_storage: ^12.4.5
   firebase_messaging: ^15.2.6
   flutter_local_notifications: ^19.2.0
+  flutter_form_builder: ^9.1.1
+  form_builder_validators: ^11.1.2
 
 #  Launch url to maps
   url_launcher: ^6.2.4
