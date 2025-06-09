@@ -7,7 +7,6 @@ import 'package:intl/intl.dart';
 
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
-import '../../../services/auth_service.dart';
 import '../../wireframes/perfil/perfil_completo.dart';
 import '../../wireframes/perfil/perfil_incompleto.dart';
 

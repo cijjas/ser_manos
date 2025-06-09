@@ -3,7 +3,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../cells/header/header.dart';
 import '../../molecules/buttons/short_button.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../tokens/colors.dart';

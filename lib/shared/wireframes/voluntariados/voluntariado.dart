@@ -175,7 +175,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                             style: AppTypography.body01
                                 .copyWith(color: AppColors.secondary200)),
                         const SizedBox(height: 32),
-                        Text('Sobre la actividad', style: AppTypography.headline02),
+                        const Text('Sobre la actividad', style: AppTypography.headline02),
                         const SizedBox(height: 8),
                         Text(voluntariado.descripcion, style: AppTypography.body01),
                         const SizedBox(height: 32),
@@ -184,7 +184,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                           location: voluntariado.location,
                         ),
                         const SizedBox(height: 32),
-                        Text('Participar del voluntariado',
+                        const Text('Participar del voluntariado',
                             style: AppTypography.headline02),
                         const SizedBox(height: 16),
                         MarkdownBody(
@@ -306,15 +306,15 @@ class _BottomSection extends StatelessWidget {
         );
 
       case VoluntariadoUserState.full:
-        return Column(
+        return const Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
+            Text(
               'No hay vacantes disponibles para postularse',
               style: AppTypography.body01,
               textAlign: TextAlign.center,
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: 16),
             AppButton(
               label: 'Postularme',
               onPressed: null, // disabled
