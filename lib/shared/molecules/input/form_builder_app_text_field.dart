@@ -11,7 +11,7 @@ class FormBuilderAppTextField extends StatelessWidget {
   final bool obscureText;
   final FormFieldValidator<String>? validator;
   final bool enabled;
-  final ValueChanged<String>? onChanged; // AGREGADO
+  final ValueChanged<String>? onChanged;
 
   const FormBuilderAppTextField({
     super.key,
@@ -23,7 +23,7 @@ class FormBuilderAppTextField extends StatelessWidget {
     this.obscureText = false,
     this.validator,
     this.enabled = true,
-    this.onChanged, // AGREGADO
+    this.onChanged,
   });
 
   @override
