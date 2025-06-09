@@ -4,6 +4,7 @@
 // Incluye parte fija y una sección variable según el estado del usuario.
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -186,13 +187,13 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                         Text('Participar del voluntariado',
                             style: AppTypography.headline02),
                         const SizedBox(height: 16),
-                        Text('Requisitos', style: AppTypography.subtitle01),
-                        const SizedBox(height: 8),
-                        _BulletList(lines: voluntariado.requisitos),
-                        const SizedBox(height: 16),
-                        Text('Disponibilidad', style: AppTypography.subtitle01),
-                        const SizedBox(height: 8),
-                        _BulletList(lines: voluntariado.disponibilidad),
+                        MarkdownBody(
+                          data: voluntariado.requisitos,
+                          styleSheet: MarkdownStyleSheet.fromTheme(
+                              Theme.of(context)).copyWith(
+                            p: AppTypography.body01,
+                          ),
+                        ),
                         const SizedBox(height: 24),
                         VacantsDisplay(number: voluntariado.vacantes),
                         const SizedBox(height: 32),
@@ -447,34 +448,6 @@ class _LocationCard extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-}
-
-// ──────────────────────────────────────────────────────────────────────
-// Lista con bullets
-class _BulletList extends StatelessWidget {
-  const _BulletList({required this.lines});
-
-  final List<String> lines;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        for (final line in lines)
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text('• ', style: AppTypography.body01),
-                Expanded(child: Text(line, style: AppTypography.body01)),
-              ],
-            ),
-          ),
-      ],
     );
   }
 }

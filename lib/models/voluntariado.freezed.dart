@@ -29,10 +29,7 @@ mixin _$Voluntariado {
   String get imageUrl => throw _privateConstructorUsedError;
   String get descripcion => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
-  List<String> get requisitos => throw _privateConstructorUsedError;
-  List<String> get disponibilidad =>
-      throw _privateConstructorUsedError; // TODO que deje de ser string?
-  String? get notas => throw _privateConstructorUsedError;
+  String get requisitos => throw _privateConstructorUsedError;
 
   /// Serializes this Voluntariado to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -59,9 +56,7 @@ abstract class $VoluntariadoCopyWith<$Res> {
       String imageUrl,
       String descripcion,
       String resumen,
-      List<String> requisitos,
-      List<String> disponibilidad,
-      String? notas});
+      String requisitos});
 }
 
 /// @nodoc
@@ -88,8 +83,6 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     Object? descripcion = null,
     Object? resumen = null,
     Object? requisitos = null,
-    Object? disponibilidad = null,
-    Object? notas = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -127,15 +120,7 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
       requisitos: null == requisitos
           ? _value.requisitos
           : requisitos // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      disponibilidad: null == disponibilidad
-          ? _value.disponibilidad
-          : disponibilidad // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      notas: freezed == notas
-          ? _value.notas
-          : notas // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ) as $Val);
   }
 }
@@ -157,9 +142,7 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
       String imageUrl,
       String descripcion,
       String resumen,
-      List<String> requisitos,
-      List<String> disponibilidad,
-      String? notas});
+      String requisitos});
 }
 
 /// @nodoc
@@ -184,8 +167,6 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     Object? descripcion = null,
     Object? resumen = null,
     Object? requisitos = null,
-    Object? disponibilidad = null,
-    Object? notas = freezed,
   }) {
     return _then(_$VoluntariadoImpl(
       id: null == id
@@ -221,17 +202,9 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           : resumen // ignore: cast_nullable_to_non_nullable
               as String,
       requisitos: null == requisitos
-          ? _value._requisitos
+          ? _value.requisitos
           : requisitos // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      disponibilidad: null == disponibilidad
-          ? _value._disponibilidad
-          : disponibilidad // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-      notas: freezed == notas
-          ? _value.notas
-          : notas // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as String,
     ));
   }
 }
@@ -248,11 +221,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
       required this.imageUrl,
       required this.descripcion,
       required this.resumen,
-      required final List<String> requisitos,
-      required final List<String> disponibilidad,
-      this.notas})
-      : _requisitos = requisitos,
-        _disponibilidad = disponibilidad;
+      required this.requisitos});
 
   factory _$VoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
       _$$VoluntariadoImplFromJson(json);
@@ -274,29 +243,12 @@ class _$VoluntariadoImpl implements _Voluntariado {
   final String descripcion;
   @override
   final String resumen;
-  final List<String> _requisitos;
   @override
-  List<String> get requisitos {
-    if (_requisitos is EqualUnmodifiableListView) return _requisitos;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_requisitos);
-  }
-
-  final List<String> _disponibilidad;
-  @override
-  List<String> get disponibilidad {
-    if (_disponibilidad is EqualUnmodifiableListView) return _disponibilidad;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_disponibilidad);
-  }
-
-// TODO que deje de ser string?
-  @override
-  final String? notas;
+  final String requisitos;
 
   @override
   String toString() {
-    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos, disponibilidad: $disponibilidad, notas: $notas)';
+    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos)';
   }
 
   @override
@@ -316,28 +268,14 @@ class _$VoluntariadoImpl implements _Voluntariado {
             (identical(other.descripcion, descripcion) ||
                 other.descripcion == descripcion) &&
             (identical(other.resumen, resumen) || other.resumen == resumen) &&
-            const DeepCollectionEquality()
-                .equals(other._requisitos, _requisitos) &&
-            const DeepCollectionEquality()
-                .equals(other._disponibilidad, _disponibilidad) &&
-            (identical(other.notas, notas) || other.notas == notas));
+            (identical(other.requisitos, requisitos) ||
+                other.requisitos == requisitos));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      nombre,
-      tipo,
-      vacantes,
-      location,
-      imageUrl,
-      descripcion,
-      resumen,
-      const DeepCollectionEquality().hash(_requisitos),
-      const DeepCollectionEquality().hash(_disponibilidad),
-      notas);
+  int get hashCode => Object.hash(runtimeType, id, nombre, tipo, vacantes,
+      location, imageUrl, descripcion, resumen, requisitos);
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
@@ -365,9 +303,7 @@ abstract class _Voluntariado implements Voluntariado {
       required final String imageUrl,
       required final String descripcion,
       required final String resumen,
-      required final List<String> requisitos,
-      required final List<String> disponibilidad,
-      final String? notas}) = _$VoluntariadoImpl;
+      required final String requisitos}) = _$VoluntariadoImpl;
 
   factory _Voluntariado.fromJson(Map<String, dynamic> json) =
       _$VoluntariadoImpl.fromJson;
@@ -390,11 +326,7 @@ abstract class _Voluntariado implements Voluntariado {
   @override
   String get resumen;
   @override
-  List<String> get requisitos;
-  @override
-  List<String> get disponibilidad; // TODO que deje de ser string?
-  @override
-  String? get notas;
+  String get requisitos;
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
