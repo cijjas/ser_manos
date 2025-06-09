@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../cells/modals/confirm_modal.dart';
 import '../../molecules/components/foto_perfil.dart';
 import '../../cells/cards/card_informacion.dart';
 import '../../molecules/buttons/app_button.dart';
@@ -30,6 +31,26 @@ class PerfilCompletoPage extends StatelessWidget {
   final String birthDate;
   final String gender;
   final String phone;
+
+
+
+  void _showLogoutModal(BuildContext context) {
+    showDialog(
+        context: context,
+        builder: (context) => ConfirmApplicationModal(
+          title: '¿Estás seguro que quieres cerrar sesión?',
+          message: '',
+          confirmLabel: 'Cerrar sesión',
+          cancelLabel: 'Cancelar',
+          onConfirm: () {
+            Navigator.pop(context);
+            onLogoutPressed();
+          },
+          onCancel: () => Navigator.pop(context),
+          actionType: ActionType.logout,
+        )
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +137,7 @@ class PerfilCompletoPage extends StatelessWidget {
                     const SizedBox(height: 16),
                     AppButton(
                       label: 'Cerrar sesión',
-                      onPressed: onLogoutPressed,
+                      onPressed: () => _showLogoutModal(context),
                       type: AppButtonType.tonal,
                       textColor: AppColors.error100,
                     ),

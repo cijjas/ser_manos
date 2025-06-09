@@ -1,16 +1,18 @@
+// login_page.dart
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/providers/auth_provider.dart';
+import 'package:ser_manos/providers/user_provider.dart';
+import 'package:ser_manos/services/fcm_token_service.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
-import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
-
-import '../../../providers/user_provider.dart';
-import '../../../services/fcm_token_service.dart';
-import '../../atoms/symbols/app_symbol_text.dart';
-import '../../molecules/status_bar/status_bar.dart';
-import '../../tokens/colors.dart';
+import 'package:ser_manos/shared/molecules/input/form_builder_app_text_field.dart';
+import 'package:ser_manos/shared/molecules/input/form_builder_password_field.dart';
+import 'package:ser_manos/shared/atoms/symbols/app_symbol_text.dart';
+import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
+import 'package:ser_manos/shared/tokens/colors.dart';
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
@@ -20,34 +22,90 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  /// --- Form & focus -----------------------------------------------
+  final _formKey = GlobalKey<FormBuilderState>();
+  final FocusNode _emailFocus = FocusNode();
+
+  /// --- UI state ----------------------------------------------------
   final ValueNotifier<bool> _canLogin = ValueNotifier(false);
   bool _isLoading = false;
   String? _errorMessage;
+  bool _submitPressed = false; // sólo mostramos errores de contraseña al enviar
 
+  // ───────────────────────── Validators ────────────────────────────
+  String? _emailValidator(String? value) {
+    // Mientras el usuario escribe (tiene foco) no molestamos
+    if (_emailFocus.hasFocus) return null;
+
+    final email = value?.trim() ?? '';
+    if (email.isEmpty) return 'Ingresá un email.';
+    final regexp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    if (!regexp.hasMatch(email)) return 'El email no es válido.';
+    return null;
+  }
+
+  String? _passwordValidator(String? value) {
+    if (!_submitPressed) return null; // Validar sólo al intentar iniciar sesión
+    final password = value ?? '';
+    if (password.isEmpty) return 'Ingresá una contraseña.';
+
+    return null;
+  }
+
+  // ───────────────────────── Lifecycle ─────────────────────────────
+  @override
+  void initState() {
+    super.initState();
+    _emailFocus.addListener(() {
+      // Cuando el email pierde el foco disparamos la validación
+      if (!_emailFocus.hasFocus) {
+        _formKey.currentState?.fields['email']?.validate();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _emailFocus.dispose();
+    super.dispose();
+  }
+
+  // ───────────────────────── Helpers ───────────────────────────────
+  void _updateCanLogin() {
+    final form = _formKey.currentState;
+    if (form == null) return;
+    final email = (form.fields['email']?.value ?? '') as String;
+    final password = (form.fields['password']?.value ?? '') as String;
+    _canLogin.value = email.isNotEmpty && password.isNotEmpty;
+  }
+
+  // ───────────────────────── Actions ───────────────────────────────
   Future<void> _handleLogin() async {
     setState(() {
-      _isLoading = true;
+      _submitPressed = true;
       _errorMessage = null;
     });
 
-    final email = _emailController.text.trim();
-    final password = _passwordController.text.trim();
+    // Guarda y valida el formulario completo
+    final isValid = _formKey.currentState?.saveAndValidate() ?? false;
+    if (!isValid) return;
+
+    setState(() => _isLoading = true);
+
+    final email = _formKey.currentState!.value['email'] as String;
+    final password = _formKey.currentState!.value['password'] as String;
 
     try {
       await ref.read(authServiceProvider).signIn(email, password);
       final updatedUser = await ref.read(currentUserProvider.future);
       await saveFcmTokenToFirestore(updatedUser.id);
 
-      if (context.mounted) {
-        if (!(updatedUser.hasSeenOnboarding ?? true)) {
-          context.go('/welcome');
-        } else {
-          context.go('/home/postularse');
-        }
+      if (!mounted) return;
+      if (!(updatedUser.hasSeenOnboarding ?? true)) {
+        context.go('/welcome');
+      } else {
+        context.go('/home/postularse');
       }
-
     } on FirebaseAuthException catch (e) {
       setState(() {
         switch (e.code) {
@@ -64,112 +122,113 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             _errorMessage = 'Error: ${e.message}';
         }
       });
-    } catch (e) {
-      setState(() {
-        _errorMessage = 'Error al iniciar sesión.';
-      });
+    } catch (_) {
+      setState(() => _errorMessage = 'Error al iniciar sesión.');
     } finally {
-      setState(() {
-        _isLoading = false;
-      });
+      if (mounted) setState(() => _isLoading = false);
     }
   }
 
-  void _updateCanLogin() {
-    _canLogin.value =
-        _emailController.text.isNotEmpty && _passwordController.text.isNotEmpty;
-  }
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
-
+  // ───────────────────────── Build ─────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    // Listen for authentication state changes
-    final authState = ref.watch(authStateProvider);
+    // Escuchamos authState sólo para forzar rebuilds si hiciera falta
+    ref.watch(authStateProvider);
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
-      appBar: const StatusBar(
-        style: StatusBarStyle.light,
-      ),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const AppSymbolText(),
-                  const SizedBox(height: 32),
-                  Column(
-                    spacing: 24,
-                    children: [
-                      AppTextField(
-                        labelText: "Email",
-                        hintText: "Email",
-                        keyboardType: TextInputType.emailAddress,
-                        controller: _emailController,
-                        onChanged: (_) => _updateCanLogin(),
+
+      appBar: const StatusBar(style: StatusBarStyle.light),
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          child: Column(
+
+            children: [
+              // ---------- Logo & campos ----------
+              Expanded(
+                child: SingleChildScrollView(
+                  child: Center( // → para que la Column se centre horizontalmente también
+                    child: ConstrainedBox(
+                      constraints: BoxConstraints(
+                        minHeight: MediaQuery.of(context).size.height * 0.7, // opcional, ajustable
                       ),
-                      PasswordField(
-                        labelText: "Contraseña",
-                        hintText: "Contraseña",
-                        controller: _passwordController,
-                        onChanged: (_) => _updateCanLogin(),
-                      ),
-                    ],
-                  ),
-                  if (_errorMessage != null)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16.0),
-                      child: Text(
-                        _errorMessage!,
-                        style: const TextStyle(color: Colors.red),
-                        textAlign: TextAlign.center,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center, // <--- AÑADIR ESTO
+                        crossAxisAlignment: CrossAxisAlignment.center, // <--- AÑADIR ESTO
+                        children: [
+                          const AppSymbolText(),
+                          const SizedBox(height: 32),
+
+                          /// ---------------- FORM ----------------
+                          FormBuilder(
+                            key: _formKey,
+                            autovalidateMode: AutovalidateMode.disabled,
+                            child: Column(
+                              children: [
+                                Focus(
+                                  focusNode: _emailFocus,
+                                  child: FormBuilderAppTextField(
+                                    name: 'email',
+                                    labelText: 'Email',
+                                    hintText: 'Email',
+                                    keyboardType: TextInputType.emailAddress,
+                                    validator: _emailValidator,
+                                    onChanged: (_) => _updateCanLogin(),
+                                  ),
+                                ),
+                                const SizedBox(height: 24),
+
+                                FormBuilderPasswordField(
+                                  name: 'password',
+                                  labelText: 'Contraseña',
+                                  hintText: 'Contraseña',
+                                  validator: _passwordValidator,
+                                  onChanged: (_) => _updateCanLogin(),
+                                ),
+                              ],
+                            ),
+                          ),
+                          if (_errorMessage != null) ...[
+                            const SizedBox(height: 16),
+                            Text(
+                              _errorMessage!,
+                              style: const TextStyle(color: Colors.red),
+                              textAlign: TextAlign.center,
+                            ),
+                          ],
+                        ],
                       ),
                     ),
-                ],
-              ),
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  ValueListenableBuilder<bool>(
-                    valueListenable: _canLogin,
-                    builder: (context, canLogin, child) {
-                      return AppButton(
-                        label: _isLoading
-                            ? "Iniciando sesión..."
-                            : "Iniciar Sesión",
-                        onPressed:
-                            (_isLoading || !canLogin) ? null : _handleLogin,
-                        type: AppButtonType.filled,
-                      );
-                    },
                   ),
-                  AppButton(
-                    label: "No tengo cuenta",
-                    onPressed:
-                        _isLoading ? null : () => context.go('/register'),
-                    type: AppButtonType.tonal,
-                  ),
-                ],
+                ),
               ),
-            ),
-          ],
+
+
+              // ---------- Botones ----------
+              ValueListenableBuilder<bool>(
+                valueListenable: _canLogin,
+                builder: (_, canLogin, __) => Column(
+                  children: [
+                    AppButton(
+                      label:
+                      _isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión',
+                      onPressed:
+                      (_isLoading || !canLogin) ? null : _handleLogin,
+                      type: AppButtonType.filled,
+                    ),
+                    AppButton(
+                      label: 'No tengo cuenta',
+                      onPressed: _isLoading
+                          ? null
+                          : () => context.go('/register'),
+                      type: AppButtonType.tonal,
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
