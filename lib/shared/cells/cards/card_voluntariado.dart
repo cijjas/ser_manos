@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/voluntariado.dart';
 import '../../atoms/icons/app_icons.dart';

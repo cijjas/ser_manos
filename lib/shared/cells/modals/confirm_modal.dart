@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import '../../molecules/buttons/app_button.dart';
-import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
 import '../../tokens/colors.dart';
 

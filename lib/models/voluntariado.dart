@@ -3,7 +3,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ser_manos/converters/geoPoint_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import '../converters/geoPoint_converter.dart';
 
 part 'voluntariado.freezed.dart';
 

@@ -6,18 +6,15 @@ import 'package:ser_manos/shared/wireframes/home/voluntariados_page.dart';
 
 // wireframes / pages
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
-import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
-import '../models/voluntariado.dart';
 import '../providers/auth_provider.dart';
 import '../services/notification_service.dart';
 import '../shared/cells/header/header.dart';
 import '../shared/wireframes/ingreso/login_page.dart';
 import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
-import '../shared/wireframes/perfil/perfil_completo.dart';
 import '../shared/wireframes/perfil/editar_perfil.dart';
 import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/voluntariados/voluntariado.dart';
