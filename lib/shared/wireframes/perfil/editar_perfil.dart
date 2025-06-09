@@ -1,23 +1,26 @@
 // lib/shared/wireframes/perfil/editar_perfil.dart
 import 'dart:io';
-
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:intl/intl.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-
+import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:path_provider/path_provider.dart';
 import '../../../models/user.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../cells/cards/card_input.dart';
 import '../../cells/cards/card_foto.dart';
-import '../../molecules/input/date_field.dart';
-import '../../molecules/input/app_text_field.dart';
-import '../../molecules/buttons/app_button.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
+import '../../molecules/buttons/app_button.dart';
+import '../../molecules/input/form_builder_app_text_field.dart';
+import '../../molecules/input/form_builder_date_field.dart';
+import 'package:path/path.dart' as path;
+
 
 class EditarPerfilPage extends ConsumerStatefulWidget {
   const EditarPerfilPage({super.key});
@@ -27,24 +30,17 @@ class EditarPerfilPage extends ConsumerStatefulWidget {
 }
 
 class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
-  final _formKey = GlobalKey<FormState>();
-  late final TextEditingController _fechaCtrl;
-  late final TextEditingController _telefonoCtrl;
-  late final TextEditingController _emailCtrl;
-
+  final _formKey = GlobalKey<FormBuilderState>();
   int? _sexoIndex;
-  String? _fotoUrl; // URL de la imagen ya guardada en Firebase
-  File? _imagenLocalParaSubir; //Archivo de imagen local seleccionado para subir
-  bool _subiendoAlGuardar = false; //  Estado de carga para el proceso de guardado completo
+  String? _fotoUrl;
+  File? _imagenLocalParaSubir;
+  bool _subiendoAlGuardar = false;
   User? _original;
   final _picker = ImagePicker();
 
   @override
   void initState() {
     super.initState();
-    _fechaCtrl = TextEditingController();
-    _telefonoCtrl = TextEditingController();
-    _emailCtrl = TextEditingController();
     _loadUser();
   }
 
@@ -55,23 +51,22 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     );
     if (fbUser == null) return;
 
-    // Usamos try-catch por si el usuario no existe o hay error de red
     try {
       final user = await ref.read(userByIdProvider(fbUser.uid).future);
       if (!mounted) return;
 
       setState(() {
         _original = user;
-        _emailCtrl.text = user.email;
-        _telefonoCtrl.text = user.telefono ?? '';
-        if (user.fechaNacimiento != null) {
-          _fechaCtrl.text =
-              DateFormat('dd/MM/yyyy').format(user.fechaNacimiento!);
-        }
         _sexoIndex = user.genero != null
             ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
             : null;
         _fotoUrl = user.imagenUrl;
+      });
+
+      _formKey.currentState?.patchValue({
+        'email': user.email,
+        'telefono': user.telefono,
+        'fechaNacimiento': user.fechaNacimiento,
       });
     } catch (e) {
       if (mounted) {
@@ -82,23 +77,14 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     }
   }
 
-  @override
-  void dispose() {
-    _fechaCtrl.dispose();
-    _telefonoCtrl.dispose();
-    _emailCtrl.dispose();
-    super.dispose();
-  }
-
-  /* ───────────────────────────  IMAGEN (cámara / galería) ─────────────────────────── */
-
   Future<void> _showImageSourceSelector() async {
-    if (_subiendoAlGuardar) return; // No permitir cambiar si ya se está guardando
+    if (_subiendoAlGuardar) return;
 
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
       shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(12))),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+      ),
       builder: (_) => SafeArea(
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -121,14 +107,19 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     if (source != null) _seleccionarImagenLocal(source);
   }
 
-
   Future<void> _seleccionarImagenLocal(ImageSource source) async {
-    final picked =
-    await _picker.pickImage(source: source, imageQuality: 75, maxWidth: 800);
-    if (picked == null) return; // cancelado
 
-    final file = File(picked.path);
-    if (!file.existsSync()) {
+    final picked = await _picker.pickImage(
+      source: source,
+      imageQuality: 75,
+      maxWidth: 800,
+    );
+
+    if (picked == null) return;
+
+    final tmpFile = File(picked.path);
+
+    if (!tmpFile.existsSync()) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('La imagen no existe en disco.')),
@@ -137,110 +128,120 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       return;
     }
 
-    setState(() {
-      _imagenLocalParaSubir = file;
-      //  Si queres que la imagen anterior desaparezca de la vista previa inmediatamente:
-      // _fotoUrl = null;
-      // CardFotoPerfil ya deberia encargares igual
-    });
+    // Copiar la imagen a un directorio seguro (Documents)
+    final appDir = await getApplicationDocumentsDirectory();
+    final fileName = path.basename(picked.path);
+    final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
+
+    setState(() => _imagenLocalParaSubir = savedImage);
+
   }
 
-  /* ───────────────────────────  GUARDAR PERFIL ─────────────────────────── */
-
   Future<void> _save() async {
-    if (!_formKey.currentState!.validate()) return;
+    if (!_formKey.currentState!.saveAndValidate()) {
+      print('Form not valid');
+      return;
+    }
 
+    final values = _formKey.currentState!.value;
     final fbUser = ref.read(authStateProvider).maybeWhen(
       data: (u) => u,
       orElse: () => null,
     );
-    if (fbUser == null) {
-      if (mounted) context.go('/login'); // O la ruta que corresponda
-      return;
-    }
-    if (_original == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('No se pudieron cargar los datos originales del usuario.')),
-      );
+
+    if (fbUser == null || _original == null) {
+      print('fbUser or _original is null');
       return;
     }
 
     setState(() => _subiendoAlGuardar = true);
 
-    String? urlImagenFinalParaGuardar = _fotoUrl; // Inicia con la URL existente
+    String? urlImagenFinalParaGuardar = _fotoUrl;
 
     try {
-      // Si hay una imagen local nueva seleccionada, subirla ahora
+      print('Starting save...');
+      print('Current _fotoUrl: $_fotoUrl');
+      print('Current _imagenLocalParaSubir: $_imagenLocalParaSubir');
+
+      // Solo subir imagen si hay una nueva imagen local seleccionada
       if (_imagenLocalParaSubir != null) {
+        print('Uploading new image to Firebase Storage...');
+
+
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
 
-        // Metadata para la imagen (opcional)
         final metadata = SettableMetadata(contentType: 'image/jpeg');
 
-        final snapshot = await storageRef.putFile(_imagenLocalParaSubir!, metadata);
+
+        // https://github.com/firebase/flutterfire/issues/17328
+        final bytes = await _imagenLocalParaSubir!.readAsBytes();
+
+        final snapshot = await storageRef.putData(bytes, metadata);
+
 
         if (snapshot.state != TaskState.success) {
-          throw FirebaseException(plugin: 'firebase_storage', message: 'Error al subir la imagen.');
+          throw FirebaseException(
+            plugin: 'firebase_storage',
+            message: 'Error al subir la imagen.',
+          );
         }
-        urlImagenFinalParaGuardar = await storageRef.getDownloadURL();
+
+        final downloadUrl = await storageRef.getDownloadURL();
+        print('New image uploaded! URL: $downloadUrl');
+        urlImagenFinalParaGuardar = downloadUrl;
+      } else {
+        print('No new image selected, keeping current URL');
       }
-      // Aquí podrías añadir lógica para eliminar la foto si el usuario lo indicó
-      // (ej. si urlImagenFinalParaGuardar fue explícitamente seteado a null por una acción del usuario).
+
+      print('Creating updated user object...');
 
       final updated = _original!.copyWith(
-        email: _emailCtrl.text.trim(),
-        telefono: _telefonoCtrl.text.trim(),
-        fechaNacimiento: _fechaCtrl.text.isNotEmpty
-            ? DateFormat('dd/MM/yyyy').parse(_fechaCtrl.text)
-            : null,
+        email: values['email'].trim(),
+        telefono: values['telefono'].trim(),
+        fechaNacimiento: values['fechaNacimiento'],
         genero: (_sexoIndex != null)
             ? ['Hombre', 'Mujer', 'No binario'][_sexoIndex!]
             : null,
-        imagenUrl: urlImagenFinalParaGuardar, // Usar la URL final
+        imagenUrl: urlImagenFinalParaGuardar,
       );
 
+      print('Calling updateUserProvider...');
       await ref.read(updateUserProvider(updated).future);
+      print('User updated successfully');
 
       if (!mounted) return;
+
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Datos guardados exitosamente')),
       );
 
-      // Actualizar estado local después de un guardado exitoso
+      // Limpiar la imagen local después de guardar exitosamente
       setState(() {
-        _imagenLocalParaSubir = null; // Limpiar la imagen local
-        _fotoUrl = urlImagenFinalParaGuardar; // Actualizar la URL de la foto mostrada
+        print('Clearing _imagenLocalParaSubir and setting _fotoUrl');
+        _imagenLocalParaSubir = null;
+        _fotoUrl = urlImagenFinalParaGuardar;
       });
 
-      if (mounted) context.go('/home/perfil'); // O la ruta que corresponda
-
-    } on FirebaseException catch (e) {
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error al guardar: ${e.message ?? e.code}')),
-      );
-    } catch (e) { // Captura general para otros errores (ej. DateFormat)
-      if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ocurrió un error inesperado: ${e.toString()}')),
-      );
+      print('Navigating to /home/perfil');
+      context.go('/home/perfil');
+    } catch (e, stacktrace) {
+      // print
+      print('ERROR inside _save(): ${e.toString()}');
+      print('STACKTRACE: $stacktrace');
     } finally {
-      if (mounted) setState(() => _subiendoAlGuardar = false);
+      if (mounted) {
+        print('Exiting _save(), setting _subiendoAlGuardar to false');
+        setState(() => _subiendoAlGuardar = false);
+      }
     }
   }
 
-  /* ───────────────────────────  UI ─────────────────────────── */
+
 
   @override
   Widget build(BuildContext context) {
-    // Si _original es null, podrías mostrar un loader o un mensaje.
-    // Por simplicidad, aquí se asume que _loadUser lo poblará o manejará el error.
-    // if (_original == null && !_subiendoAlGuardar) { // Evitar rebuild innecesario si ya está cargando datos
-    //   return Scaffold(body: Center(child: CircularProgressIndicator()));
-    // }
-
     return Scaffold(
       backgroundColor: AppColors.neutral0,
       appBar: AppBar(
@@ -248,90 +249,115 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           icon: const Icon(Icons.close, size: 24),
           onPressed: _subiendoAlGuardar
               ? null
-              : () {
-            if (context.canPop()) {
-              context.pop();
-            } else {
-              context.go('/home/perfil');
-            }
-          },
-
+              : () => context.canPop()
+              ? context.pop()
+              : context.go('/home/perfil'),
         ),
         elevation: 0,
         backgroundColor: AppColors.neutral0,
         foregroundColor: AppColors.neutral100,
       ),
       body: SafeArea(
-        child: Form(
+        child: FormBuilder(
           key: _formKey,
           child: SingleChildScrollView(
-            padding:
-            const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text('Datos de perfil',
-                    style: AppTypography.headline01
-                        .copyWith(color: AppColors.neutral100)),
-                const SizedBox(height: 24),
-                DateField(
-                  label: 'Fecha de nacimiento',
-                  controller: _fechaCtrl,
-                  firstDate: DateTime(1900),
-                  lastDate: DateTime.now(),
-                  // enabled: !_subiendoAlGuardar,
+                Text(
+                  'Datos de perfil',
+                  style: AppTypography.headline01.copyWith(
+                    color: AppColors.neutral100,
+                  ),
                 ),
                 const SizedBox(height: 24),
+                // ───────────────── Fecha de nacimiento ─────────────────
+                FormBuilderDateField(
+                  name: 'fechaNacimiento',
+                  label: 'Fecha de nacimiento',
+                  firstDate: DateTime(1900),
+                  lastDate: DateTime.now(),
+                  validator: FormBuilderValidators.required(),
+                ),
+                const SizedBox(height: 24),
+                // ───────────────── Información de perfil (género) ─────────────────
                 CardInput(
                   title: 'Información de perfil',
                   options: const ['Hombre', 'Mujer', 'No binario'],
                   selectedIndex: _sexoIndex,
-                  onSelected: _subiendoAlGuardar ? null : (i) => setState(() => _sexoIndex = i),
+                  onSelected: _subiendoAlGuardar
+                      ? null
+                      : (i) => setState(() => _sexoIndex = i),
                 ),
                 const SizedBox(height: 24),
-                CardFotoPerfil(
-                  // Pasar tanto la URL remota como el archivo local
-                  imagenUrlRemota: _fotoUrl,
-                  imagenLocal: _imagenLocalParaSubir,
-                  isLoading: _subiendoAlGuardar, // Usar el estado de carga general
-                  onChange: _showImageSourceSelector, // Se deshabilita internamente si isLoading es true
-                ),
-                const SizedBox(height: 32),
-                Text('Datos de contacto',
-                    style: AppTypography.headline01
-                        .copyWith(color: AppColors.neutral100)),
-                const SizedBox(height: 16),
-                AppTextField(
-                  labelText: 'Teléfono',
-                  hintText: 'Ej: +5491178445459',
-                  controller: _telefonoCtrl,
-                  keyboardType: TextInputType.phone,
-                  enabled: !_subiendoAlGuardar,
-                ),
-                const SizedBox(height: 24),
-                AppTextField(
-                  labelText: 'Mail',
-                  hintText: 'Ej: mimail@mail.com',
-                  controller: _emailCtrl,
-                  keyboardType: TextInputType.emailAddress,
-                  enabled: !_subiendoAlGuardar,
-                  validator: (v) {
-                    if (v == null || v.isEmpty) return 'Requerido';
-                    // No validar si el email no cambió, solo si es diferente al original
-                    if (_original != null && v.trim() == _original!.email) {
-                      return null;
-                    }
-                    final regex = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
-                    return regex.hasMatch(v.trim()) ? null : 'Email inválido';
+                // ───────────────── Foto de perfil ─────────────────
+                FormBuilderField<bool>(
+                  name: 'imagenValida',
+                  initialValue: _fotoUrl != null || _imagenLocalParaSubir != null,
+                  validator: FormBuilderValidators.equal(true, errorText: 'Selecciona una foto de perfil'),
+                  builder: (field) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CardFotoPerfil(
+                          imagenUrlRemota: _fotoUrl,
+                          imagenLocal: _imagenLocalParaSubir,
+                          isLoading: _subiendoAlGuardar,
+                          onChange: () async {
+                            await _showImageSourceSelector();
+                            // After selecting image → notify FormBuilder
+                            field.didChange(_fotoUrl != null || _imagenLocalParaSubir != null);
+                          },
+                        ),
+                        if (field.hasError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              field.errorText ?? '',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ),
+                      ],
+                    );
                   },
                 ),
+
                 const SizedBox(height: 32),
+                Text(
+                  'Datos de contacto',
+                  style: AppTypography.headline01.copyWith(
+                    color: AppColors.neutral100,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                // ───────────────── Teléfono ─────────────────
+                FormBuilderAppTextField(
+                  name: 'telefono',
+                  labelText: 'Teléfono',
+                  hintText: 'Ej: +5491178445459',
+                  keyboardType: TextInputType.phone,
+                  validator: FormBuilderValidators.required(),
+                ),
+                const SizedBox(height: 24),
+                // ───────────────── Email ─────────────────
+                FormBuilderAppTextField(
+                  name: 'email',
+                  labelText: 'Mail',
+                  hintText: 'Ej: mimail@mail.com',
+                  keyboardType: TextInputType.emailAddress,
+                  validator: FormBuilderValidators.compose([
+                    FormBuilderValidators.required(),
+                    FormBuilderValidators.email(),
+                  ]),
+                ),
+                const SizedBox(height: 32),
+                // ───────────────── Botón Guardar ─────────────────
                 AppButton(
-                  label: _subiendoAlGuardar ? 'Guardando...' : 'Guardar datos',
-                  onPressed: _subiendoAlGuardar ? null : _save,
+                  label: 'Guardar datos',
+                  isLoading: _subiendoAlGuardar,
+                  onPressed: _save,
                   type: AppButtonType.filled,
-                  // Opcional: si AppButton soporta un child para mostrar un loader
-                  // child: _subiendoAlGuardar ? CircularProgressIndicator(color: Colors.white, strokeWidth: 2) : null,
                 ),
                 const SizedBox(height: 24),
               ],

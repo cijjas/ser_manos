@@ -45,7 +45,9 @@ class PerfilCompletoPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    FotoPerfil.lg(imageUrl: imageUrl),
+                    FotoPerfil.lg(
+                      imageUrl: imageUrl.isNotEmpty ? imageUrl : null,
+                    ),
                     const SizedBox(height: 24),
                     Text(
                       role.toUpperCase(),
@@ -71,6 +73,7 @@ class PerfilCompletoPage extends StatelessWidget {
                   ],
                 ),
               ),
+
 
               const SizedBox(height: 32),
 
