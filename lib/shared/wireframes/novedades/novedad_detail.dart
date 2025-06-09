@@ -30,7 +30,7 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
 
     setState(() => isSharing = true);
 
-    final url = 'https://sermanos.app/novedad/${novedad.id}';
+    final url = 'http://sermanos.app/novedad/${novedad.id}';
     final text = '${novedad.resumen}\n\n$url';
 
     try {
