@@ -17,13 +17,7 @@ _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
       imageUrl: json['imageUrl'] as String,
       descripcion: json['descripcion'] as String,
       resumen: json['resumen'] as String,
-      requisitos: (json['requisitos'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      disponibilidad: (json['disponibilidad'] as List<dynamic>)
-          .map((e) => e as String)
-          .toList(),
-      notas: json['notas'] as String?,
+      requisitos: json['requisitos'] as String,
     );
 
 Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
@@ -37,6 +31,4 @@ Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
       'descripcion': instance.descripcion,
       'resumen': instance.resumen,
       'requisitos': instance.requisitos,
-      'disponibilidad': instance.disponibilidad,
-      'notas': instance.notas,
     };

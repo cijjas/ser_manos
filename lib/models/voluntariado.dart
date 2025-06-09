@@ -28,9 +28,7 @@ class Voluntariado with _$Voluntariado {
     required String imageUrl,
     required String descripcion,
     required String resumen,
-    required List<String> requisitos,
-    required List<String> disponibilidad, // TODO que deje de ser string?
-    String? notas,
+    required String requisitos
   }) = _Voluntariado;
 
   factory Voluntariado.fromJson(String id, Map<String, dynamic> json) =>
