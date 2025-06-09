@@ -128,7 +128,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       return;
     }
 
-// Copiar la imagen a un directorio seguro (Documents)
+    // Copiar la imagen a un directorio seguro (Documents)
     final appDir = await getApplicationDocumentsDirectory();
     final fileName = path.basename(picked.path);
     final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
@@ -292,12 +292,37 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 ),
                 const SizedBox(height: 24),
                 // ───────────────── Foto de perfil ─────────────────
-                CardFotoPerfil(
-                  imagenUrlRemota: _fotoUrl,
-                  imagenLocal: _imagenLocalParaSubir,
-                  isLoading: _subiendoAlGuardar,
-                  onChange: _showImageSourceSelector,
+                FormBuilderField<bool>(
+                  name: 'imagenValida',
+                  initialValue: _fotoUrl != null || _imagenLocalParaSubir != null,
+                  validator: FormBuilderValidators.equal(true, errorText: 'Selecciona una foto de perfil'),
+                  builder: (field) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CardFotoPerfil(
+                          imagenUrlRemota: _fotoUrl,
+                          imagenLocal: _imagenLocalParaSubir,
+                          isLoading: _subiendoAlGuardar,
+                          onChange: () async {
+                            await _showImageSourceSelector();
+                            // After selecting image → notify FormBuilder
+                            field.didChange(_fotoUrl != null || _imagenLocalParaSubir != null);
+                          },
+                        ),
+                        if (field.hasError)
+                          Padding(
+                            padding: const EdgeInsets.only(top: 8),
+                            child: Text(
+                              field.errorText ?? '',
+                              style: const TextStyle(color: Colors.red),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
+
                 const SizedBox(height: 32),
                 Text(
                   'Datos de contacto',
@@ -329,8 +354,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 const SizedBox(height: 32),
                 // ───────────────── Botón Guardar ─────────────────
                 AppButton(
-                  label: _subiendoAlGuardar ? 'Guardando...' : 'Guardar datos',
-                  onPressed: _subiendoAlGuardar ? null : _save,
+                  label: 'Guardar datos',
+                  isLoading: _subiendoAlGuardar,
+                  onPressed: _save,
                   type: AppButtonType.filled,
                 ),
                 const SizedBox(height: 24),
