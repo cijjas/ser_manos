@@ -193,7 +193,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             const SizedBox(height: 16),
                             Text(
                               _errorMessage!,
-                              style: const TextStyle(color: Colors.red),
+                              style: const TextStyle(color: AppColors.error100),
                               textAlign: TextAlign.center,
                             ),
                           ],
