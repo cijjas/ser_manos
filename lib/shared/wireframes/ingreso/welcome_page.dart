@@ -24,9 +24,11 @@ class WelcomePage extends ConsumerStatefulWidget {
 class _WelcomePageState extends ConsumerState<WelcomePage> {
 
   Future<void> onBeginPress(BuildContext context) async {
-    ref.read(markOnboardingCompleteProvider);
+    await ref.read(markOnboardingCompleteProvider.future);
 
-    context.go('/home/postularse');
+    if (context.mounted) {
+      context.go('/home/postularse');
+    }
   }
 
   @override
