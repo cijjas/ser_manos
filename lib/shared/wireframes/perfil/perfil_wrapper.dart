@@ -26,9 +26,9 @@ class PerfilWrapperPage extends ConsumerWidget {
       ),
       data: (fbUser) {
         if (fbUser == null) {
-          // No está logueado → voy a /login
+          // No está logueado → voy a /
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.go('/login');
+            context.go('/');
           });
           return const SizedBox();
         }
@@ -61,9 +61,11 @@ class PerfilWrapperPage extends ConsumerWidget {
               return PerfilIncompletoPage(
                 name: fullName,
                 onCompletePressed: () => context.push('/home/perfil/editar'),
-                onLogoutPressed: () {
-                  ref.read(authServiceProvider).signOut();
-                  context.go('/login');
+                onLogoutPressed: () async {
+                  await ref.read(authServiceProvider).signOut();
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.go('/');
+                  });
                 },
               );
             } else {
@@ -75,9 +77,11 @@ class PerfilWrapperPage extends ConsumerWidget {
                 birthDate: birthDate,
                 gender: gender,
                 phone: phone,
-                onLogoutPressed: () {
-                  ref.read(authServiceProvider).signOut();
-                  context.go('/login');
+                onLogoutPressed: () async {
+                  await ref.read(authServiceProvider).signOut();
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    context.go('/');
+                  });
                 },
               );
             }

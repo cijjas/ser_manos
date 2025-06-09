@@ -1,4 +1,3 @@
-// form_builder_password_field.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
@@ -9,6 +8,7 @@ class FormBuilderPasswordField extends StatefulWidget {
   final String hintText;
   final FormFieldValidator<String>? validator;
   final bool enabled;
+  final ValueChanged<String>? onChanged; // AGREGADO
 
   const FormBuilderPasswordField({
     super.key,
@@ -17,6 +17,7 @@ class FormBuilderPasswordField extends StatefulWidget {
     this.hintText = '',
     this.validator,
     this.enabled = true,
+    this.onChanged, // AGREGADO
   });
 
   @override
@@ -41,7 +42,10 @@ class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
             ..selection = TextSelection.fromPosition(
               TextPosition(offset: field.value?.length ?? 0),
             ),
-          onChanged: field.didChange,
+          onChanged: (value) {
+            field.didChange(value);
+            if (widget.onChanged != null) widget.onChanged!(value);
+          },
           validator: widget.validator,
           suffixIcon: IconButton(
             splashRadius: 20,
@@ -56,4 +60,3 @@ class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
     );
   }
 }
-

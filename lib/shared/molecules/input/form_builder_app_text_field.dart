@@ -1,4 +1,3 @@
-// form_builder_app_text_field.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
@@ -12,6 +11,7 @@ class FormBuilderAppTextField extends StatelessWidget {
   final bool obscureText;
   final FormFieldValidator<String>? validator;
   final bool enabled;
+  final ValueChanged<String>? onChanged; // AGREGADO
 
   const FormBuilderAppTextField({
     super.key,
@@ -23,6 +23,7 @@ class FormBuilderAppTextField extends StatelessWidget {
     this.obscureText = false,
     this.validator,
     this.enabled = true,
+    this.onChanged, // AGREGADO
   });
 
   @override
@@ -42,7 +43,10 @@ class FormBuilderAppTextField extends StatelessWidget {
             ..selection = TextSelection.fromPosition(
               TextPosition(offset: field.value?.length ?? 0),
             ),
-          onChanged: field.didChange,
+          onChanged: (value) {
+            field.didChange(value);
+            if (onChanged != null) onChanged!(value);
+          },
           validator: validator,
         );
       },
