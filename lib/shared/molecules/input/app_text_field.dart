@@ -20,7 +20,6 @@ class AppTextField extends StatelessWidget {
   final FormFieldValidator<String>? validator;
   final bool enabled;
 
-  /// NEW → soportar sólo lectura (ej. DateField) y onTap
   final bool readOnly;
   final VoidCallback? onTap;
 

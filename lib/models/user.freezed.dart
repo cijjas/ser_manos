@@ -1,13 +1,4 @@
-// coverage:ignore-file
-// GENERATED CODE - DO NOT MODIFY BY HAND
-// ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
-
 part of 'user.dart';
-
-// **************************************************************************
-// FreezedGenerator
-// **************************************************************************
 
 T _$identity<T>(T value) => value;
 
@@ -18,7 +9,6 @@ UserVoluntariado _$UserVoluntariadoFromJson(Map<String, dynamic> json) {
   return _UserVoluntariado.fromJson(json);
 }
 
-/// @nodoc
 mixin _$UserVoluntariado {
   String get id => throw _privateConstructorUsedError;
   VoluntariadoUserState get estado => throw _privateConstructorUsedError;
@@ -33,7 +23,6 @@ mixin _$UserVoluntariado {
       throw _privateConstructorUsedError;
 }
 
-/// @nodoc
 abstract class $UserVoluntariadoCopyWith<$Res> {
   factory $UserVoluntariadoCopyWith(
           UserVoluntariado value, $Res Function(UserVoluntariado) then) =
@@ -42,18 +31,14 @@ abstract class $UserVoluntariadoCopyWith<$Res> {
   $Res call({String id, VoluntariadoUserState estado});
 }
 
-/// @nodoc
 class _$UserVoluntariadoCopyWithImpl<$Res, $Val extends UserVoluntariado>
     implements $UserVoluntariadoCopyWith<$Res> {
   _$UserVoluntariadoCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of UserVoluntariado
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -63,11 +48,11 @@ class _$UserVoluntariadoCopyWithImpl<$Res, $Val extends UserVoluntariado>
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+          : id 
               as String,
       estado: null == estado
           ? _value.estado
-          : estado // ignore: cast_nullable_to_non_nullable
+          : estado
               as VoluntariadoUserState,
     ) as $Val);
   }
@@ -93,7 +78,6 @@ class __$$UserVoluntariadoImplCopyWithImpl<$Res>
       : super(_value, _then);
 
   /// Create a copy of UserVoluntariado
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -103,11 +87,11 @@ class __$$UserVoluntariadoImplCopyWithImpl<$Res>
     return _then(_$UserVoluntariadoImpl(
       id: null == id
           ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+          : id 
               as String,
       estado: null == estado
           ? _value.estado
-          : estado // ignore: cast_nullable_to_non_nullable
+          : estado 
               as VoluntariadoUserState,
     ));
   }
@@ -145,7 +129,6 @@ class _$UserVoluntariadoImpl implements _UserVoluntariado {
   int get hashCode => Object.hash(runtimeType, id, estado);
 
   /// Create a copy of UserVoluntariado
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
@@ -175,7 +158,6 @@ abstract class _UserVoluntariado implements UserVoluntariado {
   VoluntariadoUserState get estado;
 
   /// Create a copy of UserVoluntariado
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserVoluntariadoImplCopyWith<_$UserVoluntariadoImpl> get copyWith =>
@@ -186,7 +168,6 @@ User _$UserFromJson(Map<String, dynamic> json) {
   return _User.fromJson(json);
 }
 
-/// @nodoc
 mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get nombre => throw _privateConstructorUsedError;
@@ -202,16 +183,14 @@ mixin _$User {
   String? get imagenUrl => throw _privateConstructorUsedError;
   String? get fcmToken => throw _privateConstructorUsedError;
 
-  /// Serializes this User to a JSON map.
+  /// Serializes this User to a JSON map
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of User
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   $UserCopyWith<User> get copyWith => throw _privateConstructorUsedError;
 }
 
-/// @nodoc
 abstract class $UserCopyWith<$Res> {
   factory $UserCopyWith(User value, $Res Function(User) then) =
       _$UserCopyWithImpl<$Res, User>;
@@ -231,18 +210,14 @@ abstract class $UserCopyWith<$Res> {
       String? fcmToken});
 }
 
-/// @nodoc
 class _$UserCopyWithImpl<$Res, $Val extends User>
     implements $UserCopyWith<$Res> {
   _$UserCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
   final $Val _value;
-  // ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of User
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -262,57 +237,56 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+          : id 
               as String,
       nombre: null == nombre
           ? _value.nombre
-          : nombre // ignore: cast_nullable_to_non_nullable
+          : nombre 
               as String,
       apellido: null == apellido
           ? _value.apellido
-          : apellido // ignore: cast_nullable_to_non_nullable
+          : apellido
               as String,
       email: null == email
           ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+          : email 
               as String,
       hasSeenOnboarding: freezed == hasSeenOnboarding
           ? _value.hasSeenOnboarding
-          : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
+          : hasSeenOnboarding 
               as bool?,
       voluntariados: freezed == voluntariados
           ? _value.voluntariados
-          : voluntariados // ignore: cast_nullable_to_non_nullable
+          : voluntariados 
               as List<UserVoluntariado>?,
       likedVoluntariados: freezed == likedVoluntariados
           ? _value.likedVoluntariados
-          : likedVoluntariados // ignore: cast_nullable_to_non_nullable
+          : likedVoluntariados /
               as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
-          : telefono // ignore: cast_nullable_to_non_nullable
+          : telefono 
               as String?,
       fechaNacimiento: freezed == fechaNacimiento
           ? _value.fechaNacimiento
-          : fechaNacimiento // ignore: cast_nullable_to_non_nullable
+          : fechaNacimiento 
               as DateTime?,
       genero: freezed == genero
           ? _value.genero
-          : genero // ignore: cast_nullable_to_non_nullable
+          : genero 
               as String?,
       imagenUrl: freezed == imagenUrl
           ? _value.imagenUrl
-          : imagenUrl // ignore: cast_nullable_to_non_nullable
+          : imagenUrl 
               as String?,
       fcmToken: freezed == fcmToken
           ? _value.fcmToken
-          : fcmToken // ignore: cast_nullable_to_non_nullable
+          : fcmToken 
               as String?,
     ) as $Val);
   }
 }
 
-/// @nodoc
 abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
   factory _$$UserImplCopyWith(
           _$UserImpl value, $Res Function(_$UserImpl) then) =
@@ -334,7 +308,6 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String? fcmToken});
 }
 
-/// @nodoc
 class __$$UserImplCopyWithImpl<$Res>
     extends _$UserCopyWithImpl<$Res, _$UserImpl>
     implements _$$UserImplCopyWith<$Res> {
@@ -342,7 +315,6 @@ class __$$UserImplCopyWithImpl<$Res>
       : super(_value, _then);
 
   /// Create a copy of User
-  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -362,57 +334,56 @@ class __$$UserImplCopyWithImpl<$Res>
     return _then(_$UserImpl(
       id: null == id
           ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
+          : id 
               as String,
       nombre: null == nombre
           ? _value.nombre
-          : nombre // ignore: cast_nullable_to_non_nullable
+          : nombre 
               as String,
       apellido: null == apellido
           ? _value.apellido
-          : apellido // ignore: cast_nullable_to_non_nullable
+          : apellido
               as String,
       email: null == email
           ? _value.email
-          : email // ignore: cast_nullable_to_non_nullable
+          : email 
               as String,
       hasSeenOnboarding: freezed == hasSeenOnboarding
           ? _value.hasSeenOnboarding
-          : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
+          : hasSeenOnboarding 
               as bool?,
       voluntariados: freezed == voluntariados
           ? _value._voluntariados
-          : voluntariados // ignore: cast_nullable_to_non_nullable
+          : voluntariados 
               as List<UserVoluntariado>?,
       likedVoluntariados: freezed == likedVoluntariados
           ? _value._likedVoluntariados
-          : likedVoluntariados // ignore: cast_nullable_to_non_nullable
+          : likedVoluntariados 
               as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
-          : telefono // ignore: cast_nullable_to_non_nullable
+          : telefono 
               as String?,
       fechaNacimiento: freezed == fechaNacimiento
           ? _value.fechaNacimiento
-          : fechaNacimiento // ignore: cast_nullable_to_non_nullable
+          : fechaNacimiento 
               as DateTime?,
       genero: freezed == genero
           ? _value.genero
-          : genero // ignore: cast_nullable_to_non_nullable
+          : genero 
               as String?,
       imagenUrl: freezed == imagenUrl
           ? _value.imagenUrl
-          : imagenUrl // ignore: cast_nullable_to_non_nullable
+          : imagenUrl 
               as String?,
       fcmToken: freezed == fcmToken
           ? _value.fcmToken
-          : fcmToken // ignore: cast_nullable_to_non_nullable
+          : fcmToken 
               as String?,
     ));
   }
 }
 
-/// @nodoc
 @JsonSerializable()
 class _$UserImpl implements _User {
   const _$UserImpl(
@@ -450,7 +421,6 @@ class _$UserImpl implements _User {
     final value = _voluntariados;
     if (value == null) return null;
     if (_voluntariados is EqualUnmodifiableListView) return _voluntariados;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
@@ -461,7 +431,6 @@ class _$UserImpl implements _User {
     if (value == null) return null;
     if (_likedVoluntariados is EqualUnmodifiableListView)
       return _likedVoluntariados;
-    // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
@@ -526,7 +495,6 @@ class _$UserImpl implements _User {
       fcmToken);
 
   /// Create a copy of User
-  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
@@ -584,7 +552,6 @@ abstract class _User implements User {
   String? get fcmToken;
 
   /// Create a copy of User
-  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

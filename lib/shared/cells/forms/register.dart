@@ -71,7 +71,7 @@ class RegisterFormState extends State<RegisterForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      // Validates on input change; adjust as needed.
+      // Validates on input change
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
