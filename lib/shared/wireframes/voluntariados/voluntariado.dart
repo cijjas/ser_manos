@@ -70,7 +70,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     final result = await ref
         .read(userServiceProvider)
         .abandonVoluntariado(user, voluntariadoId);
-    // TODO remove snackbar
     if (result) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text("Voluntariado abandonado.")),
@@ -82,7 +81,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     }
   }
 
-  // TODO modal
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -481,62 +479,3 @@ VoluntariadoUserState _determineUserState(
   // Default available state
   return VoluntariadoUserState.available;
 }
-
-//
-// // ──────────────────────────────────────────────────────────────────────
-// // Demo rápida con los 5 estados en un TabBar
-// void main() {
-//   runApp(
-//     MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: DefaultTabController(
-//         length: 5,
-//         child: Scaffold(
-//           appBar: AppBar(
-//             title: const Text('Demo estados voluntariado'),
-//             bottom: const TabBar(
-//               isScrollable: true,
-//               tabs: [
-//                 Tab(text: 'available'),
-//                 Tab(text: 'applied'),
-//                 Tab(text: 'accepted'),
-//                 Tab(text: 'full'),
-//                 Tab(text: 'busy'),
-//               ],
-//             ),
-//           ),
-//           body: TabBarView(
-//             children: [
-//               _buildPage(VoluntariadoUserState.available),
-//               _buildPage(VoluntariadoUserState.applied),
-//               _buildPage(VoluntariadoUserState.accepted),
-//               _buildPage(VoluntariadoUserState.full),
-//               _buildPage(VoluntariadoUserState.busyOther),
-//             ],
-//           ),
-//         ),
-//       ),
-//     ),
-//   );
-// }
-
-// /// Helper para la demo
-// Widget _buildPage(VoluntariadoUserState state) {
-//   return VoluntariadoDetallePage(
-//     imageUrl: 'https://picsum.photos/id/1032/800/400',
-//     type: 'Acción Social',
-//     title: 'Un Techo para mi País',
-//     subtitle:
-//     'El propósito principal de \"Un techo para mi país\" es reducir el déficit habitacional y mejorar las condiciones de vida de las personas que no tienen acceso a una vivienda adecuada.',
-//     activityDescription:
-//     'Te necesitamos para construir las viviendas de las personas que necesitan un techo. Estas están prefabricadas en madera y deberás ayudar en carpintería, montaje, pintura y demás actividades de la construcción.',
-//     address: 'Echeverría 3560, Capital Federal.',
-//     requirements: ['Mayor de edad.', 'Poder levantar cosas pesadas.'],
-//     availability: ['Mayor de edad.', 'Poder levantar cosas pesadas.'],
-//     vacants: state == VoluntariadoUserState.full ? 0 : 10,
-//     state: state,
-//     onApply: () => debugPrint('apply'),
-//     onWithdraw: () => debugPrint('withdraw'),
-//     onAbandon: () => debugPrint('abandon'),
-//   );
-// }
