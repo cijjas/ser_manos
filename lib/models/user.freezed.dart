@@ -261,7 +261,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
               as List<UserVoluntariado>?,
       likedVoluntariados: freezed == likedVoluntariados
           ? _value.likedVoluntariados
-          : likedVoluntariados /
+          : likedVoluntariados
               as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
