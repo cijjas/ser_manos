@@ -55,12 +55,15 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'nombre': instance.nombre,
       'apellido': instance.apellido,
       'email': instance.email,
-      'hasSeenOnboarding': instance.hasSeenOnboarding,
-      'voluntariados': instance.voluntariados,
-      'likedVoluntariados': instance.likedVoluntariados,
-      'telefono': instance.telefono,
-      'fechaNacimiento': instance.fechaNacimiento?.toIso8601String(),
-      'genero': instance.genero,
-      'imagenUrl': instance.imagenUrl,
-      'fcmToken': instance.fcmToken,
+      if (instance.hasSeenOnboarding case final value?)
+        'hasSeenOnboarding': value,
+      if (instance.voluntariados case final value?) 'voluntariados': value,
+      if (instance.likedVoluntariados case final value?)
+        'likedVoluntariados': value,
+      if (instance.telefono case final value?) 'telefono': value,
+      if (instance.fechaNacimiento?.toIso8601String() case final value?)
+        'fechaNacimiento': value,
+      if (instance.genero case final value?) 'genero': value,
+      if (instance.imagenUrl case final value?) 'imagenUrl': value,
+      if (instance.fcmToken case final value?) 'fcmToken': value,
     };
