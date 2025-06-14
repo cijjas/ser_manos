@@ -5,7 +5,7 @@
 ## Table of Contents
 
 * [1. Introduction](#1-introduction)
-* [2. Project Objective](#2-project-objective)
+* [2. Project Objective and Structure](#2-project-objective-and-structure)
 * [3. Features Implemented](#3-features-implemented)
     * [3.1. Core Functional Requirements](#31-core-functional-requirements)
     * [3.2. Special Features](#32-special-features)
@@ -31,9 +31,10 @@
 
 This repository contains the source code for **Ser Manos**, a cross-platform mobile application developed for the *73.21 - Desarrollo de Aplicaciones Móviles Multiplataforma* course at ITBA. The application aims to connect users with volunteer opportunities near their location, allowing them to browse, search, and apply for volunteer activities.
 
-## 2. Project Objective
+## 2. Project Objective and Structure
 
 The primary objective of Ser Manos is to develop a user-friendly cross-platform mobile application that enables users to easily find and apply for volunteer opportunities based on their location and interests, following robust UX/UI design patterns.
+
 
 ## 3. Features Implemented
 
