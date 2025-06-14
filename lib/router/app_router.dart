@@ -35,7 +35,7 @@ final routerProvider = Provider<GoRouter>((ref) {
   return GoRouter(
     observers: [FirebaseAnalyticsObserver()],
     navigatorKey: navigatorKey,
-    restorationScopeId: 'router', // TODO check usage
+    restorationScopeId: 'router', 
     errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
     initialLocation: '/',
     redirect: (context, state) {
@@ -145,7 +145,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: 'NewsDetailScreen',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return NovedadDetail(id: id);   // <-- only the id
+          return NovedadDetail(id: id);   
         },
       ),
 
