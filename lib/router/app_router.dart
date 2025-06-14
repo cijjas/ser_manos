@@ -18,7 +18,7 @@ import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/editar_perfil.dart';
 import '../shared/wireframes/perfil/perfil_wrapper.dart';
-import '../shared/wireframes/voluntariados/voluntariado.dart';
+import '../shared/wireframes/voluntariados/voluntariado_detail.dart';
 import 'go_router_observer.dart';
 
 /// Helper to map current location <--> tab index
@@ -30,21 +30,47 @@ int tabIndexFromLocation(String loc) {
 
 final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
 
+final routerRefreshNotifierProvider = Provider((ref) {
+  final notifier = ValueNotifier<int>(0);
+
+  // Listen to authentication state changes (login/logout)
+  ref.listen(authStateProvider, (_, __) {
+    notifier.value++;
+  });
+
+  // Listen to changes in the user's onboarding status
+  ref.listen(
+    currentUserProvider.select((userAsync) => userAsync.valueOrNull?.hasSeenOnboarding),
+        (previous, next) {
+      if (previous != next) {
+        notifier.value++;
+      }
+    },
+  );
+
+  return notifier;
+});
+
 final routerProvider = Provider<GoRouter>((ref) {
-  final authState = ref.watch(authStateProvider);
-  final currentUserAsync  = ref.watch(currentUserProvider);
+  final refreshNotifier = ref.watch(routerRefreshNotifierProvider);
 
   return GoRouter(
     observers: [FirebaseAnalyticsObserver()],
     navigatorKey: _rootNavigatorKey,
-    restorationScopeId: 'router', 
+    restorationScopeId: 'router',
+    // --- MODIFIED: Use the refreshListenable parameter ---
+    refreshListenable: refreshNotifier,
     errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
     initialLocation: '/',
     redirect: (context, state) {
+      // --- MODIFIED: Read providers instead of watching them inside the redirect ---
+      final authState = ref.read(authStateProvider);
+      final currentUserAsync = ref.read(currentUserProvider);
+
       // Handle auth state
       if (authState.isLoading || currentUserAsync.isLoading) return null;
       final isLoggedIn = authState.valueOrNull != null;
-      final user       = currentUserAsync.valueOrNull;
+      final user = currentUserAsync.valueOrNull;
 
       // Guard: force onboarding once
       if (isLoggedIn &&
@@ -132,16 +158,14 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: '/voluntariado',
+        path: '/voluntariado/:id',
         name: "VolunteeringDetailsScreen",
         builder: (_, state) {
-          final voluntariadoId = state.extra is String ? state.extra as String : '';
-          if (voluntariadoId.isEmpty) {
-            return const ErrorPage(message: 'Missing activity ID');
-          }
-          return VoluntariadoDetallePage(voluntariadoId: voluntariadoId);
+          final id = state.pathParameters['id']!;
+          return VoluntariadoDetallePage(voluntariadoId: id);
         },
       ),
+
       GoRoute(
         path: '/novedad/:id',
         name: 'NewsDetailScreen',
