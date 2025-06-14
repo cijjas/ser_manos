@@ -59,10 +59,14 @@ class ConfirmApplicationModal extends StatelessWidget {
               ),
               const SizedBox(height: 8),
             ],
-            Text(
-              title,
-              style: AppTypography.headline02.copyWith(color: AppColors.neutral100),
-            ),
+            // --- CHANGE START ---
+            // Only build the Text widget if the title is not empty.
+            if (title.isNotEmpty)
+              Text(
+                title,
+                style: AppTypography.headline02.copyWith(color: AppColors.neutral100),
+              ),
+            // --- CHANGE END ---
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
