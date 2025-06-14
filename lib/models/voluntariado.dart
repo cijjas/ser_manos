@@ -3,6 +3,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ser_manos/converters/geoPoint_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+import '../converters/timestamp_converter.dart';
+
 
 part 'voluntariado.freezed.dart';
 
@@ -27,7 +29,8 @@ class Voluntariado with _$Voluntariado {
     required String imageUrl,
     required String descripcion,
     required String resumen,
-    required String requisitos
+    required String requisitos,
+    @TimestampConverter() required DateTime createdAt,
   }) = _Voluntariado;
 
   factory Voluntariado.fromJson(String id, Map<String, dynamic> json) =>

@@ -30,6 +30,8 @@ mixin _$Voluntariado {
   String get descripcion => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
   String get requisitos => throw _privateConstructorUsedError;
+  @TimestampConverter()
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Voluntariado to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -56,7 +58,8 @@ abstract class $VoluntariadoCopyWith<$Res> {
       String imageUrl,
       String descripcion,
       String resumen,
-      String requisitos});
+      String requisitos,
+      @TimestampConverter() DateTime createdAt});
 }
 
 /// @nodoc
@@ -83,6 +86,7 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     Object? descripcion = null,
     Object? resumen = null,
     Object? requisitos = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -121,6 +125,10 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
           ? _value.requisitos
           : requisitos // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -142,7 +150,8 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
       String imageUrl,
       String descripcion,
       String resumen,
-      String requisitos});
+      String requisitos,
+      @TimestampConverter() DateTime createdAt});
 }
 
 /// @nodoc
@@ -167,6 +176,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     Object? descripcion = null,
     Object? resumen = null,
     Object? requisitos = null,
+    Object? createdAt = null,
   }) {
     return _then(_$VoluntariadoImpl(
       id: null == id
@@ -205,6 +215,10 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           ? _value.requisitos
           : requisitos // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -221,7 +235,8 @@ class _$VoluntariadoImpl implements _Voluntariado {
       required this.imageUrl,
       required this.descripcion,
       required this.resumen,
-      required this.requisitos});
+      required this.requisitos,
+      @TimestampConverter() required this.createdAt});
 
   factory _$VoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
       _$$VoluntariadoImplFromJson(json);
@@ -245,10 +260,13 @@ class _$VoluntariadoImpl implements _Voluntariado {
   final String resumen;
   @override
   final String requisitos;
+  @override
+  @TimestampConverter()
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos)';
+    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos, createdAt: $createdAt)';
   }
 
   @override
@@ -269,13 +287,15 @@ class _$VoluntariadoImpl implements _Voluntariado {
                 other.descripcion == descripcion) &&
             (identical(other.resumen, resumen) || other.resumen == resumen) &&
             (identical(other.requisitos, requisitos) ||
-                other.requisitos == requisitos));
+                other.requisitos == requisitos) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, nombre, tipo, vacantes,
-      location, imageUrl, descripcion, resumen, requisitos);
+      location, imageUrl, descripcion, resumen, requisitos, createdAt);
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
@@ -295,15 +315,17 @@ class _$VoluntariadoImpl implements _Voluntariado {
 
 abstract class _Voluntariado implements Voluntariado {
   const factory _Voluntariado(
-      {required final String id,
-      required final String nombre,
-      required final String tipo,
-      required final int vacantes,
-      @GeoPointConverter() required final LatLng location,
-      required final String imageUrl,
-      required final String descripcion,
-      required final String resumen,
-      required final String requisitos}) = _$VoluntariadoImpl;
+          {required final String id,
+          required final String nombre,
+          required final String tipo,
+          required final int vacantes,
+          @GeoPointConverter() required final LatLng location,
+          required final String imageUrl,
+          required final String descripcion,
+          required final String resumen,
+          required final String requisitos,
+          @TimestampConverter() required final DateTime createdAt}) =
+      _$VoluntariadoImpl;
 
   factory _Voluntariado.fromJson(Map<String, dynamic> json) =
       _$VoluntariadoImpl.fromJson;
@@ -327,6 +349,9 @@ abstract class _Voluntariado implements Voluntariado {
   String get resumen;
   @override
   String get requisitos;
+  @override
+  @TimestampConverter()
+  DateTime get createdAt;
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
