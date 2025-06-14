@@ -6,6 +6,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/models/voluntariado.dart';
@@ -33,28 +34,24 @@ class VoluntariadoDetallePage extends ConsumerWidget {
 
   Future<void> _handleApply(
       BuildContext context, WidgetRef ref, User user) async {
-    final result = await ref
+    await ref
         .read(userServiceProvider)
         .postulateToVoluntariado(user, voluntariadoId);
-
   }
 
   Future<void> _handleWithdraw(
       BuildContext context, WidgetRef ref, User user) async {
-    final result = await ref
+    await ref
         .read(userServiceProvider)
         .withdrawPostulation(user, voluntariadoId);
-
   }
 
   Future<void> _handleAbandon(
       BuildContext context, WidgetRef ref, User user) async {
-    final result = await ref
+    await ref
         .read(userServiceProvider)
         .abandonVoluntariado(user, voluntariadoId);
-
   }
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -67,58 +64,118 @@ class VoluntariadoDetallePage extends ConsumerWidget {
           data: (user) {
             return _buildContent(
               context,
+              ref, // Pass ref
               voluntariado,
               user,
-              () => _handleApply(context, ref, user),
-              () => _handleWithdraw(context, ref, user),
-              () => _handleAbandon(context, ref, user),
+                  () => _handleApply(context, ref, user),
+                  () => _handleWithdraw(context, ref, user),
+                  () => _handleAbandon(context, ref, user),
             );
           },
           loading: () =>
-              const Scaffold(body: Center(child: CircularProgressIndicator())),
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
           error: (err, _) =>
               Scaffold(body: Center(child: Text('Error de usuario: $err'))),
         );
       },
       loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (error, _) => Scaffold(body: Center(child: Text('Error: $error'))),
     );
   }
 
+  // Helper function to determine if the user profile is complete.
+  // Ideally, this would be a getter on the User model (`user.isProfileComplete`).
+  bool _isProfileComplete(User user) {
+    return user.fechaNacimiento != null &&
+        (user.genero != null && user.genero!.isNotEmpty) &&
+        (user.imagenUrl != null && user.imagenUrl!.isNotEmpty) &&
+        (user.telefono != null && user.telefono!.isNotEmpty);
+  }
+
   Widget _buildContent(
-    BuildContext context,
-    Voluntariado voluntariado,
-    User user,
-    Future<void> Function()? onApply,
-    Future<void> Function()? onWithdraw,
-    Future<void> Function()? onAbandon,
-  ) {
-    // Determine user state based on user and voluntariado data
+      BuildContext context,
+      WidgetRef ref, // Receive ref
+      Voluntariado voluntariado,
+      User user,
+      Future<void> Function()? onApply,
+      Future<void> Function()? onWithdraw,
+      Future<void> Function()? onAbandon,
+      ) {
     final media = MediaQuery.of(context);
 
-    // Create wrapped functions that will show modals and invalidate providers
-
-
     Future<void> wrappedApply() async {
-      _showConfirmModal(context, voluntariado, () => onApply != null ? onApply() : {}, ActionType.postulate);
+      // Get the latest user data directly from the provider.
+      final currentUser = ref.read(currentUserProvider).value;
+      if (currentUser == null) return; // Exit if user data is not available.
+
+      // Check if the user's profile is complete.
+      if (_isProfileComplete(currentUser)) {
+        // If complete, show the confirmation modal to apply.
+        _showConfirmModal(context, voluntariado,
+                () => onApply != null ? onApply() : {}, ActionType.postulate);
+      } else {
+        // If incomplete, show a modal informing the user.
+        final bool? confirmed = await showDialog<bool>(
+          context: context,
+          builder: (dialogContext) => ConfirmApplicationModal(
+            message: "Para postularte debes primero completar tus datos.",
+            title: "", // Title is not needed as message is descriptive.
+            confirmLabel: "Confirmar",
+            onConfirm: () => Navigator.of(dialogContext).pop(true),
+            onCancel: () => Navigator.of(dialogContext).pop(false),
+            actionType: ActionType
+                .postulate, // A placeholder type, the message is overridden.
+          ),
+        );
+
+        // If user confirms, navigate to the edit profile page.
+        if (confirmed == true) {
+          final profileSaved =
+          await GoRouter.of(context).push<bool>('/home/perfil/editar');
+
+          // If the profile was saved successfully...
+          if (profileSaved == true) {
+            // Invalidate the provider to force a refetch of the user data.
+            ref.invalidate(currentUserProvider);
+            // Wait for the provider to update with the new user data.
+            final freshUser = await ref.read(currentUserProvider.future);
+
+            // Now, with the updated user, show the application modal.
+            _showConfirmModal(
+              context,
+              voluntariado,
+                  () => _handleApply(context, ref, freshUser),
+              ActionType.postulate,
+            );
+          }
+        }
+      }
     }
 
     Future<void> wrappedWithdraw() async {
-      _showConfirmModal(context, voluntariado, () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
+      _showConfirmModal(
+          context,
+          voluntariado,
+              () => onWithdraw != null ? onWithdraw() : {},
+          ActionType.withdraw);
     }
 
     Future<void> wrappedAbandon() async {
-      _showConfirmModal(context, voluntariado, () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
+      _showConfirmModal(
+          context,
+          voluntariado,
+              () => onAbandon != null ? onAbandon() : {},
+          ActionType.abandon);
     }
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
       body: Stack(
         children: [
-          // 1. Scrollable content below everything
+          // 1. Scrollable content
           Positioned.fill(
-            top: 52, // Reserve space for StatusBar
+            top: 52,
             child: SingleChildScrollView(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,15 +198,18 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                             style: AppTypography.overline
                                 .copyWith(color: AppColors.neutral75)),
                         const SizedBox(height: 4),
-                        Text(voluntariado.nombre, style: AppTypography.headline01),
+                        Text(voluntariado.nombre,
+                            style: AppTypography.headline01),
                         const SizedBox(height: 16),
                         Text(voluntariado.resumen,
                             style: AppTypography.body01
                                 .copyWith(color: AppColors.secondary200)),
                         const SizedBox(height: 32),
-                        const Text('Sobre la actividad', style: AppTypography.headline02),
+                        const Text('Sobre la actividad',
+                            style: AppTypography.headline02),
                         const SizedBox(height: 8),
-                        Text(voluntariado.descripcion, style: AppTypography.body01),
+                        Text(voluntariado.descripcion,
+                            style: AppTypography.body01),
                         const SizedBox(height: 32),
                         _LocationCard(
                           address: voluntariado.location.toString(),
@@ -162,7 +222,8 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                         MarkdownBody(
                           data: voluntariado.requisitos,
                           styleSheet: MarkdownStyleSheet.fromTheme(
-                              Theme.of(context)).copyWith(
+                              Theme.of(context))
+                              .copyWith(
                             p: AppTypography.body01,
                           ),
                         ),
@@ -173,7 +234,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                           state: _determineUserState(voluntariado, user),
                           onApply: wrappedApply,
                           onWithdraw: wrappedWithdraw,
-                          onAbandon: onAbandon,
+                          onAbandon: wrappedAbandon, // Changed from onAbandon to wrappedAbandon for consistency
                         ),
                         const SizedBox(height: 48),
                       ],
@@ -184,7 +245,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             ),
           ),
 
-          // 2. Status bar background + shadow
+          // 2. Status bar
           const Positioned(
             top: 0,
             left: 0,
@@ -195,7 +256,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             ),
           ),
 
-          // 3. Floating back button ABOVE the shadow
+          // 3. Back button
           Positioned(
             top: 8,
             left: 8,
@@ -209,9 +270,9 @@ class VoluntariadoDetallePage extends ConsumerWidget {
         ],
       ),
     );
-
   }
 }
+
 
 
 void _showConfirmModal(BuildContext context, Voluntariado voluntariado, Function() onConfirm, ActionType actionType) {

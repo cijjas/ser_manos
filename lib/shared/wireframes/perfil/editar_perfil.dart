@@ -138,7 +138,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
   Future<void> _save() async {
     if (!_formKey.currentState!.saveAndValidate()) {
-      print('Form not valid');
       return;
     }
 
@@ -149,7 +148,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     );
 
     if (fbUser == null || _original == null) {
-      print('fbUser or _original is null');
       return;
     }
 
@@ -157,28 +155,15 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
     String? urlImagenFinalParaGuardar = _fotoUrl;
 
+
     try {
-      print('Starting save...');
-      print('Current _fotoUrl: $_fotoUrl');
-      print('Current _imagenLocalParaSubir: $_imagenLocalParaSubir');
-
-      // Solo subir imagen si hay una nueva imagen local seleccionada
       if (_imagenLocalParaSubir != null) {
-        print('Uploading new image to Firebase Storage...');
-
-
         final storageRef = FirebaseStorage.instance
             .ref()
             .child('profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
-
         final metadata = SettableMetadata(contentType: 'image/jpeg');
-
-
-        // https://github.com/firebase/flutterfire/issues/17328
         final bytes = await _imagenLocalParaSubir!.readAsBytes();
-
         final snapshot = await storageRef.putData(bytes, metadata);
-
 
         if (snapshot.state != TaskState.success) {
           throw FirebaseException(
@@ -186,15 +171,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
             message: 'Error al subir la imagen.',
           );
         }
-
-        final downloadUrl = await storageRef.getDownloadURL();
-        print('New image uploaded! URL: $downloadUrl');
-        urlImagenFinalParaGuardar = downloadUrl;
-      } else {
-        print('No new image selected, keeping current URL');
+        urlImagenFinalParaGuardar = await storageRef.getDownloadURL();
       }
-
-      print('Creating updated user object...');
 
       final updated = _original!.copyWith(
         email: values['email'].trim(),
@@ -206,9 +184,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         imagenUrl: urlImagenFinalParaGuardar,
       );
 
-      print('Calling updateUserProvider...');
       await ref.read(updateUserProvider(updated).future);
-      print('User updated successfully');
 
       if (!mounted) return;
 
@@ -216,22 +192,32 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         const SnackBar(content: Text('Datos guardados exitosamente')),
       );
 
-      // Limpiar la imagen local después de guardar exitosamente
       setState(() {
-        print('Clearing _imagenLocalParaSubir and setting _fotoUrl');
         _imagenLocalParaSubir = null;
         _fotoUrl = urlImagenFinalParaGuardar;
       });
 
-      print('Navigating to /home/perfil');
-      context.go('/home/perfil');
+      // --- CHANGE START ---
+      // Instead of navigating with context.go, pop the page with a `true`
+      // result to signal success to the previous screen.
+      if (context.canPop()) {
+        context.pop(true);
+      } else {
+        // Fallback for cases where the page can't be popped (e.g., deep link).
+        context.go('/home/perfil');
+      }
+      // --- CHANGE END ---
+
     } catch (e, stacktrace) {
-      // print
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error al guardar: ${e.toString()}')),
+        );
+      }
       print('ERROR inside _save(): ${e.toString()}');
       print('STACKTRACE: $stacktrace');
     } finally {
       if (mounted) {
-        print('Exiting _save(), setting _subiendoAlGuardar to false');
         setState(() => _subiendoAlGuardar = false);
       }
     }
