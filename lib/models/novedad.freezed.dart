@@ -26,6 +26,7 @@ mixin _$Novedad {
   String get emisor => throw _privateConstructorUsedError;
   String get imagenUrl => throw _privateConstructorUsedError;
   String get descripcion => throw _privateConstructorUsedError;
+  @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Novedad to a JSON map.
@@ -49,7 +50,7 @@ abstract class $NovedadCopyWith<$Res> {
       String emisor,
       String imagenUrl,
       String descripcion,
-      DateTime createdAt});
+      @TimestampConverter() DateTime createdAt});
 }
 
 /// @nodoc
@@ -122,7 +123,7 @@ abstract class _$$NovedadImplCopyWith<$Res> implements $NovedadCopyWith<$Res> {
       String emisor,
       String imagenUrl,
       String descripcion,
-      DateTime createdAt});
+      @TimestampConverter() DateTime createdAt});
 }
 
 /// @nodoc
@@ -189,7 +190,7 @@ class _$NovedadImpl implements _Novedad {
       required this.emisor,
       required this.imagenUrl,
       required this.descripcion,
-      required this.createdAt});
+      @TimestampConverter() required this.createdAt});
 
   factory _$NovedadImpl.fromJson(Map<String, dynamic> json) =>
       _$$NovedadImplFromJson(json);
@@ -207,6 +208,7 @@ class _$NovedadImpl implements _Novedad {
   @override
   final String descripcion;
   @override
+  @TimestampConverter()
   final DateTime createdAt;
 
   @override
@@ -260,7 +262,7 @@ abstract class _Novedad implements Novedad {
       required final String emisor,
       required final String imagenUrl,
       required final String descripcion,
-      required final DateTime createdAt}) = _$NovedadImpl;
+      @TimestampConverter() required final DateTime createdAt}) = _$NovedadImpl;
 
   factory _Novedad.fromJson(Map<String, dynamic> json) = _$NovedadImpl.fromJson;
 
@@ -277,6 +279,7 @@ abstract class _Novedad implements Novedad {
   @override
   String get descripcion;
   @override
+  @TimestampConverter()
   DateTime get createdAt;
 
   /// Create a copy of Novedad
