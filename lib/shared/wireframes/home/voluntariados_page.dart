@@ -122,7 +122,7 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 16),
               child: CardVoluntariadoActual(
                 voluntariado: voluntariado,
-                onTap: () => context.push('/voluntariado', extra: voluntariado.id),
+                onTap: () => context.push('/voluntariado/${voluntariado.id}'),
               ),
             ),
           ],
@@ -138,10 +138,15 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
 class VoluntariadosListSection extends ConsumerWidget {
   const VoluntariadosListSection({super.key});
 
+
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final voluntariadosAsync = ref.watch(voluntariadosProvider);
     final user = ref.watch(currentUserProvider).value;
+    final query = ref.watch(voluntariadoSearchQueryProvider);
+    final isSearching = query.trim().isNotEmpty;
+
 
     Future<void> onLikeTap(WidgetRef ref, String voluntariadoId) async {
       if (user == null) {
@@ -156,7 +161,12 @@ class VoluntariadosListSection extends ConsumerWidget {
         children: [
           const Text("Voluntariados", style: AppTypography.headline01),
           const SizedBox(height: 16),
-          VoluntariadoListItems(voluntariados: voluntariados, onLikeTap: (id) => onLikeTap(ref, id), user: user),
+          VoluntariadoListItems(
+              voluntariados: voluntariados,
+              onLikeTap: (id) => onLikeTap(ref, id), user: user,
+              isSearching: isSearching,
+          ),
+
           const SizedBox(height: 16),
         ],
       ),

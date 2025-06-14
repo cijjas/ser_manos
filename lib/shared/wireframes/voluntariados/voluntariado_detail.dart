@@ -36,16 +36,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     final result = await ref
         .read(userServiceProvider)
         .postulateToVoluntariado(user, voluntariadoId);
-    // TODO remove snackbar
-    if (result) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Postulación enviada.")),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Ya estás postulado.")),
-      );
-    }
+
   }
 
   Future<void> _handleWithdraw(
@@ -53,16 +44,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     final result = await ref
         .read(userServiceProvider)
         .withdrawPostulation(user, voluntariadoId);
-    // TODO remove snackbar
-    if (result) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Postulación retirada.")),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No se pudo retirar la postulación.")),
-      );
-    }
+
   }
 
   Future<void> _handleAbandon(
@@ -70,15 +52,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     final result = await ref
         .read(userServiceProvider)
         .abandonVoluntariado(user, voluntariadoId);
-    if (result) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Voluntariado abandonado.")),
-      );
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("No se pudo abandonar el voluntariado.")),
-      );
-    }
+
   }
 
 
