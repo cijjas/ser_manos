@@ -192,14 +192,22 @@ mixin _$User {
   String get nombre => throw _privateConstructorUsedError;
   String get apellido => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   bool? get hasSeenOnboarding => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   List<UserVoluntariado>? get voluntariados =>
       throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   List<String>? get likedVoluntariados => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   String? get telefono => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   DateTime? get fechaNacimiento => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   String? get genero => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   String? get imagenUrl => throw _privateConstructorUsedError;
+  @JsonKey(includeIfNull: false)
   String? get fcmToken => throw _privateConstructorUsedError;
 
   /// Serializes this User to a JSON map.
@@ -221,14 +229,14 @@ abstract class $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
-      bool? hasSeenOnboarding,
-      List<UserVoluntariado>? voluntariados,
-      List<String>? likedVoluntariados,
-      String? telefono,
-      DateTime? fechaNacimiento,
-      String? genero,
-      String? imagenUrl,
-      String? fcmToken});
+      @JsonKey(includeIfNull: false) bool? hasSeenOnboarding,
+      @JsonKey(includeIfNull: false) List<UserVoluntariado>? voluntariados,
+      @JsonKey(includeIfNull: false) List<String>? likedVoluntariados,
+      @JsonKey(includeIfNull: false) String? telefono,
+      @JsonKey(includeIfNull: false) DateTime? fechaNacimiento,
+      @JsonKey(includeIfNull: false) String? genero,
+      @JsonKey(includeIfNull: false) String? imagenUrl,
+      @JsonKey(includeIfNull: false) String? fcmToken});
 }
 
 /// @nodoc
@@ -324,14 +332,14 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
-      bool? hasSeenOnboarding,
-      List<UserVoluntariado>? voluntariados,
-      List<String>? likedVoluntariados,
-      String? telefono,
-      DateTime? fechaNacimiento,
-      String? genero,
-      String? imagenUrl,
-      String? fcmToken});
+      @JsonKey(includeIfNull: false) bool? hasSeenOnboarding,
+      @JsonKey(includeIfNull: false) List<UserVoluntariado>? voluntariados,
+      @JsonKey(includeIfNull: false) List<String>? likedVoluntariados,
+      @JsonKey(includeIfNull: false) String? telefono,
+      @JsonKey(includeIfNull: false) DateTime? fechaNacimiento,
+      @JsonKey(includeIfNull: false) String? genero,
+      @JsonKey(includeIfNull: false) String? imagenUrl,
+      @JsonKey(includeIfNull: false) String? fcmToken});
 }
 
 /// @nodoc
@@ -420,14 +428,15 @@ class _$UserImpl implements _User {
       required this.nombre,
       required this.apellido,
       required this.email,
-      this.hasSeenOnboarding,
+      @JsonKey(includeIfNull: false) this.hasSeenOnboarding,
+      @JsonKey(includeIfNull: false)
       final List<UserVoluntariado>? voluntariados,
-      final List<String>? likedVoluntariados,
-      this.telefono,
-      this.fechaNacimiento,
-      this.genero,
-      this.imagenUrl,
-      this.fcmToken})
+      @JsonKey(includeIfNull: false) final List<String>? likedVoluntariados,
+      @JsonKey(includeIfNull: false) this.telefono,
+      @JsonKey(includeIfNull: false) this.fechaNacimiento,
+      @JsonKey(includeIfNull: false) this.genero,
+      @JsonKey(includeIfNull: false) this.imagenUrl,
+      @JsonKey(includeIfNull: false) this.fcmToken})
       : _voluntariados = voluntariados,
         _likedVoluntariados = likedVoluntariados;
 
@@ -443,9 +452,11 @@ class _$UserImpl implements _User {
   @override
   final String email;
   @override
+  @JsonKey(includeIfNull: false)
   final bool? hasSeenOnboarding;
   final List<UserVoluntariado>? _voluntariados;
   @override
+  @JsonKey(includeIfNull: false)
   List<UserVoluntariado>? get voluntariados {
     final value = _voluntariados;
     if (value == null) return null;
@@ -456,6 +467,7 @@ class _$UserImpl implements _User {
 
   final List<String>? _likedVoluntariados;
   @override
+  @JsonKey(includeIfNull: false)
   List<String>? get likedVoluntariados {
     final value = _likedVoluntariados;
     if (value == null) return null;
@@ -466,14 +478,19 @@ class _$UserImpl implements _User {
   }
 
   @override
+  @JsonKey(includeIfNull: false)
   final String? telefono;
   @override
+  @JsonKey(includeIfNull: false)
   final DateTime? fechaNacimiento;
   @override
+  @JsonKey(includeIfNull: false)
   final String? genero;
   @override
+  @JsonKey(includeIfNull: false)
   final String? imagenUrl;
   @override
+  @JsonKey(includeIfNull: false)
   final String? fcmToken;
 
   @override
@@ -547,14 +564,15 @@ abstract class _User implements User {
       required final String nombre,
       required final String apellido,
       required final String email,
-      final bool? hasSeenOnboarding,
+      @JsonKey(includeIfNull: false) final bool? hasSeenOnboarding,
+      @JsonKey(includeIfNull: false)
       final List<UserVoluntariado>? voluntariados,
-      final List<String>? likedVoluntariados,
-      final String? telefono,
-      final DateTime? fechaNacimiento,
-      final String? genero,
-      final String? imagenUrl,
-      final String? fcmToken}) = _$UserImpl;
+      @JsonKey(includeIfNull: false) final List<String>? likedVoluntariados,
+      @JsonKey(includeIfNull: false) final String? telefono,
+      @JsonKey(includeIfNull: false) final DateTime? fechaNacimiento,
+      @JsonKey(includeIfNull: false) final String? genero,
+      @JsonKey(includeIfNull: false) final String? imagenUrl,
+      @JsonKey(includeIfNull: false) final String? fcmToken}) = _$UserImpl;
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
 
@@ -567,20 +585,28 @@ abstract class _User implements User {
   @override
   String get email;
   @override
+  @JsonKey(includeIfNull: false)
   bool? get hasSeenOnboarding;
   @override
+  @JsonKey(includeIfNull: false)
   List<UserVoluntariado>? get voluntariados;
   @override
+  @JsonKey(includeIfNull: false)
   List<String>? get likedVoluntariados;
   @override
+  @JsonKey(includeIfNull: false)
   String? get telefono;
   @override
+  @JsonKey(includeIfNull: false)
   DateTime? get fechaNacimiento;
   @override
+  @JsonKey(includeIfNull: false)
   String? get genero;
   @override
+  @JsonKey(includeIfNull: false)
   String? get imagenUrl;
   @override
+  @JsonKey(includeIfNull: false)
   String? get fcmToken;
 
   /// Create a copy of User
