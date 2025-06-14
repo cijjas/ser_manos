@@ -13,6 +13,7 @@ class Novedad with _$Novedad {
     required String emisor,
     required String imagenUrl,
     required String descripcion,
+    required DateTime createdAt,
   }) = _Novedad;
 
   factory Novedad.fromJson(Map<String, dynamic> json) => _$NovedadFromJson(json);

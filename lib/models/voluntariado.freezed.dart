@@ -1,4 +1,13 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
 part of 'voluntariado.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
 
 T _$identity<T>(T value) => value;
 
@@ -26,11 +35,13 @@ mixin _$Voluntariado {
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Voluntariado
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   $VoluntariadoCopyWith<Voluntariado> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
+/// @nodoc
 abstract class $VoluntariadoCopyWith<$Res> {
   factory $VoluntariadoCopyWith(
           Voluntariado value, $Res Function(Voluntariado) then) =
@@ -48,13 +59,18 @@ abstract class $VoluntariadoCopyWith<$Res> {
       String requisitos});
 }
 
+/// @nodoc
 class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     implements $VoluntariadoCopyWith<$Res> {
   _$VoluntariadoCopyWithImpl(this._value, this._then);
 
+  // ignore: unused_field
   final $Val _value;
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
+  /// Create a copy of Voluntariado
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -71,44 +87,45 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
-          : id 
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       nombre: null == nombre
           ? _value.nombre
-          : nombre 
+          : nombre // ignore: cast_nullable_to_non_nullable
               as String,
       tipo: null == tipo
           ? _value.tipo
-          : tipo 
+          : tipo // ignore: cast_nullable_to_non_nullable
               as String,
       vacantes: null == vacantes
           ? _value.vacantes
-          : vacantes
+          : vacantes // ignore: cast_nullable_to_non_nullable
               as int,
       location: null == location
           ? _value.location
-          : location 
+          : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
       imageUrl: null == imageUrl
           ? _value.imageUrl
-          : imageUrl 
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
       descripcion: null == descripcion
           ? _value.descripcion
-          : descripcion 
+          : descripcion // ignore: cast_nullable_to_non_nullable
               as String,
       resumen: null == resumen
           ? _value.resumen
-          : resumen 
+          : resumen // ignore: cast_nullable_to_non_nullable
               as String,
       requisitos: null == requisitos
           ? _value.requisitos
-          : requisitos 
+          : requisitos // ignore: cast_nullable_to_non_nullable
               as String,
     ) as $Val);
   }
 }
 
+/// @nodoc
 abstract class _$$VoluntariadoImplCopyWith<$Res>
     implements $VoluntariadoCopyWith<$Res> {
   factory _$$VoluntariadoImplCopyWith(
@@ -128,6 +145,7 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
       String requisitos});
 }
 
+/// @nodoc
 class __$$VoluntariadoImplCopyWithImpl<$Res>
     extends _$VoluntariadoCopyWithImpl<$Res, _$VoluntariadoImpl>
     implements _$$VoluntariadoImplCopyWith<$Res> {
@@ -136,6 +154,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
       : super(_value, _then);
 
   /// Create a copy of Voluntariado
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -152,44 +171,45 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     return _then(_$VoluntariadoImpl(
       id: null == id
           ? _value.id
-          : id 
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       nombre: null == nombre
           ? _value.nombre
-          : nombre 
+          : nombre // ignore: cast_nullable_to_non_nullable
               as String,
       tipo: null == tipo
           ? _value.tipo
-          : tipo 
+          : tipo // ignore: cast_nullable_to_non_nullable
               as String,
       vacantes: null == vacantes
           ? _value.vacantes
-          : vacantes 
+          : vacantes // ignore: cast_nullable_to_non_nullable
               as int,
       location: null == location
           ? _value.location
-          : location 
+          : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
       imageUrl: null == imageUrl
           ? _value.imageUrl
-          : imageUrl 
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
       descripcion: null == descripcion
           ? _value.descripcion
-          : descripcion 
+          : descripcion // ignore: cast_nullable_to_non_nullable
               as String,
       resumen: null == resumen
           ? _value.resumen
-          : resumen 
+          : resumen // ignore: cast_nullable_to_non_nullable
               as String,
       requisitos: null == requisitos
           ? _value.requisitos
-          : requisitos 
+          : requisitos // ignore: cast_nullable_to_non_nullable
               as String,
     ));
   }
 }
 
+/// @nodoc
 @JsonSerializable()
 class _$VoluntariadoImpl implements _Voluntariado {
   const _$VoluntariadoImpl(
@@ -258,6 +278,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
       location, imageUrl, descripcion, resumen, requisitos);
 
   /// Create a copy of Voluntariado
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
@@ -308,6 +329,7 @@ abstract class _Voluntariado implements Voluntariado {
   String get requisitos;
 
   /// Create a copy of Voluntariado
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$VoluntariadoImplCopyWith<_$VoluntariadoImpl> get copyWith =>

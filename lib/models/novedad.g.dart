@@ -14,6 +14,7 @@ _$NovedadImpl _$$NovedadImplFromJson(Map<String, dynamic> json) =>
       emisor: json['emisor'] as String,
       imagenUrl: json['imagenUrl'] as String,
       descripcion: json['descripcion'] as String,
+      createdAt: DateTime.parse(json['createdAt'] as String),
     );
 
 Map<String, dynamic> _$$NovedadImplToJson(_$NovedadImpl instance) =>
@@ -24,4 +25,5 @@ Map<String, dynamic> _$$NovedadImplToJson(_$NovedadImpl instance) =>
       'emisor': instance.emisor,
       'imagenUrl': instance.imagenUrl,
       'descripcion': instance.descripcion,
+      'createdAt': instance.createdAt.toIso8601String(),
     };

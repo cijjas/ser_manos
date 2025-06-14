@@ -1,4 +1,13 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
 part of 'novedad.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
 
 T _$identity<T>(T value) => value;
 
@@ -17,15 +26,18 @@ mixin _$Novedad {
   String get emisor => throw _privateConstructorUsedError;
   String get imagenUrl => throw _privateConstructorUsedError;
   String get descripcion => throw _privateConstructorUsedError;
+  DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Novedad to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
   /// Create a copy of Novedad
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   $NovedadCopyWith<Novedad> get copyWith => throw _privateConstructorUsedError;
 }
 
+/// @nodoc
 abstract class $NovedadCopyWith<$Res> {
   factory $NovedadCopyWith(Novedad value, $Res Function(Novedad) then) =
       _$NovedadCopyWithImpl<$Res, Novedad>;
@@ -36,17 +48,22 @@ abstract class $NovedadCopyWith<$Res> {
       String resumen,
       String emisor,
       String imagenUrl,
-      String descripcion});
+      String descripcion,
+      DateTime createdAt});
 }
 
+/// @nodoc
 class _$NovedadCopyWithImpl<$Res, $Val extends Novedad>
     implements $NovedadCopyWith<$Res> {
   _$NovedadCopyWithImpl(this._value, this._then);
 
+  // ignore: unused_field
   final $Val _value;
+  // ignore: unused_field
   final $Res Function($Val) _then;
 
   /// Create a copy of Novedad
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -56,36 +73,42 @@ class _$NovedadCopyWithImpl<$Res, $Val extends Novedad>
     Object? emisor = null,
     Object? imagenUrl = null,
     Object? descripcion = null,
+    Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
           ? _value.id
-          : id 
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       titulo: null == titulo
           ? _value.titulo
-          : titulo 
+          : titulo // ignore: cast_nullable_to_non_nullable
               as String,
       resumen: null == resumen
           ? _value.resumen
-          : resumen 
+          : resumen // ignore: cast_nullable_to_non_nullable
               as String,
       emisor: null == emisor
           ? _value.emisor
-          : emisor 
+          : emisor // ignore: cast_nullable_to_non_nullable
               as String,
       imagenUrl: null == imagenUrl
           ? _value.imagenUrl
-          : imagenUrl 
+          : imagenUrl // ignore: cast_nullable_to_non_nullable
               as String,
       descripcion: null == descripcion
           ? _value.descripcion
-          : descripcion 
+          : descripcion // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
 
+/// @nodoc
 abstract class _$$NovedadImplCopyWith<$Res> implements $NovedadCopyWith<$Res> {
   factory _$$NovedadImplCopyWith(
           _$NovedadImpl value, $Res Function(_$NovedadImpl) then) =
@@ -98,9 +121,11 @@ abstract class _$$NovedadImplCopyWith<$Res> implements $NovedadCopyWith<$Res> {
       String resumen,
       String emisor,
       String imagenUrl,
-      String descripcion});
+      String descripcion,
+      DateTime createdAt});
 }
 
+/// @nodoc
 class __$$NovedadImplCopyWithImpl<$Res>
     extends _$NovedadCopyWithImpl<$Res, _$NovedadImpl>
     implements _$$NovedadImplCopyWith<$Res> {
@@ -109,6 +134,7 @@ class __$$NovedadImplCopyWithImpl<$Res>
       : super(_value, _then);
 
   /// Create a copy of Novedad
+  /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
   $Res call({
@@ -118,36 +144,42 @@ class __$$NovedadImplCopyWithImpl<$Res>
     Object? emisor = null,
     Object? imagenUrl = null,
     Object? descripcion = null,
+    Object? createdAt = null,
   }) {
     return _then(_$NovedadImpl(
       id: null == id
           ? _value.id
-          : id 
+          : id // ignore: cast_nullable_to_non_nullable
               as String,
       titulo: null == titulo
           ? _value.titulo
-          : titulo 
+          : titulo // ignore: cast_nullable_to_non_nullable
               as String,
       resumen: null == resumen
           ? _value.resumen
-          : resumen 
+          : resumen // ignore: cast_nullable_to_non_nullable
               as String,
       emisor: null == emisor
           ? _value.emisor
-          : emisor 
+          : emisor // ignore: cast_nullable_to_non_nullable
               as String,
       imagenUrl: null == imagenUrl
           ? _value.imagenUrl
-          : imagenUrl
+          : imagenUrl // ignore: cast_nullable_to_non_nullable
               as String,
       descripcion: null == descripcion
           ? _value.descripcion
-          : descripcion 
+          : descripcion // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
 
+/// @nodoc
 @JsonSerializable()
 class _$NovedadImpl implements _Novedad {
   const _$NovedadImpl(
@@ -156,7 +188,8 @@ class _$NovedadImpl implements _Novedad {
       required this.resumen,
       required this.emisor,
       required this.imagenUrl,
-      required this.descripcion});
+      required this.descripcion,
+      required this.createdAt});
 
   factory _$NovedadImpl.fromJson(Map<String, dynamic> json) =>
       _$$NovedadImplFromJson(json);
@@ -173,10 +206,12 @@ class _$NovedadImpl implements _Novedad {
   final String imagenUrl;
   @override
   final String descripcion;
+  @override
+  final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Novedad(id: $id, titulo: $titulo, resumen: $resumen, emisor: $emisor, imagenUrl: $imagenUrl, descripcion: $descripcion)';
+    return 'Novedad(id: $id, titulo: $titulo, resumen: $resumen, emisor: $emisor, imagenUrl: $imagenUrl, descripcion: $descripcion, createdAt: $createdAt)';
   }
 
   @override
@@ -191,15 +226,18 @@ class _$NovedadImpl implements _Novedad {
             (identical(other.imagenUrl, imagenUrl) ||
                 other.imagenUrl == imagenUrl) &&
             (identical(other.descripcion, descripcion) ||
-                other.descripcion == descripcion));
+                other.descripcion == descripcion) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, titulo, resumen, emisor, imagenUrl, descripcion);
+  int get hashCode => Object.hash(runtimeType, id, titulo, resumen, emisor,
+      imagenUrl, descripcion, createdAt);
 
   /// Create a copy of Novedad
+  /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
@@ -221,7 +259,8 @@ abstract class _Novedad implements Novedad {
       required final String resumen,
       required final String emisor,
       required final String imagenUrl,
-      required final String descripcion}) = _$NovedadImpl;
+      required final String descripcion,
+      required final DateTime createdAt}) = _$NovedadImpl;
 
   factory _Novedad.fromJson(Map<String, dynamic> json) = _$NovedadImpl.fromJson;
 
@@ -237,8 +276,11 @@ abstract class _Novedad implements Novedad {
   String get imagenUrl;
   @override
   String get descripcion;
+  @override
+  DateTime get createdAt;
 
   /// Create a copy of Novedad
+  /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NovedadImplCopyWith<_$NovedadImpl> get copyWith =>
