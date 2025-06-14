@@ -1,109 +1,134 @@
-import {onDocumentCreated, onDocumentUpdated} from "firebase-functions/v2/firestore";
-import { initializeApp } from "firebase-admin/app";
-import { getMessaging, BatchResponse, SendResponse } from "firebase-admin/messaging"; // Import BatchResponse and SendResponse
-import { getFirestore } from "firebase-admin/firestore";
+/**
+ * Import function triggers from their respective submodules:
+ *
+ * import {onCall} from "firebase-functions/v2/https";
+ * import {onDocumentWritten} from "firebase-functions/v2/firestore";
+ *
+ * See a full list of supported triggers at https://firebase.google.com/docs/functions
+ */
 
-initializeApp();
+import { onDocumentUpdated, onDocumentCreated } from "firebase-functions/v2/firestore";
+import * as admin from "firebase-admin";
+import { logger } from "firebase-functions";
 
-export const sendPostulationStatusNotification = onDocumentUpdated(
-    "users/{userId}",
+admin.initializeApp();
+
+const db = admin.firestore();
+const fcm = admin.messaging();
+
+/**
+ * Sends a notification when a user's application status for a "voluntariado" changes.
+ * This function uses the v2 syntax.
+ */
+export const onVoluntariadoApplicationChange = onDocumentUpdated(
+    {
+        document: "users/{userId}",
+        region: "southamerica-east1"
+    },
     async (event) => {
-        const before = event.data?.before.data();
-        const after = event.data?.after.data();
+        const beforeData = event.data?.before.data();
+        const afterData = event.data?.after.data();
+        const userId = event.params.userId;
 
-        if (!before || !after) return;
-
-        const oldVoluntariados = before.voluntariados || [];
-        const newVoluntariados = after.voluntariados || [];
-
-        for (const newVol of newVoluntariados) {
-            const oldVol = oldVoluntariados.find((v: any) => v.id === newVol.id);
-            // Check if status changed or if it's a new entry and status is accepted/rejected
-            if (!oldVol || oldVol.estado !== newVol.estado) {
-                if (newVol.estado === "accepted" || newVol.estado === "rejected") {
-                    const token = after.fcmToken; // Assuming fcmToken is stored directly on the user document
-                    if (!token) {
-                        console.log(`No FCM token found for user ${event.params.userId}`);
-                        return;
-                    }
-
-                    const title =
-                        newVol.estado === "accepted"
-                            ? "¡Postulación aceptada!"
-                            : "Tu postulación fue rechazada";
-                    // You might want to fetch the voluntariado name here for a better message
-                    const body = `Tu postulación para el voluntariado ha sido ${newVol.estado === "accepted" ? "aceptada" : "rechazada"}.`;
-
-                    await getMessaging().send({
-                        token,
-                        notification: { title, body },
-                        data: {
-                            type: "postulation_status",
-                            voluntariadoId: newVol.id,
-                        },
-                    });
-                    console.log(`Notification sent for postulation status change to ${newVol.estado} for voluntariado ${newVol.id} to user ${event.params.userId}`);
-                }
-            }
-        }
-    }
-);
-
-export const sendNewsNotification = onDocumentCreated(
-    "novedades/{novedadId}",
-    async (event) => {
-        const novedad = event.data?.data();
-
-        if (!novedad) {
-            console.log("No news data found for the created document.");
-            return;
+        // Check if data and the 'voluntariados' field exist
+        if (!beforeData?.voluntariados || !afterData?.voluntariados) {
+            logger.log("No 'voluntariados' field found or data is missing. Exiting.");
+            return null;
         }
 
-        const newsId = event.params.novedadId;
-        const title = "¡Nueva Noticia!";
-        const body = novedad.titulo || "Descubre las últimas novedades.";
-
-        const firestore = getFirestore();
-        const usersSnapshot = await firestore.collection('users').get();
-        const tokens: string[] = [];
-
-        usersSnapshot.forEach(doc => {
-            const userData = doc.data();
-            if (userData.fcmToken) {
-                tokens.push(userData.fcmToken);
-            }
+        // Find the changed voluntariado
+        const changedVoluntariado = afterData.voluntariados.find((vAfter: any) => {
+            const vBefore = beforeData.voluntariados.find(
+                (vb: any) => vb.id === vAfter.id
+            );
+            // If the voluntariado is new or its state has changed
+            return !vBefore || vBefore.estado !== vAfter.estado;
         });
 
-        if (tokens.length === 0) {
-            console.log("No FCM tokens found to send news notification.");
-            return;
+        if (!changedVoluntariado) {
+            logger.log("No change in voluntariado status detected.");
+            return null;
         }
 
-        const message = {
+        const { id: voluntariadoId, estado } = changedVoluntariado;
+        let title = "";
+        let body = "";
+
+        if (estado === "accepted") {
+            title = "¡Felicitaciones! 🎉";
+            body = "Tu postulación al voluntariado ha sido aceptada.";
+        } else if (estado === "rejected") {
+            title = "Novedades sobre tu postulación";
+            body = "Tu postulación al voluntariado ha sido rechazada.";
+        } else {
+            // We only send notifications for 'accepted' or 'rejected' states
+            return null;
+        }
+
+        // Get the user's FCM token from the 'after' state data
+        const fcmToken = afterData.fcmToken;
+
+        if (!fcmToken) {
+            logger.log(`No FCM token for user ${userId}.`);
+            return null;
+        }
+
+        const payload = {
             notification: { title, body },
             data: {
-                type: "news",
-                newsId: newsId,
+                type: "postulation_status",
+                voluntariadoId,
             },
         };
 
-        try {
-            const response: BatchResponse = await getMessaging().sendEachForMulticast({ tokens, ...message });
-            console.log(`Successfully sent news notification to ${response.successCount} devices, failed on ${response.failureCount} devices.`);
+        logger.log(`Sending notification to user ${userId}...`);
+        return fcm.sendToDevice(fcmToken, payload);
+    }
+);
 
-            // Correct way to get failed tokens
-            if (response.failureCount > 0) {
-                const failedTokens: string[] = [];
-                response.responses.forEach((resp: SendResponse, index: number) => {
-                    if (!resp.success) {
-                        // The index in responses corresponds to the index in the original tokens array
-                        failedTokens.push(tokens[index]);
-                    }
-                });
-                console.log('List of tokens that caused failures:', failedTokens);
-            }
-        } catch (error) {
-            console.error("Error sending news notification:", error);
+
+/**
+ * Sends a notification to all users when a new "noticia" (news) is created.
+ * This function uses the v2 syntax.
+ */
+export const onNewNoticia = onDocumentCreated(
+    {
+        document: "news/{newsId}",
+        region: "southamerica-east1"
+    },
+    async (event) => {
+        // The document snapshot is now in event.data
+        const newsData = event.data?.data();
+        const newsId = event.params.newsId;
+
+        if (!newsData) {
+            logger.log("No data for the new news item.");
+            return null;
         }
+
+        const payload = {
+            notification: {
+                title: "¡Nueva noticia! 📰",
+                body: newsData.title, // Make sure your news document has a 'title' field
+            },
+            data: {
+                type: "news",
+                newsId,
+            },
+        };
+
+        // Get all users' FCM tokens
+        const usersSnapshot = await db.collection("users").get();
+        const tokens = usersSnapshot.docs
+            .map((doc) => doc.data().fcmToken)
+            .filter((token) => token); // Filter out users without tokens
+
+        if (tokens.length === 0) {
+            logger.log("No users with FCM tokens to send notifications to.");
+            return null;
+        }
+
+        logger.log(`Sending notification for new news to ${tokens.length} users.`);
+        return fcm.sendToDevice(tokens, payload);
     }
 );

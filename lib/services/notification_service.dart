@@ -5,12 +5,11 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:go_router/go_router.dart';
 
-final navigatorKey = GlobalKey<NavigatorState>();   // se pasa a GoRouter
+final navigatorKey = GlobalKey<NavigatorState>();
 
 class NotificationService {
   static final _plugin = FlutterLocalNotificationsPlugin();
 
-  /// ① inicializar
   static Future<void> init() async {
     const android = AndroidInitializationSettings('@mipmap/ic_launcher');
     const ios = DarwinInitializationSettings();
@@ -21,7 +20,6 @@ class NotificationService {
           _handlePayload(resp.payload),
     );
 
-    // Android 13+: canal obligatorio
     const channel = AndroidNotificationChannel(
       'high_importance', 'High Importance',
       description: 'Notificaciones críticas',
@@ -33,7 +31,6 @@ class NotificationService {
         ?.createNotificationChannel(channel);
   }
 
-  /// ② mostrar en foreground
   static Future<void> show(RemoteMessage msg) async {
     final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
     const android = AndroidNotificationDetails(
@@ -42,7 +39,7 @@ class NotificationService {
       importance: Importance.max,
       priority: Priority.high,
     );
-    const ios = DarwinNotificationDetails(); // ← Add this!
+    const ios = DarwinNotificationDetails();
 
     await _plugin.show(
       id,
@@ -54,25 +51,26 @@ class NotificationService {
   }
 
 
-  /// ③ despachador de deep links
+  /// despachador de deep links
   static void _handlePayload(String? payload) {
     if (payload == null) return;
     final data = jsonDecode(payload);
     _routeFromData(data);
   }
 
-  /// ④ mismo despachador para onMessageOpenedApp
   static void handleRemoteMessage(RemoteMessage msg) =>
       _routeFromData(msg.data);
 
   static void _routeFromData(Map<String, dynamic> data) {
-    final r = GoRouter.of(navigatorKey.currentContext!);
+    final context = navigatorKey.currentContext;
+    if (context == null) return;
+
+    final r = GoRouter.of(context);
 
     switch (data['type']) {
-      case 'postulation_status':   // accepted | rejected
+      case 'postulation_status':
         r.push('/voluntariado/${data['voluntariadoId']}');
         break;
-
       case 'news':
         r.push('/noticia/${data['newsId']}');
         break;
