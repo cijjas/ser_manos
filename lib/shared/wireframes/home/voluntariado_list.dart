@@ -10,11 +10,6 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../tokens/border_radius.dart';
 
-// TODO current coluntariados
-
-
-/// Renders only the vertical list of voluntariado cards.
-/// To be used inside a scrollable parent or an Expanded widget with SingleChildScrollView.
 class VoluntariadoListItems extends ConsumerWidget {
   final List<Voluntariado> voluntariados;
   final void Function(String id)? onLikeTap;
@@ -32,10 +27,10 @@ class VoluntariadoListItems extends ConsumerWidget {
 
     return voluntariados.isNotEmpty
           ? Column(
-        mainAxisSize: MainAxisSize.min, // Take up only necessary space
+        mainAxisSize: MainAxisSize.min, 
         children: voluntariados
             .map((v) => Padding(
-          padding: const EdgeInsets.only(bottom: 24), // Spacing between cards
+          padding: const EdgeInsets.only(bottom: 24), 
           child: CardVoluntariado(
             voluntariado: v,
             onTap: () => context.push('/voluntariado', extra: v.id),
@@ -47,9 +42,8 @@ class VoluntariadoListItems extends ConsumerWidget {
         ))
             .toList(),
       )
-          : Container( // Message when no voluntariados are available
+          : Container( 
         alignment: Alignment.center,
-        // Add substantial padding to make the message visible and centered if the list is short/empty
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 64),
         child: Container(
           padding: const EdgeInsets.all(24),

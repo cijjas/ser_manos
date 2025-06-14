@@ -148,14 +148,14 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               // ---------- Logo & campos ----------
               Expanded(
                 child: SingleChildScrollView(
-                  child: Center( // → para que la Column se centre horizontalmente también
+                  child: Center(
                     child: ConstrainedBox(
                       constraints: BoxConstraints(
-                        minHeight: MediaQuery.of(context).size.height * 0.7, // opcional, ajustable
+                        minHeight: MediaQuery.of(context).size.height * 0.7,
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center, // <--- AÑADIR ESTO
-                        crossAxisAlignment: CrossAxisAlignment.center, // <--- AÑADIR ESTO
+                        mainAxisAlignment: MainAxisAlignment.center, 
+                        crossAxisAlignment: CrossAxisAlignment.center, 
                         children: [
                           const AppSymbolText(),
                           const SizedBox(height: 32),

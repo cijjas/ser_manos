@@ -48,7 +48,6 @@ class LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Form(
       key: _formKey,
-      // AutovalidateMode can be set as needed
       autovalidateMode: AutovalidateMode.onUserInteraction,
       child: Column(
         children: [
@@ -57,11 +56,9 @@ class LoginFormState extends State<LoginForm> {
             hintText: 'Email',
             keyboardType: TextInputType.emailAddress,
             controller: _email,
-            // Using our updated AppTextField with TextFormField
             validator: _emailValidator,
           ),
           const SizedBox(height: 24),
-          // PasswordField is assumed to forward the validator too
           PasswordField(
             labelText: 'Contraseña',
             hintText: 'Contraseña',
