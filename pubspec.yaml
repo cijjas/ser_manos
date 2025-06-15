@@ -46,6 +46,7 @@ dependencies:
 #  Launch url to maps
   url_launcher: ^6.2.4
   maps_launcher: ^3.0.0+1
+  geolocator: ^14.0.1
 
 dev_dependencies:
   flutter_test:

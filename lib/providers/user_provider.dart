@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:geolocator/geolocator.dart';
 import '../models/user.dart';
 import '../services/user_service.dart';
 import 'auth_provider.dart';
@@ -38,4 +39,23 @@ final markOnboardingCompleteProvider = FutureProvider<User?>((ref) async {
 final updateUserProvider =
     FutureProvider.family<void, User>((ref, user) async {
   await ref.read(userServiceProvider).updateUser(user);
+});
+
+final userLocationProvider = FutureProvider<Position?>((ref) async {
+  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  LocationPermission permission = await Geolocator.checkPermission();
+
+  if (!serviceEnabled || permission == LocationPermission.denied) {
+    permission = await Geolocator.requestPermission();
+    if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
+      return null; // Location services are not enabled or permission denied
+    }
+  }
+
+  return await Geolocator.getCurrentPosition(
+    locationSettings: const LocationSettings(
+      accuracy: LocationAccuracy.low,
+      timeLimit: Duration(seconds: 10),
+    )
+  );
 });
