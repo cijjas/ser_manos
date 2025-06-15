@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-
+import 'package:geolocator/geolocator.dart';
 import '../models/voluntariado.dart';
 
 class VoluntariadoService {
@@ -23,20 +23,45 @@ class VoluntariadoService {
     );
   }
 
-  Stream<List<Voluntariado>> watchFiltered(String query) {
+  Stream<List<Voluntariado>> watchFiltered(String query, Position? userPosition) {
     final lower = query.toLowerCase();
-    return _ref.orderBy('createdAt', descending: true).snapshots().map((snap) {
-      return snap.docs
+
+    return _ref.snapshots().map((snap) {
+      final docs = snap.docs
           .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
           .where((v) =>
       v.nombre.toLowerCase().contains(lower) ||
           v.descripcion.toLowerCase().contains(lower) ||
-          v.tipo
-                  .toLowerCase()
-                  .contains(lower))
+          v.tipo.toLowerCase().contains(lower))
           .toList();
+
+      docs.sort((a, b) {
+        if (userPosition != null) {
+          final da = Geolocator.distanceBetween(
+            userPosition.latitude,
+            userPosition.longitude,
+            a.location.latitude,
+            a.location.longitude,
+          );
+          final db = Geolocator.distanceBetween(
+            userPosition.latitude,
+            userPosition.longitude,
+            b.location.latitude,
+            b.location.longitude,
+          );
+
+          final distanceComparison = da.compareTo(db);
+          print("Distance: " + distanceComparison.toString());
+          if (distanceComparison != 0) return distanceComparison;
+        }
+        // If distances are equal, compare createdAt (newer first)
+        return b.createdAt.compareTo(a.createdAt);
+      });
+
+      return docs;
     });
   }
+
 
   // ─────── Gestión de vacantes ───────
   Future<bool> decrementAvailableSlots(String id) async {
