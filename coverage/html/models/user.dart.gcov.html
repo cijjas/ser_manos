@@ -1,0 +1,121 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+
+<html lang="en">
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LCOV - lcov_filtered.info - models/user.dart</title>
+  <link rel="stylesheet" type="text/css" href="../gcov.css">
+</head>
+
+<body>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="title">LCOV - code coverage report</td></tr>
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+
+            <tr>
+              <td width="100%">
+                <table cellpadding=1 border=0 width="100%">
+          <tr>
+            <td width="10%" class="headerItem">Current view:</td>
+            <td width="10%" class="headerValue"><a href="../index.html" title="Click to go to top-level">top level</a> - <a href="index.html" title="Click to go to directory models">models</a> - user.dart</td>
+            <td width="5%"></td>
+            <td width="5%"></td>
+            <td width="5%" class="headerCovTableHead">Coverage</td>
+            <td width="5%" class="headerCovTableHead" title="Covered + Uncovered code">Total</td>
+            <td width="5%" class="headerCovTableHead" title="Exercised code only">Hit</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test:</td>
+            <td class="headerValue">lcov_filtered.info</td>
+            <td></td>
+            <td class="headerItem">Lines:</td>
+            <td class="headerCovTableEntryHi">100.0&nbsp;%</td>
+            <td class="headerCovTableEntry">3</td>
+            <td class="headerCovTableEntry">3</td>
+          </tr>
+          <tr>
+            <td class="headerItem">Test Date:</td>
+            <td class="headerValue">2025-06-15 11:45:09</td>
+            <td></td>
+            <td class="headerItem">Functions:</td>
+            <td class="headerCovTableEntryHi">-</td>
+            <td class="headerCovTableEntry">0</td>
+            <td class="headerCovTableEntry">0</td>
+          </tr>
+                  <tr><td><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+                </table>
+              </td>
+            </tr>
+
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+          </table>
+
+          <table cellpadding=0 cellspacing=0 border=0>
+            <tr>
+              <td><br></td>
+            </tr>
+            <tr>
+              <td>
+<pre class="sourceHeading">            Line data    Source code</pre>
+<pre class="source">
+<span id="L1"><span class="lineNum">       1</span>              : import 'package:freezed_annotation/freezed_annotation.dart';</span>
+<span id="L2"><span class="lineNum">       2</span>              : </span>
+<span id="L3"><span class="lineNum">       3</span>              : part 'user.freezed.dart';</span>
+<span id="L4"><span class="lineNum">       4</span>              : part 'user.g.dart';</span>
+<span id="L5"><span class="lineNum">       5</span>              : </span>
+<span id="L6"><span class="lineNum">       6</span>              : </span>
+<span id="L7"><span class="lineNum">       7</span>              : /// Estados posibles con respecto al voluntariado</span>
+<span id="L8"><span class="lineNum">       8</span>              : enum VoluntariadoUserState {</span>
+<span id="L9"><span class="lineNum">       9</span>              :   available,  // hay vacantes y el usuario libre</span>
+<span id="L10"><span class="lineNum">      10</span>              :   applied,    // se postuló, espera confirmación</span>
+<span id="L11"><span class="lineNum">      11</span>              :   accepted,   // fue aceptado</span>
+<span id="L12"><span class="lineNum">      12</span>              :   full,       // sin vacantes</span>
+<span id="L13"><span class="lineNum">      13</span>              :   busyOther,  // participa en otro voluntariado</span>
+<span id="L14"><span class="lineNum">      14</span>              : }</span>
+<span id="L15"><span class="lineNum">      15</span>              : </span>
+<span id="L16"><span class="lineNum">      16</span>              : @Freezed(toJson: true)</span>
+<span id="L17"><span class="lineNum">      17</span>              : class UserVoluntariado with _$UserVoluntariado {</span>
+<span id="L18"><span class="lineNum">      18</span>              :   const factory UserVoluntariado({</span>
+<span id="L19"><span class="lineNum">      19</span>              :     required String id,</span>
+<span id="L20"><span class="lineNum">      20</span>              :     required VoluntariadoUserState estado,</span>
+<span id="L21"><span class="lineNum">      21</span>              :   }) = _UserVoluntariado;</span>
+<span id="L22"><span class="lineNum">      22</span>              : </span>
+<span id="L23"><span class="lineNum">      23</span> <span class="tlaGNC">           2 :   factory UserVoluntariado.fromJson(Map&lt;String, dynamic&gt; json) =&gt;</span></span>
+<span id="L24"><span class="lineNum">      24</span> <span class="tlaGNC">           2 :       _$UserVoluntariadoFromJson(json);</span></span>
+<span id="L25"><span class="lineNum">      25</span>              : }</span>
+<span id="L26"><span class="lineNum">      26</span>              : </span>
+<span id="L27"><span class="lineNum">      27</span>              : @Freezed(toJson: true)</span>
+<span id="L28"><span class="lineNum">      28</span>              : class User with _$User {</span>
+<span id="L29"><span class="lineNum">      29</span>              :   const factory User({</span>
+<span id="L30"><span class="lineNum">      30</span>              :     required String id,</span>
+<span id="L31"><span class="lineNum">      31</span>              :     required String nombre,</span>
+<span id="L32"><span class="lineNum">      32</span>              :     required String apellido,</span>
+<span id="L33"><span class="lineNum">      33</span>              :     required String email,</span>
+<span id="L34"><span class="lineNum">      34</span>              :     required bool hasSeenOnboarding,</span>
+<span id="L35"><span class="lineNum">      35</span>              :     @JsonKey(includeIfNull: false) List&lt;UserVoluntariado&gt;? voluntariados,</span>
+<span id="L36"><span class="lineNum">      36</span>              :     @JsonKey(includeIfNull: false) List&lt;String&gt;? likedVoluntariados,</span>
+<span id="L37"><span class="lineNum">      37</span>              :     @JsonKey(includeIfNull: false) String? telefono,</span>
+<span id="L38"><span class="lineNum">      38</span>              :     @JsonKey(includeIfNull: false) DateTime? fechaNacimiento,</span>
+<span id="L39"><span class="lineNum">      39</span>              :     @JsonKey(includeIfNull: false) String? genero,</span>
+<span id="L40"><span class="lineNum">      40</span>              :     @JsonKey(includeIfNull: false) String? imagenUrl,</span>
+<span id="L41"><span class="lineNum">      41</span>              :     @JsonKey(includeIfNull: false) String? fcmToken,</span>
+<span id="L42"><span class="lineNum">      42</span>              :   }) = _User;</span>
+<span id="L43"><span class="lineNum">      43</span>              : </span>
+<span id="L44"><span class="lineNum">      44</span> <span class="tlaGNC">           4 :   factory User.fromJson(Map&lt;String, dynamic&gt; json) =&gt; _$UserFromJson(json);</span></span>
+<span id="L45"><span class="lineNum">      45</span>              : }</span>
+        </pre>
+              </td>
+            </tr>
+          </table>
+          <br>
+
+          <table width="100%" border=0 cellspacing=0 cellpadding=0>
+            <tr><td class="ruler"><img src="../glass.png" width=3 height=3 alt=""></td></tr>
+            <tr><td class="versionInfo">Generated by: <a href="https://github.com//linux-test-project/lcov" target="_parent">LCOV version 2.3.1-1</a></td></tr>
+          </table>
+          <br>
+
+</body>
+</html>
