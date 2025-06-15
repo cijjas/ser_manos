@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod/riverpod.dart';
-import 'package:ser_manos/providers/home_providers.dart'; // ajusta path
+import 'package:ser_manos/providers/home_providers.dart';
 
 void main() {
   test('isMapViewProvider toggle', () {
