@@ -32,6 +32,21 @@ class VoluntariadosPage extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: AppColors.secondary10,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.logout, color: Colors.black),
+            tooltip: 'Cerrar sesión',
+            onPressed: () async {
+              await ref.read(authServiceProvider).signOut();
+              ref.invalidate(currentUserProvider); // optional: clear cached user
+              context.go('/login'); // update with your login route
+            },
+          ),
+        ],
+      ),
       body: Stack(
         children: [
           if (isMapView)
@@ -48,16 +63,16 @@ class VoluntariadosPage extends ConsumerWidget {
                   child: isMapView
                       ? const MapViewCardsOverlay()
                       : const SingleChildScrollView(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 16),
-                              ParticipatingVoluntariadoSection(),
-                              VoluntariadosListSection(),
-                            ],
-                          ),
-                        ),
+                    padding: EdgeInsets.symmetric(horizontal: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        SizedBox(height: 16),
+                        ParticipatingVoluntariadoSection(),
+                        VoluntariadosListSection(),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -66,6 +81,7 @@ class VoluntariadosPage extends ConsumerWidget {
       ),
     );
   }
+
 }
 
 class SearchAndToggleViewHeader extends ConsumerWidget {

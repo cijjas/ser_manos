@@ -118,8 +118,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       final cred = await ref.read(authServiceProvider).register(email, password);
       final uid  = cred.user!.uid;
 
-      await ref.read(authServiceProvider).signIn(email, password);
-
       final newUser = model.User(
         id: uid,
         nombre: name,
@@ -130,6 +128,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
       await ref.read(createUserProvider(newUser).future);
       await saveFcmTokenToFirestore(uid);
+
+      await ref.read(authServiceProvider).signIn(email, password);
 
     } on FirebaseAuthException catch (e) {
       // Si fallo el registro y el usuario quedó creado, lo borramos
