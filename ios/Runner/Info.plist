@@ -6,6 +6,10 @@
     <string>Necesitamos la cámara para actualizar tu foto de perfil.</string>
     <key>NSPhotoLibraryUsageDescription</key>
     <string>Necesitamos acceder a tus fotos para actualizar tu perfil.</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>We use your location to show nearby volunteer opportunities.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>This app requires your location to function properly even in the background.</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
