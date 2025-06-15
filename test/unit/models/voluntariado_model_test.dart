@@ -25,8 +25,8 @@ void main() {
       final v = Voluntariado.fromJson('v123', firestoreJson);
 
       expect(v.id, 'v123');
-      expect(v.location, const LatLng(-34.6037, -58.3816)); // GeoPoint → LatLng
-      expect(v.createdAt, ts.toDate());                     // Timestamp → DateTime
+      expect(v.location, const LatLng(-34.6037, -58.3816)); // GeoPoint a LatLng
+      expect(v.createdAt, ts.toDate());                     // Timestamp a DateTime
       expect(v.vacantes, 5);
     });
 

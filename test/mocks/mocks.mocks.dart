@@ -36,6 +36,15 @@ class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
   }
 
   @override
+  _i3.Future<List<_i4.Novedad>> getAll() => (super.noSuchMethod(
+        Invocation.method(
+          #getAll,
+          [],
+        ),
+        returnValue: _i3.Future<List<_i4.Novedad>>.value(<_i4.Novedad>[]),
+      ) as _i3.Future<List<_i4.Novedad>>);
+
+  @override
   _i3.Stream<List<_i4.Novedad>> watchAll() => (super.noSuchMethod(
         Invocation.method(
           #watchAll,
@@ -75,14 +84,14 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
   @override
   _i3.Future<bool> postulateToVoluntariado(
     _i6.User? user,
-    String? voluntariadoId,
+    String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #postulateToVoluntariado,
           [
             user,
-            voluntariadoId,
+            id,
           ],
         ),
         returnValue: _i3.Future<bool>.value(false),
@@ -91,14 +100,14 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
   @override
   _i3.Future<bool> withdrawPostulation(
     _i6.User? user,
-    String? voluntariadoId,
+    String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #withdrawPostulation,
           [
             user,
-            voluntariadoId,
+            id,
           ],
         ),
         returnValue: _i3.Future<bool>.value(false),
@@ -107,14 +116,14 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
   @override
   _i3.Future<bool> abandonVoluntariado(
     _i6.User? user,
-    String? voluntariadoId,
+    String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #abandonVoluntariado,
           [
             user,
-            voluntariadoId,
+            id,
           ],
         ),
         returnValue: _i3.Future<bool>.value(false),
@@ -142,14 +151,14 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
   @override
   _i3.Future<void> toggleLikeVoluntariado(
     _i6.User? user,
-    String? voluntariadoId,
+    String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
           #toggleLikeVoluntariado,
           [
             user,
-            voluntariadoId,
+            id,
           ],
         ),
         returnValue: _i3.Future<void>.value(),
@@ -204,11 +213,10 @@ class MockVoluntariadoService extends _i1.Mock
       ) as _i3.Future<bool>);
 
   @override
-  _i3.Future<bool> incrementAvailableSlots(String? voluntariadoId) =>
-      (super.noSuchMethod(
+  _i3.Future<bool> incrementAvailableSlots(String? id) => (super.noSuchMethod(
         Invocation.method(
           #incrementAvailableSlots,
-          [voluntariadoId],
+          [id],
         ),
         returnValue: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);

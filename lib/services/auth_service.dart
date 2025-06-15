@@ -3,7 +3,17 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class AuthService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  AuthService({
+    FirebaseAuth? auth,
+    FirebaseAnalytics? analytics,
+    FirebaseCrashlytics? crashlytics,
+  })  : _auth = auth ?? FirebaseAuth.instance,
+        _analytics = analytics ?? FirebaseAnalytics.instance,
+        _crashlytics = crashlytics ?? FirebaseCrashlytics.instance;
+
+  final FirebaseAuth _auth;
+  final FirebaseAnalytics _analytics;
+  final FirebaseCrashlytics _crashlytics;
 
   static const nonCriticalErrors = {
     'wrong-password',
@@ -17,7 +27,7 @@ class AuthService {
     try {
       final result = await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'sign_up',
         parameters: {
           'method': 'email',
@@ -28,7 +38,7 @@ class AuthService {
       final isExpected = nonCriticalErrors.contains(e.code);
 
       if (!isExpected) {
-        FirebaseCrashlytics.instance.recordError(
+        _crashlytics.recordError(
           e,
           stack,
           reason: 'Unexpected FirebaseAuthException during register',
@@ -36,7 +46,7 @@ class AuthService {
         );
       }
 
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'auth_error',
         parameters: {
           'stage': 'register',
@@ -53,7 +63,7 @@ class AuthService {
     try {
       final result = await _auth.signInWithEmailAndPassword(
           email: email, password: password);
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'sign_in',
         parameters: {
           'method': 'email',
@@ -64,7 +74,7 @@ class AuthService {
       final isExpected = nonCriticalErrors.contains(e.code);
 
       if (!isExpected) {
-        FirebaseCrashlytics.instance.recordError(
+        _crashlytics.recordError(
           e,
           stack,
           reason: 'Unexpected FirebaseAuthException during sign in',
@@ -72,7 +82,7 @@ class AuthService {
         );
       }
 
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'auth_error',
         parameters: {
           'stage': 'sign_in',

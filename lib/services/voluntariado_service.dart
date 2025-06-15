@@ -4,12 +4,23 @@ import 'package:geolocator/geolocator.dart';
 import '../models/voluntariado.dart';
 
 class VoluntariadoService {
-  final _ref = FirebaseFirestore.instance.collection('voluntariados');
+  VoluntariadoService({
+    FirebaseFirestore?   firestore,
+    FirebaseCrashlytics? crashlytics,
+  })  : _firestore   = firestore   ?? FirebaseFirestore.instance,
+        _crashlytics = crashlytics ?? FirebaseCrashlytics.instance,
+        _ref         = (firestore ?? FirebaseFirestore.instance)
+            .collection('voluntariados');
 
+  final FirebaseFirestore   _firestore;
+  final FirebaseCrashlytics _crashlytics;
+  final CollectionReference<Map<String, dynamic>> _ref;
+
+  // ─────────────────────── Lectores ────────────────────────
   Stream<Voluntariado> watchOne(String id) {
     return _ref.doc(id).snapshots().map(
           (doc) => Voluntariado.fromJson(doc.id, doc.data()!),
-        );
+    );
   }
 
   Stream<List<Voluntariado>> watchFiltered(String query, Position? userPosition) {
@@ -52,45 +63,49 @@ class VoluntariadoService {
   }
 
 
+  // ─────── Gestión de vacantes ───────
   Future<bool> decrementAvailableSlots(String id) async {
     try {
-      final voluntariadoRef = _ref.doc(id);
-      return FirebaseFirestore.instance
-          .runTransaction<bool>((transaction) async {
-        final snapshot = await transaction.get(voluntariadoRef);
-        if (!snapshot.exists) return false;
+      final ref = _ref.doc(id);
+      return _firestore.runTransaction<bool>((tx) async {
+        final snap = await tx.get(ref);
+        if (!snap.exists) return false;
 
-        final currentSlots = snapshot.data()!['availableSlots'] as int;
-        if (currentSlots <= 0) throw Exception('No available slots');
+        final current = snap.data()!['availableSlots'] as int;
+        if (current <= 0) throw Exception('No available slots');
 
-        transaction
-            .update(voluntariadoRef, {'availableSlots': currentSlots - 1});
+        tx.update(ref, {'availableSlots': current - 1});
         return true;
       });
-    } catch (e, stack) {
-      FirebaseCrashlytics.instance.recordError(e, stack,
-          reason: 'Failed to decrement available slots', fatal: false);
+    } catch (e, s) {
+      _crashlytics.recordError(
+        e,
+        s,
+        reason: 'Failed to decrement available slots',
+        fatal: false,
+      );
       return false;
     }
   }
 
-  // Add this to your VoluntariadoService class
-  Future<bool> incrementAvailableSlots(String voluntariadoId) async {
+  Future<bool> incrementAvailableSlots(String id) async {
     try {
-      final voluntariadoRef = _ref.doc(voluntariadoId);
-      return FirebaseFirestore.instance
-          .runTransaction<bool>((transaction) async {
-        final snapshot = await transaction.get(voluntariadoRef);
-        if (!snapshot.exists) return false;
+      final ref = _ref.doc(id);
+      return _firestore.runTransaction<bool>((tx) async {
+        final snap = await tx.get(ref);
+        if (!snap.exists) return false;
 
-        final currentSlots = snapshot.data()!['availableSlots'] as int;
-        transaction
-            .update(voluntariadoRef, {'availableSlots': currentSlots + 1});
+        final current = snap.data()!['availableSlots'] as int;
+        tx.update(ref, {'availableSlots': current + 1});
         return true;
       });
-    } catch (e, stack) {
-      FirebaseCrashlytics.instance.recordError(e, stack,
-          reason: 'Failed to increment available slots', fatal: false);
+    } catch (e, s) {
+      _crashlytics.recordError(
+        e,
+        s,
+        reason: 'Failed to increment available slots',
+        fatal: false,
+      );
       return false;
     }
   }
