@@ -30,18 +30,13 @@ export const onVoluntariadoApplicationChange = onDocumentUpdated(
         const afterData = event.data?.after.data();
         const userId = event.params.userId;
 
-        // Check if data and the 'voluntariados' field exist
         if (!beforeData?.voluntariados || !afterData?.voluntariados) {
             logger.log("No 'voluntariados' field found or data is missing. Exiting.");
             return null;
         }
 
-        // Find the changed voluntariado
         const changedVoluntariado = afterData.voluntariados.find((vAfter: any) => {
-            const vBefore = beforeData.voluntariados.find(
-                (vb: any) => vb.id === vAfter.id
-            );
-            // If the voluntariado is new or its state has changed
+            const vBefore = beforeData.voluntariados.find((vb: any) => vb.id === vAfter.id);
             return !vBefore || vBefore.estado !== vAfter.estado;
         });
 
@@ -61,11 +56,9 @@ export const onVoluntariadoApplicationChange = onDocumentUpdated(
             title = "Novedades sobre tu postulación";
             body = "Tu postulación al voluntariado ha sido rechazada.";
         } else {
-            // We only send notifications for 'accepted' or 'rejected' states
             return null;
         }
 
-        // Get the user's FCM token from the 'after' state data
         const fcmToken = afterData.fcmToken;
 
         if (!fcmToken) {
@@ -73,8 +66,8 @@ export const onVoluntariadoApplicationChange = onDocumentUpdated(
             return null;
         }
 
-        // TODO falta el deep link ?
-        const payload = {
+        const message = {
+            tokens: [fcmToken],
             notification: { title, body },
             data: {
                 type: "postulation_status",
@@ -83,9 +76,26 @@ export const onVoluntariadoApplicationChange = onDocumentUpdated(
         };
 
         logger.log(`Sending notification to user ${userId}...`);
-        return fcm.sendToDevice(fcmToken, payload);
+        const response = await fcm.sendEachForMulticast(message);
+
+        const result = response.responses[0];
+        if (!result.success) {
+            logger.error(`Error sending notification: ${result.error?.message}`);
+            if (
+                result.error?.code === "messaging/invalid-argument" ||
+                result.error?.code === "messaging/registration-token-not-registered"
+            ) {
+                await db.collection("users").doc(userId).update({
+                    fcmToken: admin.firestore.FieldValue.delete(),
+                });
+                logger.log(`Deleted invalid FCM token for user ${userId}`);
+            }
+        }
+
+        return null;
     }
 );
+
 
 
 /**
@@ -106,7 +116,18 @@ export const onNewNoticia = onDocumentCreated(
             return null;
         }
 
-        const payload = {
+        const usersSnapshot = await db.collection("users").get();
+        const tokens = usersSnapshot.docs
+            .map((doc) => ({ token: doc.data().fcmToken, doc }))
+            .filter(({ token }) => !!token);
+
+        if (tokens.length === 0) {
+            logger.log("No users with FCM tokens to send notifications to.");
+            return null;
+        }
+
+        const message = {
+            tokens: tokens.map((t) => t.token),
             notification: {
                 title: "¡Nueva noticia! 📰",
                 body: newsData.titulo,
@@ -117,17 +138,34 @@ export const onNewNoticia = onDocumentCreated(
             },
         };
 
-        const usersSnapshot = await db.collection("users").get();
-        const tokens = usersSnapshot.docs
-            .map((doc) => doc.data().fcmToken)
-            .filter((token) => token);
+        logger.log(`Sending notification to ${tokens.length} users.`);
+        const response = await fcm.sendEachForMulticast(message);
 
-        if (tokens.length === 0) {
-            logger.log("No users with FCM tokens to send notifications to.");
-            return null;
-        }
+        const failedTokens: string[] = [];
 
-        logger.log(`Sending notification for new news to ${tokens.length} users.`);
-        return fcm.sendToDevice(tokens, payload);
+        response.responses.forEach((res, idx) => {
+            if (!res.success) {
+                const token = tokens[idx].token;
+                const docRef = tokens[idx].doc.ref;
+
+                logger.error(`Failed to send to ${token}: ${res.error?.message}`);
+                if (
+                    res.error?.code === "messaging/invalid-argument" ||
+                    res.error?.code === "messaging/registration-token-not-registered"
+                ) {
+                    failedTokens.push(token);
+                    docRef.update({ fcmToken: admin.firestore.FieldValue.delete() });
+                    logger.log(`Removed invalid token from user ${docRef.id}`);
+                }
+            }
+            else{
+                const token = tokens[idx].token;
+                const docRef = tokens[idx].doc.ref;
+                logger.log(`successfull message to ${docRef.id}` );
+            }
+        });
+
+        return null;
     }
 );
+

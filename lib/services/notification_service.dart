@@ -31,8 +31,12 @@ class NotificationService {
         ?.createNotificationChannel(channel);
   }
 
+  // check
   static Future<void> show(RemoteMessage msg) async {
     final id = DateTime.now().millisecondsSinceEpoch ~/ 1000;
+    final title = msg.notification?.title ?? msg.data['title'];
+    final body = msg.notification?.body ?? msg.data['body'];
+
     const android = AndroidNotificationDetails(
       'high_importance',
       'High Importance',
@@ -43,12 +47,13 @@ class NotificationService {
 
     await _plugin.show(
       id,
-      msg.notification?.title,
-      msg.notification?.body,
+      title,
+      body,
       const NotificationDetails(android: android, iOS: ios),
       payload: jsonEncode(msg.data),
     );
   }
+
 
 
   static void _handlePayload(String? payload) {
