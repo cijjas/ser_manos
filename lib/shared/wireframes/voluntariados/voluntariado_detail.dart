@@ -64,23 +64,27 @@ class VoluntariadoDetallePage extends ConsumerWidget {
           data: (user) {
             return _buildContent(
               context,
-              ref, // Pass ref
+              ref,
+              // Pass ref
               voluntariado,
               user,
-                  () => _handleApply(context, ref, user),
-                  () => _handleWithdraw(context, ref, user),
-                  () => _handleAbandon(context, ref, user),
+              () => _handleApply(context, ref, user),
+              () => _handleWithdraw(context, ref, user),
+              () => _handleAbandon(context, ref, user),
             );
           },
           loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
+              const Scaffold(body: Center(child: CircularProgressIndicator())),
           error: (err, _) =>
               Scaffold(body: Center(child: Text('Error de usuario: $err'))),
         );
       },
       loading: () =>
-      const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (error, _) => Scaffold(body: Center(child: Text('Error: $error'))),
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, _) {
+        ref.invalidate(voluntariadoProvider(voluntariadoId));
+        return Scaffold(body: Center(child: Text('Error: $error')));
+      },
     );
   }
 
@@ -94,14 +98,14 @@ class VoluntariadoDetallePage extends ConsumerWidget {
   }
 
   Widget _buildContent(
-      BuildContext context,
-      WidgetRef ref, // Receive ref
-      Voluntariado voluntariado,
-      User user,
-      Future<void> Function()? onApply,
-      Future<void> Function()? onWithdraw,
-      Future<void> Function()? onAbandon,
-      ) {
+    BuildContext context,
+    WidgetRef ref, // Receive ref
+    Voluntariado voluntariado,
+    User user,
+    Future<void> Function()? onApply,
+    Future<void> Function()? onWithdraw,
+    Future<void> Function()? onAbandon,
+  ) {
     final media = MediaQuery.of(context);
 
     Future<void> wrappedApply() async {
@@ -113,14 +117,15 @@ class VoluntariadoDetallePage extends ConsumerWidget {
       if (_isProfileComplete(currentUser)) {
         // If complete, show the confirmation modal to apply.
         _showConfirmModal(context, voluntariado,
-                () => onApply != null ? onApply() : {}, ActionType.postulate);
+            () => onApply != null ? onApply() : {}, ActionType.postulate);
       } else {
         // If incomplete, show a modal informing the user.
         final bool? confirmed = await showDialog<bool>(
           context: context,
           builder: (dialogContext) => ConfirmApplicationModal(
             message: "Para postularte debes primero completar tus datos.",
-            title: "", // Title is not needed as message is descriptive.
+            title: "",
+            // Title is not needed as message is descriptive.
             confirmLabel: "Confirmar",
             onConfirm: () => Navigator.of(dialogContext).pop(true),
             onCancel: () => Navigator.of(dialogContext).pop(false),
@@ -132,7 +137,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
         // If user confirms, navigate to the edit profile page.
         if (confirmed == true) {
           final profileSaved =
-          await GoRouter.of(context).push<bool>('/home/perfil/editar');
+              await GoRouter.of(context).push<bool>('/home/perfil/editar');
 
           // If the profile was saved successfully...
           if (profileSaved == true) {
@@ -145,7 +150,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             _showConfirmModal(
               context,
               voluntariado,
-                  () => _handleApply(context, ref, freshUser),
+              () => _handleApply(context, ref, freshUser),
               ActionType.postulate,
             );
           }
@@ -154,19 +159,13 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     }
 
     Future<void> wrappedWithdraw() async {
-      _showConfirmModal(
-          context,
-          voluntariado,
-              () => onWithdraw != null ? onWithdraw() : {},
-          ActionType.withdraw);
+      _showConfirmModal(context, voluntariado,
+          () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
     }
 
     Future<void> wrappedAbandon() async {
-      _showConfirmModal(
-          context,
-          voluntariado,
-              () => onAbandon != null ? onAbandon() : {},
-          ActionType.abandon);
+      _showConfirmModal(context, voluntariado,
+          () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
     }
 
     return Scaffold(
@@ -221,9 +220,9 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                         const SizedBox(height: 16),
                         MarkdownBody(
                           data: voluntariado.requisitos,
-                          styleSheet: MarkdownStyleSheet.fromTheme(
-                              Theme.of(context))
-                              .copyWith(
+                          styleSheet:
+                              MarkdownStyleSheet.fromTheme(Theme.of(context))
+                                  .copyWith(
                             p: AppTypography.body01,
                           ),
                         ),
@@ -234,7 +233,8 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                           state: _determineUserState(voluntariado, user),
                           onApply: wrappedApply,
                           onWithdraw: wrappedWithdraw,
-                          onAbandon: wrappedAbandon, // Changed from onAbandon to wrappedAbandon for consistency
+                          onAbandon:
+                              wrappedAbandon, // Changed from onAbandon to wrappedAbandon for consistency
                         ),
                         const SizedBox(height: 48),
                       ],
@@ -273,9 +273,8 @@ class VoluntariadoDetallePage extends ConsumerWidget {
   }
 }
 
-
-
-void _showConfirmModal(BuildContext context, Voluntariado voluntariado, Function() onConfirm, ActionType actionType) {
+void _showConfirmModal(BuildContext context, Voluntariado voluntariado,
+    Function() onConfirm, ActionType actionType) {
   showDialog(
     context: context,
     builder: (context) => ConfirmApplicationModal(
@@ -462,7 +461,8 @@ class _LocationCard extends StatelessWidget {
               height: 200,
               color: AppColors.neutral25,
               alignment: Alignment.center,
-              child: const Icon(Icons.map, size: 64, color: AppColors.neutral50),
+              child:
+                  const Icon(Icons.map, size: 64, color: AppColors.neutral50),
             ),
           ),
 
