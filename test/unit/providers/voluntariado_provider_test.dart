@@ -43,6 +43,7 @@ void main() {
         nombre: 'Ada',
         apellido: 'Lovelace',
         email: 'a@b.c',
+        hasSeenOnboarding: false,
       );
 
       firebaseUser = MockUser(uid: 'uid1', email: 'a@b.c');

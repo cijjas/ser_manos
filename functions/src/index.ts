@@ -73,6 +73,7 @@ export const onVoluntariadoApplicationChange = onDocumentUpdated(
             return null;
         }
 
+        // TODO falta el deep link ?
         const payload = {
             notification: { title, body },
             data: {

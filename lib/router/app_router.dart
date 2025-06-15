@@ -63,11 +63,9 @@ final routerProvider = Provider<GoRouter>((ref) {
     errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
     initialLocation: '/',
     redirect: (context, state) {
-      // --- MODIFIED: Read providers instead of watching them inside the redirect ---
       final authState = ref.read(authStateProvider);
       final currentUserAsync = ref.read(currentUserProvider);
 
-      // Handle auth state
       if (authState.isLoading || currentUserAsync.isLoading) return null;
       final isLoggedIn = authState.valueOrNull != null;
       final user = currentUserAsync.valueOrNull;
@@ -82,7 +80,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Guard: keep finished users out of /welcome
       if (isLoggedIn &&
           user != null &&
-          (user.hasSeenOnboarding ?? false) &&
+          (user.hasSeenOnboarding) &&
           state.matchedLocation == '/welcome') {
         return '/home/postularse';
       }
@@ -173,7 +171,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: 'NewsDetailScreen',
         builder: (context, state) {
           final id = state.pathParameters['id']!;
-          return NovedadDetail(id: id);   
+          return NovedadDetail(id: id);
         },
       ),
 
