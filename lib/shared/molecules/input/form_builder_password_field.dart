@@ -8,7 +8,7 @@ class FormBuilderPasswordField extends StatefulWidget {
   final String hintText;
   final FormFieldValidator<String>? validator;
   final bool enabled;
-  final ValueChanged<String>? onChanged; // AGREGADO
+  final ValueChanged<String>? onChanged;
 
   const FormBuilderPasswordField({
     super.key,
@@ -17,7 +17,7 @@ class FormBuilderPasswordField extends StatefulWidget {
     this.hintText = '',
     this.validator,
     this.enabled = true,
-    this.onChanged, // AGREGADO
+    this.onChanged,
   });
 
   @override
@@ -25,7 +25,29 @@ class FormBuilderPasswordField extends StatefulWidget {
 }
 
 class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
+  late final TextEditingController _controller;
   bool _obscure = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _syncController(String? value) {
+    if (_controller.text != (value ?? '')) {
+      _controller.text = value ?? '';
+      _controller.selection = TextSelection.fromPosition(
+        TextPosition(offset: _controller.text.length),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,15 +55,13 @@ class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
       name: widget.name,
       validator: widget.validator,
       builder: (field) {
+        _syncController(field.value);
         return AppTextField(
           labelText: widget.labelText,
           hintText: widget.hintText,
           obscureText: _obscure,
           enabled: widget.enabled,
-          controller: TextEditingController(text: field.value)
-            ..selection = TextSelection.fromPosition(
-              TextPosition(offset: field.value?.length ?? 0),
-            ),
+          controller: _controller,
           onChanged: (value) {
             field.didChange(value);
             if (widget.onChanged != null) widget.onChanged!(value);

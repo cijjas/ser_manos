@@ -186,12 +186,6 @@ class UserService {
             (vol) => vol.estado == VoluntariadoUserState.accepted));
   }
 
-  Future<User?> getUser(String id) async {
-    final doc = await _users.doc(id).get();
-    if (!doc.exists) return null;
-    return User.fromJson(doc.data()!);
-  }
-
   Stream<User> watchOne(String id) {
     return _users.doc(id).snapshots().where((doc) => doc.exists).map(
           (doc) => User.fromJson(doc.data()!),

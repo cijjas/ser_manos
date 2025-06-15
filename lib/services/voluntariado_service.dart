@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import '../models/voluntariado.dart';
@@ -6,34 +5,25 @@ import '../models/voluntariado.dart';
 class VoluntariadoService {
   final _ref = FirebaseFirestore.instance.collection('voluntariados');
 
-  // Future<List<Voluntariado>> getAll() async {
-  //   final query = await _ref.get();
-  //   return query.docs.map((doc) => Voluntariado.fromJson(doc.data())).toList();
-  // }
-
   Stream<Voluntariado> watchOne(String id) {
     return _ref.doc(id).snapshots().map(
           (doc) => Voluntariado.fromJson(doc.id, doc.data()!),
         );
   }
 
-  Stream<List<Voluntariado>> watchAll() {
-    return _ref.snapshots().map((snap) => snap.docs
-        .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
-        .toList());
-  }
-
   Stream<List<Voluntariado>> watchFiltered(String query) {
     final lower = query.toLowerCase();
 
-    return _ref.snapshots().map((snap) {
+    return _ref.orderBy('createdAt', descending: true).snapshots().map((snap) {
       return snap.docs
           .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
           .where((v) =>
               v.nombre.toLowerCase().contains(lower) ||
               v.descripcion.toLowerCase().contains(lower) ||
               v.descripcion.toLowerCase().contains(lower) ||
-              v.tipo.toLowerCase().contains(lower)) // TODO check this is "mision"
+              v.tipo
+                  .toLowerCase()
+                  .contains(lower)) // TODO check this is "mision"
           .toList();
     });
   }

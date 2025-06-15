@@ -33,7 +33,7 @@ class PerfilWrapperPage extends ConsumerWidget {
           return const SizedBox();
         }
 
-        final userAsync = ref.watch(userByIdProvider(fbUser.uid));
+        final userAsync = ref.watch(currentUserProvider);
 
         return userAsync.when(
           loading: () => const Scaffold(

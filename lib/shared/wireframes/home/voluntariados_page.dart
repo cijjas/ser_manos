@@ -8,6 +8,7 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 // These files will contain the refactored/new widgets.
 import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 
+import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
@@ -22,12 +23,8 @@ import '../../atoms/icons/_app_icon.dart';
 import '../../atoms/icons/app_icons.dart';
 import 'voluntariado_map_background.dart';
 
-
-
 class VoluntariadosPage extends ConsumerWidget {
   const VoluntariadosPage({super.key});
-
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -37,8 +34,8 @@ class VoluntariadosPage extends ConsumerWidget {
       backgroundColor: AppColors.secondary10,
       body: Stack(
         children: [
-          if (isMapView) const Positioned.fill(child: VoluntariadoMapBackground()),
-
+          if (isMapView)
+            const Positioned.fill(child: VoluntariadoMapBackground()),
           SafeArea(
             child: Column(
               children: [
@@ -51,27 +48,25 @@ class VoluntariadosPage extends ConsumerWidget {
                   child: isMapView
                       ? const MapViewCardsOverlay()
                       : const SingleChildScrollView(
-                    padding: EdgeInsets.symmetric(horizontal: 24),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 16),
-                        ParticipatingVoluntariadoSection(),
-                        VoluntariadosListSection(),
-                      ],
-                    ),
-                  ),
+                          padding: EdgeInsets.symmetric(horizontal: 24),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 16),
+                              ParticipatingVoluntariadoSection(),
+                              VoluntariadosListSection(),
+                            ],
+                          ),
+                        ),
                 ),
               ],
             ),
           )
-
         ],
       ),
     );
   }
 }
-
 
 class SearchAndToggleViewHeader extends ConsumerWidget {
   const SearchAndToggleViewHeader({super.key});
@@ -82,8 +77,8 @@ class SearchAndToggleViewHeader extends ConsumerWidget {
 
     return SearchField(
       emptySuffix: const AppIcon(
-          icon: AppIcons.LISTA ,
-          color: AppIconsColor.PRIMARY,
+        icon: AppIcons.LISTA,
+        color: AppIconsColor.PRIMARY,
       ),
       // emptySuffix: const SizedBox.shrink(),
       hintText: 'Buscar',
@@ -107,7 +102,8 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final participatingVoluntariado = ref.watch(voluntariadoParticipatingProvider);
+    final participatingVoluntariado =
+        ref.watch(voluntariadoParticipatingProvider);
 
     return participatingVoluntariado.when(
       data: (voluntariado) {
@@ -128,17 +124,15 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
           ],
         );
       },
-      error: (e, _) => VoluntariadoError(message: "Error al cargar tu actividad.\n${e.toString()}"),
+      error: (e, _) => VoluntariadoError(
+          message: "Error al cargar tu actividad.\n${e.toString()}"),
       loading: () => const VoluntariadoLoading(),
     );
   }
 }
 
-
 class VoluntariadosListSection extends ConsumerWidget {
   const VoluntariadosListSection({super.key});
-
-
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -147,12 +141,15 @@ class VoluntariadosListSection extends ConsumerWidget {
     final query = ref.watch(voluntariadoSearchQueryProvider);
     final isSearching = query.trim().isNotEmpty;
 
+    final authState = ref.watch(authStateProvider);
 
     Future<void> onLikeTap(WidgetRef ref, String voluntariadoId) async {
       if (user == null) {
         return;
       }
-      await ref.read(userServiceProvider).toggleLikeVoluntariado(user, voluntariadoId);
+      await ref
+          .read(userServiceProvider)
+          .toggleLikeVoluntariado(user, voluntariadoId);
     }
 
     return voluntariadosAsync.when(
@@ -162,20 +159,20 @@ class VoluntariadosListSection extends ConsumerWidget {
           const Text("Voluntariados", style: AppTypography.headline01),
           const SizedBox(height: 16),
           VoluntariadoListItems(
-              voluntariados: voluntariados,
-              onLikeTap: (id) => onLikeTap(ref, id), user: user,
-              isSearching: isSearching,
+            voluntariados: voluntariados,
+            onLikeTap: (id) => onLikeTap(ref, id),
+            user: user,
+            isSearching: isSearching,
           ),
-
           const SizedBox(height: 16),
         ],
       ),
-      error: (e, _) => const VoluntariadoError(message: "Error al cargar los voluntariados."),
+      error: (e, _) => VoluntariadoError(
+          message: "Error al cargar los voluntariados." + e.toString()),
       loading: () => const VoluntariadoLoading(),
     );
   }
 }
-
 
 class VoluntariadoError extends StatelessWidget {
   final String message;

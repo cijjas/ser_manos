@@ -39,8 +39,3 @@ final updateUserProvider =
     FutureProvider.family<void, User>((ref, user) async {
   await ref.read(userServiceProvider).updateUser(user);
 });
-
-/// StreamProvider que observa cambios en un documento `users/{id}`
-final userByIdProvider = StreamProvider.family<User, String>((ref, id) {
-  return ref.read(userServiceProvider).watchOne(id);
-});
