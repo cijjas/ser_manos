@@ -102,8 +102,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final updatedUser = await ref.read(currentUserProvider.future);
       await saveFcmTokenToFirestore(updatedUser.id);
 
-      ref.invalidate(voluntariadosProvider);
-
       if (!mounted) return;
       if (!(updatedUser.hasSeenOnboarding)) {
         context.go('/welcome');

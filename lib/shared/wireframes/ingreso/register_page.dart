@@ -120,8 +120,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
       await ref.read(authServiceProvider).signIn(email, password);
 
-      ref.invalidate(voluntariadosProvider);
-
       final newUser = model.User(
         id: uid,
         nombre: name,

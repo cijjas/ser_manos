@@ -141,8 +141,6 @@ class VoluntariadosListSection extends ConsumerWidget {
     final query = ref.watch(voluntariadoSearchQueryProvider);
     final isSearching = query.trim().isNotEmpty;
 
-    final authState = ref.watch(authStateProvider);
-
     Future<void> onLikeTap(WidgetRef ref, String voluntariadoId) async {
       if (user == null) {
         return;
@@ -167,8 +165,11 @@ class VoluntariadosListSection extends ConsumerWidget {
           const SizedBox(height: 16),
         ],
       ),
-      error: (e, _) => VoluntariadoError(
-          message: "Error al cargar los voluntariados." + e.toString()),
+      error: (e, _) {
+        ref.invalidate(voluntariadosProvider);
+        return VoluntariadoError(
+            message: "Error al cargar los voluntariados.");
+      },
       loading: () => const VoluntariadoLoading(),
     );
   }
