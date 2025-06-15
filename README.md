@@ -55,7 +55,7 @@ The application includes the following core functionalities:
     * Rich text requirements for participation (supporting Markdown)
     * Creation date
     * Available slots
-    * Opportunities can be ordered by proximity to the user (if location access is granted) and by creation date (newest to oldest).
+    * Opportunities are ordered by proximity to the user (if location access is granted) and by creation date (newest to oldest).
     * Users can mark volunteer opportunities as favorites, which are persisted in the backend.
     * Location icons within volunteer cards can open Google Maps via a deep link with the selected coordinates.
     * Volunteer opportunities can be searched by title, mission/purpose, and activity details.
@@ -89,6 +89,19 @@ As per the assignment, our group implemented the following two special functiona
             * Custom payloads in the FCM messages contain the deep link path, which is then parsed by `go_router` to navigate to the correct screen.
         * **Argumentation:** FCM is the industry standard for push notifications with Firebase, offering reliability and scalability. 
 
+Additionally, to get ahead of future workloads we also implemented Camera functionality
+
+* **3.2.3. Camera:**
+    * **Description:** The application allows users to update their profile picture using the native device camera or by selecting an image from the device’s file system. This provides a personalized user experience and aligns with modern app standards where profile customization is expected.
+    * **Technical Implementation and Decisions:**
+        * **Technology Choice:** We utilized the `image_picker` Flutter plugin, which provides a unified API for accessing both the device camera and gallery across iOS and Android platforms.
+        * **Integration:** A modal bottom sheet is presented when the user opts to update their profile picture. It gives the option to either take a new photo using the camera or choose an existing one from the gallery. Upon selection, the image is compressed and uploaded to Firebase Storage, and the resulting download URL is saved to the user's profile document in Cloud Firestore.
+        * **Implementation Details:**
+            * Permissions for camera and storage access are handled gracefully, using platform-specific permission prompts.
+            * The selected image is previewed before confirmation, giving users the opportunity to cancel or retake.
+            * After upload, the app updates the UI reactively using Riverpod to reflect the new profile image.
+
+
 ## 4. Technical Specifications and Decisions
 
 This section outlines the technical architecture, key decisions, and libraries used in the development of Ser Manos.
@@ -115,7 +128,7 @@ This section outlines the technical architecture, key decisions, and libraries u
 
 * **Decision:** The project incorporates both **unit tests** and **golden tests**. This fulfills the requirement to write both unit and golden tests for delivery.
 * **Argumentation:**
-    * **Unit Tests:** Developed to ensure the correctness of individual functions, methods, and Riverpod providers. This helps in maintaining code quality and preventing regressions.
+    * **Unit Tests:** Unit tests were implemented to validate models, JSON converters, Riverpod providers, and Firebase-integrated services. These tests cover key business logic such as postulations, likes, login functionality, and provider state changes. Firebase behavior was simulated using mock and fake libraries including `fake_cloud_firestore`, `firebase_auth_mocks`, and `firebase_storage_mocks`. According to the LCOV report, the test suite achieves 68% total coverage. Specifically, models and converters reached 100%, Firebase services approximately 71%, and providers around 52%.
     * **Golden Tests:** Implemented to verify the visual integrity of UI components across different platforms and screen sizes. This ensures a consistent user experience and adherence to the design system.
 
 ### 4.5. Monitoring and Events
@@ -308,27 +321,59 @@ The `lib` directory is organized as follows:
 └── voluntariado.dart
 ```
 
-### 4.9. Dependencies (pubspec.yaml)
+## 4.9. Dependencies (`pubspec.yaml`)
 
-The following key dependencies were used in this project, many of which serve as future proof feature integration dependencies.
+The following key dependencies were used in this project to enable scalable architecture, native device integration, Firebase backend services, and strong development tooling.
 
-* `flutter_hooks`: For managing widget lifecycle and state with hooks.
-* `flutter_riverpod`, `hooks_riverpod`: For robust state management.
-* `go_router`: For declarative routing and deep linking.
-* `http`: For making HTTP requests (if any direct API calls are made).
-* `intl`: For internationalization and localization (though full i18n/l10n for cost and date fields were a special feature not chosen, `intl` was included for general date/number formatting).
-* `flutter_svg`: For displaying SVG assets.
-* `flutter_markdown`: For rendering rich text with Markdown for volunteer requirements.
-* `cached_network_image`: For efficient image loading and caching.
-* `Maps_flutter`: For displaying maps (if Google Maps special feature was chosen/implemented).
-* `firebase_core`, `cloud_firestore`, `firebase_auth`, `firebase_analytics`, `firebase_crashlytics`, `firebase_storage`, `firebase_messaging`: Core Firebase SDKs for backend integration, analytics, crash reporting, storage, and messaging.
-* `share_plus`: For sharing news content.
-* `image_picker`: For allowing users to select profile pictures from their gallery or camera.
-* `permission_handler`: For managing permissions (e.g., camera, location).
-* `flutter_local_notifications`: For handling foreground push notifications.
-* `flutter_form_builder`, `form_builder_validators`: For easily building and validating forms.
-* `url_launcher`, `maps_launcher`: For launching external URLs and map applications.
-* `freezed_annotation`, `json_annotation`, `freezed`, `json_serializable`: For code generation of immutable data classes and JSON serialization/deserialization.
+### Architecture & State Management
+- `flutter_hooks`: Hook-based widget lifecycle and state handling.
+- `flutter_riverpod`, `hooks_riverpod`: Robust, testable, and reactive state management.
+- `go_router`: Declarative routing with built-in deep linking support.
+
+### Firebase Integration
+- `firebase_core`: Initializes Firebase.
+- `firebase_auth`: User authentication.
+- `cloud_firestore`: Real-time database.
+- `firebase_storage`: Uploading and retrieving media.
+- `firebase_messaging`: Push notification handling.
+- `firebase_analytics`: Tracking user behavior.
+- `firebase_crashlytics`: Real-time crash reporting.
+
+### Device Access & Media
+- `image_picker`: Allows users to take or select a photo for their profile.
+- `permission_handler`: Manages runtime permissions (camera, storage, etc.).
+- `path`, `path_provider`: For local file management.
+
+### Maps & Navigation
+- `google_maps_flutter`: Native Google Maps widget (not used but required for future maps integration).
+- `maps_launcher`: Opens coordinates in native map apps.
+- `url_launcher`: Opens external links (browser, phone, etc.).
+
+### UI & Visuals
+- `flutter_svg`: Renders SVG assets.
+- `flutter_markdown`: Displays Markdown text (e.g., volunteer descriptions).
+- `cached_network_image`: Efficient image caching and loading.
+- `intl`: Date and number formatting (localized).
+- `cupertino_icons`: iOS-style icons.
+- `flutter_local_notifications`: Handles foreground push notifications.
+
+### Forms & Input
+- `flutter_form_builder`: Advanced form generation.
+- `form_builder_validators`: Built-in validation rules (email, required, etc.).
+
+### Sharing & External Actions
+- `share_plus`: Native share dialogs for news or volunteer opportunities.
+
+### Development & Testing
+- `flutter_test`, `test`: Standard Flutter testing.
+- `mockito`: Mocking dependencies in unit tests.
+- `fake_cloud_firestore`, `firebase_auth_mocks`, `firebase_storage_mocks`: Mock Firebase services.
+- `golden_toolkit`: Snapshot (golden) testing for widgets.
+- `flutter_lints`: Static analysis and best practices.
+- `build_runner`, `freezed`, `json_serializable`: Code generation for data classes and serialization.
+
+
+These dependencies enable us to meet both functional requirements (like push notifications and real-time updates) and non-functional goals (maintainability, scalability, testability).
 
 ## 5. Installation and Setup
 

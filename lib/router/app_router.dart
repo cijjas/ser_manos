@@ -58,7 +58,6 @@ final routerProvider = Provider<GoRouter>((ref) {
     observers: [FirebaseAnalyticsObserver()],
     navigatorKey: _rootNavigatorKey,
     restorationScopeId: 'router',
-    // --- MODIFIED: Use the refreshListenable parameter ---
     refreshListenable: refreshNotifier,
     errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
     initialLocation: '/',
@@ -100,7 +99,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         return '/home/postularse';
       }
 
-      // If user is not logged in and tries to access protected pages, redirect to login
+      // If user is not logged in and tries to access protected pages, redirect to entry
       if (!isLoggedIn && !isAuthRoute) {
         return '/';
       }
