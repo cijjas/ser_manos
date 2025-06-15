@@ -307,7 +307,7 @@ class _BottomSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state) {
-      case VoluntariadoUserState.available:
+      case VoluntariadoUserState.available || VoluntariadoUserState.rejected:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [

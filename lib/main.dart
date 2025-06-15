@@ -37,8 +37,8 @@ void main() {
     FlutterError.onError = FirebaseCrashlytics.instance.recordFlutterFatalError;
 
     // Notifications
-    await NotificationService.init();
     await FirebaseMessaging.instance.requestPermission();
+    await NotificationService.init();
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen(NotificationService.show);
@@ -55,8 +55,6 @@ void main() {
         print('[INFO] ]Updated FCM token');
       }
     });
-
-
 
     // RUN
     runApp(const ProviderScope(child: MyApp()));

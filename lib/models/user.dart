@@ -11,6 +11,7 @@ enum VoluntariadoUserState {
   accepted,   // fue aceptado
   full,       // sin vacantes
   busyOther,  // participa en otro voluntariado
+  rejected,  // fue rechazado
 }
 
 @Freezed(toJson: true)

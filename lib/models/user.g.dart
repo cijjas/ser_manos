@@ -26,6 +26,7 @@ const _$VoluntariadoUserStateEnumMap = {
   VoluntariadoUserState.accepted: 'accepted',
   VoluntariadoUserState.full: 'full',
   VoluntariadoUserState.busyOther: 'busyOther',
+  VoluntariadoUserState.rejected: 'rejected',
 };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(

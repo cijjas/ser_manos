@@ -28,7 +28,7 @@ int tabIndexFromLocation(String loc) {
   return 2; // '/home/novedades'
 }
 
-final GlobalKey<NavigatorState> _rootNavigatorKey = GlobalKey<NavigatorState>();
+final navigatorKey = GlobalKey<NavigatorState>();
 
 final routerRefreshNotifierProvider = Provider((ref) {
   final notifier = ValueNotifier<int>(0);
@@ -56,7 +56,7 @@ final routerProvider = Provider<GoRouter>((ref) {
 
   return GoRouter(
     observers: [FirebaseAnalyticsObserver()],
-    navigatorKey: _rootNavigatorKey,
+    navigatorKey: navigatorKey,
     restorationScopeId: 'router',
     refreshListenable: refreshNotifier,
     errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
