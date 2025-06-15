@@ -51,7 +51,6 @@ class VoluntariadoService {
           );
 
           final distanceComparison = da.compareTo(db);
-          print("Distance: " + distanceComparison.toString());
           if (distanceComparison != 0) return distanceComparison;
         }
         // If distances are equal, compare createdAt (newer first)
