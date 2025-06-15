@@ -5,6 +5,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _i3;
 
+import 'package:geolocator/geolocator.dart' as _i9;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:ser_manos/models/novedad.dart' as _i4;
 import 'package:ser_manos/models/user.dart' as _i6;
@@ -31,10 +32,6 @@ import 'package:ser_manos/services/voluntariado_service.dart' as _i7;
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
-  MockNovedadService() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i3.Future<List<_i4.Novedad>> getAll() => (super.noSuchMethod(
         Invocation.method(
@@ -42,6 +39,8 @@ class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
           [],
         ),
         returnValue: _i3.Future<List<_i4.Novedad>>.value(<_i4.Novedad>[]),
+        returnValueForMissingStub:
+            _i3.Future<List<_i4.Novedad>>.value(<_i4.Novedad>[]),
       ) as _i3.Future<List<_i4.Novedad>>);
 
   @override
@@ -51,6 +50,7 @@ class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
           [],
         ),
         returnValue: _i3.Stream<List<_i4.Novedad>>.empty(),
+        returnValueForMissingStub: _i3.Stream<List<_i4.Novedad>>.empty(),
       ) as _i3.Stream<List<_i4.Novedad>>);
 
   @override
@@ -60,6 +60,7 @@ class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
           [id],
         ),
         returnValue: _i3.Stream<_i4.Novedad>.empty(),
+        returnValueForMissingStub: _i3.Stream<_i4.Novedad>.empty(),
       ) as _i3.Stream<_i4.Novedad>);
 }
 
@@ -67,10 +68,6 @@ class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockUserService extends _i1.Mock implements _i5.UserService {
-  MockUserService() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i3.Future<void> createUser(_i6.User? user) => (super.noSuchMethod(
         Invocation.method(
@@ -95,6 +92,7 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
           ],
         ),
         returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
 
   @override
@@ -111,6 +109,7 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
           ],
         ),
         returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
 
   @override
@@ -127,6 +126,7 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
           ],
         ),
         returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
 
   @override
@@ -137,6 +137,7 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
           [userId],
         ),
         returnValue: _i3.Stream<_i6.UserVoluntariado?>.empty(),
+        returnValueForMissingStub: _i3.Stream<_i6.UserVoluntariado?>.empty(),
       ) as _i3.Stream<_i6.UserVoluntariado?>);
 
   @override
@@ -146,6 +147,7 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
           [id],
         ),
         returnValue: _i3.Stream<_i6.User>.empty(),
+        returnValueForMissingStub: _i3.Stream<_i6.User>.empty(),
       ) as _i3.Stream<_i6.User>);
 
   @override
@@ -172,6 +174,7 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
           [user],
         ),
         returnValue: _i3.Future<_i6.User?>.value(),
+        returnValueForMissingStub: _i3.Future<_i6.User?>.value(),
       ) as _i3.Future<_i6.User?>);
 }
 
@@ -180,10 +183,6 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
 /// See the documentation for Mockito's code generation for more information.
 class MockVoluntariadoService extends _i1.Mock
     implements _i7.VoluntariadoService {
-  MockVoluntariadoService() {
-    _i1.throwOnMissingStub(this);
-  }
-
   @override
   _i3.Stream<_i8.Voluntariado> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
@@ -191,16 +190,24 @@ class MockVoluntariadoService extends _i1.Mock
           [id],
         ),
         returnValue: _i3.Stream<_i8.Voluntariado>.empty(),
+        returnValueForMissingStub: _i3.Stream<_i8.Voluntariado>.empty(),
       ) as _i3.Stream<_i8.Voluntariado>);
 
   @override
-  _i3.Stream<List<_i8.Voluntariado>> watchFiltered(String? query) =>
+  _i3.Stream<List<_i8.Voluntariado>> watchFiltered(
+    String? query,
+    _i9.Position? userPosition,
+  ) =>
       (super.noSuchMethod(
         Invocation.method(
           #watchFiltered,
-          [query],
+          [
+            query,
+            userPosition,
+          ],
         ),
         returnValue: _i3.Stream<List<_i8.Voluntariado>>.empty(),
+        returnValueForMissingStub: _i3.Stream<List<_i8.Voluntariado>>.empty(),
       ) as _i3.Stream<List<_i8.Voluntariado>>);
 
   @override
@@ -210,6 +217,7 @@ class MockVoluntariadoService extends _i1.Mock
           [id],
         ),
         returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
 
   @override
@@ -219,5 +227,6 @@ class MockVoluntariadoService extends _i1.Mock
           [id],
         ),
         returnValue: _i3.Future<bool>.value(false),
+        returnValueForMissingStub: _i3.Future<bool>.value(false),
       ) as _i3.Future<bool>);
 }
