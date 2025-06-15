@@ -51,7 +51,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     if (fbUser == null) return;
 
     try {
-      final user = await ref.read(userByIdProvider(fbUser.uid).future);
+      final user = await ref.read(currentUserProvider.future);
       if (!mounted) return;
 
       setState(() {

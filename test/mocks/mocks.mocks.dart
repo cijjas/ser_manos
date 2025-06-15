@@ -36,15 +36,6 @@ class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
   }
 
   @override
-  _i3.Future<List<_i4.Novedad>> getAll() => (super.noSuchMethod(
-        Invocation.method(
-          #getAll,
-          [],
-        ),
-        returnValue: _i3.Future<List<_i4.Novedad>>.value(<_i4.Novedad>[]),
-      ) as _i3.Future<List<_i4.Novedad>>);
-
-  @override
   _i3.Stream<List<_i4.Novedad>> watchAll() => (super.noSuchMethod(
         Invocation.method(
           #watchAll,
@@ -140,15 +131,6 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
       ) as _i3.Stream<_i6.UserVoluntariado?>);
 
   @override
-  _i3.Future<_i6.User?> getUser(String? id) => (super.noSuchMethod(
-        Invocation.method(
-          #getUser,
-          [id],
-        ),
-        returnValue: _i3.Future<_i6.User?>.value(),
-      ) as _i3.Future<_i6.User?>);
-
-  @override
   _i3.Stream<_i6.User> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOne,
@@ -201,15 +183,6 @@ class MockVoluntariadoService extends _i1.Mock
         ),
         returnValue: _i3.Stream<_i8.Voluntariado>.empty(),
       ) as _i3.Stream<_i8.Voluntariado>);
-
-  @override
-  _i3.Stream<List<_i8.Voluntariado>> watchAll() => (super.noSuchMethod(
-        Invocation.method(
-          #watchAll,
-          [],
-        ),
-        returnValue: _i3.Stream<List<_i8.Voluntariado>>.empty(),
-      ) as _i3.Stream<List<_i8.Voluntariado>>);
 
   @override
   _i3.Stream<List<_i8.Voluntariado>> watchFiltered(String? query) =>

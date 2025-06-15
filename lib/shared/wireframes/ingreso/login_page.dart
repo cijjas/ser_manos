@@ -39,7 +39,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     final email = value?.trim() ?? '';
     if (email.isEmpty) return 'Ingresá un email.';
-    final regexp = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final regexp = RegExp(r'^[\w-\.+]+@([\w-]+\.)+[\w-]{2,4}$');
     if (!regexp.hasMatch(email)) return 'El email no es válido.';
     return null;
   }

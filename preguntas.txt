@@ -6,3 +6,5 @@
 
 
 - Front requisitos/disponibilidad
+
+- App info > Open by default > Links to open in this app > + add link

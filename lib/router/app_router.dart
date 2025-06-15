@@ -75,7 +75,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       // Guard: force onboarding once
       if (isLoggedIn &&
           user != null &&
-          !(user.hasSeenOnboarding ?? false) &&
+          !(user.hasSeenOnboarding) &&
           state.matchedLocation != '/welcome') {
         return '/welcome';
       }
@@ -92,6 +92,10 @@ final routerProvider = Provider<GoRouter>((ref) {
         '/login',
         '/register',
       ].contains(state.matchedLocation);
+
+      if (isLoggedIn && currentUserAsync is AsyncLoading) {
+        return null; // Don't redirect yet
+      }
 
       // If user is logged in but on auth page, redirect to home
       if (isLoggedIn && isAuthRoute) {
@@ -141,8 +145,6 @@ final routerProvider = Provider<GoRouter>((ref) {
           path: '/home/perfil',
           name: "ProfileTab",
           builder: (_, __) => const PerfilWrapperPage(),
-
-
         ),
         GoRoute(
           path: '/home/postularse',

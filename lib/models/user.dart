@@ -31,7 +31,7 @@ class User with _$User {
     required String nombre,
     required String apellido,
     required String email,
-    @JsonKey(includeIfNull: false) bool? hasSeenOnboarding,
+    required bool hasSeenOnboarding,
     @JsonKey(includeIfNull: false) List<UserVoluntariado>? voluntariados,
     @JsonKey(includeIfNull: false) List<String>? likedVoluntariados,
     @JsonKey(includeIfNull: false) String? telefono,

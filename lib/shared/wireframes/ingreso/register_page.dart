@@ -15,6 +15,8 @@ import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/models/user.dart' as model;
 
+import '../../../providers/voluntariado_provider.dart';
+
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
@@ -44,7 +46,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     if (_emailFocus.hasFocus) return null;
     final email = (value ?? '').trim();
     if (email.isEmpty) return 'Ingresá un email.';
-    final re = RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$');
+    final re = RegExp(r'^[\w\-\.+]+@([\w\-]+\.)+[\w\-]{2,4}$');
     if (!re.hasMatch(email)) return 'El formato del email no es válido.';
     return null;
   }
@@ -116,18 +118,21 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       final cred = await ref.read(authServiceProvider).register(email, password);
       final uid  = cred.user!.uid;
 
+      await ref.read(authServiceProvider).signIn(email, password);
+
+      ref.invalidate(voluntariadosProvider);
+
       final newUser = model.User(
         id: uid,
         nombre: name,
         apellido: surname,
         email: email,
+        hasSeenOnboarding: false
       );
 
       await ref.read(createUserProvider(newUser).future);
       await saveFcmTokenToFirestore(uid);
 
-      if (!mounted) return;
-      context.go('/welcome');
     } on FirebaseAuthException catch (e) {
       // Si fallo el registro y el usuario quedó creado, lo borramos
       final current = FirebaseAuth.instance.currentUser;
@@ -149,7 +154,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         }
       });
     } catch (_) {
-      setState(() => _errorMessage = 'Error al registrar usuario.');
+      if (mounted) setState(() => _errorMessage = 'Error al registrar usuario.' + _.toString());
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

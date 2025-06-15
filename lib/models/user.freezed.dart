@@ -192,8 +192,7 @@ mixin _$User {
   String get nombre => throw _privateConstructorUsedError;
   String get apellido => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  @JsonKey(includeIfNull: false)
-  bool? get hasSeenOnboarding => throw _privateConstructorUsedError;
+  bool get hasSeenOnboarding => throw _privateConstructorUsedError;
   @JsonKey(includeIfNull: false)
   List<UserVoluntariado>? get voluntariados =>
       throw _privateConstructorUsedError;
@@ -229,7 +228,7 @@ abstract class $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
-      @JsonKey(includeIfNull: false) bool? hasSeenOnboarding,
+      bool hasSeenOnboarding,
       @JsonKey(includeIfNull: false) List<UserVoluntariado>? voluntariados,
       @JsonKey(includeIfNull: false) List<String>? likedVoluntariados,
       @JsonKey(includeIfNull: false) String? telefono,
@@ -258,7 +257,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? nombre = null,
     Object? apellido = null,
     Object? email = null,
-    Object? hasSeenOnboarding = freezed,
+    Object? hasSeenOnboarding = null,
     Object? voluntariados = freezed,
     Object? likedVoluntariados = freezed,
     Object? telefono = freezed,
@@ -284,10 +283,10 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      hasSeenOnboarding: freezed == hasSeenOnboarding
+      hasSeenOnboarding: null == hasSeenOnboarding
           ? _value.hasSeenOnboarding
           : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       voluntariados: freezed == voluntariados
           ? _value.voluntariados
           : voluntariados // ignore: cast_nullable_to_non_nullable
@@ -332,7 +331,7 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String nombre,
       String apellido,
       String email,
-      @JsonKey(includeIfNull: false) bool? hasSeenOnboarding,
+      bool hasSeenOnboarding,
       @JsonKey(includeIfNull: false) List<UserVoluntariado>? voluntariados,
       @JsonKey(includeIfNull: false) List<String>? likedVoluntariados,
       @JsonKey(includeIfNull: false) String? telefono,
@@ -358,7 +357,7 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? nombre = null,
     Object? apellido = null,
     Object? email = null,
-    Object? hasSeenOnboarding = freezed,
+    Object? hasSeenOnboarding = null,
     Object? voluntariados = freezed,
     Object? likedVoluntariados = freezed,
     Object? telefono = freezed,
@@ -384,10 +383,10 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      hasSeenOnboarding: freezed == hasSeenOnboarding
+      hasSeenOnboarding: null == hasSeenOnboarding
           ? _value.hasSeenOnboarding
           : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
-              as bool?,
+              as bool,
       voluntariados: freezed == voluntariados
           ? _value._voluntariados
           : voluntariados // ignore: cast_nullable_to_non_nullable
@@ -428,7 +427,7 @@ class _$UserImpl implements _User {
       required this.nombre,
       required this.apellido,
       required this.email,
-      @JsonKey(includeIfNull: false) this.hasSeenOnboarding,
+      required this.hasSeenOnboarding,
       @JsonKey(includeIfNull: false)
       final List<UserVoluntariado>? voluntariados,
       @JsonKey(includeIfNull: false) final List<String>? likedVoluntariados,
@@ -452,8 +451,7 @@ class _$UserImpl implements _User {
   @override
   final String email;
   @override
-  @JsonKey(includeIfNull: false)
-  final bool? hasSeenOnboarding;
+  final bool hasSeenOnboarding;
   final List<UserVoluntariado>? _voluntariados;
   @override
   @JsonKey(includeIfNull: false)
@@ -564,7 +562,7 @@ abstract class _User implements User {
       required final String nombre,
       required final String apellido,
       required final String email,
-      @JsonKey(includeIfNull: false) final bool? hasSeenOnboarding,
+      required final bool hasSeenOnboarding,
       @JsonKey(includeIfNull: false)
       final List<UserVoluntariado>? voluntariados,
       @JsonKey(includeIfNull: false) final List<String>? likedVoluntariados,
@@ -585,8 +583,7 @@ abstract class _User implements User {
   @override
   String get email;
   @override
-  @JsonKey(includeIfNull: false)
-  bool? get hasSeenOnboarding;
+  bool get hasSeenOnboarding;
   @override
   @JsonKey(includeIfNull: false)
   List<UserVoluntariado>? get voluntariados;

@@ -51,7 +51,6 @@ class NotificationService {
   }
 
 
-  /// despachador de deep links
   static void _handlePayload(String? payload) {
     if (payload == null) return;
     final data = jsonDecode(payload);
