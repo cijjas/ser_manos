@@ -35,7 +35,6 @@ dependencies:
   firebase_crashlytics: ^4.3.5
   image_picker: ^1.0.5
   permission_handler: ^11.3.1 # (iOS ≥ 17 pide permiso explícito)
-
   firebase_storage: ^12.4.5
   firebase_messaging: ^15.2.6
   flutter_local_notifications: ^19.2.0
@@ -45,6 +44,7 @@ dependencies:
 #  Launch url to maps
   url_launcher: ^6.2.4
   maps_launcher: ^3.0.0+1
+  geolocator: ^14.0.1
 
 dev_dependencies:
   flutter_test:
