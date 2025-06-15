@@ -94,11 +94,10 @@ export const onVoluntariadoApplicationChange = onDocumentUpdated(
  */
 export const onNewNoticia = onDocumentCreated(
     {
-        document: "news/{newsId}",
+        document: "novedades/{newsId}",
         region: "southamerica-east1"
     },
     async (event) => {
-        // The document snapshot is now in event.data
         const newsData = event.data?.data();
         const newsId = event.params.newsId;
 
@@ -110,7 +109,7 @@ export const onNewNoticia = onDocumentCreated(
         const payload = {
             notification: {
                 title: "¡Nueva noticia! 📰",
-                body: newsData.title, // Make sure your news document has a 'title' field
+                body: newsData.titulo,
             },
             data: {
                 type: "news",
@@ -118,11 +117,10 @@ export const onNewNoticia = onDocumentCreated(
             },
         };
 
-        // Get all users' FCM tokens
         const usersSnapshot = await db.collection("users").get();
         const tokens = usersSnapshot.docs
             .map((doc) => doc.data().fcmToken)
-            .filter((token) => token); // Filter out users without tokens
+            .filter((token) => token);
 
         if (tokens.length === 0) {
             logger.log("No users with FCM tokens to send notifications to.");

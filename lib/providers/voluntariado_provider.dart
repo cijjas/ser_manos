@@ -22,14 +22,12 @@ final voluntariadosProvider = StreamProvider<List<Voluntariado>>((ref) {
 
   return userLocationAsync.when(
     data: (userPosition) {
-      print("User position: $userPosition");
       return ref.read(voluntariadoServiceProvider).watchFiltered(query, userPosition);
     },
     loading: () {
       return ref.read(voluntariadoServiceProvider).watchFiltered(query, null);
     },
     error: (_, __) {
-      print("Error fetching user location, using no location filter" + _.toString());
       return ref.read(voluntariadoServiceProvider).watchFiltered(query, null);
     },
   );
