@@ -1,27 +1,44 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import '../models/user.dart';
 import 'package:collection/collection.dart';
 
-class UserService {
-  final _users = FirebaseFirestore.instance.collection('users');
+import '../models/user.dart';
 
+class UserService {
+  // ─────────── constructor con inyección opcional ───────────
+  UserService({
+    FirebaseFirestore?   firestore,
+    FirebaseAnalytics?   analytics,
+    FirebaseCrashlytics? crashlytics,
+  })  : _firestore   = firestore   ?? FirebaseFirestore.instance,
+        _analytics   = analytics   ?? FirebaseAnalytics.instance,
+        _crashlytics = crashlytics ?? FirebaseCrashlytics.instance,
+        _users       = (firestore ?? FirebaseFirestore.instance)
+            .collection('users');
+
+  // singletons/mocks usados internamente
+  final FirebaseFirestore   _firestore;
+  final FirebaseAnalytics   _analytics;
+  final FirebaseCrashlytics _crashlytics;
+  final CollectionReference<Map<String, dynamic>> _users;
+
+  // ─────────── creación de usuario ───────────
   Future<void> createUser(User user) async {
     try {
       await _users.doc(user.id).set(user.toJson());
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'user_creation_success',
         parameters: {'source': 'UserService'},
       );
     } catch (e, stack) {
-      FirebaseCrashlytics.instance.recordError(
+      _crashlytics.recordError(
         e,
         stack,
         reason: 'Failed to create user document in Firestore',
         fatal: false,
       );
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'user_creation_failed',
         parameters: {'source': 'UserService'},
       );
@@ -29,50 +46,45 @@ class UserService {
     }
   }
 
+  // ─────────── helper para cambiar estado de voluntariado ───────────
   Future<bool> _setUserVoluntariadoState(
-    String voluntariadoId,
-    User user,
-    VoluntariadoUserState newState,
-  ) async {
+      String voluntariadoId,
+      User user,
+      VoluntariadoUserState newState,
+      ) async {
     try {
+      // construir voluntariado actualizado
       UserVoluntariado newVoluntariado;
-
-      // Check if user already has this voluntariado
-      if (user.voluntariados != null && user.voluntariados!.isNotEmpty) {
-        final existingVoluntariado = user.voluntariados!.firstWhere(
-            (v) => v.id == voluntariadoId,
-            orElse: () =>
-                UserVoluntariado(id: voluntariadoId, estado: newState));
-        newVoluntariado = existingVoluntariado.copyWith(estado: newState);
-      } else {
-        newVoluntariado = UserVoluntariado(
-          id: voluntariadoId,
-          estado: newState,
+      if (user.voluntariados?.isNotEmpty ?? false) {
+        final existing = user.voluntariados!.firstWhere(
+              (v) => v.id == voluntariadoId,
+          orElse: () =>
+              UserVoluntariado(id: voluntariadoId, estado: newState),
         );
+        newVoluntariado = existing.copyWith(estado: newState);
+      } else {
+        newVoluntariado =
+            UserVoluntariado(id: voluntariadoId, estado: newState);
       }
 
-      final List<UserVoluntariado> updatedVoluntariados = [
-        ...user.voluntariados?.where((v) => v.id != voluntariadoId) ?? [],
-        if (newState != VoluntariadoUserState.available) newVoluntariado
+      // lista final
+      final updated = [
+        ...(user.voluntariados ?? [])
+            .where((v) => v.id != voluntariadoId)
+            .toList(),
+        if (newState != VoluntariadoUserState.available) newVoluntariado,
       ];
 
-      // Update in Firestore
-      await _users.doc(user.id).update(
-        {
-          'voluntariados': updatedVoluntariados.map((v) => v.toJson()).toList(),
-        },
-      );
+      await _users.doc(user.id).update({
+        'voluntariados': updated.map((v) => v.toJson()).toList(),
+      });
 
-      FirebaseAnalytics.instance
-          .logEvent(name: 'voluntariado_state_updated', parameters: {
+      _analytics.logEvent(name: 'voluntariado_state_updated', parameters: {
         'voluntariadoId': voluntariadoId,
         'oldState': user.voluntariados
-                ?.firstWhere((v) => v.id == voluntariadoId,
-                    orElse: () => UserVoluntariado(
-                        id: voluntariadoId,
-                        estado: VoluntariadoUserState.available))
-                .estado
-                .toString() ??
+            ?.firstWhereOrNull((v) => v.id == voluntariadoId)
+            ?.estado
+            .toString() ??
             'not found',
         'newState': newState.toString(),
         'userId': user.id,
@@ -80,13 +92,13 @@ class UserService {
 
       return true;
     } catch (e, stack) {
-      FirebaseCrashlytics.instance.recordError(
+      _crashlytics.recordError(
         e,
         stack,
         reason: 'Failed to update user voluntariado state in Firestore',
         fatal: false,
       );
-      FirebaseAnalytics.instance.logEvent(
+      _analytics.logEvent(
         name: 'voluntariado_state_update_failed',
         parameters: {
           'voluntariadoId': voluntariadoId,
@@ -95,131 +107,79 @@ class UserService {
           'error': e.toString(),
         },
       );
-
       return false;
     }
   }
 
-  Future<bool> postulateToVoluntariado(User user, String voluntariadoId) async {
-    if (user.voluntariados != null &&
-        user.voluntariados!.any((v) => v.id == voluntariadoId)) {
-      print(user.toString());
-      FirebaseCrashlytics.instance.recordError(
+  // ─────────── API pública de postulaciones ───────────
+  Future<bool> postulateToVoluntariado(User user, String id) async {
+    if (user.voluntariados?.any((v) => v.id == id) ?? false) {
+      _crashlytics.recordError(
         'User already postulated',
         null,
-        reason:
-            'User ${user.id} is already postulated to voluntariado $voluntariadoId',
-        fatal: false,
-      );
-      return false; // User is already postulated
-    }
-
-    return _setUserVoluntariadoState(
-        voluntariadoId, user, VoluntariadoUserState.applied);
-  }
-
-  Future<bool> withdrawPostulation(User user, String voluntariadoId) async {
-    print(user.voluntariados);
-    if (user.voluntariados == null ||
-        !user.voluntariados!.any((v) => v.id == voluntariadoId)) {
-      FirebaseCrashlytics.instance.recordError(
-        'User has no voluntariados',
-        null,
-        reason:
-            'User ${user.id} has no voluntariados and tried to withdraw from $voluntariadoId',
+        reason: 'User ${user.id} already postulated to $id',
         fatal: false,
       );
       return false;
     }
+    return _setUserVoluntariadoState(id, user, VoluntariadoUserState.applied);
+  }
 
-    UserVoluntariado matchingVoluntariado =
-        user.voluntariados!.firstWhere((v) => v.id == voluntariadoId);
-
-    if (matchingVoluntariado.estado != VoluntariadoUserState.applied) {
-      FirebaseCrashlytics.instance.recordError(
-        'User voluntariado wrong state',
+  Future<bool> withdrawPostulation(User user, String id) async {
+    final vol = user.voluntariados?.firstWhereOrNull((v) => v.id == id);
+    if (vol == null || vol.estado != VoluntariadoUserState.applied) {
+      _crashlytics.recordError(
+        'Withdraw not allowed',
         null,
-        reason:
-            'User ${user.id} has a voluntariado $voluntariadoId but not in applied state and tried to withdraw',
+        reason: 'User ${user.id} tried to withdraw but state invalid',
         fatal: false,
       );
       return false;
     }
-    return _setUserVoluntariadoState(
-        voluntariadoId, user, VoluntariadoUserState.available);
+    return _setUserVoluntariadoState(id, user, VoluntariadoUserState.available);
   }
 
-  Future<bool> abandonVoluntariado(User user, String voluntariadoId) async {
-    if (user.voluntariados == null ||
-        !user.voluntariados!.any((v) => v.id == voluntariadoId)) {
-      FirebaseCrashlytics.instance.recordError(
-        'User has no voluntariados',
+  Future<bool> abandonVoluntariado(User user, String id) async {
+    final vol = user.voluntariados?.firstWhereOrNull((v) => v.id == id);
+    if (vol == null || vol.estado != VoluntariadoUserState.accepted) {
+      _crashlytics.recordError(
+        'Abandon not allowed',
         null,
-        reason:
-            'User ${user.id} has no voluntariados and tried to abandon $voluntariadoId',
+        reason: 'User ${user.id} tried to abandon but state invalid',
         fatal: false,
       );
-      return false; // User has no voluntariados
+      return false;
     }
-
-    UserVoluntariado matchingVoluntariado =
-        user.voluntariados!.firstWhere((v) => v.id == voluntariadoId);
-
-    if (matchingVoluntariado.estado != VoluntariadoUserState.accepted) {
-      FirebaseCrashlytics.instance.recordError(
-        'User voluntariado wrong state',
-        null,
-        reason:
-            'User ${user.id} has a voluntariado $voluntariadoId but not in accepted state and tried to abandon',
-        fatal: false,
-      );
-      return false; // User has a voluntariado but not in applied state
-    }
-
-    return _setUserVoluntariadoState(
-        voluntariadoId, user, VoluntariadoUserState.available);
+    return _setUserVoluntariadoState(id, user, VoluntariadoUserState.available);
   }
 
+  // ─────────── Lectores ───────────
   Stream<UserVoluntariado?> watchParticipating(String userId) {
     return _users.doc(userId).snapshots().map((doc) =>
         User.fromJson(doc.data()!).voluntariados?.firstWhereOrNull(
-            (vol) => vol.estado == VoluntariadoUserState.accepted));
+                (v) => v.estado == VoluntariadoUserState.accepted));
   }
 
   Stream<User> watchOne(String id) {
-    return _users.doc(id).snapshots().where((doc) => doc.exists).map(
-          (doc) => User.fromJson(doc.data()!),
-        );
+    return _users.doc(id).snapshots().where((d) => d.exists).map(
+          (d) => User.fromJson(d.data()!),
+    );
   }
 
-  Future<void> toggleLikeVoluntariado(
-    User user,
-    String voluntariadoId,
-  ) async {
+  // ─────────── Likes ───────────
+  Future<void> toggleLikeVoluntariado(User user, String id) async {
     try {
+      final likes = [...user.likedVoluntariados ?? []];
+      likes.contains(id) ? likes.remove(id) : likes.add(id);
 
-      final likedVoluntariados = [...user.likedVoluntariados ?? []];
-
-      if (likedVoluntariados.contains(voluntariadoId)) {
-        likedVoluntariados.remove(voluntariadoId);
-      } else {
-        likedVoluntariados.add(voluntariadoId);
-      }
-
-      await _users.doc(user.id).update({
-        'likedVoluntariados': likedVoluntariados,
+      await _users.doc(user.id).update({'likedVoluntariados': likes});
+      _analytics.logEvent(name: 'toggle_like_voluntariado', parameters: {
+        'userId': user.id,
+        'voluntariadoId': id,
+        'liked': likes.contains(id).toString(),
       });
-      // TODO check event is relevant?
-      FirebaseAnalytics.instance.logEvent(
-        name: 'toggle_like_voluntariado',
-        parameters: {
-          'userId': user.id,
-          'voluntariadoId': voluntariadoId,
-          'liked': !likedVoluntariados.contains(voluntariadoId) ? "true" : "false",
-        },
-      );
     } catch (e) {
-      FirebaseCrashlytics.instance.recordError(
+      _crashlytics.recordError(
         e,
         null,
         reason: 'Failed to toggle like on voluntariado',
@@ -228,12 +188,13 @@ class UserService {
     }
   }
 
+  // ─────────── Update genérico ───────────
   Future<User?> updateUser(User user) async {
     try {
       await _users.doc(user.id).set(user.toJson(), SetOptions(merge: true));
       return user;
     } catch (e) {
-      FirebaseCrashlytics.instance.recordError(
+      _crashlytics.recordError(
         e,
         null,
         reason: 'Failed to update user document in Firestore',

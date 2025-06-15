@@ -30,34 +30,41 @@ void main() {
     });
 
     test('toJson conserva valores escalares y lista de objetos', () {
-      final user     = User.fromJson(srcJson);
-      final encoded  = user.toJson();
+      final user    = User.fromJson(srcJson);
+      final encoded = user.toJson();
 
-      // Valores simples
-      expect(encoded['email'], 'ada@lovelace.dev');
+      // valores simples
+      expect(encoded['email'],             'ada@lovelace.dev');
       expect(encoded['hasSeenOnboarding'], true);
 
-      // La lista sigue conteniendo objetos UserVoluntariado
+      // la lista contiene objetos UserVoluntariado
       final vols = encoded['voluntariados'] as List;
       expect(vols.length, 1);
       expect(vols.first, isA<UserVoluntariado>());
       expect((vols.first as UserVoluntariado).id, 'v1');
     });
 
-    test('campos opcionales pueden ser null y persisten en toJson', () {
+    test('campos opcionales pueden ser null y no se serializan', () {
       const minimalJson = {
-        'id': 'u124',
+        'id'    : 'u124',
         'nombre': 'Linus',
         'apellido': 'Torvalds',
         'email': 'linus@kernel.org',
+        'hasSeenOnboarding': false, // obligatorio o valor por defecto
       };
 
       final user    = User.fromJson(minimalJson);
       final encoded = user.toJson();
 
+      // getters
       expect(user.telefono, isNull);
-      expect(encoded.containsKey('telefono'), isTrue);  // aparece pero es null
-      expect(encoded['telefono'], isNull);
+      expect(user.hasSeenOnboarding, isFalse);
+
+      // campos null fueron omitidos
+      expect(encoded.containsKey('telefono'), isFalse);
+      expect(encoded.containsKey('genero'),   isFalse);
+      // hasSeenOnboarding siempre presente
+      expect(encoded['hasSeenOnboarding'], false);
     });
 
     test('copyWith mantiene inmutabilidad', () {
@@ -65,7 +72,7 @@ void main() {
       final updated  = original.copyWith(nombre: 'Grace');
 
       expect(original.nombre, 'Ada');
-      expect(updated.nombre, 'Grace');
+      expect(updated.nombre,  'Grace');
       expect(original, isNot(updated));
     });
   });
