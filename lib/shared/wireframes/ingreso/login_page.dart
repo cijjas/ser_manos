@@ -14,6 +14,8 @@ import 'package:ser_manos/shared/atoms/symbols/app_symbol_text.dart';
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 
+import '../../../providers/voluntariado_provider.dart';
+
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -100,8 +102,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       final updatedUser = await ref.read(currentUserProvider.future);
       await saveFcmTokenToFirestore(updatedUser.id);
 
+      ref.invalidate(voluntariadosProvider);
+
       if (!mounted) return;
-      if (!(updatedUser.hasSeenOnboarding ?? true)) {
+      if (!(updatedUser.hasSeenOnboarding)) {
         context.go('/welcome');
       } else {
         context.go('/home/postularse');

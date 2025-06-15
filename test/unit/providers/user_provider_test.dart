@@ -23,6 +23,7 @@ void main() {
         nombre: 'Ada',
         apellido: 'Lovelace',
         email: 'a@b.c',
+        hasSeenOnboarding: false,
       );
     });
 
