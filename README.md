@@ -69,37 +69,106 @@ The application includes the following core functionalities:
 
 As per the assignment, our group implemented the following two special functionalities:
 
-* **3.2.1. Real-Time Updates:**
-    * **Description:** The application receives real-time updates. The UI is updated immediately to reflect these changes. This ensures users always see the most accurate information regarding availability.
-    * **Technical Implementation and Decisions:**
-        * **Technology Choice:** We opted to use **Cloud Firestore** for real-time updates. Firestore's real-time listeners provide an efficient and scalable way to subscribe to changes in the database without complex server-side implementation for push notifications or WebSockets. This aligns with Flutter's reactive programming paradigm.
-        * **Integration:** We set up listeners on relevant Firestore collections (e.g., `voluntariados`) to detect changes in the `vacantes` field. When a change occurs, the UI components observing this data are automatically rebuilt. This same pattern is followed through the entire app.
-        * **Observations:** We ensured no runtime polling is done so that the application does not overload the users device with tasks.
+### 3.2.1. Real-Time Updates
 
-* **3.2.2. Push Notifications:**
-    * **Description:** The application implements foreground push notifications with deep links for specific use cases:
-        * Changes in volunteer application status (acceptance or rejection), linking to the volunteer opportunity details.
-        * New news items, linking to the news detail.
-    * **Technical Implementation and Decisions:**
-        * **Technology Choice:** We leveraged **Firebase Cloud Messaging (FCM)** for sending push notifications and **`flutter_local_notifications`** for handling and displaying notifications in the foreground.
-        * **Deep Linking:** We configured `go_router` to handle incoming deep links from the notifications. This allows users to directly navigate to the relevant screen within the app when they tap a notification.
-        * **Implementation Details:**
-            * FCM was set up to send messages from the backend (or a simulation for demonstration) when an application status changes or a new news item is published.
-            * `flutter_local_notifications` intercepts these messages while the app is in the foreground and displays them as native-style notifications.
-            * Custom payloads in the FCM messages contain the deep link path, which is then parsed by `go_router` to navigate to the correct screen.
-        * **Argumentation:** FCM is the industry standard for push notifications with Firebase, offering reliability and scalability. 
+**Description:**  
+The application is built around real-time data synchronization using **Cloud Firestore**. This ensures that users always see the most up-to-date information across all major areas of the app without needing to refresh manually. Whether browsing opportunities, reading news, or checking their user profile, data updates are reflected instantly in the UI.
 
+**Technical Implementation & Decisions:**
+
+- **Technology Choice:**
+    - **Cloud Firestore** was selected for its native support for real-time listeners and easy integration with Flutter’s reactive widget system.
+    - **Riverpod** is used to manage state and expose Firestore streams to the UI in a modular and testable way.
+
+- **Usage Across the App:**
+    - **Volunteer Opportunities (`voluntariados`):** Real-time streams update availability, details, and filtering results as new opportunities are added or updated.
+    - **News (`novedades`):** A live feed of updates allows users to receive the latest news without polling.
+    - **Users:** Profile data, postulations, and interaction states (e.g., likes, onboarding progress) are synced via document listeners.
+    - **Location-Aware Data:** Opportunities are sorted dynamically by proximity using `Geolocator`, reacting in real-time to both user movement and database changes.
+
+- **Implementation Highlights:**
+    - Streams are exposed via `StreamProvider`s and managed in service classes. For example:
+      ```dart
+      Stream<User> watchOne(String userId) =>
+          _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
+  
+      Stream<List<Novedad>> watchAll() =>
+          _collection.orderBy('createdAt', descending: true).snapshots()
+                     .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
+      ```
+    - These streams drive the reactive UI, ensuring updates like slot availability, news items, and user state (e.g., onboarding, postulation status) are reflected immediately.
+
+- **Crash Reporting & Logging:**
+    - All service-layer operations are wrapped with **Firebase Crashlytics** and **Analytics** for error tracking and observability. Errors in real-time updates (e.g., permission issues, invalid states) are logged with relevant context.
+
+- **Benefits of Real-Time Architecture:**
+    - **No polling or refresh logic**—Firestore pushes changes directly to the client.
+    - **Optimized performance**—updates are granular and batched efficiently by Firestore.
+    - **Highly reactive UI**—users see changes reflected across tabs and screens immediately.
+    - **Developer efficiency**—a consistent pattern (stream + provider + model) is used across all entities.
+
+**Why Firestore:**  
+Firestore’s real-time listeners offer a scalable, fully-managed backend solution for real-time apps. Combined with Flutter's widget lifecycle and Riverpod's state management, this architecture provides a clean and reactive foundation that keeps the app stateful, fast, and always in sync.
+
+### 3.2.2. Push Notifications
+
+**Description:**  
+The app delivers foreground push notifications with deep linking to enhance user engagement and immediacy for critical events. These include:
+
+- Updates on a volunteer application’s status (accepted or rejected), linking to the relevant opportunity.
+- Announcements of new news items, linking directly to their detail page.
+
+**Technical Implementation & Decisions:**
+
+- **Technology Stack:**
+    - **Firebase Cloud Messaging (FCM):** Used to send and route push notifications to user devices.
+    - **Firebase Cloud Functions (v2):** Implemented to trigger notifications automatically based on changes in Firestore data.
+    - **`flutter_local_notifications`:** Used to display notifications while the app is in the foreground.
+    - **`go_router`:** Handles deep linking and in-app navigation based on notification payloads.
+
+- **Backend Notification Triggers:**
+    - Implemented using **Firebase Cloud Functions (v2)** with **Firestore triggers**:
+        - `onDocumentUpdated` listens for changes in user documents. When a user’s volunteer application status (`estado`) changes, a personalized FCM notification is sent.
+        - `onDocumentCreated` listens for new entries in the `novedades` collection. When a news item is added, a broadcast notification is sent to all users with valid FCM tokens.
+    - Each function sends structured FCM payloads including metadata (`type`, `voluntariadoId`, `newsId`) used for routing.
+
+- **Client-Side Notification Handling:**
+    - Foreground messages are intercepted by `flutter_local_notifications`, displaying native push UI elements.
+    - A custom `NotificationService` handles:
+        - Initialization of local notification channels.
+        - Parsing of incoming payloads.
+        - Navigating the user via `go_router` to appropriate screens (e.g., `/voluntariado/{id}` or `/novedad/{id}`).
+
+- **Example Payloads:**
+```json
+{
+    "type": "postulation_status",
+    "voluntariadoId": "abc123"
+}
+```
+```json
+{
+    "type": "news",
+    "newsId": "xyz789"
+}
+```
+
+**Why This Architecture:**  
+Combining **Firebase Cloud Functions** with **FCM** creates a reliable, event-driven backend capable of delivering personalized or broadcast notifications in response to Firestore activity. On the client side, deep integration with `go_router` and native notification tools ensures a seamless and responsive user experience.
+
+
+
+#### 3.2.3. Camera
 Additionally, to get ahead of future workloads we also implemented Camera functionality
 
-* **3.2.3. Camera:**
-    * **Description:** The application allows users to update their profile picture using the native device camera or by selecting an image from the device’s file system. This provides a personalized user experience and aligns with modern app standards where profile customization is expected.
-    * **Technical Implementation and Decisions:**
-        * **Technology Choice:** We utilized the `image_picker` Flutter plugin, which provides a unified API for accessing both the device camera and gallery across iOS and Android platforms.
-        * **Integration:** A modal bottom sheet is presented when the user opts to update their profile picture. It gives the option to either take a new photo using the camera or choose an existing one from the gallery. Upon selection, the image is compressed and uploaded to Firebase Storage, and the resulting download URL is saved to the user's profile document in Cloud Firestore.
-        * **Implementation Details:**
-            * Permissions for camera and storage access are handled gracefully, using platform-specific permission prompts.
-            * The selected image is previewed before confirmation, giving users the opportunity to cancel or retake.
-            * After upload, the app updates the UI reactively using Riverpod to reflect the new profile image.
+* **Description:** The application allows users to update their profile picture using the native device camera or by selecting an image from the device’s file system. This provides a personalized user experience and aligns with modern app standards where profile customization is expected.
+* **Technical Implementation and Decisions:**
+    * **Technology Choice:** We utilized the `image_picker` Flutter plugin, which provides a unified API for accessing both the device camera and gallery across iOS and Android platforms.
+    * **Integration:** A modal bottom sheet is presented when the user opts to update their profile picture. It gives the option to either take a new photo using the camera or choose an existing one from the gallery. Upon selection, the image is compressed and uploaded to Firebase Storage, and the resulting download URL is saved to the user's profile document in Cloud Firestore.
+    * **Implementation Details:**
+        * Permissions for camera and storage access are handled gracefully, using platform-specific permission prompts.
+        * The selected image is previewed before confirmation, giving users the opportunity to cancel or retake.
+        * After upload, the app updates the UI reactively using Riverpod to reflect the new profile image.
 
 
 ## 4. Technical Specifications and Decisions
@@ -220,174 +289,141 @@ The application utilizes three main data models, implemented using `freezed` for
     ```
 
 ### 4.8. Project Structure
+This project follows a **hybrid architecture** that combines both **feature-first** and **layer-first** organization:
 
-The `lib` directory is organized as follows:
+- **Layer-first**: At the core, the project separates responsibilities by type (e.g., `models`, `services`, `providers`, `router`). This makes it easy to locate shared logic and maintain consistency.
+- **Feature-first**: At the UI level, particularly under `shared/wireframes/`, screens are grouped by feature domain (`home`, `perfil`, `novedades`, etc.), enabling easier collaboration, testing, and navigation for large teams.
 
-```
-.
-├── assets                 # Static assets like images and icons
-├── converters             # Custom type converters for data serialization
-│   ├── geoPoint_converter.dart
-│   └── latlng_converter.dart
-├── firebase_options.dart  # Firebase configuration file
-├── main.dart              # Main entry point of the Flutter application
-├── models                 # Data models for User, Novedad, and Voluntariado, including generated Freezed and JSON files
-│   ├── novedad.dart
-│   ├── novedad.freezed.dart
-│   ├── novedad.g.dart
-│   ├── user.dart
-│   ├── user.freezed.dart
-│   ├── user.g.dart
-│   ├── voluntariado.dart
-│   ├── voluntariado.freezed.dart
-│   └── voluntariado.g.dart
-├── providers              # Riverpod providers for state management and data exposure
-│   ├── auth_provider.dart
-│   ├── home_providers.dart
-│   ├── novedad_provider.dart
-│   ├── user_provider.dart
-│   └── voluntariado_provider.dart
-├── router                   # Application routing configuration
-│   ├── app_router.dart
-│   └── go_router_observer.dart
-├── services                 # Business logic and interactions with backend services (Firebase)
-│   ├── auth_service.dart
-│   ├── fcm_token_service.dart
-│   ├── notification_service.dart
-│   ├── novedad_service.dart
-│   ├── user_service.dart
-│   └── voluntariado_service.dart
-└── shared                   # Reusable UI components and design system tokens
-├── atoms                # Smallest, indivisible UI elements (e.g., icons, text)
-│   ├── icons
-│   │   ├── _app_icon.dart
-│   │   └── app_icons.dart
-│   └── symbols
-│       ├── app_symbol_text.dart
-│       └── app_wordmark.dart
-├── cells                # Combinations of atoms forming self-contained UI components (e.g., cards, forms)
-│   ├── cards
-│   │   ├── card_foto.dart
-│   │   ├── card_informacion.dart
-│   │   ├── card_input.dart
-│   │   ├── card_novedades.dart
-│   │   ├── card_voluntariado.dart
-│   │   └── card_voluntariado_actual.dart
-│   ├── forms
-│   │   ├── contact_data.dart
-│   │   ├── login.dart
-│   │   ├── personal_data.dart
-│   │   └── register.dart
-│   ├── header
-│   │   ├── header.dart
-│   │   ├── header_modal.dart
-│   │   └── header_seccion.dart
-│   └── modals
-│       └── confirm_modal.dart
-├── molecules            # Groups of atoms and/or cells functioning as a unit (e.g., buttons, input fields)
-│   ├── buttons
-│   │   ├── app_button.dart
-│   │   ├── floating_button.dart
-│   │   └── short_button.dart
-│   ├── components
-│   │   ├── foto_perfil.dart
-│   │   └── vacants.dart
-│   ├── input
-│   │   ├── app_text_field.dart
-│   │   ├── form_builder_app_text_field.dart
-│   │   ├── form_builder_date_field.dart
-│   │   ├── form_builder_password_field.dart
-│   │   └── search_field.dart
-│   ├── status_bar
-│   │   └── status_bar.dart
-│   └── tabs
-│       └── tab.dart
-├── todo_list.md         # Development TODO list
-├── tokens               # Design system constants (colors, typography, spacing)
-│   ├── border_radius.dart
-│   ├── colors.dart
-│   ├── grid.dart
-│   ├── shadow.dart
-│   └── typography.dart
-├── widgets              # General purpose widgets
-└── wireframes           # Page-level compositions of components
-├── error
-│   └── error_page.dart
-├── home
-│   ├── voluntariado_list.dart
-│   ├── voluntariado_map_background.dart
-│   └── voluntariados_page.dart
-├── ingreso
-│   ├── entry_page.dart
-│   ├── login_page.dart
-│   ├── register_page.dart
-│   └── welcome_page.dart
-├── novedades
-│   ├── novedad.dart
-│   ├── novedad_detail.dart
-│   └── novedades.dart
-├── perfil
-│   ├── editar_perfil.dart
-│   ├── perfil_completo.dart
-│   ├── perfil_incompleto.dart
-│   └── perfil_wrapper.dart
-└── voluntariados
-└── voluntariado.dart
-```
+This hybrid approach allows for:
+- Centralized and reusable logic (layer-first)
+- Modular and scalable UI development (feature-first)
 
-## 4.9. Dependencies (`pubspec.yaml`)
+---
 
-The following key dependencies were used in this project to enable scalable architecture, native device integration, Firebase backend services, and strong development tooling.
+#### `main.dart`
+The application’s entry point. Initializes Firebase, sets up providers, and starts the root widget tree.
 
-### Architecture & State Management
-- `flutter_hooks`: Hook-based widget lifecycle and state handling.
-- `flutter_riverpod`, `hooks_riverpod`: Robust, testable, and reactive state management.
-- `go_router`: Declarative routing with built-in deep linking support.
+#### `firebase_options.dart`
+Auto-generated Firebase configuration for cross-platform initialization.
 
-### Firebase Integration
-- `firebase_core`: Initializes Firebase.
-- `firebase_auth`: User authentication.
-- `cloud_firestore`: Real-time database.
-- `firebase_storage`: Uploading and retrieving media.
-- `firebase_messaging`: Push notification handling.
-- `firebase_analytics`: Tracking user behavior.
-- `firebase_crashlytics`: Real-time crash reporting.
+---
 
-### Device Access & Media
-- `image_picker`: Allows users to take or select a photo for their profile.
-- `permission_handler`: Manages runtime permissions (camera, storage, etc.).
-- `path`, `path_provider`: For local file management.
+#### Data and Logic Layers
 
-### Maps & Navigation
-- `google_maps_flutter`: Native Google Maps widget (not used but required for future maps integration).
-- `maps_launcher`: Opens coordinates in native map apps.
-- `url_launcher`: Opens external links (browser, phone, etc.).
+##### `converters/`
+Custom JSON converters to handle Firestore-native types:
+- `geoPoint_converter.dart` – Converts Firestore `GeoPoint` to Dart objects.
+- `latlng_converter.dart` – Bridges Firestore and Google Maps coordinates.
+- `timestamp_converter.dart` – Converts `Timestamp` to `DateTime`.
 
-### UI & Visuals
-- `flutter_svg`: Renders SVG assets.
-- `flutter_markdown`: Displays Markdown text (e.g., volunteer descriptions).
-- `cached_network_image`: Efficient image caching and loading.
-- `intl`: Date and number formatting (localized).
-- `cupertino_icons`: iOS-style icons.
-- `flutter_local_notifications`: Handles foreground push notifications.
+##### `models/`
+Defines immutable domain entities (e.g., `User`, `Voluntariado`, `Novedad`) with code generation support:
+- `.freezed.dart` for immutability and pattern matching.
+- `.g.dart` for serialization with `json_serializable`.
 
-### Forms & Input
-- `flutter_form_builder`: Advanced form generation.
-- `form_builder_validators`: Built-in validation rules (email, required, etc.).
+##### `providers/`
+State and stream management using Riverpod. Each file defines scoped logic for one concern:
+- `user_provider.dart` – Current user, onboarding, postulations.
+- `voluntariado_provider.dart` – Volunteer opportunities.
+- `auth_provider.dart` – Authentication and session management.
 
-### Sharing & External Actions
-- `share_plus`: Native share dialogs for news or volunteer opportunities.
+##### `services/`
+Application logic and Firestore access:
+- `auth_service.dart` – Login and registration.
+- `user_service.dart`, `novedad_service.dart`, `voluntariado_service.dart` – CRUD and Firestore transactions.
+- `notification_service.dart` – Handles FCM + deep link routing.
+- `fcm_token_service.dart` – Saves and refreshes user FCM tokens.
 
-### Development & Testing
-- `flutter_test`, `test`: Standard Flutter testing.
-- `mockito`: Mocking dependencies in unit tests.
-- `fake_cloud_firestore`, `firebase_auth_mocks`, `firebase_storage_mocks`: Mock Firebase services.
-- `golden_toolkit`: Snapshot (golden) testing for widgets.
-- `flutter_lints`: Static analysis and best practices.
-- `build_runner`, `freezed`, `json_serializable`: Code generation for data classes and serialization.
+---
 
+#### Routing
 
-These dependencies enable us to meet both functional requirements (like push notifications and real-time updates) and non-functional goals (maintainability, scalability, testability).
+##### `router/`
+Manages route definitions and redirection logic using `go_router`:
+- `app_router.dart` – Route table and navigation config.
+- `go_router_observer.dart` – Optional observer for analytics or debugging.
+
+---
+
+#### UI Components and Screens
+
+##### `shared/`
+Contains all visual components and screen implementations. Organized into atomic layers for reuse and domain directories for cohesion.
+
+- `atoms/` – Basic, reusable UI elements (icons, text styles).
+- `molecules/` – Composite widgets like form fields, buttons, tab bars.
+- `cells/` – Mid-level components including cards, forms, and modals.
+- `tokens/` – Global design tokens (colors, spacing, typography).
+- `wireframes/` – Complete UI screens grouped by app feature/domain:
+    - `home/`, `perfil/`, `novedades/`, `voluntariados/`, `ingreso/`, and `error/`.
+
+### 4.9. Dependencies (`pubspec.yaml`)
+
+The project uses a robust set of dependencies to support a modular architecture, seamless Firebase integration, native device features, and a modern Flutter development experience.
+
+#### Architecture & State Management
+- `flutter_hooks`: Hook-based lifecycle management for cleaner widget logic.
+- `flutter_riverpod`, `hooks_riverpod`: Scalable, testable state management.
+- `go_router`: Declarative, async-friendly routing with deep linking support.
+
+#### Firebase Integration
+- `firebase_core`: Required to initialize Firebase.
+- `firebase_auth`: Handles email/password authentication.
+- `cloud_firestore`: Cloud NoSQL database with real-time support.
+- `firebase_storage`: Media upload and retrieval.
+- `firebase_messaging`: Push notification system using FCM.
+- `firebase_analytics`: Tracks user events and usage patterns.
+- `firebase_crashlytics`: Real-time crash reporting and diagnostics.
+
+#### Forms & Validation
+- `flutter_form_builder`: Rich form generation framework.
+- `form_builder_validators`: Built-in validation rules for common input types.
+
+#### Notifications
+- `flutter_local_notifications`: Displays foreground push notifications using native styles.
+
+#### Device Access & Media
+- `image_picker`: Allows users to take or select images for profiles.
+- `permission_handler`: Manages permissions for camera, storage, etc.
+- `path`, `path_provider`: Handles file system access for local storage.
+- `geolocator`: Gets device location and calculates distances.
+
+#### Maps & External Navigation
+- `google_maps_flutter`: Google Maps widget for native integration (planned usage).
+- `maps_launcher`: Launches map applications with coordinates.
+- `url_launcher`: Opens links, phone numbers, or emails in external apps.
+
+#### UI & Display
+- `flutter_svg`: Renders SVG vector assets.
+- `flutter_markdown`: Renders Markdown content (e.g., news, descriptions).
+- `cached_network_image`: Efficient image loading with caching.
+- `intl`: Internationalization, formatting dates and numbers.
+- `cupertino_icons`: iOS-style icon set.
+
+#### Sharing & External Actions
+- `share_plus`: Opens native share dialogs (for sharing news or events).
+
+---
+
+#### Development & Tooling
+
+##### Testing & Mocks
+- `flutter_test`, `test`: Flutter unit and widget testing frameworks.
+- `mockito`: Mocks for dependency injection and unit tests.
+- `fake_cloud_firestore`, `firebase_auth_mocks`, `firebase_storage_mocks`: Mock implementations of Firebase services for local testing.
+- `network_image_mock`: Mocks network image loading during widget tests.
+- `golden_toolkit`: Golden (snapshot) testing for visual regressions.
+
+##### Code Generation & Linting
+- `build_runner`: Runs code generators.
+- `freezed`, `freezed_annotation`: For immutable data classes and unions.
+- `json_serializable`, `json_annotation`: Generates serialization logic.
+- `flutter_lints`: Enforces Flutter best practices and static analysis rules.
+
+---
+
+#### Icons & Assets
+- `flutter_launcher_icons`: Generates platform-specific app icons from a single asset.
 
 ## 5. Installation and Setup
 
@@ -395,7 +431,7 @@ To set up the project locally, follow these steps:
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/your-username/ser_manos.git](https://github.com/your-username/ser_manos.git)
+    git clone [https://github.com/cijjas/ser_manos.git](https://github.com/cijjas/ser_manos.git)
     cd ser_manos
     ```
 
@@ -404,13 +440,19 @@ To set up the project locally, follow these steps:
     flutter pub get
     ```
 
-3.  **Firebase Configuration:**
-    * Follow the official Firebase documentation to set up a new Firebase project.
-    * Add your Android and iOS apps to the Firebase project.
-    * Download `google-services.json` (for Android) and `GoogleService-Info.plist` (for iOS) and place them in the correct directories:
-        * `android/app/google-services.json`
-        * `ios/Runner/GoogleService-Info.plist`
-    * Ensure your Firebase project is configured for **Firebase Authentication**, **Cloud Firestore**, **Firebase Storage**, **Firebase Cloud Messaging**, **Firebase Analytics**, and **Firebase Crashlytics**.
+3. **Firebase Configuration:**
+    - Follow the official Firebase documentation to create a Firebase project.
+    - Add your Android and iOS apps to the Firebase project.
+    - Download the following config files and place them as described:
+        - `android/app/google-services.json`
+        - `ios/Runner/GoogleService-Info.plist`
+    - Enable the required Firebase services: **Authentication**, **Cloud Firestore**, **Storage**, **Messaging**, **Analytics**, and **Crashlytics**.
+    - Run the FlutterFire CLI to link your app and generate `firebase_options.dart`:
+      ```bash
+      dart pub global activate flutterfire_cli
+      flutterfire configure
+      ```
+    - This will generate `lib/firebase_options.dart` and update your project settings.
 
 4.  **Code Generation:**
     * Run the build runner to generate necessary files (e.g., for `freezed`, `json_serializable`):
