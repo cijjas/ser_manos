@@ -3,16 +3,18 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i3;
+import 'dart:async' as _i4;
 
-import 'package:geolocator/geolocator.dart' as _i9;
+import 'package:firebase_auth/firebase_auth.dart' as _i2;
+import 'package:geolocator/geolocator.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:ser_manos/models/novedad.dart' as _i4;
-import 'package:ser_manos/models/user.dart' as _i6;
-import 'package:ser_manos/models/voluntariado.dart' as _i8;
-import 'package:ser_manos/services/novedad_service.dart' as _i2;
-import 'package:ser_manos/services/user_service.dart' as _i5;
-import 'package:ser_manos/services/voluntariado_service.dart' as _i7;
+import 'package:ser_manos/models/novedad.dart' as _i5;
+import 'package:ser_manos/models/user.dart' as _i7;
+import 'package:ser_manos/models/voluntariado.dart' as _i9;
+import 'package:ser_manos/services/auth_service.dart' as _i11;
+import 'package:ser_manos/services/novedad_service.dart' as _i3;
+import 'package:ser_manos/services/user_service.dart' as _i6;
+import 'package:ser_manos/services/voluntariado_service.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -28,59 +30,70 @@ import 'package:ser_manos/services/voluntariado_service.dart' as _i7;
 // ignore_for_file: camel_case_types
 // ignore_for_file: subtype_of_sealed_class
 
+class _FakeUserCredential_0 extends _i1.SmartFake
+    implements _i2.UserCredential {
+  _FakeUserCredential_0(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [NovedadService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNovedadService extends _i1.Mock implements _i2.NovedadService {
+class MockNovedadService extends _i1.Mock implements _i3.NovedadService {
   @override
-  _i3.Future<List<_i4.Novedad>> getAll() => (super.noSuchMethod(
+  _i4.Future<List<_i5.Novedad>> getAll() => (super.noSuchMethod(
         Invocation.method(
           #getAll,
           [],
         ),
-        returnValue: _i3.Future<List<_i4.Novedad>>.value(<_i4.Novedad>[]),
+        returnValue: _i4.Future<List<_i5.Novedad>>.value(<_i5.Novedad>[]),
         returnValueForMissingStub:
-            _i3.Future<List<_i4.Novedad>>.value(<_i4.Novedad>[]),
-      ) as _i3.Future<List<_i4.Novedad>>);
+            _i4.Future<List<_i5.Novedad>>.value(<_i5.Novedad>[]),
+      ) as _i4.Future<List<_i5.Novedad>>);
 
   @override
-  _i3.Stream<List<_i4.Novedad>> watchAll() => (super.noSuchMethod(
+  _i4.Stream<List<_i5.Novedad>> watchAll() => (super.noSuchMethod(
         Invocation.method(
           #watchAll,
           [],
         ),
-        returnValue: _i3.Stream<List<_i4.Novedad>>.empty(),
-        returnValueForMissingStub: _i3.Stream<List<_i4.Novedad>>.empty(),
-      ) as _i3.Stream<List<_i4.Novedad>>);
+        returnValue: _i4.Stream<List<_i5.Novedad>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i5.Novedad>>.empty(),
+      ) as _i4.Stream<List<_i5.Novedad>>);
 
   @override
-  _i3.Stream<_i4.Novedad> watchOne(String? id) => (super.noSuchMethod(
+  _i4.Stream<_i5.Novedad> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOne,
           [id],
         ),
-        returnValue: _i3.Stream<_i4.Novedad>.empty(),
-        returnValueForMissingStub: _i3.Stream<_i4.Novedad>.empty(),
-      ) as _i3.Stream<_i4.Novedad>);
+        returnValue: _i4.Stream<_i5.Novedad>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i5.Novedad>.empty(),
+      ) as _i4.Stream<_i5.Novedad>);
 }
 
 /// A class which mocks [UserService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockUserService extends _i1.Mock implements _i5.UserService {
+class MockUserService extends _i1.Mock implements _i6.UserService {
   @override
-  _i3.Future<void> createUser(_i6.User? user) => (super.noSuchMethod(
+  _i4.Future<void> createUser(_i7.User? user) => (super.noSuchMethod(
         Invocation.method(
           #createUser,
           [user],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i3.Future<bool> postulateToVoluntariado(
-    _i6.User? user,
+  _i4.Future<bool> postulateToVoluntariado(
+    _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
@@ -91,13 +104,13 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
             id,
           ],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 
   @override
-  _i3.Future<bool> withdrawPostulation(
-    _i6.User? user,
+  _i4.Future<bool> withdrawPostulation(
+    _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
@@ -108,13 +121,13 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
             id,
           ],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 
   @override
-  _i3.Future<bool> abandonVoluntariado(
-    _i6.User? user,
+  _i4.Future<bool> abandonVoluntariado(
+    _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
@@ -125,34 +138,34 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
             id,
           ],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 
   @override
-  _i3.Stream<_i6.UserVoluntariado?> watchParticipating(String? userId) =>
+  _i4.Stream<_i7.UserVoluntariado?> watchParticipating(String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #watchParticipating,
           [userId],
         ),
-        returnValue: _i3.Stream<_i6.UserVoluntariado?>.empty(),
-        returnValueForMissingStub: _i3.Stream<_i6.UserVoluntariado?>.empty(),
-      ) as _i3.Stream<_i6.UserVoluntariado?>);
+        returnValue: _i4.Stream<_i7.UserVoluntariado?>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i7.UserVoluntariado?>.empty(),
+      ) as _i4.Stream<_i7.UserVoluntariado?>);
 
   @override
-  _i3.Stream<_i6.User> watchOne(String? id) => (super.noSuchMethod(
+  _i4.Stream<_i7.User> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOne,
           [id],
         ),
-        returnValue: _i3.Stream<_i6.User>.empty(),
-        returnValueForMissingStub: _i3.Stream<_i6.User>.empty(),
-      ) as _i3.Stream<_i6.User>);
+        returnValue: _i4.Stream<_i7.User>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i7.User>.empty(),
+      ) as _i4.Stream<_i7.User>);
 
   @override
-  _i3.Future<void> toggleLikeVoluntariado(
-    _i6.User? user,
+  _i4.Future<void> toggleLikeVoluntariado(
+    _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
@@ -163,40 +176,40 @@ class MockUserService extends _i1.Mock implements _i5.UserService {
             id,
           ],
         ),
-        returnValue: _i3.Future<void>.value(),
-        returnValueForMissingStub: _i3.Future<void>.value(),
-      ) as _i3.Future<void>);
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 
   @override
-  _i3.Future<_i6.User?> updateUser(_i6.User? user) => (super.noSuchMethod(
+  _i4.Future<_i7.User?> updateUser(_i7.User? user) => (super.noSuchMethod(
         Invocation.method(
           #updateUser,
           [user],
         ),
-        returnValue: _i3.Future<_i6.User?>.value(),
-        returnValueForMissingStub: _i3.Future<_i6.User?>.value(),
-      ) as _i3.Future<_i6.User?>);
+        returnValue: _i4.Future<_i7.User?>.value(),
+        returnValueForMissingStub: _i4.Future<_i7.User?>.value(),
+      ) as _i4.Future<_i7.User?>);
 }
 
 /// A class which mocks [VoluntariadoService].
 ///
 /// See the documentation for Mockito's code generation for more information.
 class MockVoluntariadoService extends _i1.Mock
-    implements _i7.VoluntariadoService {
+    implements _i8.VoluntariadoService {
   @override
-  _i3.Stream<_i8.Voluntariado> watchOne(String? id) => (super.noSuchMethod(
+  _i4.Stream<_i9.Voluntariado> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOne,
           [id],
         ),
-        returnValue: _i3.Stream<_i8.Voluntariado>.empty(),
-        returnValueForMissingStub: _i3.Stream<_i8.Voluntariado>.empty(),
-      ) as _i3.Stream<_i8.Voluntariado>);
+        returnValue: _i4.Stream<_i9.Voluntariado>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i9.Voluntariado>.empty(),
+      ) as _i4.Stream<_i9.Voluntariado>);
 
   @override
-  _i3.Stream<List<_i8.Voluntariado>> watchFiltered(
+  _i4.Stream<List<_i9.Voluntariado>> watchFiltered(
     String? query,
-    _i9.Position? userPosition,
+    _i10.Position? userPosition,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -206,27 +219,114 @@ class MockVoluntariadoService extends _i1.Mock
             userPosition,
           ],
         ),
-        returnValue: _i3.Stream<List<_i8.Voluntariado>>.empty(),
-        returnValueForMissingStub: _i3.Stream<List<_i8.Voluntariado>>.empty(),
-      ) as _i3.Stream<List<_i8.Voluntariado>>);
+        returnValue: _i4.Stream<List<_i9.Voluntariado>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i9.Voluntariado>>.empty(),
+      ) as _i4.Stream<List<_i9.Voluntariado>>);
 
   @override
-  _i3.Future<bool> decrementAvailableSlots(String? id) => (super.noSuchMethod(
+  _i4.Future<bool> decrementAvailableSlots(String? id) => (super.noSuchMethod(
         Invocation.method(
           #decrementAvailableSlots,
           [id],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
 
   @override
-  _i3.Future<bool> incrementAvailableSlots(String? id) => (super.noSuchMethod(
+  _i4.Future<bool> incrementAvailableSlots(String? id) => (super.noSuchMethod(
         Invocation.method(
           #incrementAvailableSlots,
           [id],
         ),
-        returnValue: _i3.Future<bool>.value(false),
-        returnValueForMissingStub: _i3.Future<bool>.value(false),
-      ) as _i3.Future<bool>);
+        returnValue: _i4.Future<bool>.value(false),
+        returnValueForMissingStub: _i4.Future<bool>.value(false),
+      ) as _i4.Future<bool>);
+}
+
+/// A class which mocks [AuthService].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockAuthService extends _i1.Mock implements _i11.AuthService {
+  @override
+  _i4.Future<_i2.UserCredential> register(
+    String? email,
+    String? password,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #register,
+          [
+            email,
+            password,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.UserCredential>.value(_FakeUserCredential_0(
+          this,
+          Invocation.method(
+            #register,
+            [
+              email,
+              password,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.UserCredential>.value(_FakeUserCredential_0(
+          this,
+          Invocation.method(
+            #register,
+            [
+              email,
+              password,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.UserCredential>);
+
+  @override
+  _i4.Future<_i2.UserCredential> signIn(
+    String? email,
+    String? password,
+  ) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #signIn,
+          [
+            email,
+            password,
+          ],
+        ),
+        returnValue: _i4.Future<_i2.UserCredential>.value(_FakeUserCredential_0(
+          this,
+          Invocation.method(
+            #signIn,
+            [
+              email,
+              password,
+            ],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i4.Future<_i2.UserCredential>.value(_FakeUserCredential_0(
+          this,
+          Invocation.method(
+            #signIn,
+            [
+              email,
+              password,
+            ],
+          ),
+        )),
+      ) as _i4.Future<_i2.UserCredential>);
+
+  @override
+  _i4.Future<void> signOut() => (super.noSuchMethod(
+        Invocation.method(
+          #signOut,
+          [],
+        ),
+        returnValue: _i4.Future<void>.value(),
+        returnValueForMissingStub: _i4.Future<void>.value(),
+      ) as _i4.Future<void>);
 }

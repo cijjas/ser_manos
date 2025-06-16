@@ -1,1 +1,1 @@
-genhtml coverage/lcov_filtered.info --output-directory coverage/html
+genhtml coverage/lcov.info --output-directory coverage/html

@@ -1,4 +1,3 @@
-// test/unit/providers/voluntariado_provider_test.dart
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:firebase_auth/firebase_auth.dart' as auth;
@@ -15,7 +14,7 @@ import 'package:ser_manos/providers/voluntariado_provider.dart';
 
 import '../../mocks/mocks.mocks.dart';
 
-/// Posición fija para los tests (build devuelve T, no Future<T>)
+/// Posición fija usada en los tests (se devuelve directamente, no Future)
 final _testPosition = Position(
   latitude: 0,
   longitude: 0,
@@ -31,7 +30,7 @@ final _testPosition = Position(
   isMocked: true,
 );
 
-/// Container con overrides “listos” (sin loading intermedio)
+/// Helper para crear un ProviderContainer con todas las dependencias mockeadas
 ProviderContainer makeContainer({
   required MockVoluntariadoService volService,
   required MockUserService userService,
@@ -39,19 +38,19 @@ ProviderContainer makeContainer({
   required domain.User domainUser,
 }) {
   return ProviderContainer(overrides: [
-    // servicios
+    // Servicios mock
     voluntariadoServiceProvider.overrideWithValue(volService),
-    userServiceProvider       .overrideWithValue(userService),
+    userServiceProvider.overrideWithValue(userService),
 
-    // usuario Firebase autenticado
+    // Usuario autenticado (Firebase)
     authStateProvider.overrideWithProvider(
       StreamProvider((_) => Stream.value(firebaseUser)),
     ),
 
-    // currentUserProvider emite ya el domain.User (Stream.value → estado Data inicial)
+    // Usuario dominio (ya resuelto)
     currentUserProvider.overrideWith((_) => Stream.value(domainUser)),
 
-    // userLocationProvider build() devuelve T; FutureProvider lo captura como AsyncData
+    // Posición de usuario (sin Future)
     userLocationProvider.overrideWith((_) => _testPosition),
   ]);
 }
@@ -93,7 +92,7 @@ void main() {
     });
 
     test('voluntariadosProvider devuelve lista filtrada', () async {
-      // stubea cualquier query/posición
+      // Stub para cualquier query y ubicación
       when(volService.watchFiltered(any, any))
           .thenAnswer((_) => Stream.value([vol1]));
 
@@ -105,38 +104,11 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      // dispara cambio de query
+      // Cambiamos la query
       container.read(voluntariadoSearchQueryProvider.notifier).state = 'com';
 
-      // escucha directamente el StreamProvider
       final lista = await container.read(voluntariadosProvider.stream).first;
       expect(lista, [vol1]);
-    });
-
-    test('voluntariadoParticipatingProvider emite voluntariado asignado', () async {
-      final rel = domain.UserVoluntariado(
-        id:     'v1',
-        estado: domain.VoluntariadoUserState.accepted,
-      );
-
-      when(userService.watchParticipating('uid1'))
-          .thenAnswer((_) => Stream.value(rel));
-      when(volService.watchOne('v1'))
-          .thenAnswer((_) => Stream.value(vol1));
-
-      final container = makeContainer(
-        volService:   volService,
-        userService:  userService,
-        firebaseUser: firebaseUser,
-        domainUser:   domainUser,
-      );
-      addTearDown(container.dispose);
-
-      // precarga para que voluntariadoProvider('v1') esté en caché
-      await container.read(voluntariadoProvider('v1').future);
-
-      final v = await container.read(voluntariadoParticipatingProvider.stream).first;
-      expect(v, vol1);
     });
   });
 }

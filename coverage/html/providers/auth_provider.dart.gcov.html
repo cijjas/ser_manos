@@ -4,7 +4,7 @@
 
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-  <title>LCOV - lcov_filtered.info - providers/auth_provider.dart</title>
+  <title>LCOV - lcov.info - providers/auth_provider.dart</title>
   <link rel="stylesheet" type="text/css" href="../gcov.css">
 </head>
 
@@ -28,16 +28,16 @@
           </tr>
           <tr>
             <td class="headerItem">Test:</td>
-            <td class="headerValue">lcov_filtered.info</td>
+            <td class="headerValue">lcov.info</td>
             <td></td>
             <td class="headerItem">Lines:</td>
-            <td class="headerCovTableEntryLo">66.7&nbsp;%</td>
+            <td class="headerCovTableEntryMed">88.9&nbsp;%</td>
             <td class="headerCovTableEntry">9</td>
-            <td class="headerCovTableEntry">6</td>
+            <td class="headerCovTableEntry">8</td>
           </tr>
           <tr>
             <td class="headerItem">Test Date:</td>
-            <td class="headerValue">2025-06-15 11:45:09</td>
+            <td class="headerValue">2025-06-16 12:23:45</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntryHi">-</td>
@@ -66,11 +66,11 @@
 <span id="L4"><span class="lineNum">       4</span>              : </span>
 <span id="L5"><span class="lineNum">       5</span>              : </span>
 <span id="L6"><span class="lineNum">       6</span>              : // Provider for the auth service</span>
-<span id="L7"><span class="lineNum">       7</span> <span class="tlaUNC">           0 : final authServiceProvider = Provider&lt;AuthService&gt;((ref) =&gt; AuthService());</span></span>
+<span id="L7"><span class="lineNum">       7</span> <span class="tlaGNC">           3 : final authServiceProvider = Provider&lt;AuthService&gt;((ref) =&gt; AuthService());</span></span>
 <span id="L8"><span class="lineNum">       8</span>              : </span>
 <span id="L9"><span class="lineNum">       9</span>              : // Stream provider that tracks the authentication state</span>
-<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">           9 : final authStateProvider = StreamProvider&lt;User?&gt;((ref) {</span></span>
-<span id="L11"><span class="lineNum">      11</span> <span class="tlaUNC">           0 :   return FirebaseAuth.instance.authStateChanges();</span></span>
+<span id="L10"><span class="lineNum">      10</span> <span class="tlaGNC">          19 : final authStateProvider = StreamProvider&lt;User?&gt;((ref) {</span></span>
+<span id="L11"><span class="lineNum">      11</span> <span class="tlaGNC">           1 :   return FirebaseAuth.instance.authStateChanges();</span></span>
 <span id="L12"><span class="lineNum">      12</span>              : });</span>
 <span id="L13"><span class="lineNum">      13</span>              : </span>
 <span id="L14"><span class="lineNum">      14</span> <span class="tlaGNC">           4 : final isLoggedInProvider = Provider&lt;bool&gt;((ref) {</span></span>
