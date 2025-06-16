@@ -55,17 +55,21 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       if (!mounted) return;
 
       setState(() {
-        _original = user;
+        _original  = user;
         _sexoIndex = user.genero != null
             ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
             : null;
-        _fotoUrl = user.imagenUrl;
+        _fotoUrl   = user.imagenUrl;
       });
 
-      _formKey.currentState?.patchValue({
-        'email': user.email,
-        'telefono': user.telefono,
-        'fechaNacimiento': user.fechaNacimiento,
+      // ──> defer the patch until the current frame is finished
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _formKey.currentState?.patchValue({
+          'email'          : user.email,
+          'telefono'       : user.telefono,
+          'fechaNacimiento': user.fechaNacimiento,
+        });
       });
     } catch (e) {
       if (mounted) {
@@ -75,6 +79,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       }
     }
   }
+
 
   Future<void> _showImageSourceSelector() async {
     if (_subiendoAlGuardar) return;
@@ -206,7 +211,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         // Fallback for cases where the page can't be popped (e.g., deep link).
         context.go('/home/perfil');
       }
-      // --- CHANGE END ---
 
     } catch (e, stacktrace) {
       if (mounted) {
@@ -291,7 +295,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                           isLoading: _subiendoAlGuardar,
                           onChange: () async {
                             await _showImageSourceSelector();
-                            // After selecting image → notify FormBuilder
+                            // After selecting imag notify FormBuilder
                             field.didChange(_fotoUrl != null || _imagenLocalParaSubir != null);
                           },
                         ),

@@ -3,16 +3,6 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
 class FormBuilderAppTextField extends StatefulWidget {
-  final String name;
-  final String labelText;
-  final String hintText;
-  final String? helperText;
-  final TextInputType keyboardType;
-  final bool obscureText;
-  final FormFieldValidator<String>? validator;
-  final bool enabled;
-  final ValueChanged<String>? onChanged;
-
   const FormBuilderAppTextField({
     super.key,
     required this.name,
@@ -26,17 +16,56 @@ class FormBuilderAppTextField extends StatefulWidget {
     this.onChanged,
   });
 
+  final String name;
+  final String labelText;
+  final String hintText;
+  final String? helperText;
+  final TextInputType keyboardType;
+  final bool obscureText;
+  final FormFieldValidator<String>? validator;
+  final bool enabled;
+  final ValueChanged<String>? onChanged;
+
   @override
-  State<FormBuilderAppTextField> createState() => _FormBuilderAppTextFieldState();
+  State<FormBuilderAppTextField> createState() =>
+      _FormBuilderAppTextFieldState();
 }
 
 class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
-  late final TextEditingController _controller;
+  late final TextEditingController _controller = TextEditingController();
+
+  // ────────────────────────── INTERNAL ──────────────────────────
+
+  /// Keeps the controller in sync with the form-field value,
+  /// **without mutating it during the build phase**.
+  void _syncController(String? newValue) {
+    final text = newValue ?? '';
+    if (_controller.text == text) return;
+
+    // Defer the change to the end of the current frame → no assertion.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _controller.value = TextEditingValue(
+        text: text,
+        selection: TextSelection.collapsed(offset: text.length),
+      );
+    });
+  }
+
+  // ────────────────────────── WIDGET LIFECYCLE ──────────────────────────
 
   @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final field = FormBuilder.of(context)?.fields[widget.name];
+    _syncController(field?.value);
+  }
+
+  @override
+  void didUpdateWidget(covariant FormBuilderAppTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final field = FormBuilder.of(context)?.fields[widget.name];
+    _syncController(field?.value);
   }
 
   @override
@@ -45,22 +74,18 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
     super.dispose();
   }
 
-  void _syncController(String? value) {
-    if (_controller.text != (value ?? '')) {
-      _controller.text = value ?? '';
-      _controller.selection = TextSelection.fromPosition(
-        TextPosition(offset: _controller.text.length),
-      );
-    }
-  }
+  // ────────────────────────── BUILD ──────────────────────────
 
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<String>(
       name: widget.name,
       validator: widget.validator,
+      enabled: widget.enabled,
       builder: (field) {
+        // Make sure controller stays current once per frame, not during build.
         _syncController(field.value);
+
         return AppTextField(
           labelText: widget.labelText,
           hintText: widget.hintText,
@@ -69,11 +94,11 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
           obscureText: widget.obscureText,
           enabled: widget.enabled,
           controller: _controller,
+          validator: widget.validator,
           onChanged: (value) {
             field.didChange(value);
-            if (widget.onChanged != null) widget.onChanged!(value);
+            widget.onChanged?.call(value);
           },
-          validator: widget.validator,
         );
       },
     );
