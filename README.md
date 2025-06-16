@@ -205,7 +205,6 @@ This section outlines the technical architecture, key decisions, and libraries u
     
 ### 4.5. Monitoring and Events
 
-### 4.5. Monitoring and Events
 
 * **Decision:**  
   The application integrates **Firebase Crashlytics** and **Firebase Analytics** to ensure robust error monitoring and comprehensive user behavior tracking.
