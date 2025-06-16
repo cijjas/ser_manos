@@ -22,6 +22,8 @@
 	<string>6.0</string>
 	<key>CFBundleName</key>
 	<string>ser_manos</string>
+	<key>CFBundleDisplayName</key>
+    <string>ser_manos</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
