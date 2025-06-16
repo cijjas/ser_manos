@@ -203,6 +203,13 @@ This section outlines the technical architecture, key decisions, and libraries u
       * Components & Cells: Volunteer cards (CardVoluntariado, CardVoluntariadoActual) and CardNovedades. 
       * Screens / Wireframes: Home (list & map views), Voluntariado detail (all states), Novedad detail, Entry, Login, and Register pages.
     
+To run the test use:
+```bash
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter test test/golden/molecules --update-goldens
+```
+
+
 ### 4.5. Monitoring and Events
 
 
