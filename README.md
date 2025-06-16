@@ -133,13 +133,27 @@ This section outlines the technical architecture, key decisions, and libraries u
 
 ### 4.5. Monitoring and Events
 
-* **Decision:** **Firebase Crashlytics** and **Firebase Analytics** are integrated for error monitoring and user metric tracking.
+### 4.5. Monitoring and Events
+
+* **Decision:**  
+  The application integrates **Firebase Crashlytics** and **Firebase Analytics** to ensure robust error monitoring and comprehensive user behavior tracking.
+
 * **Argumentation:**
-    * **Firebase Crashlytics:** Provides real-time crash reporting, allowing us to quickly identify and fix issues in production.
-    * **Firebase Analytics:** Used to track key user actions and understand user behavior. We've selected the following 3 pertinent user actions for tracking:
-        1.  **Volunteer Application (`volunteer_apply_event`):** Tracks when a user successfully applies for a volunteer opportunity. This metric is crucial for understanding user engagement with the core functionality.
-        2.  **News Share (`news_share_event`):** Tracks when a user shares a news item. This helps assess the virality and reach of news content.
-        3.  **Favorite Volunteer (`favorite_volunteer_event`):** Tracks when a user marks a volunteer opportunity as a favorite. This provides insight into popular opportunities and user preferences.
+    * **Firebase Crashlytics:**  
+      Provides real-time crash reporting, enabling the development team to detect, investigate, and resolve issues that occur in production. With crash data (e.g., `app_exception`, `auth_error`), we can prioritize bug fixes based on frequency and impact, significantly improving app stability and user experience.
+    * **Firebase Analytics:**  
+      Enables the collection of detailed insights into user interactions and navigation flows throughout the app. By tracking custom and automatic events, we are able to better understand what users do, how they engage with key features, and where they may drop off. The following user actions are being tracked as key indicators of engagement and feature usage:
+        1. **Volunteer Application**  
+           Tracks when a user successfully applies for a volunteer opportunity.  
+           This helps assess engagement with the core functionality of the platform and identify which types of opportunities users respond to the most.
+
+        2. **Screen View**  
+           Automatically records when a user navigates to a screen (e.g., `EntryScreen`, `VolunteeringsTab`, `ProfileTab`).  
+           This data is used to analyze user flows, discover which features are most accessed, and improve the visibility or UX of underutilized sections.
+
+        3. **Like Toggle Count**  
+           Logs every time a user taps the like button on a volunteering opportunity.  
+           These interactions reflect user preferences, allowing us to surface popular content and enhance recommendation strategies in the future.
 
 ### 4.6. Security and Portability
 
