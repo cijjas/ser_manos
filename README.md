@@ -198,8 +198,11 @@ This section outlines the technical architecture, key decisions, and libraries u
 * **Decision:** The project incorporates both **unit tests** and **golden tests**. This fulfills the requirement to write both unit and golden tests for delivery.
 * **Argumentation:**
     * **Unit Tests:** Unit tests were implemented to validate models, JSON converters, Riverpod providers, and Firebase-integrated services. These tests cover key business logic such as postulations, likes, login functionality, and provider state changes. Firebase behavior was simulated using mock and fake libraries including `fake_cloud_firestore`, `firebase_auth_mocks`, and `firebase_storage_mocks`. According to the LCOV report, the test suite achieves 68% total coverage. Specifically, models and converters reached 100%, Firebase services approximately 71%, and providers around 52%.
-    * **Golden Tests:** Implemented to verify the visual integrity of UI components across different platforms and screen sizes. This ensures a consistent user experience and adherence to the design system.
-
+    * **Golden Tests:**  Visual regression tests (via golden_toolkit) safeguard UI consistency:
+      * Atoms & Molecules: AppIcon, AppTextField, SearchField, StatusBar, AppButton / ShortButton / AppFloatingButton, VacantsDisplay. 
+      * Components & Cells: Volunteer cards (CardVoluntariado, CardVoluntariadoActual) and CardNovedades. 
+      * Screens / Wireframes: Home (list & map views), Voluntariado detail (all states), Novedad detail, Entry, Login, and Register pages.
+    
 ### 4.5. Monitoring and Events
 
 ### 4.5. Monitoring and Events
