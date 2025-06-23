@@ -478,6 +478,9 @@ To run the application on a simulator or physical device:
     ```bash
     flutter run
     ```
+    
+### Backend data modification
+After a user applies to a volunteer opportunity, the application status can be changed in the Firestore Database, in the `users` collection, find the `voluntariados` field of the user in question. Change the `estado` field from `applied` to either `accepted` or `rejected` to simulate the application process.
 
 ## 7. Development Team
 
