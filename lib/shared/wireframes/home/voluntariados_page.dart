@@ -20,8 +20,6 @@ import '../../molecules/input/search_field.dart';
 // if child widgets handle their own data fetching (like MapViewCardsOverlay & VoluntariadoListItems do).
 // import '../../../providers/voluntariado_provider.dart';
 import '../../tokens/typography.dart';
-import '../../atoms/icons/_app_icon.dart';
-import '../../atoms/icons/app_icons.dart';
 
 class VoluntariadosPage extends ConsumerWidget {
   const VoluntariadosPage({super.key});
