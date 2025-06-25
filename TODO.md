@@ -34,7 +34,7 @@
 - [ ] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [x] Eliminar `prints` en código productivo. 
 - [ ] Agregar `const` en constructores donde corresponda.
-- [ ] Renombrar estado `applied` a `pending`.
+- [x] Renombrar estado `applied` a `pending`.
 - [ ] Eliminar comentarios generados por LLMs.
 - [x] Cambiar el uso de `flutter pub run build_runner build` a `dart run build_runner build --delete-conflicting-outputs`.
 
