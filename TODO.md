@@ -3,12 +3,10 @@
 ## 🧪 Funcionalidad y UX
 - [ ] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de input).
 - [x] Ajustar separación entre chip de vacantes y títulos según el Design System.
-- [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi
 - [x] El ícono de “list view” en la search bar debe tener funcionalidad o eliminarse.
 - [x] Implementar técnica de `debounce` en el buscador.
 - [x] Corregir animación indeseada al presionar las tabs de navegación en Android.
 - [x] Hacer que el fondo de las cards de noticias también sea un touch target.
-- [ ] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro?
 - [ ] Evitar doble subida de foto en la vista de completar perfil.
 - [ ] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
 - [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
@@ -17,8 +15,10 @@
 - [ ] Evitar mostrar errores crudos de Firebase mediante snackbars.
 - [ ] Arreglar subida de fotos vía cámara en Android (error actual).
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
-- [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi
 - [ ] Reemplazar coordenadas por nombre de calle en el campo dirección.
+- [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi, yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
+- [ ] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
+- [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi
 
 ## 🧾 Documentación
 - [x] Usar `markdownlint` para mejorar formato del README.
@@ -36,10 +36,10 @@
 - [ ] Agregar `const` en constructores donde corresponda.
 - [ ] Renombrar estado `applied` a `pending`.
 - [ ] Eliminar comentarios generados por LLMs.
-- [ ] Cambiar el uso de `flutter pub run build_runner build` a `dart run build_runner build`.
+- [x] Cambiar el uso de `flutter pub run build_runner build` a `dart run build_runner build --delete-conflicting-outputs`.
 
 ## 🛠️ Mejores Prácticas
 - [ ] Corregir error al correr `flutter pub get` por primera vez.
 - [~] Centralizar rutas y assets en clases como `AppAssets` y `AppRoutes` (evitar strings hardcodeadas). -> esta hecho AppRoutes, pero no lo de assets
-- [ ] Usar un único idioma para rutas (`/home/profile`, `/home/postularse`, etc.).
+- [x] Usar un único idioma para rutas (`/home/profile`, `/home/postularse`, etc.).
 - [ ] Resolver los issues detectados por `flutter analyze` -> Dejar para el final

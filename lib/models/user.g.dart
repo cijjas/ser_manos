@@ -22,7 +22,7 @@ Map<String, dynamic> _$$UserVoluntariadoImplToJson(
 
 const _$VoluntariadoUserStateEnumMap = {
   VoluntariadoUserState.available: 'available',
-  VoluntariadoUserState.applied: 'applied',
+  VoluntariadoUserState.pending: 'pending',
   VoluntariadoUserState.accepted: 'accepted',
   VoluntariadoUserState.full: 'full',
   VoluntariadoUserState.busyOther: 'busyOther',

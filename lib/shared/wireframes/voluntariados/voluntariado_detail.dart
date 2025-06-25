@@ -322,7 +322,7 @@ class _BottomSection extends StatelessWidget {
           ],
         );
 
-      case VoluntariadoUserState.applied:
+      case VoluntariadoUserState.pending:
         return _InfoWithLink(
           title: 'Te has postulado',
           subtitle:

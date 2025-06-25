@@ -7,7 +7,7 @@ part 'user.g.dart';
 /// Estados posibles con respecto al voluntariado
 enum VoluntariadoUserState {
   available,  // hay vacantes y el usuario libre
-  applied,    // se postuló, espera confirmación
+  pending,    // se postuló, espera confirmación
   accepted,   // fue aceptado
   full,       // sin vacantes
   busyOther,  // participa en otro voluntariado

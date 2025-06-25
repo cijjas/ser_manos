@@ -122,12 +122,12 @@ class UserService {
       );
       return false;
     }
-    return _setUserVoluntariadoState(id, user, VoluntariadoUserState.applied);
+    return _setUserVoluntariadoState(id, user, VoluntariadoUserState.pending);
   }
 
   Future<bool> withdrawPostulation(User user, String id) async {
     final vol = user.voluntariados?.firstWhereOrNull((v) => v.id == id);
-    if (vol == null || vol.estado != VoluntariadoUserState.applied) {
+    if (vol == null || vol.estado != VoluntariadoUserState.pending) {
       _crashlytics.recordError(
         'Withdraw not allowed',
         null,

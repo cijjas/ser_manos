@@ -81,7 +81,7 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     Object? nombre = null,
     Object? tipo = null,
     Object? vacantes = null,
-    Object? location = null,
+    Object? location = freezed,
     Object? imageUrl = null,
     Object? descripcion = null,
     Object? resumen = null,
@@ -105,7 +105,7 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
           ? _value.vacantes
           : vacantes // ignore: cast_nullable_to_non_nullable
               as int,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
@@ -171,7 +171,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     Object? nombre = null,
     Object? tipo = null,
     Object? vacantes = null,
-    Object? location = null,
+    Object? location = freezed,
     Object? imageUrl = null,
     Object? descripcion = null,
     Object? resumen = null,
@@ -195,7 +195,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           ? _value.vacantes
           : vacantes // ignore: cast_nullable_to_non_nullable
               as int,
-      location: null == location
+      location: freezed == location
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as LatLng,
@@ -279,8 +279,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
             (identical(other.tipo, tipo) || other.tipo == tipo) &&
             (identical(other.vacantes, vacantes) ||
                 other.vacantes == vacantes) &&
-            (identical(other.location, location) ||
-                other.location == location) &&
+            const DeepCollectionEquality().equals(other.location, location) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
             (identical(other.descripcion, descripcion) ||
@@ -294,8 +293,18 @@ class _$VoluntariadoImpl implements _Voluntariado {
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, tipo, vacantes,
-      location, imageUrl, descripcion, resumen, requisitos, createdAt);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      nombre,
+      tipo,
+      vacantes,
+      const DeepCollectionEquality().hash(location),
+      imageUrl,
+      descripcion,
+      resumen,
+      requisitos,
+      createdAt);
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.

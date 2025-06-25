@@ -323,7 +323,7 @@ used in the development of Ser Manos.
 To run the test use:
 
 ```bash
-flutter pub run build_runner build --delete-conflicting-outputs
+dart run build_runner build --delete-conflicting-outputs
 flutter test test/golden/molecules --update-goldens
 ```
 
@@ -659,7 +659,7 @@ To set up the project locally, follow these steps:
      `json_serializable`):
 
      ```bash
-     flutter pub run build_runner build --delete-conflicting-outputs
+     dart run build_runner build --delete-conflicting-outputs
      ```
 
 ## 6. Running the Application

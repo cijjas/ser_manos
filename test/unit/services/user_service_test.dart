@@ -96,7 +96,7 @@ void main() {
 
       expect(user.voluntariados!.first.id, 'v1');
       expect(user.voluntariados!.first.estado,
-          VoluntariadoUserState.applied);
+          VoluntariadoUserState.pending);
     });
 
     test('withdraw pasa a available ⇒ lista vacía', () async {
