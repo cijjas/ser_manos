@@ -16,7 +16,7 @@
 - [ ] Arreglar subida de fotos vía cámara en Android (error actual).
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
 - [ ] Reemplazar coordenadas por nombre de calle en el campo dirección.
-- [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi, yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
+- [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
 - [ ] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
 - [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi
 
@@ -25,7 +25,7 @@
 - [ ] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
 - [x] Describir cómo aceptar un voluntariado en el README.
 - [ ] Mejorar especificidad de métrica `screen_view`.
-- [ ] Corregir typo en nombre del proyecto de Firebase.
+- [x] Corregir typo en nombre del proyecto de Firebase.
 - [x] Asegurarse de agregar a los profesores como editores en Firebase.
 
 ## 🧹 Limpieza del Proyecto
