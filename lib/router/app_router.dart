@@ -23,7 +23,7 @@ import 'go_router_observer.dart';
 int tabIndexFromLocation(String loc) {
   if (loc.startsWith(AppRoutes.homeVolunteering)) return 0;
   if (loc.startsWith(AppRoutes.homeProfile))        return 1;
-  return 2; // novedades
+  return 2; // news
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();

@@ -32,10 +32,10 @@ class _AppHeaderState extends State<AppHeader> {
       _lastIndex = widget.selectedIndex;
 
       final screenName = switch (widget.selectedIndex) {
-        0 => "VolunteeringsTab",
-        1 => "ProfileTab",
-        2 => "NewsTab",
-        _ => "UnknownTab",
+        0 => RouteNames.volunteeringTab,
+        1 => RouteNames.profileTab,
+        2 => RouteNames.newsTab,
+        _ => RouteNames.unknownTab,
       };
 
       FirebaseAnalytics.instance
@@ -46,6 +46,7 @@ class _AppHeaderState extends State<AppHeader> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: AppColors.secondary10,
         appBar: const StatusBar(style: StatusBarStyle.blue),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,7 +81,7 @@ class _AppHeaderState extends State<AppHeader> {
                   child: AppTab(
                     label: 'Novedades',
                     isSelected: widget.selectedIndex == 2,
-                    onTap: () => context.go(AppRoutes.news),
+                    onTap: () => context.go(AppRoutes.homeNews),
                   ),
                 ),
               ],

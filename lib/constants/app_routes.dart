@@ -30,4 +30,5 @@ class RouteNames {
   static const newsTab              = 'NewsTab';
   static const volunteeringDetails  = 'VolunteeringDetailsScreen';
   static const newsDetail           = 'NewsDetailScreen';
+  static const unknownTab           = 'UnkownTab';
 }

@@ -40,6 +40,6 @@
 
 ## 🛠️ Mejores Prácticas
 - [ ] Corregir error al correr `flutter pub get` por primera vez.
-- [ ] Centralizar rutas y assets en clases como `AppAssets` y `AppRoutes` (evitar strings hardcodeadas).
+- [~] Centralizar rutas y assets en clases como `AppAssets` y `AppRoutes` (evitar strings hardcodeadas). -> esta hecho AppRoutes, pero no lo de assets
 - [ ] Usar un único idioma para rutas (`/home/profile`, `/home/postularse`, etc.).
 - [ ] Resolver los issues detectados por `flutter analyze` -> Dejar para el final
