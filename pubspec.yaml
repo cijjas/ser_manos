@@ -72,4 +72,3 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icons/
-    - assets/images/map_placeholder.png

@@ -5,6 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
+import '../../../constants/app_routes.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../wireframes/perfil/perfil_completo.dart';
@@ -28,7 +29,7 @@ class PerfilWrapperPage extends ConsumerWidget {
         if (fbUser == null) {
           // No está logueado → voy a /
           WidgetsBinding.instance.addPostFrameCallback((_) {
-            context.go('/');
+            context.go(AppRoutes.entry);
           });
           return const SizedBox();
         }
@@ -60,17 +61,17 @@ class PerfilWrapperPage extends ConsumerWidget {
             if (incomplete) {
               return PerfilIncompletoPage(
                 name: fullName,
-                onCompletePressed: () => context.push('/home/perfil/editar'),
+                onCompletePressed: () => context.push(AppRoutes.homeProfileEdit),
                 onLogoutPressed: () async {
                   await ref.read(authServiceProvider).signOut();
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    context.go('/');
+                    context.go(AppRoutes.entry);
                   });
                 },
               );
             } else {
               return PerfilCompletoPage(
-                imageUrl: u.imagenUrl!, // Safe: ya es no-null aquí
+                imageUrl: u.imagenUrl!,
                 role: 'Voluntario',
                 name: fullName,
                 email: u.email,
@@ -80,7 +81,7 @@ class PerfilWrapperPage extends ConsumerWidget {
                 onLogoutPressed: () async {
                   await ref.read(authServiceProvider).signOut();
                   WidgetsBinding.instance.addPostFrameCallback((_) {
-                    context.go('/');
+                    context.go(AppRoutes.entry);
                   });
                 },
               );

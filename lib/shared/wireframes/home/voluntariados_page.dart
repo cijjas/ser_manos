@@ -10,6 +10,7 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 // These files will contain the refactored/new widgets.
 import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 
+import '../../../constants/app_routes.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
@@ -110,7 +111,10 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
               padding: const EdgeInsets.only(bottom: 16),
               child: CardVoluntariadoActual(
                 voluntariado: voluntariado,
-                onTap: () => context.push('/voluntariado/${voluntariado.id}'),
+                onTap: () => context.pushNamed(
+                  RouteNames.volunteeringDetails,
+                  pathParameters: {'id': voluntariado.id},
+                ),
               ),
             ),
           ],

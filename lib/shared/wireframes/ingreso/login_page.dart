@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/constants/app_routes.dart';
 import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/providers/user_provider.dart';
 import 'package:ser_manos/services/fcm_token_service.dart';
@@ -103,9 +104,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
       if (!mounted) return;
       if (!(updatedUser.hasSeenOnboarding)) {
-        context.go('/welcome');
+        context.go(AppRoutes.welcome);
       } else {
-        context.go('/home/postularse');
+        context.go(AppRoutes.homeVolunteering);
       }
     } on FirebaseAuthException catch (e) {
       setState(() {
@@ -222,7 +223,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                       label: 'No tengo cuenta',
                       onPressed: _isLoading
                           ? null
-                          : () => context.go('/register'),
+                          : () => context.go(AppRoutes.register),
                       type: AppButtonType.tonal,
                     ),
                   ],

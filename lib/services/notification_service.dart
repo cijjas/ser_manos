@@ -4,6 +4,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:go_router/go_router.dart';
 
+import '../constants/app_routes.dart';
 import '../router/app_router.dart';
 
 class NotificationService {
@@ -66,14 +67,27 @@ class NotificationService {
     final context = navigatorKey.currentContext;
     if (context == null) return;
 
-    final r = GoRouter.of(context);
+    final router = GoRouter.of(context);
 
     switch (data['type']) {
       case 'postulation_status':
-        r.push('/voluntariado/${data['voluntariadoId']}');
+        final id = data['voluntariadoId'];
+        if (id != null) {
+          router.pushNamed(
+            RouteNames.volunteeringDetails,
+            pathParameters: {'id': id},
+          );
+        }
         break;
+
       case 'news':
-        r.push('/noticia/${data['newsId']}');
+        final id = data['newsId'];
+        if (id != null) {
+          router.pushNamed(
+            RouteNames.newsDetail,
+            pathParameters: {'id': id},
+          );
+        }
         break;
     }
   }

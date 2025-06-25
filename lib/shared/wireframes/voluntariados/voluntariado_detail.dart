@@ -12,6 +12,7 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
 
+import '../../../constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
 import '../../cells/modals/confirm_modal.dart';
@@ -132,11 +133,14 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                 .postulate, // A placeholder type, the message is overridden.
           ),
         );
+        // Insert mounted check after showDialog
+        if (!context.mounted) return;
 
         // If user confirms, navigate to the edit profile page.
         if (confirmed == true) {
-          final profileSaved =
-              await GoRouter.of(context).push<bool>('/home/perfil/editar');
+          final profileSaved = await GoRouter.of(context).push<bool>(AppRoutes.homeProfileEdit);
+          // Insert mounted check after push
+          if (!context.mounted) return;
 
           // If the profile was saved successfully...
           if (profileSaved == true) {

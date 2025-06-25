@@ -1,6 +1,7 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/constants/app_routes.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 
 import '../../atoms/symbols/app_wordmark.dart';
@@ -65,21 +66,21 @@ class _AppHeaderState extends State<AppHeader> {
                   child: AppTab(
                     label: 'Postularse',
                     isSelected: widget.selectedIndex == 0,
-                    onTap: () => context.go('/home/postularse'),
+                    onTap: () => context.go(AppRoutes.homeVolunteering),
                   ),
                 ),
                 Expanded(
                   child: AppTab(
                     label: 'Mi perfil',
                     isSelected: widget.selectedIndex == 1,
-                    onTap: () => context.go('/home/perfil'),
+                    onTap: () => context.go(AppRoutes.homeProfile),
                   ),
                 ),
                 Expanded(
                   child: AppTab(
                     label: 'Novedades',
                     isSelected: widget.selectedIndex == 2,
-                    onTap: () => context.go('/home/novedades'),
+                    onTap: () => context.go(AppRoutes.news),
                   ),
                 ),
               ],

@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
+import '../../../constants/app_routes.dart';
 import '../../../providers/user_provider.dart';
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
@@ -27,7 +28,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
     await ref.read(markOnboardingCompleteProvider.future);
 
     if (context.mounted) {
-      context.go('/home/postularse');
+      context.go(AppRoutes.homeVolunteering);
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../models/voluntariado.dart';
 import '../../cells/cards/card_voluntariado.dart';
@@ -34,7 +35,10 @@ class VoluntariadoListItems extends ConsumerWidget {
           padding: const EdgeInsets.only(bottom: 24),
           child: CardVoluntariado(
             voluntariado: v,
-            onTap: () => context.push('/voluntariado/${v.id}'),
+            onTap: () => context.pushNamed(
+              RouteNames.volunteeringDetails,
+              pathParameters: {'id': v.id},
+            ),
             onLikeTap: onLikeTap != null ? (id) => onLikeTap!(id) : null,
             isLiked: user?.likedVoluntariados?.contains(v.id) ?? false,
           ),

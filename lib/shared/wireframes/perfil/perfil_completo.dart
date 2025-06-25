@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../constants/app_routes.dart';
 import '../../cells/modals/confirm_modal.dart';
 import '../../molecules/components/foto_perfil.dart';
 import '../../cells/cards/card_informacion.dart';
@@ -130,7 +131,7 @@ class PerfilCompletoPage extends StatelessWidget {
                     AppButton(
                       label: 'Editar perfil',
                       onPressed: () {
-                        context.push('/home/perfil/editar');
+                        context.push(AppRoutes.homeProfileEdit);
                       },
                       type: AppButtonType.filled,
                     ),

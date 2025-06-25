@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:ser_manos/constants/app_routes.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
@@ -45,10 +46,9 @@ class EntryPage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               child: Column(
-                // TODO: sacar go to falso (implementar login)
                 children: [
-                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go('/login'), type: AppButtonType.filled),
-                  AppButton(label: "Resgistrarse", onPressed: ()=> context.go('/register'), type: AppButtonType.tonal),
+                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go(AppRoutes.login), type: AppButtonType.filled),
+                  AppButton(label: "Resgistrarse", onPressed: ()=> context.go(AppRoutes.register), type: AppButtonType.tonal),
                 ],
               )
             )

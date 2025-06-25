@@ -3,12 +3,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/wireframes/error/error_page.dart';
 import 'package:ser_manos/shared/wireframes/home/voluntariados_page.dart';
-
-// wireframes / pages
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
+import '../constants/app_routes.dart';
 import '../providers/auth_provider.dart';
 import '../providers/user_provider.dart';
 import '../shared/cells/header/header.dart';
@@ -20,30 +19,25 @@ import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/voluntariados/voluntariado_detail.dart';
 import 'go_router_observer.dart';
 
-/// Helper to map current location <--> tab index
+/// Helper para mapear location <--> tab index
 int tabIndexFromLocation(String loc) {
-  if (loc.startsWith('/home/postularse')) return 0;
-  if (loc.startsWith('/home/perfil'))     return 1;
-  return 2; // '/home/novedades'
+  if (loc.startsWith(AppRoutes.homeVolunteering)) return 0;
+  if (loc.startsWith(AppRoutes.homeProfile))        return 1;
+  return 2; // novedades
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
+/// Notificador para refrescar cuando cambia auth / onboarding
 final routerRefreshNotifierProvider = Provider((ref) {
   final notifier = ValueNotifier<int>(0);
 
-  // Listen to authentication state changes (login/logout)
-  ref.listen(authStateProvider, (_, __) {
-    notifier.value++;
-  });
-
-  // Listen to changes in the user's onboarding status
+  ref.listen(authStateProvider, (_, __) => notifier.value++);
   ref.listen(
-    currentUserProvider.select((userAsync) => userAsync.valueOrNull?.hasSeenOnboarding),
-        (previous, next) {
-      if (previous != next) {
-        notifier.value++;
-      }
+    currentUserProvider
+        .select((u) => u.valueOrNull?.hasSeenOnboarding),
+        (prev, next) {
+      if (prev != next) notifier.value++;
     },
   );
 
@@ -58,126 +52,121 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: navigatorKey,
     restorationScopeId: 'router',
     refreshListenable: refreshNotifier,
-    errorBuilder: (context, state) => const ErrorPage(message: "Página no encontrada"),
-    initialLocation: '/',
+    errorBuilder: (_, __) =>
+    const ErrorPage(message: 'Página no encontrada'),
+    initialLocation: AppRoutes.entry,
+
+    /// --------- REDIRECTS ----------
     redirect: (context, state) {
-      final authState = ref.read(authStateProvider);
-      final currentUserAsync = ref.read(currentUserProvider);
-
+      final authState       = ref.read(authStateProvider);
+      final currentUserAsync= ref.read(currentUserProvider);
       if (authState.isLoading || currentUserAsync.isLoading) return null;
+
       final isLoggedIn = authState.valueOrNull != null;
-      final user = currentUserAsync.valueOrNull;
+      final user       = currentUserAsync.valueOrNull;
 
-      // Guard: force onboarding once
+      // Onboarding
       if (isLoggedIn &&
           user != null &&
-          !(user.hasSeenOnboarding) &&
-          state.matchedLocation != '/welcome') {
-        return '/welcome';
+          !user.hasSeenOnboarding &&
+          state.matchedLocation != AppRoutes.welcome) {
+        return AppRoutes.welcome;
       }
-      // Guard: keep finished users out of /welcome
+
       if (isLoggedIn &&
           user != null &&
-          (user.hasSeenOnboarding) &&
-          state.matchedLocation == '/welcome') {
-        return '/home/postularse';
-      }
-      // Auth-related locations
-      final isAuthRoute = [
-        '/',
-        '/login',
-        '/register',
-      ].contains(state.matchedLocation);
-
-      if (isLoggedIn && currentUserAsync is AsyncLoading) {
-        return null; // Don't redirect yet
+          user.hasSeenOnboarding &&
+          state.matchedLocation == AppRoutes.welcome) {
+        return AppRoutes.homeVolunteering;
       }
 
-      // If user is logged in but on auth page, redirect to home
+      // Rutas públicas (auth)
+      final isAuthRoute = {
+        AppRoutes.entry,
+        AppRoutes.login,
+        AppRoutes.register,
+      }.contains(state.matchedLocation);
+
       if (isLoggedIn && isAuthRoute) {
-        return '/home/postularse';
+        return AppRoutes.homeVolunteering;
       }
-
-      // If user is not logged in and tries to access protected pages, redirect to entry
       if (!isLoggedIn && !isAuthRoute) {
-        return '/';
+        return AppRoutes.entry;
       }
-
       return null;
     },
+
+    /// --------- ROUTES ----------
     routes: [
       GoRoute(
-        path: '/',
-        name: "EntryScreen",
+        path: AppRoutes.entry,
+        name: RouteNames.entry,
         builder: (_, __) => const EntryPage(),
       ),
       GoRoute(
-        path: '/login',
-        name: "LoginScreen",
+        path: AppRoutes.login,
+        name: RouteNames.login,
         builder: (_, __) => const LoginPage(),
       ),
       GoRoute(
-        path: '/register',
-        name: "RegisterScreen",
+        path: AppRoutes.register,
+        name: RouteNames.register,
         builder: (_, __) => const RegisterPage(),
       ),
       GoRoute(
-        path: '/welcome',
-        name: "WelcomeScreen",
+        path: AppRoutes.welcome,
+        name: RouteNames.welcome,
         builder: (_, __) => const WelcomePage(),
       ),
 
-    /// ---------------- HOME + three tabs ----------------
-    ShellRoute(
-      builder: (context, state, child) {
-        final idx = tabIndexFromLocation(state.uri.toString());
-        return AppHeader(
-          selectedIndex: idx,
-          body: child,
-        );
-      },
-      routes: [
-        GoRoute(
-          path: '/home/perfil',
-          name: "ProfileTab",
-          pageBuilder: (context, state) => const NoTransitionPage(child: PerfilWrapperPage()),
-        ),
-        GoRoute(
-          path: '/home/postularse',
-          name: "VolunteeringTab",
-          pageBuilder: (context, state) => const NoTransitionPage(child: VoluntariadosPage()),
-        ),
-        GoRoute(
-          path: '/home/novedades',
-          name: "NewsTab",
-          pageBuilder: (context, state) => const NoTransitionPage(child: NewsPage()),
-        ),
-
+      /// ----- HOME + TABS -----
+      ShellRoute(
+        builder: (context, state, child) {
+          final idx = tabIndexFromLocation(state.uri.toString());
+          return AppHeader(selectedIndex: idx, body: child);
+        },
+        routes: [
+          GoRoute(
+            path: AppRoutes.homeProfile,
+            name: RouteNames.profileTab,
+            pageBuilder: (_, __) =>
+            const NoTransitionPage(child: PerfilWrapperPage()),
+          ),
+          GoRoute(
+            path: AppRoutes.homeVolunteering,
+            name: RouteNames.volunteeringTab,
+            pageBuilder: (_, __) =>
+            const NoTransitionPage(child: VoluntariadosPage()),
+          ),
+          GoRoute(
+            path: AppRoutes.homeNews,
+            name: RouteNames.newsTab,
+            pageBuilder: (_, __) =>
+            const NoTransitionPage(child: NewsPage()),
+          ),
         ],
       ),
+
+      /// ----- DETALLES -----
       GoRoute(
-        path: '/voluntariado/:id',
-        name: "VolunteeringDetailsScreen",
-        builder: (_, state) {
-          final id = state.pathParameters['id']!;
-          return VoluntariadoDetallePage(voluntariadoId: id);
-        },
+        path: AppRoutes.volunteering,
+        name: RouteNames.volunteeringDetails,
+        builder: (_, state) =>
+            VoluntariadoDetallePage(voluntariadoId: state.pathParameters['id']!),
+      ),
+      GoRoute(
+        path: AppRoutes.news,
+        name: RouteNames.newsDetail,
+        builder: (_, state) =>
+            NovedadDetail(id: state.pathParameters['id']!),
       ),
 
+      /// ----- EDITAR PERFIL -----
       GoRoute(
-        path: '/novedad/:id',
-        name: 'NewsDetailScreen',
-        builder: (context, state) {
-          final id = state.pathParameters['id']!;
-          return NovedadDetail(id: id);
-        },
-      ),
-
-      GoRoute(
-        path: '/home/perfil/editar',
-        pageBuilder: (context, state) => CustomTransitionPage(
+        path: AppRoutes.homeProfileEdit,
+        pageBuilder: (_, __) => CustomTransitionPage(
           child: const EditarPerfilPage(),
-          transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+          transitionsBuilder: (_, animation, __, child) =>
               SlideTransition(
                 position: Tween<Offset>(
                   begin: const Offset(0, 1),
@@ -187,8 +176,6 @@ final routerProvider = Provider<GoRouter>((ref) {
               ),
         ),
       ),
-
-
     ],
   );
 });

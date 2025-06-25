@@ -8,6 +8,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:ser_manos/constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
@@ -209,7 +210,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         context.pop(true);
       } else {
         // Fallback for cases where the page can't be popped (e.g., deep link).
-        context.go('/home/perfil');
+        context.go(AppRoutes.homeProfile);
       }
 
     } catch (e) {
@@ -238,7 +239,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
               ? null
               : () => context.canPop()
               ? context.pop()
-              : context.go('/home/perfil'),
+              : context.go(AppRoutes.homeProfile),
         ),
         elevation: 0,
         backgroundColor: AppColors.neutral0,

@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/models/novedad.dart';
+import '../../../constants/app_routes.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
@@ -15,7 +16,10 @@ class CardNovedades extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.push('/novedad/${novedad.id}'),
+      onTap: () => context.pushNamed(
+        RouteNames.newsDetail,
+        pathParameters: {'id': novedad.id},
+      ),
       child: Container(
         height: 156,
         decoration: const BoxDecoration(
