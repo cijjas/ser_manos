@@ -5,9 +5,9 @@
 - [ ] Ajustar separación entre chip de vacantes y títulos según el Design System.
 - [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi
 - [ ] El ícono de “list view” en la search bar debe tener funcionalidad o eliminarse.
-- [ ] Implementar técnica de `debounce` en el buscador.
+- [x] Implementar técnica de `debounce` en el buscador.
 - [x] Corregir animación indeseada al presionar las tabs de navegación en Android.
-- [ ] Hacer que el fondo de las cards de noticias también sea un touch target.
+- [x] Hacer que el fondo de las cards de noticias también sea un touch target.
 - [ ] Manejar error 503 al subir imagen de voluntariado.
 - [ ] Evitar doble subida de foto en la vista de completar perfil.
 - [ ] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
@@ -17,19 +17,19 @@
 - [ ] Evitar mostrar errores crudos de Firebase mediante snackbars.
 - [ ] Arreglar subida de fotos vía cámara en Android (error actual).
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
-- [ ] Implementar vista para abandonar voluntariado actual.
+- [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi
 - [ ] Reemplazar coordenadas por nombre de calle en el campo dirección.
 
 ## 🧾 Documentación
-- [ ] Usar `markdownlint` para mejorar formato del README.
+- [x] Usar `markdownlint` para mejorar formato del README.
 - [ ] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
 - [x] Describir cómo aceptar un voluntariado en el README.
 - [ ] Mejorar especificidad de métrica `screen_view`.
 - [ ] Corregir typo en nombre del proyecto de Firebase.
-- [ ] Asegurarse de agregar a los profesores como editores en Firebase.
+- [x] Asegurarse de agregar a los profesores como editores en Firebase.
 
 ## 🧹 Limpieza del Proyecto
-- [ ] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
+- [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
 - [~] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.
 - [ ] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [ ] Eliminar imports duplicados o no utilizados (`flutter analyze`).

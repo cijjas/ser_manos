@@ -1,4 +1,6 @@
 // voluntariados_page.dart
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -68,31 +70,38 @@ class VoluntariadosPage extends ConsumerWidget {
   }
 }
 
-class SearchAndToggleViewHeader extends ConsumerWidget {
+class SearchAndToggleViewHeader extends ConsumerStatefulWidget {
   const SearchAndToggleViewHeader({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final isMapView = ref.watch(isMapViewProvider);
+  ConsumerState<SearchAndToggleViewHeader> createState() => _SearchAndToggleViewHeaderState();
+}
 
+class _SearchAndToggleViewHeaderState extends ConsumerState<SearchAndToggleViewHeader> {
+  Timer? _debounce;
+
+  void _onSearchChanged(String query) {
+    _debounce?.cancel();
+    _debounce = Timer(const Duration(milliseconds: 400), () {
+      ref.read(voluntariadoSearchQueryProvider.notifier).state = query;
+    });
+  }
+
+  @override
+  void dispose() {
+    _debounce?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return SearchField(
       emptySuffix: const AppIcon(
         icon: AppIcons.LISTA,
         color: AppIconsColor.PRIMARY,
       ),
-      // emptySuffix: const SizedBox.shrink(),
       hintText: 'Buscar',
-      // Map/List
-      // emptySuffix: AppIcon(
-      //   icon: isMapView ? AppIcons.LISTA : AppIcons.MAPA,
-      //   color: AppIconsColor.PRIMARY,
-      // ),
-      // onEmptySuffixTap: () {
-      //   ref.read(isMapViewProvider.notifier).state = !isMapView;
-      // },
-      onChanged: (query) {
-        ref.read(voluntariadoSearchQueryProvider.notifier).state = query;
-      },
+      onChanged: _onSearchChanged,
     );
   }
 }
