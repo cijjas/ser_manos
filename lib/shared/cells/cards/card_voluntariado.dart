@@ -10,7 +10,6 @@ import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
 
-// TODO check what to do with the widget state
 class CardVoluntariado extends StatelessWidget {
   final VoidCallback? onTap;
   final void Function(String id)? onLikeTap;
@@ -52,9 +51,9 @@ class CardVoluntariado extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(voluntariado.tipo.toUpperCase(),
-                        style: AppTypography.caption),
-                    const SizedBox(height: 4),
+                        style: AppTypography.overline),
                     Text(voluntariado.nombre, style: AppTypography.subtitle01),
+                    const SizedBox(height: 4),
                     VacantsDisplay(number: voluntariado.vacantes),
                   ],
                 ),

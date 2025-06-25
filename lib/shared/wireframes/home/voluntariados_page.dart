@@ -14,7 +14,6 @@ import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
 import '../../molecules/input/search_field.dart';
-import '../../../providers/home_providers.dart';
 
 // It's good practice for pages to not directly depend on specific data providers
 // if child widgets handle their own data fetching (like MapViewCardsOverlay & VoluntariadoListItems do).
@@ -84,10 +83,6 @@ class _SearchAndToggleViewHeaderState extends ConsumerState<SearchAndToggleViewH
   @override
   Widget build(BuildContext context) {
     return SearchField(
-      emptySuffix: const AppIcon(
-        icon: AppIcons.LISTA,
-        color: AppIconsColor.PRIMARY,
-      ),
       hintText: 'Buscar',
       onChanged: _onSearchChanged,
     );

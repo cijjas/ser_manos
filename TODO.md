@@ -2,9 +2,9 @@
 
 ## 🧪 Funcionalidad y UX
 - [ ] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de input).
-- [ ] Ajustar separación entre chip de vacantes y títulos según el Design System.
+- [x] Ajustar separación entre chip de vacantes y títulos según el Design System.
 - [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi
-- [ ] El ícono de “list view” en la search bar debe tener funcionalidad o eliminarse.
+- [x] El ícono de “list view” en la search bar debe tener funcionalidad o eliminarse.
 - [x] Implementar técnica de `debounce` en el buscador.
 - [x] Corregir animación indeseada al presionar las tabs de navegación en Android.
 - [x] Hacer que el fondo de las cards de noticias también sea un touch target.
@@ -30,7 +30,7 @@
 
 ## 🧹 Limpieza del Proyecto
 - [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
-- [~] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.
+- [x] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.
 - [ ] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [x] Eliminar `prints` en código productivo. 
 - [ ] Agregar `const` en constructores donde corresponda.
