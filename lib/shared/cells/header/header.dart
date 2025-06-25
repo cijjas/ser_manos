@@ -21,7 +21,6 @@ class AppHeader extends StatefulWidget {
   State<AppHeader> createState() => _AppHeaderState();
 }
 
-
 class _AppHeaderState extends State<AppHeader> {
   int? _lastIndex;
 
@@ -38,61 +37,60 @@ class _AppHeaderState extends State<AppHeader> {
         _ => "UnknownTab",
       };
 
-      FirebaseAnalytics.instance.logScreenView(screenName: screenName, screenClass: screenName);
+      FirebaseAnalytics.instance
+          .logScreenView(screenName: screenName, screenClass: screenName);
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const StatusBar(style: StatusBarStyle.blue),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.fromLTRB(16, 8, 0, 0),
-            width: double.infinity,
-            height: 41,
-            color: AppColors.secondary90,
-            child: const AppWordmark(),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: AppTab(
-                  label: 'Postularse',
-                  isSelected: widget.selectedIndex == 0,
-                  onTap: () => context.go('/home/postularse'),
+        appBar: const StatusBar(style: StatusBarStyle.blue),
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              alignment: Alignment.topLeft,
+              padding: const EdgeInsets.fromLTRB(16, 8, 0, 0),
+              width: double.infinity,
+              height: 41,
+              color: AppColors.secondary90,
+              child: const AppWordmark(),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: AppTab(
+                    label: 'Postularse',
+                    isSelected: widget.selectedIndex == 0,
+                    onTap: () => context.go('/home/postularse'),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: AppTab(
-                  label: 'Mi perfil',
-                  isSelected: widget.selectedIndex == 1,
-                  onTap: () => context.go('/home/perfil'),
+                Expanded(
+                  child: AppTab(
+                    label: 'Mi perfil',
+                    isSelected: widget.selectedIndex == 1,
+                    onTap: () => context.go('/home/perfil'),
+                  ),
                 ),
-              ),
-              Expanded(
-                child: AppTab(
-                  label: 'Novedades',
-                  isSelected: widget.selectedIndex == 2,
-                  onTap: () => context.go('/home/novedades'),
+                Expanded(
+                  child: AppTab(
+                    label: 'Novedades',
+                    isSelected: widget.selectedIndex == 2,
+                    onTap: () => context.go('/home/novedades'),
+                  ),
                 ),
-              ),
-            ],
-
-          ),
-            Expanded(child:
-              Container(
-                color: AppColors.secondary10,
+              ],
+            ),
+            Expanded(
+              child: KeyedSubtree(
+                key: ValueKey(widget.selectedIndex),
                 child: widget.body,
               ),
             ),
-        ],
-      )
-    );
+          ],
+        ));
   }
 }
