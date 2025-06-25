@@ -10,7 +10,6 @@ Future<void> saveFcmTokenToFirestore(String userId) async {
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
         'fcmToken': fcmToken,
       });
-    } else {
     }
   } catch (e, stack) {
     FirebaseCrashlytics.instance.recordError(

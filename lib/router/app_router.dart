@@ -140,17 +140,17 @@ final routerProvider = Provider<GoRouter>((ref) {
         GoRoute(
           path: '/home/perfil',
           name: "ProfileTab",
-          builder: (_, __) => const PerfilWrapperPage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: PerfilWrapperPage()),
         ),
         GoRoute(
           path: '/home/postularse',
           name: "VolunteeringTab",
-          builder: (_, __) => const VoluntariadosPage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: VoluntariadosPage()),
         ),
         GoRoute(
           path: '/home/novedades',
           name: "NewsTab",
-          builder: (_, __) => const NewsPage(),
+          pageBuilder: (context, state) => const NoTransitionPage(child: NewsPage()),
         ),
 
         ],
