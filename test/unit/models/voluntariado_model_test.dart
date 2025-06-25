@@ -6,7 +6,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 void main() {
   group('Voluntariado model', () {
     // Datos simulados tal como vendrían de Firestore
-    final geo = const GeoPoint(-34.6037, -58.3816);          // Obelisco BA
+    const geo = GeoPoint(-34.6037, -58.3816);          // Obelisco BA
     final ts  = Timestamp.fromDate(DateTime(2024, 5, 1, 10)); // 1-may-2024 10:00
 
     final firestoreJson = {

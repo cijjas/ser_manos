@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class ErrorPage extends StatelessWidget {
   final String message;
 
-  const ErrorPage({Key? key, this.message = "Ha ocurrido un error inesperado."})
-      : super(key: key);
+  const ErrorPage({super.key, this.message = "Ha ocurrido un error inesperado."});
 
   @override
   Widget build(BuildContext context) {

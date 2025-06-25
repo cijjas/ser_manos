@@ -18,7 +18,7 @@ void main() {
     setUp(() {
       mockUserService = MockUserService();
       firebaseUser    = MockUser(uid: 'uid1', email: 'a@b.c');
-      domainUser      = domain.User(
+      domainUser      = const domain.User(
         id: 'uid1',
         nombre: 'Ada',
         apellido: 'Lovelace',

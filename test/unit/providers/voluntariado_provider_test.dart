@@ -80,7 +80,7 @@ void main() {
         createdAt:   DateTime(2025),
       );
 
-      domainUser = domain.User(
+      domainUser = const domain.User(
         id:                'uid1',
         nombre:            'Ada',
         apellido:          'Lovelace',

@@ -11,7 +11,7 @@ import '../../wireframes/perfil/perfil_completo.dart';
 import '../../wireframes/perfil/perfil_incompleto.dart';
 
 class PerfilWrapperPage extends ConsumerWidget {
-  const PerfilWrapperPage({Key? key}) : super(key: key);
+  const PerfilWrapperPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

@@ -2,9 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ser_manos/models/user.dart';
-import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/services/user_service.dart';
 
 import '../../mocks/firebase_mocks.mocks.dart';
@@ -16,7 +14,7 @@ void main() {
   late UserService            sut;          // System-Under-Test
 
   // ───────────────── usuario base ─────────────────
-  final baseUser = User(
+  const baseUser = User(
     id: 'u1',
     nombre: 'Ada',
     apellido: 'Lovelace',

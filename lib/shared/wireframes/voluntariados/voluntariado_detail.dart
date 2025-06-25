@@ -11,7 +11,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';

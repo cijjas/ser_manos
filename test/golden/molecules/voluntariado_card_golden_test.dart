@@ -1,6 +1,5 @@
 // test/golden/widgets/card_voluntariado_golden_test.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 import 'package:ser_manos/models/voluntariado.dart';

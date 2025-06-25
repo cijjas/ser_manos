@@ -71,7 +71,7 @@ class UserService {
       final updated = [
         ...(user.voluntariados ?? [])
             .where((v) => v.id != voluntariadoId)
-            .toList(),
+            ,
         if (newState != VoluntariadoUserState.available) newVoluntariado,
       ];
 

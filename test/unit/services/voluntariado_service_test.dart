@@ -1,11 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:mockito/mockito.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:geolocator/geolocator.dart';
 
 import 'package:ser_manos/services/voluntariado_service.dart';
-import 'package:ser_manos/models/voluntariado.dart';
 
 import '../../mocks/firebase_mocks.mocks.dart';
 

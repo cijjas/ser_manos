@@ -15,7 +15,6 @@ import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/models/user.dart' as model;
 
-import '../../../providers/voluntariado_provider.dart';
 
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
@@ -64,7 +63,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     super.initState();
 
     // Disparar validacion onBlur
-    [_nameFocus, _surnameFocus, _emailFocus].forEach((fn) {
+    for (var fn in [_nameFocus, _surnameFocus, _emailFocus]) {
       fn.addListener(() {
         if (!fn.hasFocus) {
           final name = fn == _nameFocus
@@ -75,7 +74,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           _formKey.currentState?.fields[name]?.validate();
         }
       });
-    });
+    }
   }
 
   @override
@@ -152,7 +151,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         }
       });
     } catch (_) {
-      if (mounted) setState(() => _errorMessage = 'Error al registrar usuario.' + _.toString());
+      if (mounted) setState(() => _errorMessage = 'Error al registrar usuario.$_');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

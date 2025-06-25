@@ -1,6 +1,5 @@
 // test/golden/molecules/app_text_field_golden_test.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';

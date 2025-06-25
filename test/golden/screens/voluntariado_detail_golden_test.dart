@@ -1,6 +1,5 @@
 // test/golden/screens/voluntariado_detail_golden_test.dart
 import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -32,7 +31,7 @@ Voluntariado _fakeVol(String id) => Voluntariado(
   createdAt: DateTime(2025),
 );
 
-final _fakeUser = User(
+const _fakeUser = User(
   id: 'u1',
   nombre: 'Ada',
   apellido: 'Lovelace',

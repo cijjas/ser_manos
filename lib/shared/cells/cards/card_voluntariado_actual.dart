@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
-import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
 
@@ -14,12 +13,9 @@ class CardVoluntariadoActual extends CardVoluntariado {
 
   const CardVoluntariadoActual({
     super.key,
-    required Voluntariado voluntariado,
-    required VoidCallback? onTap,
-  }) : super(
-    voluntariado: voluntariado,
-    onTap: onTap,
-  );
+    required super.voluntariado,
+    required super.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {

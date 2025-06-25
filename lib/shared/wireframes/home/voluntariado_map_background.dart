@@ -44,7 +44,6 @@ class MapViewCardsOverlay extends ConsumerWidget {
             icon: Icons.navigation, // Replace with your desired icon
             onPressed: () {
               // Add your desired functionality here, e.g., navigating to a new screen
-              print('Floating button pressed!');
             },
           ),
         ),

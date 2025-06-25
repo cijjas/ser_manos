@@ -11,7 +11,6 @@ import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
 
 import '../providers/auth_provider.dart';
 import '../providers/user_provider.dart';
-import '../services/notification_service.dart';
 import '../shared/cells/header/header.dart';
 import '../shared/wireframes/ingreso/login_page.dart';
 import '../shared/wireframes/ingreso/register_page.dart';

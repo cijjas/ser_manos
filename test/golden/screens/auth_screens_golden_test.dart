@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:network_image_mock/network_image_mock.dart';
 import 'package:firebase_auth/firebase_auth.dart' show UserCredential;
 import 'package:mockito/mockito.dart';
 
@@ -39,7 +38,7 @@ void main() {
     when(mockAuth.signOut()).thenAnswer((_) async {});
   });
 
-  Future<Widget> _wrap(Widget child) async {
+  Future<Widget> wrap(Widget child) async {
     return ProviderScope(
       overrides: [
         authServiceProvider.overrideWithValue(mockAuth),
@@ -55,8 +54,8 @@ void main() {
 
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [Device.phone])
-      ..addScenario(name: 'Entry',    widget: await _wrap(const EntryPage()))
-      ..addScenario(name: 'Welcome',  widget: await _wrap(const WelcomePage()));
+      ..addScenario(name: 'Entry',    widget: await wrap(const EntryPage()))
+      ..addScenario(name: 'Welcome',  widget: await wrap(const WelcomePage()));
 
     await tester.pumpDeviceBuilder(builder);
     await screenMatchesGolden(tester, 'auth_entry_welcome');
@@ -68,8 +67,8 @@ void main() {
 
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [Device.phone])
-      ..addScenario(name: 'Login',    widget: await _wrap(const LoginPage()))
-      ..addScenario(name: 'Register', widget: await _wrap(const RegisterPage()));
+      ..addScenario(name: 'Login',    widget: await wrap(const LoginPage()))
+      ..addScenario(name: 'Register', widget: await wrap(const RegisterPage()));
 
     await tester.pumpDeviceBuilder(builder);
     await screenMatchesGolden(tester, 'auth_login_register');

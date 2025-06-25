@@ -11,12 +11,12 @@ class CardInput extends StatefulWidget {
   final int? selectedIndex;
 
   const CardInput({
-    Key? key,
+    super.key,
     required this.title,
     required this.options,
     this.onSelected,
     this.selectedIndex,
-  }) : super(key: key);
+  });
 
   @override
   _CardInputState createState() => _CardInputState();

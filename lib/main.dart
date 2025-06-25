@@ -52,7 +52,6 @@ void main() {
             .collection('users')
             .doc(currentUser.uid)
             .update({'fcmToken': newToken});
-        print('[INFO] ]Updated FCM token');
       }
     });
 

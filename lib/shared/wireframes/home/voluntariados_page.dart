@@ -8,7 +8,6 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 // These files will contain the refactored/new widgets.
 import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
 
-import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
@@ -167,7 +166,7 @@ class VoluntariadosListSection extends ConsumerWidget {
       ),
       error: (e, _) {
         ref.invalidate(voluntariadosProvider);
-        return VoluntariadoError(
+        return const VoluntariadoError(
             message: "Error al cargar los voluntariados.");
       },
       loading: () => const VoluntariadoLoading(),

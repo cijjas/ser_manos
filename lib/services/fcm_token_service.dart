@@ -10,9 +10,7 @@ Future<void> saveFcmTokenToFirestore(String userId) async {
       await FirebaseFirestore.instance.collection('users').doc(userId).update({
         'fcmToken': fcmToken,
       });
-      print('FCM token saved successfully for user: $userId');
     } else {
-      print('FCM token is null. Cannot save to Firestore.');
     }
   } catch (e, stack) {
     FirebaseCrashlytics.instance.recordError(
@@ -21,6 +19,5 @@ Future<void> saveFcmTokenToFirestore(String userId) async {
       reason: '-> Failed to save FCM token to Firestore',
       fatal: false,
     );
-    print('Error saving FCM token: $e');
   }
 }

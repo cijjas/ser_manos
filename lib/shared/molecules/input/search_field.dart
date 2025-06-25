@@ -8,13 +8,13 @@ import 'package:ser_manos/shared/tokens/typography.dart';
 
 class SearchField extends StatefulWidget {
   const SearchField({
-    Key? key,
+    super.key,
     this.controller,
     this.hintText = 'Buscar',
     this.onChanged,
     required this.emptySuffix,
     this.onEmptySuffixTap, // Added callback
-  }) : super(key: key);
+  });
 
   final TextEditingController? controller;
   final String hintText;
