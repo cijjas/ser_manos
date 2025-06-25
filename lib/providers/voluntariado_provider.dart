@@ -40,9 +40,7 @@ final voluntariadoProvider =
 
 final postulateToVoluntariado =
     FutureProvider.family<bool, String>((ref, voluntariadoId) async {
-  print('Postulando a voluntariado: $voluntariadoId');
   final user = await ref.read(currentUserProvider.future);
-  print('Usuario: ${user.id}');
 
   return await ref
       .read(userServiceProvider)

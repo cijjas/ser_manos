@@ -218,8 +218,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           SnackBar(content: Text('Error al guardar: ${e.toString()}')),
         );
       }
-      print('ERROR inside _save(): ${e.toString()}');
-      print('STACKTRACE: $stacktrace');
     } finally {
       if (mounted) {
         setState(() => _subiendoAlGuardar = false);
