@@ -10,7 +10,7 @@
 - [ ] Evitar doble subida de foto en la vista de completar perfil.
 - [ ] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
 - [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
-- [ ] Corregir re-render de todas las cards al likear una (mejorar manejo de estado).
+- [x] Corregir re-render de todas las cards al likear una (mejorar manejo de estado). (NO se re renderizaban, solo aparecia un loading extra del current que las sacaba de lugar)
 - [ ] Permitir editar datos del perfil sin necesidad de subir nueva foto.
 - [ ] Evitar mostrar errores crudos de Firebase mediante snackbars.
 - [ ] Arreglar subida de fotos vía cámara en Android (error actual).

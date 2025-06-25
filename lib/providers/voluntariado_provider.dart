@@ -22,7 +22,9 @@ final voluntariadosProvider = StreamProvider<List<Voluntariado>>((ref) {
 
   return userLocationAsync.when(
     data: (userPosition) {
-      return ref.read(voluntariadoServiceProvider).watchFiltered(query, userPosition);
+      return ref
+          .read(voluntariadoServiceProvider)
+          .watchFiltered(query, userPosition);
     },
     loading: () {
       return ref.read(voluntariadoServiceProvider).watchFiltered(query, null);

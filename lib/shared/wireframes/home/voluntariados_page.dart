@@ -60,10 +60,12 @@ class SearchAndToggleViewHeader extends ConsumerStatefulWidget {
   const SearchAndToggleViewHeader({super.key});
 
   @override
-  ConsumerState<SearchAndToggleViewHeader> createState() => _SearchAndToggleViewHeaderState();
+  ConsumerState<SearchAndToggleViewHeader> createState() =>
+      _SearchAndToggleViewHeaderState();
 }
 
-class _SearchAndToggleViewHeaderState extends ConsumerState<SearchAndToggleViewHeader> {
+class _SearchAndToggleViewHeaderState
+    extends ConsumerState<SearchAndToggleViewHeader> {
   Timer? _debounce;
 
   void _onSearchChanged(String query) {
@@ -97,6 +99,7 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
         ref.watch(voluntariadoParticipatingProvider);
 
     return participatingVoluntariado.when(
+      skipLoadingOnRefresh: true,
       data: (voluntariado) {
         if (voluntariado == null) return const SizedBox();
 
@@ -120,7 +123,7 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
       },
       error: (e, _) => VoluntariadoError(
           message: "Error al cargar tu actividad.\n${e.toString()}"),
-      loading: () => const VoluntariadoLoading(),
+      loading: () => const SizedBox(),
     );
   }
 }
@@ -145,17 +148,17 @@ class VoluntariadosListSection extends ConsumerWidget {
     }
 
     return voluntariadosAsync.when(
+      skipLoadingOnRefresh: true,
       data: (voluntariados) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text("Voluntariados", style: AppTypography.headline01),
           const SizedBox(height: 16),
           VoluntariadoListItems(
-            voluntariados: voluntariados,
-            onLikeTap: (id) => onLikeTap(ref, id),
-            user: user,
-            isSearching: isSearching,
-          ),
+              voluntariados: voluntariados,
+              isSearching: isSearching,
+              user: user,
+              onLikeTap: (id) => onLikeTap(ref, id)),
           const SizedBox(height: 16),
         ],
       ),
