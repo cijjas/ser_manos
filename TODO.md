@@ -32,7 +32,7 @@
 - [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
 - [~] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.
 - [ ] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
-- [~] Eliminar `prints` en código productivo. -> Faltan un par, de lo de mapas. Creo que borramos todo eso, no?
+- [x] Eliminar `prints` en código productivo. 
 - [ ] Agregar `const` en constructores donde corresponda.
 - [ ] Renombrar estado `applied` a `pending`.
 - [ ] Eliminar comentarios generados por LLMs.

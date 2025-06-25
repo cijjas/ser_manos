@@ -22,48 +22,37 @@ import '../../../providers/home_providers.dart';
 import '../../tokens/typography.dart';
 import '../../atoms/icons/_app_icon.dart';
 import '../../atoms/icons/app_icons.dart';
-import 'voluntariado_map_background.dart';
 
 class VoluntariadosPage extends ConsumerWidget {
   const VoluntariadosPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final isMapView = ref.watch(isMapViewProvider);
-
-    return Scaffold(
+    return const Scaffold(
       backgroundColor: AppColors.secondary10,
-      body: Stack(
-        children: [
-          if (isMapView)
-            const Positioned.fill(child: VoluntariadoMapBackground()),
-          SafeArea(
-            child: Column(
-              children: [
-                const SizedBox(height: 16),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: SearchAndToggleViewHeader(),
-                ),
-                Expanded(
-                  child: isMapView
-                      ? const MapViewCardsOverlay()
-                      : const SingleChildScrollView(
-                          padding: EdgeInsets.symmetric(horizontal: 24),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(height: 16),
-                              ParticipatingVoluntariadoSection(),
-                              VoluntariadosListSection(),
-                            ],
-                          ),
-                        ),
-                ),
-              ],
+      body: SafeArea(
+        child: Column(
+          children: [
+            SizedBox(height: 16),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24),
+              child: SearchAndToggleViewHeader(),
             ),
-          )
-        ],
+            Expanded(
+              child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 24),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 16),
+                    ParticipatingVoluntariadoSection(),
+                    VoluntariadosListSection(),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
