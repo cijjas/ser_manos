@@ -30,6 +30,7 @@ class EditarPerfilPage extends ConsumerStatefulWidget {
 }
 
 class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
+
   final _formKey = GlobalKey<FormBuilderState>();
   int? _sexoIndex;
   String? _fotoUrl;
@@ -38,11 +39,23 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   User? _original;
   final _picker = ImagePicker();
 
+  final _emailFocus = FocusNode();
+  final _phoneFocus = FocusNode();
+
   @override
   void initState() {
     super.initState();
     _loadUser();
   }
+
+  @override
+  void dispose() {
+    _phoneFocus.dispose();
+    _emailFocus.dispose();
+    super.dispose();
+  }
+
+
 
   Future<void> _loadUser() async {
     final fbUser = ref.read(authStateProvider).maybeWhen(
@@ -321,15 +334,19 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 const SizedBox(height: 16),
                 // ───────────────── Teléfono ─────────────────
                 FormBuilderAppTextField(
+                  focusNode: _phoneFocus,
                   name: 'telefono',
                   labelText: 'Teléfono',
                   hintText: 'Ej: +5491178445459',
                   keyboardType: TextInputType.phone,
                   validator: FormBuilderValidators.required(),
+                  onFieldSubmitted: (_) => _emailFocus.requestFocus(),
+                  textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 24),
                 // ───────────────── Email ─────────────────
                 FormBuilderAppTextField(
+                  focusNode: _emailFocus,
                   name: 'email',
                   labelText: 'Mail',
                   hintText: 'Ej: mimail@mail.com',
@@ -338,6 +355,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                     FormBuilderValidators.required(),
                     FormBuilderValidators.email(),
                   ]),
+                  textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 32),
                 // ───────────────── Botón Guardar ─────────────────

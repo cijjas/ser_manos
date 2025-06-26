@@ -22,6 +22,10 @@ class AppTextField extends StatelessWidget {
 
   final bool readOnly;
   final VoidCallback? onTap;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
+  final FocusNode? focusNode;
+
 
   const AppTextField({
     super.key,
@@ -39,11 +43,15 @@ class AppTextField extends StatelessWidget {
     this.enabled = true,
     this.readOnly = false,
     this.onTap,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.focusNode,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      focusNode: focusNode,
       controller: controller,
       onChanged: onChanged,
       keyboardType: keyboardType,
@@ -57,6 +65,8 @@ class AppTextField extends StatelessWidget {
         color: enabled ? AppColors.neutral100 : AppColors.neutral50,
       ),
       cursorColor: AppColors.secondary200,
+      textInputAction: textInputAction,
+      onFieldSubmitted: onFieldSubmitted,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,

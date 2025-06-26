@@ -1,7 +1,7 @@
 # ✅ Correcciones Grupo 3 – To-Do List
 
 ## 🧪 Funcionalidad y UX
-- [ ] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de input).
+- [x] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de input).
 - [x] Ajustar separación entre chip de vacantes y títulos según el Design System.
 - [x] El ícono de “list view” en la search bar debe tener funcionalidad o eliminarse.
 - [x] Implementar técnica de `debounce` en el buscador.

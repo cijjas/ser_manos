@@ -14,6 +14,9 @@ class FormBuilderAppTextField extends StatefulWidget {
     this.validator,
     this.enabled = true,
     this.onChanged,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.focusNode,
   });
 
   final String name;
@@ -25,6 +28,9 @@ class FormBuilderAppTextField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final bool enabled;
   final ValueChanged<String>? onChanged;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   @override
   State<FormBuilderAppTextField> createState() =>
@@ -87,6 +93,7 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
         _syncController(field.value);
 
         return AppTextField(
+          focusNode: widget.focusNode,
           labelText: widget.labelText,
           hintText: widget.hintText,
           helperText: widget.helperText,
@@ -99,6 +106,8 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
             field.didChange(value);
             widget.onChanged?.call(value);
           },
+          onFieldSubmitted: widget.onFieldSubmitted,
+          textInputAction: widget.textInputAction,
         );
       },
     );

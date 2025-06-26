@@ -16,7 +16,6 @@ import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/models/user.dart' as model;
 
-
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
@@ -30,6 +29,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final _nameFocus = FocusNode();
   final _surnameFocus = FocusNode();
   final _emailFocus = FocusNode();
+  final _passwordFocus = FocusNode();
 
   final ValueNotifier<bool> _canRegister = ValueNotifier(false);
   bool _isLoading = false;
@@ -62,20 +62,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   @override
   void initState() {
     super.initState();
-
-    // Disparar validacion onBlur
-    for (var fn in [_nameFocus, _surnameFocus, _emailFocus]) {
-      fn.addListener(() {
-        if (!fn.hasFocus) {
-          final name = fn == _nameFocus
-              ? 'name'
-              : fn == _surnameFocus
-              ? 'surname'
-              : 'email';
-          _formKey.currentState?.fields[name]?.validate();
-        }
-      });
-    }
   }
 
   @override
@@ -83,6 +69,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     _nameFocus.dispose();
     _surnameFocus.dispose();
     _emailFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
   }
 
@@ -94,8 +81,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
     final email = (form.fields['email']?.value ?? '') as String;
     final password = (form.fields['password']?.value ?? '') as String;
 
-    _canRegister.value =
-        name.isNotEmpty && surname.isNotEmpty && email.isNotEmpty && password.isNotEmpty;
+    _canRegister.value = name.isNotEmpty &&
+        surname.isNotEmpty &&
+        email.isNotEmpty &&
+        password.isNotEmpty;
   }
 
   Future<void> _handleRegister() async {
@@ -109,28 +98,27 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
     setState(() => _isLoading = true);
 
-    final name     = _formKey.currentState!.value['name'] as String;
-    final surname  = _formKey.currentState!.value['surname'] as String;
-    final email    = _formKey.currentState!.value['email'] as String;
+    final name = _formKey.currentState!.value['name'] as String;
+    final surname = _formKey.currentState!.value['surname'] as String;
+    final email = _formKey.currentState!.value['email'] as String;
     final password = _formKey.currentState!.value['password'] as String;
 
     try {
-      final cred = await ref.read(authServiceProvider).register(email, password);
-      final uid  = cred.user!.uid;
+      final cred =
+          await ref.read(authServiceProvider).register(email, password);
+      final uid = cred.user!.uid;
 
       final newUser = model.User(
-        id: uid,
-        nombre: name,
-        apellido: surname,
-        email: email,
-        hasSeenOnboarding: false
-      );
+          id: uid,
+          nombre: name,
+          apellido: surname,
+          email: email,
+          hasSeenOnboarding: false);
 
       await ref.read(createUserProvider(newUser).future);
       await saveFcmTokenToFirestore(uid);
 
       await ref.read(authServiceProvider).signIn(email, password);
-
     } on FirebaseAuthException catch (e) {
       // Si fallo el registro y el usuario quedó creado, lo borramos
       final current = FirebaseAuth.instance.currentUser;
@@ -152,7 +140,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         }
       });
     } catch (_) {
-      if (mounted) setState(() => _errorMessage = 'Error al registrar usuario.$_');
+      if (mounted)
+        setState(() => _errorMessage = 'Error al registrar usuario.$_');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -189,25 +178,25 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             autovalidateMode: AutovalidateMode.disabled,
                             child: Column(
                               children: [
-                                // Nombre
-                                Focus(
+                                FormBuilderAppTextField(
                                   focusNode: _nameFocus,
-                                  child: FormBuilderAppTextField(
-                                    name: 'name',
-                                    labelText: 'Nombre',
-                                    hintText: 'Ej: Juan',
-                                    keyboardType: TextInputType.name,
-                                    validator: (v) =>
-                                        _nonEmptyValidator(v, _nameFocus, 'nombre'),
-                                    onChanged: (_) => _updateCanRegister(),
-                                  ),
+                                  name: 'name',
+                                  labelText: 'Nombre',
+                                  hintText: 'Ej: Juan',
+                                  keyboardType: TextInputType.name,
+                                  validator: (v) => _nonEmptyValidator(
+                                      v, _nameFocus, 'nombre'),
+                                  onChanged: (_) => _updateCanRegister(),
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) => {
+                                    _formKey.currentState?.fields["name"]
+                                        ?.validate(),
+                                    _surnameFocus.requestFocus()
+                                  },
                                 ),
                                 const SizedBox(height: 24),
-
-                                // Apellido
-                                Focus(
-                                  focusNode: _surnameFocus,
-                                  child: FormBuilderAppTextField(
+                                FormBuilderAppTextField(
+                                    focusNode: _surnameFocus,
                                     name: 'surname',
                                     labelText: 'Apellido',
                                     hintText: 'Ej: Bárcena',
@@ -215,31 +204,37 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     validator: (v) => _nonEmptyValidator(
                                         v, _surnameFocus, 'apellido'),
                                     onChanged: (_) => _updateCanRegister(),
-                                  ),
-                                ),
+                                    textInputAction: TextInputAction.next,
+                                    onFieldSubmitted: (_) => {
+                                          _formKey
+                                              .currentState?.fields["surname"]
+                                              ?.validate(),
+                                          _emailFocus.requestFocus(),
+                                        }),
                                 const SizedBox(height: 24),
-
-                                // Email
-                                Focus(
-                                  focusNode: _emailFocus,
-                                  child: FormBuilderAppTextField(
+                                FormBuilderAppTextField(
+                                    focusNode: _emailFocus,
                                     name: 'email',
                                     labelText: 'Email',
                                     hintText: 'Ej: juan@mail.com',
                                     keyboardType: TextInputType.emailAddress,
                                     validator: _emailValidator,
                                     onChanged: (_) => _updateCanRegister(),
-                                  ),
-                                ),
+                                    textInputAction: TextInputAction.next,
+                                    onFieldSubmitted: (_) => {
+                                          _formKey.currentState?.fields["email"]
+                                              ?.validate(),
+                                          _passwordFocus.requestFocus(),
+                                        }),
                                 const SizedBox(height: 24),
-
-                                // Contraseña
                                 FormBuilderPasswordField(
+                                  focusNode: _passwordFocus,
                                   name: 'password',
                                   labelText: 'Contraseña',
                                   hintText: 'Mínimo 6 caracteres',
                                   validator: _passwordValidator,
                                   onChanged: (_) => _updateCanRegister(),
+                                  textInputAction: TextInputAction.done,
                                 ),
                               ],
                             ),
@@ -268,12 +263,14 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                   children: [
                     AppButton(
                       label: _isLoading ? 'Registrando...' : 'Registrarse',
-                      onPressed: (_isLoading || !canRegister) ? null : _handleRegister,
+                      onPressed:
+                          (_isLoading || !canRegister) ? null : _handleRegister,
                       type: AppButtonType.filled,
                     ),
                     AppButton(
                       label: 'Ya tengo cuenta',
-                      onPressed: _isLoading ? null : () => context.go(AppRoutes.login),
+                      onPressed:
+                          _isLoading ? null : () => context.go(AppRoutes.login),
                       type: AppButtonType.tonal,
                     ),
                   ],

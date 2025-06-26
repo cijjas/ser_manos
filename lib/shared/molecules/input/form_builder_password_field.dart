@@ -9,6 +9,9 @@ class FormBuilderPasswordField extends StatefulWidget {
   final FormFieldValidator<String>? validator;
   final bool enabled;
   final ValueChanged<String>? onChanged;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onFieldSubmitted;
+  final FocusNode? focusNode;
 
   const FormBuilderPasswordField({
     super.key,
@@ -18,10 +21,14 @@ class FormBuilderPasswordField extends StatefulWidget {
     this.validator,
     this.enabled = true,
     this.onChanged,
+    this.textInputAction,
+    this.onFieldSubmitted,
+    this.focusNode
   });
 
   @override
-  State<FormBuilderPasswordField> createState() => _FormBuilderPasswordFieldState();
+  State<FormBuilderPasswordField> createState() =>
+      _FormBuilderPasswordFieldState();
 }
 
 class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
@@ -57,6 +64,7 @@ class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
       builder: (field) {
         _syncController(field.value);
         return AppTextField(
+          focusNode: widget.focusNode,
           labelText: widget.labelText,
           hintText: widget.hintText,
           obscureText: _obscure,
@@ -66,6 +74,8 @@ class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
             field.didChange(value);
             if (widget.onChanged != null) widget.onChanged!(value);
           },
+          textInputAction: widget.textInputAction,
+          onFieldSubmitted: widget.onFieldSubmitted,
           validator: widget.validator,
           suffixIcon: IconButton(
             splashRadius: 20,

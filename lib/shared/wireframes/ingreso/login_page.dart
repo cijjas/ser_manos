@@ -15,7 +15,6 @@ import 'package:ser_manos/shared/atoms/symbols/app_symbol_text.dart';
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 
-
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -27,6 +26,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   /// --- Form & focus -----------------------------------------------
   final _formKey = GlobalKey<FormBuilderState>();
   final FocusNode _emailFocus = FocusNode();
+  final FocusNode _passwordFocus = FocusNode();
 
   /// --- UI state ----------------------------------------------------
   final ValueNotifier<bool> _canLogin = ValueNotifier(false);
@@ -58,17 +58,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   @override
   void initState() {
     super.initState();
-    _emailFocus.addListener(() {
-      // Cuando el email pierde el foco disparamos la validación
-      if (!_emailFocus.hasFocus) {
-        _formKey.currentState?.fields['email']?.validate();
-      }
-    });
   }
 
   @override
   void dispose() {
     _emailFocus.dispose();
+    _passwordFocus.dispose();
     super.dispose();
   }
 
@@ -139,13 +134,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
-
       appBar: const StatusBar(style: StatusBarStyle.light),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           child: Column(
-
             children: [
               // ---------- Logo & campos ----------
               Expanded(
@@ -156,8 +149,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         minHeight: MediaQuery.of(context).size.height * 0.7,
                       ),
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center, 
-                        crossAxisAlignment: CrossAxisAlignment.center, 
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           const AppSymbolText(),
                           const SizedBox(height: 32),
@@ -168,25 +161,31 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                             autovalidateMode: AutovalidateMode.disabled,
                             child: Column(
                               children: [
-                                Focus(
+                                FormBuilderAppTextField(
                                   focusNode: _emailFocus,
-                                  child: FormBuilderAppTextField(
-                                    name: 'email',
-                                    labelText: 'Email',
-                                    hintText: 'Email',
-                                    keyboardType: TextInputType.emailAddress,
-                                    validator: _emailValidator,
-                                    onChanged: (_) => _updateCanLogin(),
-                                  ),
+                                  name: 'email',
+                                  labelText: 'Email',
+                                  hintText: 'Email',
+                                  keyboardType: TextInputType.emailAddress,
+                                  validator: _emailValidator,
+                                  textInputAction: TextInputAction.next,
+                                  onFieldSubmitted: (_) {
+                                    _formKey.currentState?.fields['email']
+                                        ?.validate();
+                                    FocusScope.of(context)
+                                        .requestFocus(_passwordFocus);
+                                  },
+                                  onChanged: (_) => _updateCanLogin(),
                                 ),
                                 const SizedBox(height: 24),
-
                                 FormBuilderPasswordField(
+                                  focusNode: _passwordFocus,
                                   name: 'password',
                                   labelText: 'Contraseña',
                                   hintText: 'Contraseña',
                                   validator: _passwordValidator,
                                   onChanged: (_) => _updateCanLogin(),
+                                  textInputAction: TextInputAction.done,
                                 ),
                               ],
                             ),
@@ -206,7 +205,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
               ),
 
-
               // ---------- Botones ----------
               ValueListenableBuilder<bool>(
                 valueListenable: _canLogin,
@@ -214,9 +212,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     AppButton(
                       label:
-                      _isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión',
+                          _isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión',
                       onPressed:
-                      (_isLoading || !canLogin) ? null : _handleLogin,
+                          (_isLoading || !canLogin) ? null : _handleLogin,
                       type: AppButtonType.filled,
                     ),
                     AppButton(
