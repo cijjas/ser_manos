@@ -99,6 +99,7 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
           focusNode: widget.focusNode,
           labelText: widget.labelText,
           hintText: widget.hintText,
+          errorText: field.errorText,
           helperText: widget.helperText,
           keyboardType: widget.keyboardType,
           obscureText: widget.obscureText,

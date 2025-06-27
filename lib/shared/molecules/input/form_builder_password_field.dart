@@ -67,6 +67,7 @@ class _FormBuilderPasswordFieldState extends State<FormBuilderPasswordField> {
           focusNode: widget.focusNode,
           labelText: widget.labelText,
           hintText: widget.hintText,
+          errorText: field.errorText,
           obscureText: _obscure,
           enabled: widget.enabled,
           controller: _controller,
