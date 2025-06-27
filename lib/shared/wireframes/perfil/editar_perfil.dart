@@ -12,6 +12,7 @@ import 'package:ser_manos/constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../utils/validators/validators.dart';
 import '../../cells/cards/card_input.dart';
 import '../../cells/cards/card_foto.dart';
 import '../../tokens/colors.dart';
@@ -20,6 +21,7 @@ import '../../molecules/buttons/app_button.dart';
 import '../../molecules/input/form_builder_app_text_field.dart';
 import '../../molecules/input/form_builder_date_field.dart';
 import 'package:path/path.dart' as path;
+import 'package:flutter/services.dart';
 
 
 class EditarPerfilPage extends ConsumerStatefulWidget {
@@ -32,29 +34,16 @@ class EditarPerfilPage extends ConsumerStatefulWidget {
 class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
   final _formKey = GlobalKey<FormBuilderState>();
-  int? _sexoIndex;
-  String? _fotoUrl;
-  File? _imagenLocalParaSubir;
-  bool _subiendoAlGuardar = false;
-  User? _original;
   final _picker = ImagePicker();
 
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
 
-  @override
-  void initState() {
-    super.initState();
-    _loadUser();
-  }
-
-  @override
-  void dispose() {
-    _phoneFocus.dispose();
-    _emailFocus.dispose();
-    super.dispose();
-  }
-
+  int? _sexoIndex;
+  String? _fotoUrl;
+  File? _imagenLocalParaSubir;
+  bool _subiendoAlGuardar = false;
+  User? _original;
 
 
   Future<void> _loadUser() async {
@@ -83,6 +72,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           'email'          : user.email,
           'telefono'       : user.telefono,
           'fechaNacimiento': user.fechaNacimiento,
+          'imagenValida'   : user.imagenUrl != null,
         });
       });
     } catch (e) {
@@ -92,6 +82,19 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         );
       }
     }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  @override
+  void dispose() {
+    _phoneFocus.dispose();
+    _emailFocus.dispose();
+    super.dispose();
   }
 
 
@@ -261,6 +264,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       body: SafeArea(
         child: FormBuilder(
           key: _formKey,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          onChanged: () => setState(() {}),
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
             child: Column(
@@ -279,7 +284,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   label: 'Fecha de nacimiento',
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
-                  validator: FormBuilderValidators.required(),
+                  validator: (v) => AppValidators.required(v, label: 'fecha de nacimiento'),
                 ),
                 const SizedBox(height: 24),
                 // ───────────────── Información de perfil (género) ─────────────────
@@ -339,7 +344,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   labelText: 'Teléfono',
                   hintText: 'Ej: +5491178445459',
                   keyboardType: TextInputType.phone,
-                  validator: FormBuilderValidators.required(),
+                  validator: (v) => AppValidators.phone(v, isFocused: _phoneFocus.hasFocus),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
+                  ],
                   onFieldSubmitted: (_) => _emailFocus.requestFocus(),
                   textInputAction: TextInputAction.next,
                 ),
@@ -351,10 +359,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   labelText: 'Mail',
                   hintText: 'Ej: mimail@mail.com',
                   keyboardType: TextInputType.emailAddress,
-                  validator: FormBuilderValidators.compose([
-                    FormBuilderValidators.required(),
-                    FormBuilderValidators.email(),
-                  ]),
+                  validator: (v) => AppValidators.email(v, isFocused: _emailFocus.hasFocus),
+
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 32),
@@ -362,7 +368,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 AppButton(
                   label: 'Guardar datos',
                   isLoading: _subiendoAlGuardar,
-                  onPressed: _save,
+                  onPressed: (_subiendoAlGuardar || !(_formKey.currentState?.isValid ?? false))
+                      ? null
+                      : _save,
                   type: AppButtonType.filled,
                 ),
                 const SizedBox(height: 24),

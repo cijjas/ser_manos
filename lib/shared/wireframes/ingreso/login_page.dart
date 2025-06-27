@@ -15,6 +15,8 @@ import 'package:ser_manos/shared/atoms/symbols/app_symbol_text.dart';
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 
+import '../../../utils/validators/validators.dart';
+
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
 
@@ -35,24 +37,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool _submitPressed = false; // sólo mostramos errores de contraseña al enviar
 
   // ───────────────────────── Validators ────────────────────────────
-  String? _emailValidator(String? value) {
-    // Mientras el usuario escribe (tiene foco) no molestamos
-    if (_emailFocus.hasFocus) return null;
+  String? _emailValidator(String? value) =>
+      AppValidators.email(value, isFocused: _emailFocus.hasFocus);
 
-    final email = value?.trim() ?? '';
-    if (email.isEmpty) return 'Ingresá un email.';
-    final regexp = RegExp(r'^[\w-\.+]+@([\w-]+\.)+[\w-]{2,4}$');
-    if (!regexp.hasMatch(email)) return 'El email no es válido.';
-    return null;
-  }
-
-  String? _passwordValidator(String? value) {
-    if (!_submitPressed) return null; // Validar sólo al intentar iniciar sesión
-    final password = value ?? '';
-    if (password.isEmpty) return 'Ingresá una contraseña.';
-
-    return null;
-  }
+  String? _passwordValidator(String? value) =>
+      AppValidators.loginPassword(value, submitPressed: _submitPressed);
 
   // ───────────────────────── Lifecycle ─────────────────────────────
   @override
@@ -107,13 +96,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       setState(() {
         switch (e.code) {
           case 'user-not-found':
-            _errorMessage = 'No existe usuario con ese email.';
-            break;
           case 'wrong-password':
-            _errorMessage = 'Contraseña incorrecta.';
-            break;
           case 'invalid-credential':
-            _errorMessage = 'Credenciales inválidas.';
+            _errorMessage = 'El email o contraseña son incorrectos.';
             break;
           default:
             _errorMessage = 'Error: ${e.message}';

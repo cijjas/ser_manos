@@ -191,7 +191,13 @@ class UserService {
   // ─────────── Update genérico ───────────
   Future<User?> updateUser(User user) async {
     try {
-      await _users.doc(user.id).set(user.toJson(), SetOptions(merge: true));
+      final data = user.toJson();
+
+      if (user.voluntariados != null) {
+        data['voluntariados'] = user.voluntariados!.map((v) => v.toJson()).toList();
+      }
+
+      await _users.doc(user.id).set(data, SetOptions(merge: true));
       return user;
     } catch (e) {
       _crashlytics.recordError(
