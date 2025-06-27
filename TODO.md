@@ -13,9 +13,9 @@
 - [ ] Permitir editar datos del perfil sin necesidad de subir nueva foto.
 - [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [x] Corregir re-render de todas las cards al likear una (mejorar manejo de estado). (NO se re renderizaban, solo aparecia un loading extra del current que las sacaba de lugar)
-- [ ] Evitar mostrar errores crudos de Firebase mediante snackbars.
+- [x] Evitar mostrar errores crudos de Firebase mediante snackbars.
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
-- [ ] Reemplazar coordenadas por nombre de calle en el campo dirección.
+- [x] Reemplazar coordenadas por nombre de calle en el campo dirección.
 - [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
 - [ ] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
 - [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi

@@ -152,11 +152,6 @@ updates are reflected instantly in the UI.
   - **Developer efficiency**—a consistent pattern (stream + provider + model) is
     used across all entities.
 
-**Why Firestore:**  
-Firestore’s real-time listeners offer a scalable, fully-managed backend solution
-for real-time apps. Combined with Flutter's widget lifecycle and Riverpod's
-state management, this architecture provides a clean and reactive foundation
-that keeps the app stateful, fast, and always in sync.
 
 ### 3.2.2. Push Notifications
 
@@ -217,12 +212,13 @@ engagement and immediacy for critical events. These include:
 }
 ```
 
-**Why This Architecture:**  
-Combining **Firebase Cloud Functions** with **FCM** creates a reliable,
-event-driven backend capable of delivering personalized or broadcast
-notifications in response to Firestore activity. On the client side, deep
-integration with `go_router` and native notification tools ensures a seamless
-and responsive user experience.
+**How to test?**  
+The notifications can only be tested on android devices. As described, the backend listens for 2 types of events, to see a notification these listeners need to be triggered.
+One example is by changing the users application status to accepted or rejected via Firestore database. On the other hand to trigger the news notification a new item has to be created here are the steps:
+1. go to Firebase console
+2. click on news collection
+3. click on add document
+4. fill out with all the necessary fields for a news item (use another news item for reference)
 
 #### 3.2.3. Camera
 

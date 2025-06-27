@@ -4,6 +4,8 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 
+// TODO: SPANISH
+
 /// Estados posibles con respecto al voluntariado
 enum VoluntariadoUserState {
   available,  // hay vacantes y el usuario libre

@@ -11,6 +11,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
+import 'package:geocoding/geocoding.dart';
 
 import '../../../constants/app_routes.dart';
 import '../../../models/user.dart';
@@ -214,7 +215,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                             style: AppTypography.body01),
                         const SizedBox(height: 32),
                         _LocationCard(
-                          address: voluntariado.location.toString(),
                           location: voluntariado.location,
                         ),
                         const SizedBox(height: 32),
@@ -423,19 +423,45 @@ class _InfoWithLink extends StatelessWidget {
   }
 }
 
-class _LocationCard extends StatelessWidget {
+class _LocationCard extends StatefulWidget {
   const _LocationCard({
-    required this.address,
     required this.location,
   });
 
-  final String address;
   final LatLng location;
+
+  @override
+  State<_LocationCard> createState() => _LocationCardState();
+}
+
+class _LocationCardState extends State<_LocationCard> {
+  String? _address;
+
+  @override
+  void initState() {
+    super.initState();
+    _getAddress();
+  }
+
+  Future<void> _getAddress() async {
+    try {
+      final placemarks = await placemarkFromCoordinates(
+        widget.location.latitude,
+        widget.location.longitude,
+      );
+      final place = placemarks.first;
+      setState(() {
+        _address = '${place.street}, ${place.locality}, ${place.country}';
+      });
+    } catch (e) {
+      setState(() => _address = 'No se pudo obtener la dirección');
+    }
+  }
 
   void _openNativeMaps() {
     MapsLauncher.launchCoordinates(
-      location.latitude,
-      location.longitude,
+      widget.location.latitude,
+      widget.location.longitude,
     );
   }
 
@@ -450,26 +476,20 @@ class _LocationCard extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          // Header
           Container(
             padding: const EdgeInsets.all(12),
             color: AppColors.secondary25,
             child: const Text('Ubicación', style: AppTypography.subtitle01),
           ),
-
-          // Pressable "map" placeholder
           GestureDetector(
             onTap: _openNativeMaps,
             child: Container(
               height: 200,
               color: AppColors.neutral25,
               alignment: Alignment.center,
-              child:
-                  const Icon(Icons.map, size: 64, color: AppColors.neutral50),
+              child: const Icon(Icons.map, size: 64, color: AppColors.neutral50),
             ),
           ),
-
-          // Address section
           Container(
             color: AppColors.neutral10,
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
@@ -478,7 +498,7 @@ class _LocationCard extends StatelessWidget {
               children: [
                 const Text('Dirección', style: AppTypography.overline),
                 const SizedBox(height: 4),
-                Text(address, style: AppTypography.body01),
+                Text(_address ?? 'Cargando dirección...', style: AppTypography.body01),
               ],
             ),
           ),

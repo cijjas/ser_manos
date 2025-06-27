@@ -18,6 +18,8 @@ enum VoluntariadoStatus {
   none,
 }
 
+// TODO: SPANISH
+
 @freezed
 class Voluntariado with _$Voluntariado {
   const factory Voluntariado({

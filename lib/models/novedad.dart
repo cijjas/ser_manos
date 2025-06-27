@@ -7,6 +7,8 @@ import '../converters/timestamp_converter.dart';
 part 'novedad.freezed.dart';
 part 'novedad.g.dart';
 
+
+// TODO: SPANISH
 @freezed
 class Novedad with _$Novedad {
   const factory Novedad({

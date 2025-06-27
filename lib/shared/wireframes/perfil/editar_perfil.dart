@@ -78,7 +78,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al cargar datos del usuario: ${e.toString()}')),
+          const SnackBar(content: Text('Hubo un error al cargar los datos. Intentalo en un rato.')),
         );
       }
     }
@@ -229,10 +229,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         context.go(AppRoutes.homeProfile);
       }
 
-    } catch (e) {
+    } catch (_) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Hubo un error al guardar. Intentalo en un rato.'))
+          const SnackBar(content: Text('Hubo un error al guardar. Intentalo en un rato.')),
         );
       }
     } finally {
