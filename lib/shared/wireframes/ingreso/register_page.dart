@@ -16,6 +16,8 @@ import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/models/user.dart' as model;
 
+import '../../../utils/validators/validators.dart';
+
 class RegisterPage extends ConsumerStatefulWidget {
   const RegisterPage({super.key});
 
@@ -36,28 +38,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   String? _errorMessage;
   bool _submitPressed = false;
 
-  String? _nonEmptyValidator(String? value, FocusNode focus, String label) {
-    if (focus.hasFocus) return null; // No molestar mientras escribe
-    if ((value ?? '').trim().isEmpty) return 'Ingresá tu $label.';
-    return null;
-  }
-
-  String? _emailValidator(String? value) {
-    if (_emailFocus.hasFocus) return null;
-    final email = (value ?? '').trim();
-    if (email.isEmpty) return 'Ingresá un email.';
-    final re = RegExp(r'^[\w\-\.+]+@([\w\-]+\.)+[\w\-]{2,4}$');
-    if (!re.hasMatch(email)) return 'El formato del email no es válido.';
-    return null;
-  }
-
-  String? _passwordValidator(String? value) {
-    if (!_submitPressed) return null; // Sólo al enviar
-    final pass = value ?? '';
-    if (pass.isEmpty) return 'Ingresá una contraseña.';
-    if (pass.length < 6) return 'Debe tener al menos 6 caracteres.';
-    return null;
-  }
 
   @override
   void initState() {
@@ -140,8 +120,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
         }
       });
     } catch (_) {
-      if (mounted)
+      if (mounted) {
         setState(() => _errorMessage = 'Error al registrar usuario.$_');
+      }
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -184,9 +165,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   labelText: 'Nombre',
                                   hintText: 'Ej: Juan',
                                   keyboardType: TextInputType.name,
-                                  validator: (v) => _nonEmptyValidator(
-                                      v, _nameFocus, 'nombre'),
-                                  onChanged: (_) => _updateCanRegister(),
+                                validator: (v) => AppValidators.nonEmpty(v, isFocused: _nameFocus.hasFocus, label: 'nombre'),
+
+                                onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.next,
                                   onFieldSubmitted: (_) => {
                                     _formKey.currentState?.fields["name"]
@@ -201,8 +182,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: 'Apellido',
                                     hintText: 'Ej: Bárcena',
                                     keyboardType: TextInputType.name,
-                                    validator: (v) => _nonEmptyValidator(
-                                        v, _surnameFocus, 'apellido'),
+                                    validator: (v) => AppValidators.nonEmpty(v, isFocused: _surnameFocus.hasFocus, label: 'apellido'),
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -218,7 +198,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: 'Email',
                                     hintText: 'Ej: juan@mail.com',
                                     keyboardType: TextInputType.emailAddress,
-                                    validator: _emailValidator,
+                                    validator: (v) => AppValidators.email(v, isFocused: _emailFocus.hasFocus),
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -232,8 +212,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   name: 'password',
                                   labelText: 'Contraseña',
                                   hintText: 'Mínimo 6 caracteres',
-                                  validator: _passwordValidator,
-                                  onChanged: (_) => _updateCanRegister(),
+                                    validator: (v) => AppValidators.registerPassword(v, submitPressed: _submitPressed),
+                                    onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.done,
                                 ),
                               ],

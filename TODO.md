@@ -9,11 +9,11 @@
 - [x] Hacer que el fondo de las cards de noticias también sea un touch target.
 - [ ] Evitar doble subida de foto en la vista de completar perfil.
 - [x] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
+- [ ] Arreglar subida de fotos vía cámara en Android (error actual).
+- [ ] Permitir editar datos del perfil sin necesidad de subir nueva foto.
 - [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [x] Corregir re-render de todas las cards al likear una (mejorar manejo de estado). (NO se re renderizaban, solo aparecia un loading extra del current que las sacaba de lugar)
-- [ ] Permitir editar datos del perfil sin necesidad de subir nueva foto.
 - [ ] Evitar mostrar errores crudos de Firebase mediante snackbars.
-- [ ] Arreglar subida de fotos vía cámara en Android (error actual).
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
 - [ ] Reemplazar coordenadas por nombre de calle en el campo dirección.
 - [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo

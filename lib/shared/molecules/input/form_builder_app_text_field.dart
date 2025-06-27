@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:ser_manos/shared/molecules/input/app_text_field.dart';
 
@@ -17,6 +18,7 @@ class FormBuilderAppTextField extends StatefulWidget {
     this.textInputAction,
     this.onFieldSubmitted,
     this.focusNode,
+    this.inputFormatters,
   });
 
   final String name;
@@ -31,6 +33,7 @@ class FormBuilderAppTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onFieldSubmitted;
   final FocusNode? focusNode;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   State<FormBuilderAppTextField> createState() =>
@@ -108,6 +111,7 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
           },
           onFieldSubmitted: widget.onFieldSubmitted,
           textInputAction: widget.textInputAction,
+          inputFormatters: widget.inputFormatters,
         );
       },
     );
