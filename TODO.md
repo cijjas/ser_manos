@@ -7,10 +7,11 @@
 - [x] Implementar técnica de `debounce` en el buscador.
 - [x] Corregir animación indeseada al presionar las tabs de navegación en Android.
 - [x] Hacer que el fondo de las cards de noticias también sea un touch target.
-- [ ] Evitar doble subida de foto en la vista de completar perfil.
-- [ ] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
-- [ ] Arreglar subida de fotos vía cámara en Android (error actual).
-- [ ] Permitir editar datos del perfil sin necesidad de subir nueva foto.
+- [x] Evitar doble subida de foto en la vista de completar perfil.
+- [ ] Arreglar email validation en login y register -> Agus 
+- [x] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
+- [x] Arreglar subida de fotos vía cámara en Android (error actual).
+- [x] Permitir editar datos del perfil sin necesidad de subir nueva foto.
 - [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [x] Corregir re-render de todas las cards al likear una (mejorar manejo de estado). (NO se re renderizaban, solo aparecia un loading extra del current que las sacaba de lugar)
 - [x] Evitar mostrar errores crudos de Firebase mediante snackbars.

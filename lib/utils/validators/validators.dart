@@ -2,9 +2,6 @@
 
 class AppValidators {
   static String? email(String? value, {bool isFocused = false}) {
-    // skip if field has focus.
-    if (isFocused) return null;
-
     final email = value?.trim() ?? '';
     if (email.isEmpty) return 'Ingresá un email.';
     final regexp = RegExp(r'^[\w\-\.+]+@([\w\-]+\.)+[\w\-]{2,4}$');

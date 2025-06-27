@@ -23,7 +23,6 @@ import '../../molecules/input/form_builder_date_field.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/services.dart';
 
-
 class EditarPerfilPage extends ConsumerStatefulWidget {
   const EditarPerfilPage({super.key});
 
@@ -32,7 +31,6 @@ class EditarPerfilPage extends ConsumerStatefulWidget {
 }
 
 class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
-
   final _formKey = GlobalKey<FormBuilderState>();
   final _picker = ImagePicker();
 
@@ -45,45 +43,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   bool _subiendoAlGuardar = false;
   User? _original;
 
-
-  Future<void> _loadUser() async {
-    final fbUser = ref.read(authStateProvider).maybeWhen(
-      data: (u) => u,
-      orElse: () => null,
-    );
-    if (fbUser == null) return;
-
-    try {
-      final user = await ref.read(currentUserProvider.future);
-      if (!mounted) return;
-
-      setState(() {
-        _original  = user;
-        _sexoIndex = user.genero != null
-            ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
-            : null;
-        _fotoUrl   = user.imagenUrl;
-      });
-
-      // ──> defer the patch until the current frame is finished
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        _formKey.currentState?.patchValue({
-          'email'          : user.email,
-          'telefono'       : user.telefono,
-          'fechaNacimiento': user.fechaNacimiento,
-          'imagenValida'   : user.imagenUrl != null,
-        });
-      });
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hubo un error al cargar los datos. Intentalo en un rato.')),
-        );
-      }
-    }
-  }
-
   @override
   void initState() {
     super.initState();
@@ -95,6 +54,75 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     _phoneFocus.dispose();
     _emailFocus.dispose();
     super.dispose();
+  }
+
+  Map<String, dynamic>? _initialFormValues;
+
+  bool get _hasChanges {
+    if (_initialFormValues == null) {
+      return true;
+    }
+    if (_original == null) return false;
+    final current = _formKey.currentState?.value ?? {};
+    if (current['email']?.trim() != _initialFormValues!['email']?.trim()) {
+      return true;
+    }
+    if (current['telefono']?.trim() != _initialFormValues!['telefono']?.trim()) {
+      return true;
+    }
+    if (current['fechaNacimiento'] != _initialFormValues!['fechaNacimiento']) {
+      return true;
+    }
+    final generoActual = (_sexoIndex != null)
+        ? ['Hombre', 'Mujer', 'No binario'][_sexoIndex!]
+        : null;
+    if (generoActual != _initialFormValues!['genero']) return true;
+    if (_imagenLocalParaSubir != null) return true;
+    return false;
+  }
+
+  Future<void> _loadUser() async {
+    final fbUser = ref.read(authStateProvider).maybeWhen(
+          data: (u) => u,
+          orElse: () => null,
+        );
+    if (fbUser == null) return;
+
+    try {
+      final user = await ref.read(currentUserProvider.future);
+      if (!mounted) return;
+
+      setState(() {
+        _original = user;
+        _sexoIndex = user.genero != null
+            ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
+            : null;
+        _fotoUrl = user.imagenUrl;
+      });
+
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+        _formKey.currentState!.patchValue({
+          'email': user.email,
+          'telefono': user.telefono,
+          'fechaNacimiento': user.fechaNacimiento,
+          'imagenValida'   : user.imagenUrl != null,
+        });
+        _initialFormValues = {
+          'email': user.email,
+          'telefono': user.telefono,
+          'fechaNacimiento': user.fechaNacimiento,
+          'genero': user.genero,
+          'imagenUrl': user.imagenUrl,
+        };
+      });
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Hubo un error al cargar los datos. Intentalo en un rato.')),
+        );
+      }
+    }
   }
 
 
@@ -125,11 +153,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       ),
     );
 
-    if (source != null) _seleccionarImagenLocal(source);
+    if (source != null) await _seleccionarImagenLocal(source);
   }
 
   Future<void> _seleccionarImagenLocal(ImageSource source) async {
-
     final picked = await _picker.pickImage(
       source: source,
       imageQuality: 75,
@@ -155,7 +182,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
 
     setState(() => _imagenLocalParaSubir = savedImage);
-
   }
 
   Future<void> _save() async {
@@ -165,9 +191,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
     final values = _formKey.currentState!.value;
     final fbUser = ref.read(authStateProvider).maybeWhen(
-      data: (u) => u,
-      orElse: () => null,
-    );
+          data: (u) => u,
+          orElse: () => null,
+        );
 
     if (fbUser == null || _original == null) {
       return;
@@ -177,12 +203,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
     String? urlImagenFinalParaGuardar = _fotoUrl;
 
-
     try {
       if (_imagenLocalParaSubir != null) {
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
+        final storageRef = FirebaseStorage.instance.ref().child(
+            'profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
         final metadata = SettableMetadata(contentType: 'image/jpeg');
         final bytes = await _imagenLocalParaSubir!.readAsBytes();
         final snapshot = await storageRef.putData(bytes, metadata);
@@ -228,8 +252,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         // Fallback for cases where the page can't be popped (e.g., deep link).
         context.go(AppRoutes.homeProfile);
       }
-
-    } catch (_) {
+    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Hubo un error al guardar. Intentalo en un rato.')),
@@ -242,8 +265,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -254,8 +275,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           onPressed: _subiendoAlGuardar
               ? null
               : () => context.canPop()
-              ? context.pop()
-              : context.go(AppRoutes.homeProfile),
+                  ? context.pop()
+                  : context.go(AppRoutes.homeProfile),
         ),
         elevation: 0,
         backgroundColor: AppColors.neutral0,
@@ -264,8 +285,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       body: SafeArea(
         child: FormBuilder(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          onChanged: () => setState(() {}),
+          onChanged: () => {_formKey.currentState?.save(), setState(() {})},
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
             child: Column(
@@ -284,7 +304,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   label: 'Fecha de nacimiento',
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
-                  validator: (v) => AppValidators.required(v, label: 'fecha de nacimiento'),
+                  validator: (v) => AppValidators.required(v, label: 'fecha de nacimiento')
                 ),
                 const SizedBox(height: 24),
                 // ───────────────── Información de perfil (género) ─────────────────
@@ -300,8 +320,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 // ───────────────── Foto de perfil ─────────────────
                 FormBuilderField<bool>(
                   name: 'imagenValida',
-                  initialValue: _fotoUrl != null || _imagenLocalParaSubir != null,
-                  validator: FormBuilderValidators.equal(true, errorText: 'Selecciona una foto de perfil'),
+                  initialValue:
+                      _fotoUrl != null || _imagenLocalParaSubir != null,
+                  validator: FormBuilderValidators.equal(true,
+                      errorText: 'Selecciona una foto de perfil'),
                   builder: (field) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -313,7 +335,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                           onChange: () async {
                             await _showImageSourceSelector();
                             // After selecting imag notify FormBuilder
-                            field.didChange(_fotoUrl != null || _imagenLocalParaSubir != null);
+                            print(_fotoUrl);
+                            print(_imagenLocalParaSubir);
+                            field.didChange(_fotoUrl != null ||
+                                _imagenLocalParaSubir != null);
                           },
                         ),
                         if (field.hasError)
@@ -348,7 +373,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                   ],
-                  onFieldSubmitted: (_) => _emailFocus.requestFocus(),
+                  onFieldSubmitted: (_) {
+                    _formKey.currentState?.fields['telefono']?.validate();
+                    _emailFocus.requestFocus();
+                  },
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 24),
@@ -360,7 +388,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   hintText: 'Ej: mimail@mail.com',
                   keyboardType: TextInputType.emailAddress,
                   validator: (v) => AppValidators.email(v, isFocused: _emailFocus.hasFocus),
-
+                  onFieldSubmitted: (_) {
+                    _formKey.currentState?.fields['email']?.validate();
+                  },
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 32),
@@ -368,9 +398,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 AppButton(
                   label: 'Guardar datos',
                   isLoading: _subiendoAlGuardar,
-                  onPressed: (_subiendoAlGuardar || !(_formKey.currentState?.isValid ?? false))
-                      ? null
-                      : _save,
+                  onPressed: _hasChanges && !_subiendoAlGuardar && (_formKey.currentState?.isValid ?? false)  ? _save : null,
                   type: AppButtonType.filled,
                 ),
                 const SizedBox(height: 24),
