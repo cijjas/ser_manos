@@ -232,7 +232,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al guardar: ${e.toString()}')),
+            const SnackBar(content: Text('Hubo un error al guardar. Intentalo en un rato.'))
         );
       }
     } finally {
