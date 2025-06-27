@@ -43,10 +43,26 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   bool _subiendoAlGuardar = false;
   User? _original;
 
+  @override
+  void initState() {
+    super.initState();
+    _loadUser();
+  }
+
+  @override
+  void dispose() {
+    _phoneFocus.dispose();
+    _emailFocus.dispose();
+    super.dispose();
+  }
+
   Map<String, dynamic>? _initialFormValues;
 
   bool get _hasChanges {
-    if (_original == null || _initialFormValues == null) return false;
+    if (_initialFormValues == null) {
+      return true;
+    }
+    if (_original == null) return false;
     final current = _formKey.currentState?.value ?? {};
     if (current['email']?.trim() != _initialFormValues!['email']?.trim()) {
       return true;
@@ -139,7 +155,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       ),
     );
 
-    if (source != null) _seleccionarImagenLocal(source);
+    if (source != null) await _seleccionarImagenLocal(source);
   }
 
   Future<void> _seleccionarImagenLocal(ImageSource source) async {
@@ -271,7 +287,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       body: SafeArea(
         child: FormBuilder(
           key: _formKey,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
           onChanged: () => {_formKey.currentState?.save(), setState(() {})},
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
@@ -291,7 +306,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   label: 'Fecha de nacimiento',
                   firstDate: DateTime(1900),
                   lastDate: DateTime.now(),
-                  validator: (v) => AppValidators.required(v, label: 'fecha de nacimiento'),
+                  validator: (v) => AppValidators.required(v, label: 'fecha de nacimiento')
                 ),
                 const SizedBox(height: 24),
                 // ───────────────── Información de perfil (género) ─────────────────
@@ -322,6 +337,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                           onChange: () async {
                             await _showImageSourceSelector();
                             // After selecting imag notify FormBuilder
+                            print(_fotoUrl);
+                            print(_imagenLocalParaSubir);
                             field.didChange(_fotoUrl != null ||
                                 _imagenLocalParaSubir != null);
                           },
@@ -358,7 +375,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                   ],
-                  onFieldSubmitted: (_) => _emailFocus.requestFocus(),
+                  onFieldSubmitted: (_) {
+                    _formKey.currentState?.fields['telefono']?.validate();
+                    _emailFocus.requestFocus();
+                  },
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 24),
@@ -370,7 +390,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   hintText: 'Ej: mimail@mail.com',
                   keyboardType: TextInputType.emailAddress,
                   validator: (v) => AppValidators.email(v, isFocused: _emailFocus.hasFocus),
-
+                  onFieldSubmitted: (_) {
+                    _formKey.currentState?.fields['email']?.validate();
+                  },
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 32),
