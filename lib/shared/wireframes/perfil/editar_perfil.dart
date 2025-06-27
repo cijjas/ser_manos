@@ -21,7 +21,6 @@ import '../../molecules/input/form_builder_app_text_field.dart';
 import '../../molecules/input/form_builder_date_field.dart';
 import 'package:path/path.dart' as path;
 
-
 class EditarPerfilPage extends ConsumerStatefulWidget {
   const EditarPerfilPage({super.key});
 
@@ -30,7 +29,6 @@ class EditarPerfilPage extends ConsumerStatefulWidget {
 }
 
 class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
-
   final _formKey = GlobalKey<FormBuilderState>();
   int? _sexoIndex;
   String? _fotoUrl;
@@ -55,13 +53,33 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     super.dispose();
   }
 
+  Map<String, dynamic>? _initialFormValues;
 
+  bool get _hasChanges {
+    if (_original == null || _initialFormValues == null) return false;
+    final current = _formKey.currentState?.value ?? {};
+    if (current['email']?.trim() != _initialFormValues!['email']?.trim()) {
+      return true;
+    }
+    if (current['telefono']?.trim() != _initialFormValues!['telefono']?.trim()) {
+      return true;
+    }
+    if (current['fechaNacimiento'] != _initialFormValues!['fechaNacimiento']) {
+      return true;
+    }
+    final generoActual = (_sexoIndex != null)
+        ? ['Hombre', 'Mujer', 'No binario'][_sexoIndex!]
+        : null;
+    if (generoActual != _initialFormValues!['genero']) return true;
+    if (_imagenLocalParaSubir != null) return true;
+    return false;
+  }
 
   Future<void> _loadUser() async {
     final fbUser = ref.read(authStateProvider).maybeWhen(
-      data: (u) => u,
-      orElse: () => null,
-    );
+          data: (u) => u,
+          orElse: () => null,
+        );
     if (fbUser == null) return;
 
     try {
@@ -69,31 +87,38 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       if (!mounted) return;
 
       setState(() {
-        _original  = user;
+        _original = user;
         _sexoIndex = user.genero != null
             ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
             : null;
-        _fotoUrl   = user.imagenUrl;
+        _fotoUrl = user.imagenUrl;
       });
 
-      // ──> defer the patch until the current frame is finished
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
-        _formKey.currentState?.patchValue({
-          'email'          : user.email,
-          'telefono'       : user.telefono,
+        _formKey.currentState!.patchValue({
+          'email': user.email,
+          'telefono': user.telefono,
           'fechaNacimiento': user.fechaNacimiento,
         });
+        _initialFormValues = {
+          'email': user.email,
+          'telefono': user.telefono,
+          'fechaNacimiento': user.fechaNacimiento,
+          'genero': user.genero,
+          'imagenUrl': user.imagenUrl,
+        };
       });
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al cargar datos del usuario: ${e.toString()}')),
+          SnackBar(
+              content:
+                  Text('Error al cargar datos del usuario: ${e.toString()}')),
         );
       }
     }
   }
-
 
   Future<void> _showImageSourceSelector() async {
     if (_subiendoAlGuardar) return;
@@ -126,7 +151,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   }
 
   Future<void> _seleccionarImagenLocal(ImageSource source) async {
-
     final picked = await _picker.pickImage(
       source: source,
       imageQuality: 75,
@@ -152,7 +176,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
 
     setState(() => _imagenLocalParaSubir = savedImage);
-
   }
 
   Future<void> _save() async {
@@ -162,9 +185,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
     final values = _formKey.currentState!.value;
     final fbUser = ref.read(authStateProvider).maybeWhen(
-      data: (u) => u,
-      orElse: () => null,
-    );
+          data: (u) => u,
+          orElse: () => null,
+        );
 
     if (fbUser == null || _original == null) {
       return;
@@ -174,12 +197,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
 
     String? urlImagenFinalParaGuardar = _fotoUrl;
 
-
     try {
       if (_imagenLocalParaSubir != null) {
-        final storageRef = FirebaseStorage.instance
-            .ref()
-            .child('profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
+        final storageRef = FirebaseStorage.instance.ref().child(
+            'profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
         final metadata = SettableMetadata(contentType: 'image/jpeg');
         final bytes = await _imagenLocalParaSubir!.readAsBytes();
         final snapshot = await storageRef.putData(bytes, metadata);
@@ -225,7 +246,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         // Fallback for cases where the page can't be popped (e.g., deep link).
         context.go(AppRoutes.homeProfile);
       }
-
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -239,8 +259,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     }
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -251,8 +269,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           onPressed: _subiendoAlGuardar
               ? null
               : () => context.canPop()
-              ? context.pop()
-              : context.go(AppRoutes.homeProfile),
+                  ? context.pop()
+                  : context.go(AppRoutes.homeProfile),
         ),
         elevation: 0,
         backgroundColor: AppColors.neutral0,
@@ -261,6 +279,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       body: SafeArea(
         child: FormBuilder(
           key: _formKey,
+          onChanged: () => {_formKey.currentState?.save(), setState(() {})},
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
             child: Column(
@@ -295,8 +314,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 // ───────────────── Foto de perfil ─────────────────
                 FormBuilderField<bool>(
                   name: 'imagenValida',
-                  initialValue: _fotoUrl != null || _imagenLocalParaSubir != null,
-                  validator: FormBuilderValidators.equal(true, errorText: 'Selecciona una foto de perfil'),
+                  initialValue:
+                      _fotoUrl != null || _imagenLocalParaSubir != null,
+                  validator: FormBuilderValidators.equal(true,
+                      errorText: 'Selecciona una foto de perfil'),
                   builder: (field) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -308,7 +329,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                           onChange: () async {
                             await _showImageSourceSelector();
                             // After selecting imag notify FormBuilder
-                            field.didChange(_fotoUrl != null || _imagenLocalParaSubir != null);
+                            field.didChange(_fotoUrl != null ||
+                                _imagenLocalParaSubir != null);
                           },
                         ),
                         if (field.hasError)
@@ -362,7 +384,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 AppButton(
                   label: 'Guardar datos',
                   isLoading: _subiendoAlGuardar,
-                  onPressed: _save,
+                  onPressed: _hasChanges && !_subiendoAlGuardar ? _save : null,
                   type: AppButtonType.filled,
                 ),
                 const SizedBox(height: 24),

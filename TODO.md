@@ -8,7 +8,7 @@
 - [x] Corregir animación indeseada al presionar las tabs de navegación en Android.
 - [x] Hacer que el fondo de las cards de noticias también sea un touch target.
 - [ ] Evitar doble subida de foto en la vista de completar perfil.
-- [ ] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
+- [x] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
 - [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [x] Corregir re-render de todas las cards al likear una (mejorar manejo de estado). (NO se re renderizaban, solo aparecia un loading extra del current que las sacaba de lugar)
 - [ ] Permitir editar datos del perfil sin necesidad de subir nueva foto.
