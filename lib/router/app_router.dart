@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/wireframes/error/error_page.dart';
-import 'package:ser_manos/shared/wireframes/home/voluntariados_page.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
 import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
@@ -17,6 +16,7 @@ import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/editar_perfil.dart';
 import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/voluntariados/voluntariado_detail.dart';
+import '../shared/wireframes/voluntariados/voluntariados_page.dart';
 import 'go_router_observer.dart';
 
 int tabIndexFromLocation(String loc) {

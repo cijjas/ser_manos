@@ -19,6 +19,7 @@
 - [x] Evitar mostrar errores crudos de Firebase mediante snackbars.
 - [x] Reemplazar coordenadas por nombre de calle en el campo dirección.
 - [x] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
+- [x] Mostrar voluntariado en actividad luego de postularse y ser confirmado.
 
 ## 🧾 Documentación
 - [ ] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.

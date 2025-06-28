@@ -8,7 +8,7 @@ import 'package:ser_manos/shared/tokens/colors.dart';
 
 // Ensure these import paths match your project structure.
 // These files will contain the refactored/new widgets.
-import 'package:ser_manos/shared/wireframes/home/voluntariado_list.dart';
+import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_list.dart';
 
 import '../../../constants/app_routes.dart';
 import '../../../providers/user_provider.dart';

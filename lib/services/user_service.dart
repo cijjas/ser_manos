@@ -156,7 +156,7 @@ class UserService {
   Stream<UserVoluntariado?> watchParticipating(String userId) {
     return _users.doc(userId).snapshots().map((doc) =>
         User.fromJson(doc.data()!).voluntariados?.firstWhereOrNull(
-                (v) => v.estado == VoluntariadoUserState.accepted));
+                (v) => v.estado == VoluntariadoUserState.accepted || v.estado == VoluntariadoUserState.pending));
   }
 
   Stream<User> watchOne(String id) {

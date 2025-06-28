@@ -10,9 +10,8 @@ import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/models/user.dart';
 import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/providers/user_provider.dart';
-import 'package:ser_manos/providers/home_providers.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
-import 'package:ser_manos/shared/wireframes/home/voluntariados_page.dart';
+import 'package:ser_manos/shared/wireframes/voluntariados/voluntariados_page.dart';
 
 import '../../mocks/mocks.mocks.dart';
 
