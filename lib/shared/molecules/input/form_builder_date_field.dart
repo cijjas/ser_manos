@@ -22,7 +22,6 @@ class FormBuilderDateField extends StatelessWidget {
     this.validator,
   });
 
-  // In FormBuilderDateField
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +63,7 @@ class FormBuilderDateField extends StatelessWidget {
             );
             if (picked != null) {
               field.didChange(picked);
-              field.validate(); // Force validation immediately
+              field.validate(); // Force validation
             }
           },
         );
