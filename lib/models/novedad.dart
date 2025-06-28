@@ -1,6 +1,7 @@
 // models/novedad.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:ser_manos/converters/trim_converter.dart';
 
 import '../converters/timestamp_converter.dart';
 
@@ -28,8 +29,7 @@ class Novedad with _$Novedad {
     required String titulo,
     required String resumen,
     required String emisor,
-    @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl)
-    required String imagenUrl,
+    @TrimConverter() required String imagenUrl,
     required String descripcion,
     @TimestampConverter() required DateTime createdAt,
   }) = _Novedad;
