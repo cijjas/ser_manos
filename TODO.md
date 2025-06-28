@@ -17,7 +17,7 @@
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
 - [x] Reemplazar coordenadas por nombre de calle en el campo dirección.
 - [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
-- [ ] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
+- [x] Manejar error 503 al subir imagen de voluntariado. -> No es error del link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
 - [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> No la entendi
 
 ## 🧾 Documentación
