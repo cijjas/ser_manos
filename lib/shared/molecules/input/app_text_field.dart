@@ -8,6 +8,7 @@ class AppTextField extends StatelessWidget {
   // ───────── Config ─────────
   final String labelText;
   final String hintText;
+  final String? errorText;
   final String? helperText;
 
   final TextEditingController? controller;
@@ -33,6 +34,7 @@ class AppTextField extends StatelessWidget {
     required this.labelText,
     this.hintText = '',
     this.helperText,
+    this.errorText,
     this.controller,
     this.onChanged,
     this.keyboardType = TextInputType.text,
@@ -59,7 +61,7 @@ class AppTextField extends StatelessWidget {
       keyboardType: keyboardType,
       obscureText: obscureText,
       validator: validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
+      autovalidateMode: AutovalidateMode.disabled,
       enabled: enabled,
       readOnly: readOnly,
       onTap: onTap,
@@ -74,6 +76,7 @@ class AppTextField extends StatelessWidget {
         labelText: labelText,
         hintText: hintText,
         helperText: helperText,
+        errorText: errorText,
         floatingLabelBehavior: labelBehavior,
 
         // ─ Texto ─

@@ -39,6 +39,7 @@ class FormBuilderDateField extends StatelessWidget {
         return AppTextField(
           labelText: label,
           hintText: 'DD/MM/YYYY',
+          errorText: field.errorText,
           controller: controller,
           readOnly: true,
           validator: validator,

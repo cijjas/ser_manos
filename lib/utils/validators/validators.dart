@@ -40,7 +40,6 @@ class AppValidators {
   }
 
   static String? phone(String? value, {bool isFocused = false}) {
-    if (isFocused) return null;
     final v = value?.trim() ?? '';
     if (v.isEmpty) return 'Ingresá tu teléfono.';
     final isValid = RegExp(r'^\+?\d{6,15}$').hasMatch(v);

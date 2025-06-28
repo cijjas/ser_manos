@@ -114,8 +114,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   // ───────────────────────── Build ─────────────────────────────────
   @override
   Widget build(BuildContext context) {
-    // Escuchamos authState sólo para forzar rebuilds si hiciera falta
-    ref.watch(authStateProvider);
+
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
@@ -143,7 +142,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           /// ---------------- FORM ----------------
                           FormBuilder(
                             key: _formKey,
-                            autovalidateMode: AutovalidateMode.disabled,
+                            autovalidateMode: AutovalidateMode.onUnfocus,
                             child: Column(
                               children: [
                                 FormBuilderAppTextField(
