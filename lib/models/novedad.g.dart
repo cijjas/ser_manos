@@ -12,7 +12,7 @@ _$NovedadImpl _$$NovedadImplFromJson(Map<String, dynamic> json) =>
       titulo: json['titulo'] as String,
       resumen: json['resumen'] as String,
       emisor: json['emisor'] as String,
-      imagenUrl: json['imagenUrl'] as String,
+      imagenUrl: _sanitizeUrl(json['imagenUrl'] as String),
       descripcion: json['descripcion'] as String,
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
@@ -24,7 +24,7 @@ Map<String, dynamic> _$$NovedadImplToJson(_$NovedadImpl instance) =>
       'titulo': instance.titulo,
       'resumen': instance.resumen,
       'emisor': instance.emisor,
-      'imagenUrl': instance.imagenUrl,
+      'imagenUrl': _sanitizeUrl(instance.imagenUrl),
       'descripcion': instance.descripcion,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

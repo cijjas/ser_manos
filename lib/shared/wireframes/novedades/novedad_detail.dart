@@ -1,3 +1,4 @@
+// Your NovedadDetail page
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -37,7 +38,9 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
       // 1. Descargar la imagen
       final response = await http.get(Uri.parse(novedad.imagenUrl));
       if (response.statusCode != 200) {
-        throw Exception('No se pudo descargar la imagen');
+        // Provide more specific error if image download fails
+        throw Exception(
+            'Failed to download image. Status code: ${response.statusCode}');
       }
 
       // 2. Guardarla en un directorio temporal
@@ -50,8 +53,16 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
       await Share.shareXFiles([XFile(file.path)], text: text);
     } catch (e) {
       if (mounted) {
+        // Show a more user-friendly error message
+        String errorMessage = 'Error al compartir la novedad.';
+        if (e is Exception) {
+          errorMessage += ' ${e.toString().replaceFirst('Exception: ', '')}';
+        } else {
+          errorMessage += ' $e';
+        }
+
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error al compartir la novedad: $e')),
+          SnackBar(content: Text(errorMessage)),
         );
       }
     } finally {
@@ -83,11 +94,26 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                     const SizedBox(height: 16),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(6),
-                      child: Image.network(
-                        novedad.imagenUrl,
+                      child: SizedBox(
                         height: 160,
                         width: double.infinity,
-                        fit: BoxFit.cover,
+                        child: Image.network(
+                          // Using the already sanitized URL from the model
+                          novedad.imagenUrl,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) => Container(
+                            width: double.infinity,
+                            height: 160,
+                            color: AppColors.neutral10,
+                            child: const Center(
+                              child: Icon(Icons.broken_image, size: 64, color: Colors.grey),
+                            ),
+                          ),
+                          loadingBuilder: (context, child, loadingProgress) {
+                            if (loadingProgress == null) return child;
+                            return const Center(child: CircularProgressIndicator());
+                          },
+                        ),
                       ),
                     ),
                     const SizedBox(height: 16),

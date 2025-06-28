@@ -189,6 +189,15 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                     child: Image.network(
                       voluntariado.imageUrl,
                       fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Container(
+                        color: AppColors.neutral10,
+                        alignment: Alignment.center,
+                        child: const Icon(Icons.broken_image, size: 64, color: Colors.grey),
+                      ),
+                      loadingBuilder: (context, child, loadingProgress) {
+                        if (loadingProgress == null) return child;
+                        return const Center(child: CircularProgressIndicator());
+                      },
                     ),
                   ),
                   const SizedBox(height: 24),

@@ -24,6 +24,7 @@ mixin _$Novedad {
   String get titulo => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
   String get emisor => throw _privateConstructorUsedError;
+  @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl)
   String get imagenUrl => throw _privateConstructorUsedError;
   String get descripcion => throw _privateConstructorUsedError;
   @TimestampConverter()
@@ -48,7 +49,7 @@ abstract class $NovedadCopyWith<$Res> {
       String titulo,
       String resumen,
       String emisor,
-      String imagenUrl,
+      @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl) String imagenUrl,
       String descripcion,
       @TimestampConverter() DateTime createdAt});
 }
@@ -121,7 +122,7 @@ abstract class _$$NovedadImplCopyWith<$Res> implements $NovedadCopyWith<$Res> {
       String titulo,
       String resumen,
       String emisor,
-      String imagenUrl,
+      @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl) String imagenUrl,
       String descripcion,
       @TimestampConverter() DateTime createdAt});
 }
@@ -188,6 +189,7 @@ class _$NovedadImpl implements _Novedad {
       required this.titulo,
       required this.resumen,
       required this.emisor,
+      @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl)
       required this.imagenUrl,
       required this.descripcion,
       @TimestampConverter() required this.createdAt});
@@ -204,6 +206,7 @@ class _$NovedadImpl implements _Novedad {
   @override
   final String emisor;
   @override
+  @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl)
   final String imagenUrl;
   @override
   final String descripcion;
@@ -260,6 +263,7 @@ abstract class _Novedad implements Novedad {
       required final String titulo,
       required final String resumen,
       required final String emisor,
+      @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl)
       required final String imagenUrl,
       required final String descripcion,
       @TimestampConverter() required final DateTime createdAt}) = _$NovedadImpl;
@@ -275,6 +279,7 @@ abstract class _Novedad implements Novedad {
   @override
   String get emisor;
   @override
+  @JsonKey(fromJson: _sanitizeUrl, toJson: _sanitizeUrl)
   String get imagenUrl;
   @override
   String get descripcion;

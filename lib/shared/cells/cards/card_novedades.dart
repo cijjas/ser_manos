@@ -33,7 +33,18 @@ class CardNovedades extends StatelessWidget {
             SizedBox(
               width: 118,
               height: 156,
-              child: Image.network(novedad.imagenUrl, fit: BoxFit.cover),
+              child: Image.network(
+                novedad.imagenUrl,
+                fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) => Container(
+                  color: AppColors.neutral10,
+                  child: const Icon(Icons.broken_image, size: 48, color: Colors.grey),
+                ),
+                loadingBuilder: (context, child, loadingProgress) {
+                  if (loadingProgress == null) return child;
+                  return const Center(child: CircularProgressIndicator());
+                },
+              ),
             ),
             Expanded(
               child: Padding(
