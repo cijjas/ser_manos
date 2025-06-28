@@ -14,7 +14,7 @@ _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
       vacantes: (json['vacantes'] as num).toInt(),
       location:
           const GeoPointConverter().fromJson(json['location'] as GeoPoint),
-      imageUrl: json['imageUrl'] as String,
+      imageUrl: const TrimConverter().fromJson(json['imageUrl']),
       descripcion: json['descripcion'] as String,
       resumen: json['resumen'] as String,
       requisitos: json['requisitos'] as String,
@@ -29,7 +29,7 @@ Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
       'tipo': instance.tipo,
       'vacantes': instance.vacantes,
       'location': const GeoPointConverter().toJson(instance.location),
-      'imageUrl': instance.imageUrl,
+      'imageUrl': const TrimConverter().toJson(instance.imageUrl),
       'descripcion': instance.descripcion,
       'resumen': instance.resumen,
       'requisitos': instance.requisitos,

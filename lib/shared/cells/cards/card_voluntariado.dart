@@ -39,7 +39,19 @@ class CardVoluntariado extends StatelessWidget {
           SizedBox(
             width: double.infinity,
             height: 138,
-            child: Image.network(voluntariado.imageUrl, fit: BoxFit.cover),
+            child: Image.network(
+              voluntariado.imageUrl,
+              fit: BoxFit.cover,
+              errorBuilder: (context, error, stackTrace) => Container(
+                color: AppColors.neutral10,
+                alignment: Alignment.center,
+                child: const Icon(Icons.broken_image, size: 64, color: Colors.grey),
+              ),
+              loadingBuilder: (context, child, loadingProgress) {
+                if (loadingProgress == null) return child;
+                return const Center(child: CircularProgressIndicator());
+              },
+            ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 16),

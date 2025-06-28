@@ -1,7 +1,7 @@
-// CardNovedades
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/models/novedad.dart';
+
 import '../../../constants/app_routes.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
@@ -33,7 +33,7 @@ class CardNovedades extends StatelessWidget {
             SizedBox(
               width: 118,
               height: 156,
-              child: Image.network(novedad.imagenUrl, fit: BoxFit.cover),
+              child: _NovedadImage(url: novedad.imagenUrl),
             ),
             Expanded(
               child: Padding(
@@ -83,6 +83,46 @@ class CardNovedades extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class _NovedadImage extends StatelessWidget {
+  final String url;
+
+  const _NovedadImage({required this.url});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: [
+        Container(color: AppColors.neutral10),
+        Image.network(
+          url,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) => Container(
+            color: AppColors.neutral10,
+            child: const Icon(Icons.broken_image, size: 48, color: Colors.grey),
+          ),
+          loadingBuilder: (context, child, loadingProgress) {
+            if (loadingProgress == null) {
+              return AnimatedOpacity(
+                opacity: 1,
+                duration: const Duration(milliseconds: 300),
+                child: child,
+              );
+            }
+            return const Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
+            );
+          },
+        ),
+      ],
     );
   }
 }

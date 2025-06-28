@@ -2,6 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:ser_manos/converters/geoPoint_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:ser_manos/converters/trim_converter.dart';
 
 import '../converters/timestamp_converter.dart';
 
@@ -18,8 +19,6 @@ enum VoluntariadoStatus {
   none,
 }
 
-// TODO: SPANISH
-
 @freezed
 class Voluntariado with _$Voluntariado {
   const factory Voluntariado({
@@ -28,7 +27,7 @@ class Voluntariado with _$Voluntariado {
     required String tipo,
     required int vacantes,
     @GeoPointConverter() required LatLng location,
-    required String imageUrl,
+    @TrimConverter() required String imageUrl,
     required String descripcion,
     required String resumen,
     required String requisitos,

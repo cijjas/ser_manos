@@ -26,6 +26,7 @@ mixin _$Voluntariado {
   int get vacantes => throw _privateConstructorUsedError;
   @GeoPointConverter()
   LatLng get location => throw _privateConstructorUsedError;
+  @TrimConverter()
   String get imageUrl => throw _privateConstructorUsedError;
   String get descripcion => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
@@ -55,7 +56,7 @@ abstract class $VoluntariadoCopyWith<$Res> {
       String tipo,
       int vacantes,
       @GeoPointConverter() LatLng location,
-      String imageUrl,
+      @TrimConverter() String imageUrl,
       String descripcion,
       String resumen,
       String requisitos,
@@ -147,7 +148,7 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
       String tipo,
       int vacantes,
       @GeoPointConverter() LatLng location,
-      String imageUrl,
+      @TrimConverter() String imageUrl,
       String descripcion,
       String resumen,
       String requisitos,
@@ -232,7 +233,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
       required this.tipo,
       required this.vacantes,
       @GeoPointConverter() required this.location,
-      required this.imageUrl,
+      @TrimConverter() required this.imageUrl,
       required this.descripcion,
       required this.resumen,
       required this.requisitos,
@@ -253,6 +254,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
   @GeoPointConverter()
   final LatLng location;
   @override
+  @TrimConverter()
   final String imageUrl;
   @override
   final String descripcion;
@@ -320,7 +322,7 @@ abstract class _Voluntariado implements Voluntariado {
           required final String tipo,
           required final int vacantes,
           @GeoPointConverter() required final LatLng location,
-          required final String imageUrl,
+          @TrimConverter() required final String imageUrl,
           required final String descripcion,
           required final String resumen,
           required final String requisitos,
@@ -342,6 +344,7 @@ abstract class _Voluntariado implements Voluntariado {
   @GeoPointConverter()
   LatLng get location;
   @override
+  @TrimConverter()
   String get imageUrl;
   @override
   String get descripcion;
