@@ -12,32 +12,32 @@ class AppTab extends StatelessWidget {
     super.key,
     required this.label,
     this.onTap,
-    this.isSelected = false, // Default to not selected
+    this.isSelected = false,
   });
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Colors.white, // White background for the margin
+      color: Colors.white,
       child: MaterialButton(
-        onPressed: onTap, // Trigger the external state change
+        onPressed: onTap,
         color: isSelected
-            ? AppColors.secondary200 // Active state color
-            : AppColors.secondary100, // Default color
+            ? AppColors.secondary200
+            : AppColors.secondary100,
         splashColor: AppColors.neutral100.withAlpha(25),
-        elevation: 0, // Removes default shadow
-        highlightElevation: 0, // Removes highlight shadow
+        elevation: 0,
+        highlightElevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(0),
         ),
         padding: isSelected
-            ? const EdgeInsets.fromLTRB(6, 14.5, 6, 14.5) // Smaller padding when selected
-            : const EdgeInsets.fromLTRB(8, 16, 8, 16), // Default padding
+            ? const EdgeInsets.fromLTRB(6, 14.5, 6, 14.5)
+            : const EdgeInsets.fromLTRB(8, 16, 8, 16),
         child: Text(
           label,
           style: AppTypography.button.copyWith(
             color: isSelected
-                ? AppColors.neutral0 // Active text color
-                : AppColors.neutral25, // Default text color
+                ? AppColors.neutral0
+                : AppColors.neutral25,
           ),
         ),
       ),

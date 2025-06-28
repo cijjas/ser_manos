@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../services/auth_service.dart';
 
 
-// Provider for the auth service
 final authServiceProvider = Provider<AuthService>((ref) => AuthService());
 
 // Stream provider that tracks the authentication state

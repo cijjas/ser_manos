@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
+import 'package:ser_manos/constants/app_icons.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
@@ -17,12 +17,10 @@ class AppHeaderSection extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        // status‑bar colour / time placeholders
         const StatusBar(
           style: StatusBarStyle.blue,
         ),
 
-        // coloured header bar
         Container(
           padding: const EdgeInsets.fromLTRB(16, 20, 40, 20),
           width: double.infinity,
@@ -30,7 +28,6 @@ class AppHeaderSection extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              // back icon
               Material(
                 color: Colors.transparent,
                 child: GestureDetector(
@@ -40,7 +37,6 @@ class AppHeaderSection extends StatelessWidget {
               ),
               const SizedBox(width: 16),
 
-              // centred title
               Expanded(
                 child: Text(
                   title,

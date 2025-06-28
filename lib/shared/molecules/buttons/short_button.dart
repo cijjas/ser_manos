@@ -9,7 +9,7 @@ class ShortButton extends StatelessWidget {
   final IconData? icon;
   final VoidCallback? onPressed;
   final ShortButtonVariant variant;
-  final bool isLoading; // ← NUEVO
+  final bool isLoading;
 
   const ShortButton({
     super.key,
@@ -17,7 +17,7 @@ class ShortButton extends StatelessWidget {
     this.icon,
     required this.onPressed,
     this.variant = ShortButtonVariant.regular,
-    this.isLoading = false, // ← DEFAULT false
+    this.isLoading = false,
   });
 
   @override

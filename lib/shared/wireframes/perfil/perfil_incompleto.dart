@@ -1,5 +1,3 @@
-// lib/shared/wireframes/perfil/perfil_incompleto.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ser_manos/constants/app_assets.dart';
@@ -10,7 +8,6 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../cells/modals/confirm_modal.dart';
 
-/// Pantalla mostrada cuando el voluntario no completó su perfil.
 class PerfilIncompletoPage extends StatelessWidget {
   const PerfilIncompletoPage({
     super.key,

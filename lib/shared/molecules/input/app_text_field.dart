@@ -3,9 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
-/// Campo de texto base del Design-System Ser Manos.
 class AppTextField extends StatelessWidget {
-  // ───────── Config ─────────
   final String labelText;
   final String hintText;
   final String? errorText;

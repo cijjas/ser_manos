@@ -9,7 +9,7 @@ class AppButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final AppButtonType type;
   final Color? textColor;
-  final bool isLoading; // 👈 NUEVO
+  final bool isLoading;
 
   const AppButton({
     super.key,
@@ -17,7 +17,7 @@ class AppButton extends StatelessWidget {
     required this.onPressed,
     this.type = AppButtonType.filled,
     this.textColor,
-    this.isLoading = false, // 👈 NUEVO
+    this.isLoading = false,
   });
 
   @override
@@ -63,7 +63,7 @@ class AppButton extends StatelessWidget {
           width: 16,
           child: CircularProgressIndicator(
             strokeWidth: 2,
-            color: AppColors.neutral0, // match foreground
+            color: AppColors.neutral0,
           ),
         )
             : Text(

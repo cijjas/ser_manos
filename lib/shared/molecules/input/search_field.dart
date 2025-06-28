@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
+import 'package:ser_manos/constants/app_icons.dart';
 import 'package:ser_manos/shared/tokens/border_radius.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/shadow.dart';
@@ -13,14 +13,14 @@ class SearchField extends StatefulWidget {
     this.hintText = 'Buscar',
     this.onChanged,
     this.emptySuffix,
-    this.onEmptySuffixTap, // Added callback
+    this.onEmptySuffixTap,
   });
 
   final TextEditingController? controller;
   final String hintText;
   final ValueChanged<String>? onChanged;
   final Widget? emptySuffix;
-  final VoidCallback? onEmptySuffixTap; // Added callback
+  final VoidCallback? onEmptySuffixTap;
 
   @override
   State<SearchField> createState() => _SearchFieldState();

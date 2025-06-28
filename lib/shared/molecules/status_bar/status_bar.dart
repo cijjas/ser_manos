@@ -44,10 +44,10 @@ class StatusBar extends StatelessWidget implements PreferredSizeWidget {
           boxShadow: hasShadow
               ? [
             const BoxShadow(
-              color: AppColors.negro, // stronger
-              blurRadius: 20,                        // more blur
-              spreadRadius: 20,                       // extend further
-              offset: Offset(0, 0),            // push lower
+              color: AppColors.negro,
+              blurRadius: 20,
+              spreadRadius: 20,
+              offset: Offset(0, 0),
             ),
           ]
               : null,

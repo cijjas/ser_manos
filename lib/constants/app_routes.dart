@@ -15,11 +15,10 @@ class AppRoutes {
   static const volunteering        = '/volunteering/:id';
   static const news                = '/news/:id';
 
-  // Others
   static const homeProfileEdit     = '/home/profile/edit';
 }
 
-/// Nombres de rutas (GoRouter `name:`) para autocompletado seguro.
+/// Nombres de rutas (GoRouter name:) para autocompletado seguro.
 class RouteNames {
   static const entry                = 'EntryScreen';
   static const login                = 'LoginScreen';

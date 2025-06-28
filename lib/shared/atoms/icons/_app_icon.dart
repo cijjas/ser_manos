@@ -1,9 +1,7 @@
-// _icon_variation.dart
-
 import 'package:flutter/material.dart';
 
 import '../../tokens/colors.dart';
-import 'app_icons.dart';
+import '../../../constants/app_icons.dart';
 
 class AppIcon extends StatelessWidget {
   final double size;
@@ -18,8 +16,6 @@ class AppIcon extends StatelessWidget {
     this.size = 24,
     this.overrideColor,
   });
-
-  // EXAMPLE USAGE: AppIcon(icon: AppIcons.MOSTRAR, color: AppIconsColor.PRIMARY)
 
   @override
   Widget build(BuildContext context) {

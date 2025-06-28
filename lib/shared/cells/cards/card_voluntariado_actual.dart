@@ -3,7 +3,7 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
 
-import '../../atoms/icons/app_icons.dart';
+import '../../../constants/app_icons.dart';
 import '../../tokens/border_radius.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';

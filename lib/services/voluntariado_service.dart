@@ -16,7 +16,7 @@ class VoluntariadoService {
   final FirebaseCrashlytics _crashlytics;
   final CollectionReference<Map<String, dynamic>> _ref;
 
-  // ─────────────────────── Lectores ────────────────────────
+  // watchers
   Stream<Voluntariado> watchOne(String id) {
     return _ref.doc(id).snapshots().map(
           (doc) => Voluntariado.fromJson(doc.id, doc.data()!),
@@ -62,7 +62,6 @@ class VoluntariadoService {
   }
 
 
-  // ─────── Gestión de vacantes ───────
   Future<bool> decrementAvailableSlots(String id) async {
     try {
       final ref = _ref.doc(id);

@@ -25,7 +25,7 @@ class LoginPage extends ConsumerStatefulWidget {
 }
 
 class _LoginPageState extends ConsumerState<LoginPage> {
-  /// --- Form & focus -----------------------------------------------
+  /// --- Form and focus -----------------------------------------------
   final _formKey = GlobalKey<FormBuilderState>();
   final FocusNode _emailFocus = FocusNode();
   final FocusNode _passwordFocus = FocusNode();
@@ -34,13 +34,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   final ValueNotifier<bool> _canLogin = ValueNotifier(false);
   bool _isLoading = false;
   String? _errorMessage;
-  bool _submitPressed = false; // sólo mostramos errores de contraseña al enviar
+  bool _submitPressed = false;
 
-  // ───────────────────────── Validators ────────────────────────────
   String? _passwordValidator(String? value) =>
       AppValidators.loginPassword(value, submitPressed: _submitPressed);
 
-  // ───────────────────────── Lifecycle ─────────────────────────────
   @override
   void dispose() {
     _emailFocus.dispose();
@@ -49,7 +47,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.dispose();
   }
 
-  // ───────────────────────── Helpers ───────────────────────────────
   void _updateCanLogin() {
     final form = _formKey.currentState;
     if (form == null) return;
@@ -58,14 +55,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     _canLogin.value = email.isNotEmpty && password.isNotEmpty;
   }
 
-  // ───────────────────────── Actions ───────────────────────────────
   Future<void> _handleLogin() async {
     setState(() {
       _submitPressed = true;
       _errorMessage = null;
     });
 
-    // Guarda y valida el formulario completo
     final isValid = _formKey.currentState?.saveAndValidate() ?? false;
     if (!isValid) return;
 
@@ -94,7 +89,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             _errorMessage = 'El email o contraseña son incorrectos.';
             break;
           default:
-            _errorMessage = 'Error: ${e.message}';
+            _errorMessage = 'Algo salió mal, intentalo en un rato.';
         }
       });
     } catch (_) {
@@ -104,7 +99,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     }
   }
 
-  // ───────────────────────── Build ─────────────────────────────────
   @override
   Widget build(BuildContext context) {
 
@@ -117,7 +111,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           child: Column(
             children: [
-              // ---------- Logo & campos ----------
               Expanded(
                 child: SingleChildScrollView(
                   child: Center(
@@ -132,7 +125,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           const AppSymbolText(),
                           const SizedBox(height: 32),
 
-                          /// ---------------- FORM ----------------
                           FormBuilder(
                             key: _formKey,
                             autovalidateMode: AutovalidateMode.onUnfocus,
@@ -181,7 +173,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 ),
               ),
 
-              // ---------- Botones ----------
               ValueListenableBuilder<bool>(
                 valueListenable: _canLogin,
                 builder: (_, canLogin, __) => Column(

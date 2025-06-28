@@ -19,7 +19,6 @@ import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/voluntariados/voluntariado_detail.dart';
 import 'go_router_observer.dart';
 
-/// Helper para mapear location <--> tab index
 int tabIndexFromLocation(String loc) {
   if (loc.startsWith(AppRoutes.homeVolunteering)) return 0;
   if (loc.startsWith(AppRoutes.homeProfile))        return 1;
@@ -28,7 +27,7 @@ int tabIndexFromLocation(String loc) {
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-/// Notificador para refrescar cuando cambia auth / onboarding
+/// Notificador para refresh cuando cambia auth / onboarding
 final routerRefreshNotifierProvider = Provider((ref) {
   final notifier = ValueNotifier<int>(0);
 
@@ -80,7 +79,7 @@ final routerProvider = Provider<GoRouter>((ref) {
         return AppRoutes.homeVolunteering;
       }
 
-      // Rutas públicas (auth)
+      // Rutas publicas (auth)
       final isAuthRoute = {
         AppRoutes.entry,
         AppRoutes.login,
@@ -96,7 +95,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       return null;
     },
 
-    /// --------- ROUTES ----------
     routes: [
       GoRoute(
         path: AppRoutes.entry,

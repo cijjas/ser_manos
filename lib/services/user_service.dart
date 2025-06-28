@@ -6,7 +6,6 @@ import 'package:collection/collection.dart';
 import '../models/user.dart';
 
 class UserService {
-  // ─────────── constructor con inyección opcional ───────────
   UserService({
     FirebaseFirestore?   firestore,
     FirebaseAnalytics?   analytics,
@@ -111,7 +110,7 @@ class UserService {
     }
   }
 
-  // ─────────── API pública de postulaciones ───────────
+  // ─────────── API publica de postulaciones ───────────
   Future<bool> postulateToVoluntariado(User user, String id) async {
     if (user.voluntariados?.any((v) => v.id == id) ?? false) {
       _crashlytics.recordError(
@@ -153,7 +152,7 @@ class UserService {
     return _setUserVoluntariadoState(id, user, VoluntariadoUserState.available);
   }
 
-  // ─────────── Lectores ───────────
+  // watchers
   Stream<UserVoluntariado?> watchParticipating(String userId) {
     return _users.doc(userId).snapshots().map((doc) =>
         User.fromJson(doc.data()!).voluntariados?.firstWhereOrNull(

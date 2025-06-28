@@ -23,12 +23,12 @@ final currentUserProvider = StreamProvider<User>((ref) {
   );
 });
 
-// Updated provider that uses the current user automatically
+
 final markOnboardingCompleteProvider = FutureProvider<User?>((ref) async {
   // Get the current user from currentUserProvider
   final user = await ref.watch(currentUserProvider.future);
 
-  // Update the user's onboarding status
+  // Update the users onboarding status
   return ref.read(userServiceProvider).updateUser(
       user.copyWith(
         hasSeenOnboarding: true,

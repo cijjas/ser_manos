@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:ser_manos/shared/molecules/input/search_field.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:ser_manos/shared/atoms/icons/app_icons.dart';
+import 'package:ser_manos/constants/app_icons.dart';
 
 /// A helper that wraps the widget in a basic `MaterialApp` so
 /// typography, theme and icons resolve exactly as in the real app.

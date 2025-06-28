@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class AppBorderRadius {
-  const AppBorderRadius._(); // prevents instantiation
+  const AppBorderRadius._();
 
   static const Radius radius2 = Radius.circular(2);
   static const Radius radius4 = Radius.circular(4);

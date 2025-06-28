@@ -5,14 +5,14 @@ class AppTypography {
 
   static const headline01 = TextStyle(
     fontSize: 24,
-    fontWeight: FontWeight.w400, // Regular
+    fontWeight: FontWeight.w400,
     fontFamily: _fontFamily,
     height: 32 / 24,
   );
 
   static const headline02 = TextStyle(
     fontSize: 20,
-    fontWeight: FontWeight.w500, // Medium
+    fontWeight: FontWeight.w500,
     fontFamily: _fontFamily,
     height: 24 / 20,
   );
@@ -40,7 +40,7 @@ class AppTypography {
 
   static const button = TextStyle(
     fontSize: 14,
-    fontWeight: FontWeight.w500, // Medium
+    fontWeight: FontWeight.w500,
     fontFamily: _fontFamily,
     height: 20 / 14,
   );
@@ -54,7 +54,7 @@ class AppTypography {
 
   static const overline = TextStyle(
     fontSize: 10,
-    fontWeight: FontWeight.w500, // Medium
+    fontWeight: FontWeight.w500,
     fontFamily: _fontFamily,
     letterSpacing: 1.5,
     textBaseline: TextBaseline.alphabetic,

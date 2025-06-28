@@ -43,15 +43,11 @@ class FormBuilderAppTextField extends StatefulWidget {
 class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
   late final TextEditingController _controller = TextEditingController();
 
-  // ────────────────────────── INTERNAL ──────────────────────────
 
-  /// Keeps the controller in sync with the form-field value,
-  /// **without mutating it during the build phase**.
   void _syncController(String? newValue) {
     final text = newValue ?? '';
     if (_controller.text == text) return;
 
-    // Defer the change to the end of the current frame → no assertion.
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _controller.value = TextEditingValue(
@@ -61,7 +57,7 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
     });
   }
 
-  // ────────────────────────── WIDGET LIFECYCLE ──────────────────────────
+  // lifecycle
 
   @override
   void didChangeDependencies() {
@@ -83,7 +79,7 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
     super.dispose();
   }
 
-  // ────────────────────────── BUILD ──────────────────────────
+  //build
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +88,6 @@ class _FormBuilderAppTextFieldState extends State<FormBuilderAppTextField> {
       validator: widget.validator,
       enabled: widget.enabled,
       builder: (field) {
-        // Make sure controller stays current once per frame, not during build.
         _syncController(field.value);
 
         return AppTextField(

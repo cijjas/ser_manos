@@ -17,7 +17,6 @@ class AppValidators {
     return null;
   }
 
-  /// Validates register password after submit.
   static String? registerPassword(String? value) {
     final password = value ?? '';
     if (password.isEmpty) return 'Ingresá una contraseña.';

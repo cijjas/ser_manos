@@ -24,7 +24,7 @@ class CardInformacion extends StatelessWidget {
       width: double.infinity,
       height: 136,
       decoration: BoxDecoration(
-        color: AppColors.neutral10,  // <-- background is NEUTRAL10 now
+        color: AppColors.neutral10,
         borderRadius: BorderRadius.circular(4),
       ),
       child: Column(
@@ -39,7 +39,7 @@ class CardInformacion extends StatelessWidget {
               horizontal: 16,
             ),
             decoration: const BoxDecoration(
-              color: AppColors.secondary25,  // <-- header stays SECONDARY25
+              color: AppColors.secondary25,
               borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
             ),
             alignment: Alignment.centerLeft,

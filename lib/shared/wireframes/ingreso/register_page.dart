@@ -138,7 +138,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
           padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
           child: Column(
             children: [
-              // ---------- Logo + campos ----------
               Expanded(
                 child: SingleChildScrollView(
                   child: Center(
@@ -153,7 +152,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           const AppSymbolText(),
                           const SizedBox(height: 32),
 
-                          /// ----------- FORM -----------
                           FormBuilder(
                             key: _formKey,
                             autovalidateMode: AutovalidateMode.onUnfocus,
@@ -220,7 +218,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                             ),
                           ),
 
-                          // Mensaje de error global
                           if (_errorMessage != null) ...[
                             const SizedBox(height: 16),
                             Text(

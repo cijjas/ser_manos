@@ -1,8 +1,3 @@
-// lib/shared/wireframes/voluntariado/voluntariado_detalle.dart
-//
-// Pantalla de detalle de voluntariado.
-// Incluye parte fija y una sección variable según el estado del usuario.
-
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -23,7 +18,6 @@ import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
-// ──────────────────────────────────────────────────────────────────────
 
 class VoluntariadoDetallePage extends ConsumerWidget {
   const VoluntariadoDetallePage({
@@ -66,7 +60,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             return _buildContent(
               context,
               ref,
-              // Pass ref
               voluntariado,
               user,
               () => _handleApply(context, ref, user),
@@ -90,7 +83,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
   }
 
   // Helper function to determine if the user profile is complete.
-  // Ideally, this would be a getter on the User model (`user.isProfileComplete`).
   bool _isProfileComplete(User user) {
     return user.fechaNacimiento != null &&
         (user.genero != null && user.genero!.isNotEmpty) &&
@@ -100,7 +92,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
 
   Widget _buildContent(
     BuildContext context,
-    WidgetRef ref, // Receive ref
+    WidgetRef ref,
     Voluntariado voluntariado,
     User user,
     Future<void> Function()? onApply,
@@ -110,47 +102,35 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     final media = MediaQuery.of(context);
 
     Future<void> wrappedApply() async {
-      // Get the latest user data directly from the provider.
       final currentUser = ref.read(currentUserProvider).value;
-      if (currentUser == null) return; // Exit if user data is not available.
+      if (currentUser == null) return;
 
-      // Check if the user's profile is complete.
       if (_isProfileComplete(currentUser)) {
-        // If complete, show the confirmation modal to apply.
         _showConfirmModal(context, voluntariado,
             () => onApply != null ? onApply() : {}, ActionType.postulate);
       } else {
-        // If incomplete, show a modal informing the user.
         final bool? confirmed = await showDialog<bool>(
           context: context,
           builder: (dialogContext) => ConfirmApplicationModal(
             message: "Para postularte debes primero completar tus datos.",
             title: "",
-            // Title is not needed as message is descriptive.
             confirmLabel: "Confirmar",
             onConfirm: () => Navigator.of(dialogContext).pop(true),
             onCancel: () => Navigator.of(dialogContext).pop(false),
             actionType: ActionType
-                .postulate, // A placeholder type, the message is overridden.
+                .postulate,
           ),
         );
-        // Insert mounted check after showDialog
         if (!context.mounted) return;
 
-        // If user confirms, navigate to the edit profile page.
         if (confirmed == true) {
           final profileSaved = await GoRouter.of(context).push<bool>(AppRoutes.homeProfileEdit);
-          // Insert mounted check after push
           if (!context.mounted) return;
 
-          // If the profile was saved successfully...
           if (profileSaved == true) {
-            // Invalidate the provider to force a refetch of the user data.
             ref.invalidate(currentUserProvider);
-            // Wait for the provider to update with the new user data.
             final freshUser = await ref.read(currentUserProvider.future);
 
-            // Now, with the updated user, show the application modal.
             _showConfirmModal(
               context,
               voluntariado,
@@ -176,7 +156,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
       backgroundColor: AppColors.neutral0,
       body: Stack(
         children: [
-          // 1. Scrollable content
           Positioned.fill(
             top: 52,
             child: SingleChildScrollView(
@@ -246,7 +225,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                           onApply: wrappedApply,
                           onWithdraw: wrappedWithdraw,
                           onAbandon:
-                              wrappedAbandon, // Changed from onAbandon to wrappedAbandon for consistency
+                              wrappedAbandon,
                         ),
                         const SizedBox(height: 48),
                       ],
@@ -257,7 +236,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             ),
           ),
 
-          // 2. Status bar
           const Positioned(
             top: 0,
             left: 0,
@@ -268,7 +246,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             ),
           ),
 
-          // 3. Back button
           Positioned(
             top: 8,
             left: 8,
@@ -301,8 +278,6 @@ void _showConfirmModal(BuildContext context, Voluntariado voluntariado,
   );
 }
 
-// ──────────────────────────────────────────────────────────────────────
-// Sección variable
 class _BottomSection extends StatelessWidget {
   const _BottomSection({
     required this.state,
@@ -395,8 +370,6 @@ class _BottomSection extends StatelessWidget {
   }
 }
 
-// ──────────────────────────────────────────────────────────────────────
-// Bloque de info + link
 class _InfoWithLink extends StatelessWidget {
   const _InfoWithLink({
     required this.title,
@@ -519,7 +492,6 @@ class _LocationCardState extends State<_LocationCard> {
 
 VoluntariadoUserState _determineUserState(
     Voluntariado voluntariado, User user) {
-  // Find if user has this voluntariado in their list
   try {
     final userVoluntariado = user.voluntariados?.firstWhere(
       (v) => v.id == voluntariado.id,
@@ -529,10 +501,8 @@ VoluntariadoUserState _determineUserState(
       return userVoluntariado.estado;
     }
   } catch (_) {
-    // Not found in list - continue to next checks
   }
 
-  // Check if user is busy with another voluntariado
   if (user.voluntariados
           ?.any((v) => v.estado == VoluntariadoUserState.accepted) ??
       false) {
@@ -543,6 +513,5 @@ VoluntariadoUserState _determineUserState(
     return VoluntariadoUserState.full;
   }
 
-  // Default available state
   return VoluntariadoUserState.available;
 }

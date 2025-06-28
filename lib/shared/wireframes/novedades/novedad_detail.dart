@@ -24,9 +24,7 @@ class NovedadDetail extends ConsumerStatefulWidget {
 class _NovedadDetailState extends ConsumerState<NovedadDetail> {
   bool isSharing = false;
 
-  /// Comparte la imagen y subtítulo
   Future<void> _handleShare(Novedad novedad) async {
-    // Prevenir ejecuciones multiples
     if (isSharing || !mounted) return;
 
     setState(() => isSharing = true);
@@ -37,22 +35,17 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
     final text = '${novedad.resumen}\n\nDescubre más aquí:\n$url';
 
     try {
-      // 1. Descargar la imagen
       final response = await http.get(Uri.parse(novedad.imagenUrl));
       if (response.statusCode != 200) {
-        // Lanzar una excepción clara si la descarga de la imagen falla.
         throw Exception('No se pudo descargar la imagen.');
       }
 
-      // 2. Guardarla en un directorio temporal con un nombre de archivo único.
       final dir = await getTemporaryDirectory();
-      // Usar un timestamp asegura que el nombre del archivo sea siempre único.
       final fileName = 'shared_novedad_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final path = '${dir.path}/$fileName';
       final file = File(path);
       await file.writeAsBytes(response.bodyBytes);
 
-      // 3. Compartir imagen + subtítulo (resumen) usando el path del archivo.
       await Share.shareXFiles([XFile(path)], text: text);
 
     } catch (e) {
@@ -62,7 +55,6 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
         );
       }
     } finally {
-      // Asegurarse de que el estado de carga siempre se desactive.
       if (mounted) setState(() => isSharing = false);
     }
   }

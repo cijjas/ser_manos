@@ -56,7 +56,6 @@ class FotoPerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget imageContent;
 
-    // Priorizar imagen local sobre la remota
     if (localImageFile != null) {
       imageContent = Image.file(
         localImageFile!,

@@ -1,4 +1,3 @@
-// lib/shared/wireframes/perfil/editar_perfil.dart
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +36,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
 
-  // State variables
   String? _fotoUrl;
   File? _imagenLocalParaSubir;
   bool _isSaving = false;
@@ -98,7 +96,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         'imagenValida': user.imagenUrl != null,
       });
 
-      // After patching, check the initial state of the form.
       _updateButtonState();
 
     } catch (e) {
@@ -184,13 +181,11 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       _imagenLocalParaSubir = savedImage;
     });
 
-    // Manually update the form field and check button state
     _formKey.currentState?.fields['imagenValida']?.didChange(true);
     _updateButtonState();
   }
 
   Future<void> _save() async {
-    // First, trigger validation. If the form is not valid, stop.
     if (!_formKey.currentState!.saveAndValidate()) {
       return;
     }
@@ -278,7 +273,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         child: FormBuilder(
           key: _formKey,
           autovalidateMode: AutovalidateMode.onUnfocus,
-          // This onChanged callback checks if all fields are filled on every change.
           onChanged: () {
             _formKey.currentState?.save();
             setState(() {
@@ -406,7 +400,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 AppButton(
                   label: 'Guardar datos',
                   isLoading: _isSaving,
-                  // The button is enabled when fields are filled and dirty.
                   onPressed: _areAllFieldsFilled && (_formKey.currentState?.isDirty ?? false) && !_isSaving && _hasChanges()
                       ? _save
                       : null,

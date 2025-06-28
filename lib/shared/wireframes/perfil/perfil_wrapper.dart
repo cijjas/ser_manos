@@ -1,5 +1,3 @@
-// lib/shared/wireframes/perfil/perfil_wrapper.dart
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -27,7 +25,6 @@ class PerfilWrapperPage extends ConsumerWidget {
       ),
       data: (fbUser) {
         if (fbUser == null) {
-          // No está logueado → voy a /
           WidgetsBinding.instance.addPostFrameCallback((_) {
             context.go(AppRoutes.entry);
           });
@@ -51,7 +48,6 @@ class PerfilWrapperPage extends ConsumerWidget {
             final gender = u.genero ?? '';
             final phone = u.telefono ?? '';
 
-            // Ahora consideramos incompleto también si falta imagenUrl
             final incomplete = u.telefono == null ||
                 u.fechaNacimiento == null ||
                 u.genero == null ||

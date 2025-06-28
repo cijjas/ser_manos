@@ -19,10 +19,10 @@ class CardInput extends StatefulWidget {
   });
 
   @override
-  _CardInputState createState() => _CardInputState();
+  CardInputState createState() => CardInputState();
 }
 
-class _CardInputState extends State<CardInput> {
+class CardInputState extends State<CardInput> {
   int? _selectedIndex;
 
   @override
