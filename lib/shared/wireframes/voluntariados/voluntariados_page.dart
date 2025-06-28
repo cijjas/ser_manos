@@ -5,20 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
-
-// Ensure these import paths match your project structure.
-// These files will contain the refactored/new widgets.
 import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_list.dart';
-
 import '../../../constants/app_routes.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
 import '../../molecules/input/search_field.dart';
-
-// It's good practice for pages to not directly depend on specific data providers
-// if child widgets handle their own data fetching (like MapViewCardsOverlay & VoluntariadoListItems do).
-// import '../../../providers/voluntariado_provider.dart';
 import '../../tokens/typography.dart';
 
 class VoluntariadosPage extends ConsumerWidget {

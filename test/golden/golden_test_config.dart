@@ -7,7 +7,6 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   return GoldenToolkit.runWithConfiguration(
         () async => await testMain(),
     config: GoldenToolkitConfiguration(
-      // skipGoldenAssertion se omite: usa el default (none)
       fileNameFactory: (name) => 'goldens/$name.png',
     ),
   );

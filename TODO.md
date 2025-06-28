@@ -30,9 +30,9 @@
 - [x] Asegurarse de agregar a los profesores como editores en Firebase.
 
 ## 🧹 Limpieza del Proyecto
-- [ ] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
+- [x] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [ ] Agregar `const` en constructores donde corresponda.
-- [ ] Eliminar comentarios generados por LLMs.
+- [x] Eliminar comentarios generados por LLMs.
 - [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
 - [x] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.
 - [x] Eliminar `prints` en código productivo. 

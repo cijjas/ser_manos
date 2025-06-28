@@ -14,7 +14,6 @@ import 'package:ser_manos/providers/voluntariado_provider.dart';
 
 import '../../mocks/mocks.mocks.dart';
 
-/// Posición fija usada en los tests (se devuelve directamente, no Future)
 final _testPosition = Position(
   latitude: 0,
   longitude: 0,
@@ -30,7 +29,6 @@ final _testPosition = Position(
   isMocked: true,
 );
 
-/// Helper para crear un ProviderContainer con todas las dependencias mockeadas
 ProviderContainer makeContainer({
   required MockVoluntariadoService volService,
   required MockUserService userService,

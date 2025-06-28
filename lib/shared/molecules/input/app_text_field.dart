@@ -77,7 +77,6 @@ class AppTextField extends StatelessWidget {
         errorText: errorText,
         floatingLabelBehavior: labelBehavior,
 
-        // ─ Texto ─
         floatingLabelStyle: AppTypography.caption.copyWith(color: AppColors.secondary200),
         labelStyle: AppTypography.caption.copyWith(color: AppColors.neutral75),
         hintStyle:
@@ -87,7 +86,6 @@ class AppTextField extends StatelessWidget {
         errorStyle:
         AppTypography.caption.copyWith(color: AppColors.error100),
 
-        // ─ Bordes ─
         border: const OutlineInputBorder(
           borderSide: BorderSide(color: AppColors.neutral75),
         ),

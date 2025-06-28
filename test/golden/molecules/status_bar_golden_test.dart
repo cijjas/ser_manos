@@ -3,7 +3,6 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 
-/// Helper to wrap the StatusBar in a Scaffold so it paints at the **top**
 Widget _frame(StatusBar bar, {ThemeData? theme}) => MaterialApp(
   theme: theme ?? ThemeData.light(useMaterial3: true),
   home: Scaffold(appBar: bar, body: const SizedBox.expand()),

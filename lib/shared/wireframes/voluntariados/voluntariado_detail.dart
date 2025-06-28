@@ -88,7 +88,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     );
   }
 
-  // Helper function to determine if the user profile is complete.
   bool _isProfileComplete(User user) {
     return user.fechaNacimiento != null &&
         (user.genero != null && user.genero!.isNotEmpty) &&

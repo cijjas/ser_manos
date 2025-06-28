@@ -1,4 +1,3 @@
-// test/golden/screens/novedad_detail_golden_test.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
@@ -9,7 +8,7 @@ import 'package:ser_manos/models/novedad.dart';
 import 'package:ser_manos/providers/novedad_provider.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedad_detail.dart';
 
-import '../../mocks/mocks.mocks.dart'; // MockNovedadService
+import '../../mocks/mocks.mocks.dart';
 
 // ───────────────────────── helpers ──────────────────────────
 Novedad _fakeNovedad() => Novedad(

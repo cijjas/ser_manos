@@ -16,7 +16,6 @@ class UserService {
         _users       = (firestore ?? FirebaseFirestore.instance)
             .collection('users');
 
-  // singletons/mocks usados internamente
   final FirebaseFirestore   _firestore;
   final FirebaseAnalytics   _analytics;
   final FirebaseCrashlytics _crashlytics;
@@ -187,7 +186,6 @@ class UserService {
     }
   }
 
-  // ─────────── Update genérico ───────────
   Future<User?> updateUser(User user) async {
     try {
       final data = user.toJson();

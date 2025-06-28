@@ -46,7 +46,6 @@ void main() {
       ),
     );
 
-    // ── Light & dark ──────────────────────────────────────────────────────
     final light = MaterialApp(theme: ThemeData.light(), home: Scaffold(body: SingleChildScrollView(child: gallery())));
     final dark  = MaterialApp(theme: ThemeData.dark(),  home: Scaffold(body: SingleChildScrollView(child: gallery())));
 

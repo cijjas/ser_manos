@@ -64,7 +64,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       final isLoggedIn = authState.valueOrNull != null;
       final user       = currentUserAsync.valueOrNull;
 
-      // Onboarding
       if (isLoggedIn &&
           user != null &&
           !user.hasSeenOnboarding &&
@@ -79,7 +78,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         return AppRoutes.homeVolunteering;
       }
 
-      // Rutas publicas (auth)
       final isAuthRoute = {
         AppRoutes.entry,
         AppRoutes.login,

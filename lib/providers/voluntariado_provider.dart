@@ -62,7 +62,6 @@ final abandonVoluntariado =
     FutureProvider.family<bool, String>((ref, voluntariadoId) async {
   final user = await ref.read(currentUserProvider.future);
 
-  // Use a transaction to make both operations atomic
   return FirebaseFirestore.instance.runTransaction<bool>((transaction) async {
     final success = await ref
         .read(userServiceProvider)

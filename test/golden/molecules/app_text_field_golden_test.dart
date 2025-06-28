@@ -1,4 +1,3 @@
-// test/golden/molecules/app_text_field_golden_test.dart
 import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
@@ -47,7 +46,6 @@ void main() {
       ),
     );
 
-    // ——————————————————— Light & dark ————————————————————————
     final light = MaterialApp(
       theme: ThemeData.light(),
       home: Scaffold(body: SingleChildScrollView(child: gallery())),
@@ -67,7 +65,6 @@ void main() {
 
     await tester.pumpDeviceBuilder(builder);
 
-    // Pequeño pump manual para evitar pumpAndSettle largo
     await tester.pump(const Duration(milliseconds: 200));
 
     await screenMatchesGolden(

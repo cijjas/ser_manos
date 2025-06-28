@@ -50,7 +50,7 @@ void main() {
         'nombre': 'Linus',
         'apellido': 'Torvalds',
         'email': 'linus@kernel.org',
-        'hasSeenOnboarding': false, // obligatorio o valor por defecto
+        'hasSeenOnboarding': false,
       };
 
       final user    = User.fromJson(minimalJson);
@@ -60,10 +60,8 @@ void main() {
       expect(user.telefono, isNull);
       expect(user.hasSeenOnboarding, isFalse);
 
-      // campos null fueron omitidos
       expect(encoded.containsKey('telefono'), isFalse);
       expect(encoded.containsKey('genero'),   isFalse);
-      // hasSeenOnboarding siempre presente
       expect(encoded['hasSeenOnboarding'], false);
     });
 
