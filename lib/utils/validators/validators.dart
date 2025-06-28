@@ -1,10 +1,10 @@
-// lib/utils/validators.dart
+// lib/utils/validators/validators.dart
 
 class AppValidators {
-  static String? email(String? value, {bool isFocused = false}) {
+  static String? email(String? value) {
     final email = value?.trim() ?? '';
     if (email.isEmpty) return 'Ingresá un email.';
-    final regexp = RegExp(r'^[\w\-\.+]+@([\w\-]+\.)+[\w\-]{2,4}$');
+    final regexp = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
     if (!regexp.hasMatch(email)) return 'El email no es válido.';
     return null;
   }
@@ -18,33 +18,30 @@ class AppValidators {
   }
 
   /// Validates register password after submit.
-  static String? registerPassword(String? value, {required bool submitPressed}) {
-    if (!submitPressed) return null;
+  static String? registerPassword(String? value) {
     final password = value ?? '';
     if (password.isEmpty) return 'Ingresá una contraseña.';
     if (password.length < 6) return 'Debe tener al menos 6 caracteres.';
     return null;
   }
 
-  /// Validates non-empty fields, skips if field has focus.
-  static String? nonEmpty(String? value, {required bool isFocused, required String label}) {
-    if (isFocused) return null;
-    if ((value ?? '').trim().isEmpty) return 'Ingresá tu $label.';
-    return null;
-  }
-
-  static String? required(String? value, {required String label, bool isFocused = false}) {
-    if (isFocused) return null;
-    if ((value ?? '').trim().isEmpty) return 'Ingresá tu $label.';
+  static String? required(String? value, {required String label}) {
+    if (value == null || value.trim().isEmpty) {
+      return 'Ingresá tu $label.';
+    }
     return null;
   }
 
   static String? phone(String? value, {bool isFocused = false}) {
-    final v = value?.trim() ?? '';
-    if (v.isEmpty) return 'Ingresá tu teléfono.';
-    final isValid = RegExp(r'^\+?\d{6,15}$').hasMatch(v);
-    if (!isValid) return 'El teléfono no es válido.';
+    if (isFocused) return null;
+    final raw = value?.trim() ?? '';
+    if (raw.isEmpty) return 'Ingresá tu teléfono.';
+
+    final digits = raw.replaceAll(RegExp(r'\D'), '');
+    final lengthOk = digits.length >= 8 && digits.length <= 15;
+    final startsOk = RegExp(r'^[1-9]\d*$').hasMatch(digits);
+
+    if (!(lengthOk && startsOk)) return 'Ingresá un número de 8‑15 dígitos.';
     return null;
   }
-
 }

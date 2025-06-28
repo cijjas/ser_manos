@@ -156,7 +156,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                           /// ----------- FORM -----------
                           FormBuilder(
                             key: _formKey,
-                            autovalidateMode: AutovalidateMode.disabled,
+                            autovalidateMode: AutovalidateMode.onUnfocus,
                             child: Column(
                               children: [
                                 FormBuilderAppTextField(
@@ -165,7 +165,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   labelText: 'Nombre',
                                   hintText: 'Ej: Juan',
                                   keyboardType: TextInputType.name,
-                                validator: (v) => AppValidators.nonEmpty(v, isFocused: _nameFocus.hasFocus, label: 'nombre'),
+                                validator: (v) => AppValidators.required(v, label: 'nombre'),
 
                                 onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.next,
@@ -182,7 +182,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: 'Apellido',
                                     hintText: 'Ej: Bárcena',
                                     keyboardType: TextInputType.name,
-                                    validator: (v) => AppValidators.nonEmpty(v, isFocused: _surnameFocus.hasFocus, label: 'apellido'),
+                                    validator: (v) => AppValidators.required(v, label: 'apellido'),
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -198,7 +198,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: 'Email',
                                     hintText: 'Ej: juan@mail.com',
                                     keyboardType: TextInputType.emailAddress,
-                                    validator: (v) => AppValidators.email(v, isFocused: _emailFocus.hasFocus),
+                                    validator: AppValidators.email,
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -212,7 +212,7 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   name: 'password',
                                   labelText: 'Contraseña',
                                   hintText: 'Mínimo 6 caracteres',
-                                    validator: (v) => AppValidators.registerPassword(v, submitPressed: _submitPressed),
+                                    validator: AppValidators.registerPassword,
                                     onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.done,
                                 ),

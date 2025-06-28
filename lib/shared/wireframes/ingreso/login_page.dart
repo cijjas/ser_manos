@@ -37,22 +37,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool _submitPressed = false; // sólo mostramos errores de contraseña al enviar
 
   // ───────────────────────── Validators ────────────────────────────
-  String? _emailValidator(String? value) =>
-      AppValidators.email(value, isFocused: _emailFocus.hasFocus);
-
   String? _passwordValidator(String? value) =>
       AppValidators.loginPassword(value, submitPressed: _submitPressed);
 
   // ───────────────────────── Lifecycle ─────────────────────────────
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _emailFocus.dispose();
     _passwordFocus.dispose();
+    _canLogin.dispose();
     super.dispose();
   }
 
@@ -143,6 +136,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                           FormBuilder(
                             key: _formKey,
                             autovalidateMode: AutovalidateMode.onUnfocus,
+                            onChanged: _updateCanLogin,
                             child: Column(
                               children: [
                                 FormBuilderAppTextField(
@@ -151,7 +145,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   labelText: 'Email',
                                   hintText: 'Email',
                                   keyboardType: TextInputType.emailAddress,
-                                  validator: _emailValidator,
+                                  validator: AppValidators.email,
                                   textInputAction: TextInputAction.next,
                                   onFieldSubmitted: (_) {
                                     _formKey.currentState?.fields['email']
@@ -159,7 +153,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                     FocusScope.of(context)
                                         .requestFocus(_passwordFocus);
                                   },
-                                  onChanged: (_) => _updateCanLogin(),
                                 ),
                                 const SizedBox(height: 24),
                                 FormBuilderPasswordField(
@@ -168,7 +161,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   labelText: 'Contraseña',
                                   hintText: 'Contraseña',
                                   validator: _passwordValidator,
-                                  onChanged: (_) => _updateCanLogin(),
                                   textInputAction: TextInputAction.done,
                                 ),
                               ],
@@ -196,9 +188,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     AppButton(
                       label:
-                          _isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión',
+                      _isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión',
                       onPressed:
-                          (_isLoading || !canLogin) ? null : _handleLogin,
+                      (_isLoading || !canLogin) ? null : _handleLogin,
                       type: AppButtonType.filled,
                     ),
                     AppButton(

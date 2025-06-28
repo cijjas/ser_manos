@@ -22,6 +22,8 @@ class FormBuilderDateField extends StatelessWidget {
     this.validator,
   });
 
+  // In FormBuilderDateField
+
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<DateTime>(
@@ -42,7 +44,6 @@ class FormBuilderDateField extends StatelessWidget {
           errorText: field.errorText,
           controller: controller,
           readOnly: true,
-          validator: validator,
           suffixIcon: const SizedBox(
             width: 24,
             height: 24,
@@ -63,10 +64,12 @@ class FormBuilderDateField extends StatelessWidget {
             );
             if (picked != null) {
               field.didChange(picked);
+              field.validate(); // Force validation immediately
             }
           },
         );
       },
     );
   }
+
 }

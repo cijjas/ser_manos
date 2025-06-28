@@ -37,11 +37,12 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   final _emailFocus = FocusNode();
   final _phoneFocus = FocusNode();
 
-  int? _sexoIndex;
+  // State variables
   String? _fotoUrl;
   File? _imagenLocalParaSubir;
-  bool _subiendoAlGuardar = false;
-  User? _original;
+  bool _isSaving = false;
+  User? _originalUser;
+  bool _areAllFieldsFilled = false;
 
   @override
   void initState() {
@@ -56,37 +57,24 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     super.dispose();
   }
 
-  Map<String, dynamic>? _initialFormValues;
-
-  bool get _hasChanges {
-    if (_initialFormValues == null) {
-      return true;
-    }
-    if (_original == null) return false;
-    final current = _formKey.currentState?.value ?? {};
-    if (current['email']?.trim() != _initialFormValues!['email']?.trim()) {
-      return true;
-    }
-    if (current['telefono']?.trim() !=
-        _initialFormValues!['telefono']?.trim()) {
-      return true;
-    }
-    if (current['fechaNacimiento'] != _initialFormValues!['fechaNacimiento']) {
-      return true;
-    }
-    final generoActual = (_sexoIndex != null)
-        ? ['Hombre', 'Mujer', 'No binario'][_sexoIndex!]
+  bool _hasChanges() {
+    if (_originalUser == null) return true;
+    final values = _formKey.currentState?.value ?? {};
+    if ((values['email'] as String?)?.trim() != _originalUser!.email?.trim()) return true;
+    if ((values['telefono'] as String?)?.trim() != _originalUser!.telefono?.trim()) return true;
+    if (values['fechaNacimiento'] != _originalUser!.fechaNacimiento) return true;
+    final generoIndex = values['genero'] as int?;
+    final currentGenero = (generoIndex != null)
+        ? ['Hombre', 'Mujer', 'No binario'][generoIndex]
         : null;
-    if (generoActual != _initialFormValues!['genero']) return true;
+    if (currentGenero != _originalUser!.genero) return true;
     if (_imagenLocalParaSubir != null) return true;
     return false;
   }
 
+
   Future<void> _loadUser() async {
-    final fbUser = ref.read(authStateProvider).maybeWhen(
-          data: (u) => u,
-          orElse: () => null,
-        );
+    final fbUser = ref.read(authStateProvider).value;
     if (fbUser == null) return;
 
     try {
@@ -94,29 +82,25 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       if (!mounted) return;
 
       setState(() {
-        _original = user;
-        _sexoIndex = user.genero != null
-            ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
-            : null;
+        _originalUser = user;
         _fotoUrl = user.imagenUrl;
       });
 
-      WidgetsBinding.instance.addPostFrameCallback((_) {
-        if (!mounted) return;
-        _formKey.currentState!.patchValue({
-          'email': user.email,
-          'telefono': user.telefono,
-          'fechaNacimiento': user.fechaNacimiento,
-          'imagenValida': user.imagenUrl != null,
-        });
-        _initialFormValues = {
-          'email': user.email,
-          'telefono': user.telefono,
-          'fechaNacimiento': user.fechaNacimiento,
-          'genero': user.genero,
-          'imagenUrl': user.imagenUrl,
-        };
+      final initialGenderIndex = user.genero != null
+          ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
+          : null;
+
+      _formKey.currentState?.patchValue({
+        'email': user.email,
+        'telefono': user.telefono,
+        'fechaNacimiento': user.fechaNacimiento,
+        'genero': initialGenderIndex,
+        'imagenValida': user.imagenUrl != null,
       });
+
+      // After patching, check the initial state of the form.
+      _updateButtonState();
+
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -126,8 +110,25 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     }
   }
 
+  void _updateButtonState() {
+    final values = _formKey.currentState?.value ?? {};
+
+    final allFilled = (values['fechaNacimiento'] != null) &&
+        (values['genero'] != null) &&
+        (values['imagenValida'] == true) &&
+        (values['telefono'] as String?)?.isNotEmpty == true &&
+        (values['email'] as String?)?.isNotEmpty == true;
+
+    if (mounted && _areAllFieldsFilled != allFilled) {
+      setState(() {
+        _areAllFieldsFilled = allFilled;
+      });
+    }
+  }
+
+
   Future<void> _showImageSourceSelector() async {
-    if (_subiendoAlGuardar) return;
+    if (_isSaving) return;
 
     final source = await showModalBottomSheet<ImageSource>(
       context: context,
@@ -166,40 +167,42 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     if (picked == null) return;
 
     final tmpFile = File(picked.path);
+    if (!mounted) return;
 
     if (!tmpFile.existsSync()) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('La imagen no existe en disco.')),
-        );
-      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('La imagen no existe en disco.')),
+      );
       return;
     }
 
-    // Copiar la imagen a un directorio seguro (Documents)
     final appDir = await getApplicationDocumentsDirectory();
     final fileName = path.basename(picked.path);
     final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
 
-    setState(() => _imagenLocalParaSubir = savedImage);
+    setState(() {
+      _imagenLocalParaSubir = savedImage;
+    });
+
+    // Manually update the form field and check button state
+    _formKey.currentState?.fields['imagenValida']?.didChange(true);
+    _updateButtonState();
   }
 
   Future<void> _save() async {
+    // First, trigger validation. If the form is not valid, stop.
     if (!_formKey.currentState!.saveAndValidate()) {
       return;
     }
 
     final values = _formKey.currentState!.value;
-    final fbUser = ref.read(authStateProvider).maybeWhen(
-          data: (u) => u,
-          orElse: () => null,
-        );
+    final fbUser = ref.read(authStateProvider).value;
 
-    if (fbUser == null || _original == null) {
+    if (fbUser == null || _originalUser == null) {
       return;
     }
 
-    setState(() => _subiendoAlGuardar = true);
+    setState(() => _isSaving = true);
 
     String? urlImagenFinalParaGuardar = _fotoUrl;
 
@@ -209,23 +212,17 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
             'profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
         final metadata = SettableMetadata(contentType: 'image/jpeg');
         final bytes = await _imagenLocalParaSubir!.readAsBytes();
-        final snapshot = await storageRef.putData(bytes, metadata);
-
-        if (snapshot.state != TaskState.success) {
-          throw FirebaseException(
-            plugin: 'firebase_storage',
-            message: 'Error al subir la imagen.',
-          );
-        }
+        await storageRef.putData(bytes, metadata);
         urlImagenFinalParaGuardar = await storageRef.getDownloadURL();
       }
 
-      final updated = _original!.copyWith(
-        email: values['email'].trim(),
-        telefono: values['telefono'].trim(),
-        fechaNacimiento: values['fechaNacimiento'],
-        genero: (_sexoIndex != null)
-            ? ['Hombre', 'Mujer', 'No binario'][_sexoIndex!]
+      final genderIndex = values['genero'] as int?;
+      final updated = _originalUser!.copyWith(
+        email: (values['email'] as String).trim(),
+        telefono: (values['telefono'] as String).trim(),
+        fechaNacimiento: values['fechaNacimiento'] as DateTime,
+        genero: (genderIndex != null)
+            ? ['Hombre', 'Mujer', 'No binario'][genderIndex]
             : null,
         imagenUrl: urlImagenFinalParaGuardar,
       );
@@ -243,13 +240,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         _fotoUrl = urlImagenFinalParaGuardar;
       });
 
-      // --- CHANGE START ---
-      // Instead of navigating with context.go, pop the page with a `true`
-      // result to signal success to the previous screen.
       if (context.canPop()) {
         context.pop(true);
       } else {
-        // Fallback for cases where the page can't be popped (e.g., deep link).
         context.go(AppRoutes.homeProfile);
       }
     } catch (e) {
@@ -259,14 +252,9 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       }
     } finally {
       if (mounted) {
-        setState(() => _subiendoAlGuardar = false);
+        setState(() => _isSaving = false);
       }
     }
-  }
-
-  String? _emailValidator(String? value) {
-    final error = AppValidators.email(value, isFocused: _emailFocus.hasFocus);
-    return error;
   }
 
   @override
@@ -276,11 +264,11 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.close, size: 24),
-          onPressed: _subiendoAlGuardar
+          onPressed: _isSaving
               ? null
               : () => context.canPop()
-                  ? context.pop()
-                  : context.go(AppRoutes.homeProfile),
+              ? context.pop()
+              : context.go(AppRoutes.homeProfile),
         ),
         elevation: 0,
         backgroundColor: AppColors.neutral0,
@@ -289,8 +277,14 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       body: SafeArea(
         child: FormBuilder(
           key: _formKey,
-          onChanged: () => {_formKey.currentState?.save(), setState(() {})},
           autovalidateMode: AutovalidateMode.onUnfocus,
+          // This onChanged callback checks if all fields are filled on every change.
+          onChanged: () {
+            _formKey.currentState?.save();
+            setState(() {
+              _updateButtonState();
+            });
+          },
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
             child: Column(
@@ -313,20 +307,40 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                         label: 'fecha de nacimiento')),
                 const SizedBox(height: 24),
                 // ───────────────── Información de perfil (género) ─────────────────
-                CardInput(
-                  title: 'Información de perfil',
-                  options: const ['Hombre', 'Mujer', 'No binario'],
-                  selectedIndex: _sexoIndex,
-                  onSelected: _subiendoAlGuardar
-                      ? null
-                      : (i) => setState(() => _sexoIndex = i),
+                FormBuilderField<int?>(
+                  name: 'genero',
+                  validator: (value) =>
+                  value == null ? 'Seleccioná tu género.' : null,
+                  builder: (field) {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        CardInput(
+                          title: 'Información de perfil',
+                          options: const ['Hombre', 'Mujer', 'No binario'],
+                          selectedIndex: field.value,
+                          onSelected:
+                          _isSaving ? null : (i) => field.didChange(i),
+                        ),
+                        if (field.hasError)
+                          Padding(
+                            padding:
+                            const EdgeInsets.only(left: 12, top: 8),
+                            child: Text(
+                              field.errorText!,
+                              style: AppTypography.caption
+                                  .copyWith(color: AppColors.error100),
+                            ),
+                          ),
+                      ],
+                    );
+                  },
                 ),
                 const SizedBox(height: 24),
                 // ───────────────── Foto de perfil ─────────────────
                 FormBuilderField<bool>(
                   name: 'imagenValida',
-                  initialValue:
-                      _fotoUrl != null || _imagenLocalParaSubir != null,
+                  initialValue: _fotoUrl != null || _imagenLocalParaSubir != null,
                   validator: FormBuilderValidators.equal(true,
                       errorText: 'Selecciona una foto de perfil'),
                   builder: (field) {
@@ -336,22 +350,16 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                         CardFotoPerfil(
                           imagenUrlRemota: _fotoUrl,
                           imagenLocal: _imagenLocalParaSubir,
-                          isLoading: _subiendoAlGuardar,
-                          onChange: () async {
-                            await _showImageSourceSelector();
-                            // After selecting imag notify FormBuilder
-                            print(_fotoUrl);
-                            print(_imagenLocalParaSubir);
-                            field.didChange(_fotoUrl != null ||
-                                _imagenLocalParaSubir != null);
-                          },
+                          isLoading: _isSaving,
+                          onChange: _showImageSourceSelector,
                         ),
                         if (field.hasError)
                           Padding(
-                            padding: const EdgeInsets.only(top: 8),
+                            padding: const EdgeInsets.only(left: 12, top: 8),
                             child: Text(
                               field.errorText ?? '',
-                              style: const TextStyle(color: Colors.red),
+                              style: AppTypography.caption
+                                  .copyWith(color: AppColors.error100),
                             ),
                           ),
                       ],
@@ -374,15 +382,11 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   labelText: 'Teléfono',
                   hintText: 'Ej: +5491178445459',
                   keyboardType: TextInputType.phone,
-                  validator: (v) =>
-                      AppValidators.phone(v, isFocused: _phoneFocus.hasFocus),
+                  validator: (v) => AppValidators.phone(v),
                   inputFormatters: [
                     FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                   ],
-                  onFieldSubmitted: (_) {
-                    _formKey.currentState?.fields['telefono']?.validate();
-                    _emailFocus.requestFocus();
-                  },
+                  onFieldSubmitted: (_) => _emailFocus.requestFocus(),
                   textInputAction: TextInputAction.next,
                 ),
                 const SizedBox(height: 24),
@@ -393,20 +397,17 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   labelText: 'Mail',
                   hintText: 'Ej: mimail@mail.com',
                   keyboardType: TextInputType.emailAddress,
-                  validator: _emailValidator,
-                  onFieldSubmitted: (_) {
-                    _formKey.currentState?.fields['email']?.validate();
-                  },
+                  validator: AppValidators.email,
+                  onFieldSubmitted: (_) => _formKey.currentState?.fields['email']?.validate(),
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 32),
                 // ───────────────── Botón Guardar ─────────────────
                 AppButton(
                   label: 'Guardar datos',
-                  isLoading: _subiendoAlGuardar,
-                  onPressed: _hasChanges &&
-                          !_subiendoAlGuardar &&
-                          (_formKey.currentState?.isValid ?? false)
+                  isLoading: _isSaving,
+                  // The button is enabled when fields are filled and dirty.
+                  onPressed: _areAllFieldsFilled && (_formKey.currentState?.isDirty ?? false) && !_isSaving && _hasChanges()
                       ? _save
                       : null,
                   type: AppButtonType.filled,
