@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:ser_manos/constants/app_assets.dart';
 
 import '../../molecules/buttons/short_button.dart';
 import '../../molecules/buttons/app_button.dart';
@@ -57,7 +58,7 @@ class PerfilIncompletoPage extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     SvgPicture.asset(
-                      'assets/icons/perfil.svg',
+                      AppAssets.profile,
                       width: 120,
                       height: 120,
                       semanticsLabel: 'Avatar placeholder',
