@@ -154,7 +154,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
       if (participatingVoluntariado == null) {
         return;
       }
-      print(participatingVoluntariado);
       _showConfirmModal(context, participatingVoluntariado,
           () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
     }
