@@ -8,7 +8,6 @@
 - [x] Corregir animación indeseada al presionar las tabs de navegación en Android.
 - [x] Hacer que el fondo de las cards de noticias también sea un touch target.
 - [x] Evitar doble subida de foto en la vista de completar perfil.
-- [ ] Arreglar email validation en login y register -> Agus 
 - [x] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
 - [x] Arreglar subida de fotos vía cámara en Android (error actual).
 - [x] Permitir editar datos del perfil sin necesidad de subir nueva foto.
@@ -38,7 +37,7 @@
 - [x] Renombrar estado `applied` a `pending`.
 - [ ] Eliminar comentarios generados por LLMs.
 - [x] Cambiar el uso de `flutter pub run build_runner build` a `dart run build_runner build --delete-conflicting-outputs`.
-
+    
 ## 🛠️ Mejores Prácticas
 - [ ] Corregir error al correr `flutter pub get` por primera vez.
 - [~] Centralizar rutas y assets en clases como `AppAssets` y `AppRoutes` (evitar strings hardcodeadas). -> esta hecho AppRoutes, pero no lo de assets
