@@ -60,7 +60,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   bool _hasChanges() {
     if (_originalUser == null) return true;
     final values = _formKey.currentState?.value ?? {};
-    if ((values['email'] as String?)?.trim() != _originalUser!.email?.trim()) return true;
+    if ((values['email'] as String?)?.trim() != _originalUser!.email.trim()) return true;
     if ((values['telefono'] as String?)?.trim() != _originalUser!.telefono?.trim()) return true;
     if (values['fechaNacimiento'] != _originalUser!.fechaNacimiento) return true;
     final generoIndex = values['genero'] as int?;

@@ -1,11 +1,11 @@
 # ✅ Correcciones Grupo 3 – To-Do List
 
 ## 🧪 Funcionalidad y UX
-- [ ] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
 - [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> al postularse que ya aparezca (no despues de postularse)
 - [x] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de input).
+- [x] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [x] Ajustar separación entre chip de vacantes y títulos según el Design System.
 - [x] El ícono de “list view” en la search bar debe tener funcionalidad o eliminarse.
 - [x] Implementar técnica de `debounce` en el buscador.

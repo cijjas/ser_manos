@@ -1,4 +1,3 @@
-// Your NovedadDetail page
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -25,47 +24,45 @@ class NovedadDetail extends ConsumerStatefulWidget {
 class _NovedadDetailState extends ConsumerState<NovedadDetail> {
   bool isSharing = false;
 
-  /// Comparte la imagen + subtítulo de la novedad
+  /// Comparte la imagen y subtítulo
   Future<void> _handleShare(Novedad novedad) async {
-    if (!mounted) return;
+    // Prevenir ejecuciones multiples
+    if (isSharing || !mounted) return;
 
     setState(() => isSharing = true);
 
+    // https es requisito para Universal Links (iOS) y App Links (Android).
+    // en un caso real debería ser https
     final url = 'http://sermanos.app/novedad/${novedad.id}';
-    final text = '${novedad.resumen}\n\n$url';
+    final text = '${novedad.resumen}\n\nDescubre más aquí:\n$url';
 
     try {
       // 1. Descargar la imagen
       final response = await http.get(Uri.parse(novedad.imagenUrl));
       if (response.statusCode != 200) {
-        // Provide more specific error if image download fails
-        throw Exception(
-            'Failed to download image. Status code: ${response.statusCode}');
+        // Lanzar una excepción clara si la descarga de la imagen falla.
+        throw Exception('No se pudo descargar la imagen.');
       }
 
-      // 2. Guardarla en un directorio temporal
+      // 2. Guardarla en un directorio temporal con un nombre de archivo único.
       final dir = await getTemporaryDirectory();
-      final path = '${dir.path}/shared_novedad.jpg';
+      // Usar un timestamp asegura que el nombre del archivo sea siempre único.
+      final fileName = 'shared_novedad_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final path = '${dir.path}/$fileName';
       final file = File(path);
       await file.writeAsBytes(response.bodyBytes);
 
-      // 3. Compartir imagen + subtítulo (resumen)
-      await Share.shareXFiles([XFile(file.path)], text: text);
+      // 3. Compartir imagen + subtítulo (resumen) usando el path del archivo.
+      await Share.shareXFiles([XFile(path)], text: text);
+
     } catch (e) {
       if (mounted) {
-        // Show a more user-friendly error message
-        String errorMessage = 'Error al compartir la novedad.';
-        if (e is Exception) {
-          errorMessage += ' ${e.toString().replaceFirst('Exception: ', '')}';
-        } else {
-          errorMessage += ' $e';
-        }
-
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(errorMessage)),
+          const SnackBar(content: Text('Ocurrió un error inesperado, intentalo en un rato.')),
         );
       }
     } finally {
+      // Asegurarse de que el estado de carga siempre se desactive.
       if (mounted) setState(() => isSharing = false);
     }
   }
@@ -81,6 +78,7 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
         error: (e, _) => Center(child: Text('Error: $e')),
         data: (novedad) => SingleChildScrollView(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const AppHeaderSection(title: 'Novedades'),
               Padding(
@@ -94,25 +92,26 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                     const SizedBox(height: 16),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(6),
-                      child: SizedBox(
+                      child: Image.network(
+                        novedad.imagenUrl,
                         height: 160,
                         width: double.infinity,
-                        child: Image.network(
-                          // Using the already sanitized URL from the model
-                          novedad.imagenUrl,
-                          fit: BoxFit.cover,
-                          errorBuilder: (context, error, stackTrace) => Container(
-                            width: double.infinity,
+                        fit: BoxFit.cover,
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return Container(
                             height: 160,
                             color: AppColors.neutral10,
-                            child: const Center(
-                              child: Icon(Icons.broken_image, size: 64, color: Colors.grey),
-                            ),
+                            child: const Center(child: CircularProgressIndicator()),
+                          );
+                        },
+                        errorBuilder: (context, error, stackTrace) => Container(
+                          width: double.infinity,
+                          height: 160,
+                          color: AppColors.neutral10,
+                          child: const Center(
+                            child: Icon(Icons.broken_image, size: 64, color: AppColors.neutral50),
                           ),
-                          loadingBuilder: (context, child, loadingProgress) {
-                            if (loadingProgress == null) return child;
-                            return const Center(child: CircularProgressIndicator());
-                          },
                         ),
                       ),
                     ),
@@ -126,21 +125,25 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                     const SizedBox(height: 16),
                     Text(novedad.descripcion, style: AppTypography.body01),
                     const SizedBox(height: 32),
-                    Center(
-                      child: Column(
-                        children: [
-                          const Text('Comparte esta nota', style: AppTypography.headline02),
-                          const SizedBox(height: 12),
-                          AppButton(
-                            label: 'Compartir',
-                            onPressed: isSharing ? null : () => _handleShare(novedad),
-                            type: AppButtonType.filled,
-                            isLoading: isSharing,
-                          ),
-                        ],
-                      ),
-                    ),
                   ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Center(
+                  child: Column(
+                    children: [
+                      const Text('Comparte esta nota', style: AppTypography.headline02),
+                      const SizedBox(height: 12),
+                      AppButton(
+                        label: 'Compartir',
+                        onPressed: isSharing ? null : () => _handleShare(novedad),
+                        type: AppButtonType.filled,
+                        isLoading: isSharing,
+                      ),
+                      const SizedBox(height: 32),
+                    ],
+                  ),
                 ),
               ),
             ],
