@@ -3,7 +3,6 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/molecules/buttons/short_button.dart';
-import 'package:ser_manos/shared/molecules/buttons/floating_button.dart';
 
 void main() {
   testGoldens('Buttons – catalogue', (tester) async {
@@ -43,13 +42,6 @@ void main() {
           const Divider(height: 32),
           const Text('AppFloatingButton', style: TextStyle(fontSize: 18)),
           const SizedBox(height: 8),
-          const Row(
-            children: [
-              AppFloatingButton(icon: Icons.add, onPressed: null),
-              SizedBox(width: 24),
-              AppFloatingButton(icon: Icons.add, onPressed: _noop),
-            ],
-          ),
         ],
       ),
     );
