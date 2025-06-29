@@ -320,7 +320,7 @@ To run the test use:
 
 ```bash
 dart run build_runner build --delete-conflicting-outputs
-flutter test test/golden/molecules --update-goldens
+fvm flutter test test/golden/molecules --update-goldens
 ```
 
 ### 4.5. Monitoring and Events
@@ -623,14 +623,31 @@ To set up the project locally, follow these steps:
    git clone [https://github.com/cijjas/ser_manos.git](https://github.com/cijjas/ser_manos.git)
    cd ser_manos
    ```
-
-2. **Install Flutter dependencies:**
-
+   
+2. **Install FVM**
    ```bash
-   flutter pub get
+   dart pub global activate fvm
    ```
 
-3. **Firebase Configuration:**
+3. **Add FVM to your shell PATH**
+   Add this line to your `.bashrc`, `.zshrc`, or similar:
+   ```bash
+   export PATH="$PATH":"$HOME/.pub-cache/bin"
+   ```
+
+4. **Install the correct Flutter version**
+
+   ```bash
+   fvm install
+   ```
+
+5. **Install Flutter dependencies:**
+
+   ```bash
+   fvm flutter pub get
+   ```
+
+6. **Firebase Configuration:**
    - Follow the official Firebase documentation to create a Firebase project.
    - Add your Android and iOS apps to the Firebase project.
    - Download the following config files and place them as described:
@@ -650,7 +667,7 @@ To set up the project locally, follow these steps:
    - This will generate `lib/firebase_options.dart` and update your project
      settings.
 
-4. **Code Generation:**
+7. **Code Generation:**
    - Run the build runner to generate necessary files (e.g., for `freezed`,
      `json_serializable`):
 
@@ -666,7 +683,7 @@ To run the application on a simulator or physical device:
 2. **Run the app:**
 
    ```bash
-   flutter run
+   fvm flutter run
    ```
 
 ### Backend data modification
