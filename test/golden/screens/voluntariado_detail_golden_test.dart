@@ -6,7 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'package:geocoding_platform_interface/geocoding_platform_interface.dart'; // ← NEW
+import 'package:geocoding_platform_interface/geocoding_platform_interface.dart';
 
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/models/user.dart';
