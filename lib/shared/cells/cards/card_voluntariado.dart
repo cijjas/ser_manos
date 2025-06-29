@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../../../models/voluntariado.dart';
 import '../../../constants/app_icons.dart';
@@ -42,11 +43,23 @@ class CardVoluntariado extends StatelessWidget {
             child: Image.network(
               voluntariado.imageUrl,
               fit: BoxFit.cover,
-              errorBuilder: (context, error, stackTrace) => Container(
-                color: AppColors.neutral10,
-                alignment: Alignment.center,
-                child: const Icon(Icons.broken_image, size: 64, color: Colors.grey),
-              ),
+              errorBuilder: (context, error, stackTrace) {
+                FirebaseCrashlytics.instance.recordError(
+                  error,
+                  stackTrace,
+                  reason: 'Failed to load voluntariado card image',
+                  information: [
+                    'Voluntariado ID: ${voluntariado.id}',
+                    'Image URL: ${voluntariado.imageUrl}'
+                  ],
+                  fatal: false,
+                );
+                return Container(
+                  color: AppColors.neutral10,
+                  alignment: Alignment.center,
+                  child: const Icon(Icons.broken_image, size: 64, color: Colors.grey),
+                );
+              },
               loadingBuilder: (context, child, loadingProgress) {
                 if (loadingProgress == null) return child;
                 return const Center(child: CircularProgressIndicator());

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/models/novedad.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../../../constants/app_routes.dart';
 import '../../tokens/colors.dart';
@@ -117,10 +118,19 @@ class _NovedadImage extends StatelessWidget {
         Image.network(
           url,
           fit: BoxFit.cover,
-          errorBuilder: (context, error, stackTrace) => Container(
-            color: AppColors.neutral10,
-            child: const Icon(Icons.broken_image, size: 48, color: Colors.grey),
-          ),
+          errorBuilder: (context, error, stackTrace) {
+            FirebaseCrashlytics.instance.recordError(
+              error,
+              stackTrace,
+              reason: 'Failed to load news card image',
+              information: ['Image URL: $url'],
+              fatal: false,
+            );
+            return Container(
+              color: AppColors.neutral10,
+              child: const Icon(Icons.broken_image, size: 48, color: Colors.grey),
+            );
+          },
           loadingBuilder: (context, child, loadingProgress) {
             if (loadingProgress == null) {
               return AnimatedOpacity(

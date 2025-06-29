@@ -25,7 +25,7 @@ class _FakeGeo extends GeocodingPlatform {
         String? localeIdentifier,
       }) async {
     return [
-      Placemark(
+      const Placemark(
         name: 'Fake St.',
         locality: 'Test City',
         country: 'AR',
