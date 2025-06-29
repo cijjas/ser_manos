@@ -35,13 +35,13 @@ class User with _$User {
     required String apellido,
     required String email,
     required bool hasSeenOnboarding,
-    @JsonKey(includeIfNull: false) List<UserVoluntariado>? voluntariados,
-    @JsonKey(includeIfNull: false) List<String>? likedVoluntariados,
-    @JsonKey(includeIfNull: false) String? telefono,
-    @JsonKey(includeIfNull: false) DateTime? fechaNacimiento,
-    @JsonKey(includeIfNull: false) String? genero,
-    @JsonKey(includeIfNull: false) String? imagenUrl,
-    @JsonKey(includeIfNull: false) String? fcmToken,
+    List<UserVoluntariado>? voluntariados,
+    List<String>? likedVoluntariados,
+    String? telefono,
+    DateTime? fechaNacimiento,
+    String? genero,
+    String? imagenUrl,
+    String? fcmToken,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);

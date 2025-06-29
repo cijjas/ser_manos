@@ -11,8 +11,8 @@ void main() {
     test('retorna FALSE cuando el usuario está deslogueado (User == null)', () async {
       final container = ProviderContainer(
         overrides: [
-          authStateProvider.overrideWithProvider(
-            StreamProvider<User?>((ref) => Stream.value(null)),
+          authStateProvider.overrideWith(
+            (ref) => Stream.value(null),
           ),
         ],
       );
@@ -28,8 +28,8 @@ void main() {
 
       final container = ProviderContainer(
         overrides: [
-          authStateProvider.overrideWithProvider(
-            StreamProvider<User?>((ref) => Stream.value(mockUser)),
+          authStateProvider.overrideWith(
+            (ref) => Stream.value(mockUser),
           ),
         ],
       );
@@ -46,8 +46,8 @@ void main() {
 
       final container = ProviderContainer(
         overrides: [
-          authStateProvider.overrideWithProvider(
-            StreamProvider<User?>((ref) => controller.stream),
+          authStateProvider.overrideWith(
+            (ref) => controller.stream,
           ),
         ],
       );

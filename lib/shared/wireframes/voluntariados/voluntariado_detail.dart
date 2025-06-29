@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -712,25 +713,13 @@ class _LocationCardState extends State<_LocationCard> {
 
 VoluntariadoUserState _determineUserState(
     Voluntariado voluntariado, User user) {
-  try {
-    final userVoluntariado = user.voluntariados?.firstWhere(
-      (v) => v.id == voluntariado.id,
-    );
+  // Safely find the user's voluntariado without throwing exceptions
+  final userVoluntariado = user.voluntariados?.firstWhereOrNull(
+    (v) => v.id == voluntariado.id,
+  );
 
-    if (userVoluntariado != null) {
-      return userVoluntariado.estado;
-    }
-  } catch (e, stack) {
-    FirebaseCrashlytics.instance.recordError(
-      e,
-      stack,
-      reason: 'Error determining user state for specific voluntariado',
-      information: [
-        'Voluntariado ID: ${voluntariado.id}',
-        'User ID: ${user.id}'
-      ],
-      fatal: false,
-    );
+  if (userVoluntariado != null) {
+    return userVoluntariado.estado;
   }
 
   if (user.voluntariados

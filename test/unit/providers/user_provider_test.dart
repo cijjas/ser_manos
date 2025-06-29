@@ -30,8 +30,8 @@ void main() {
     ProviderContainer makeContainer(Stream<auth.User?> authStream) {
       return ProviderContainer(overrides: [
         userServiceProvider.overrideWithValue(mockUserService),
-        authStateProvider.overrideWithProvider(
-          StreamProvider((_) => authStream),
+        authStateProvider.overrideWith(
+          (_) => authStream,
         ),
       ]);
     }
@@ -44,7 +44,8 @@ void main() {
       addTearDown(container.dispose);
       await container.read(authStateProvider.future);
 
-      final u = await container.read(currentUserProvider.future);
+      final user = await container.read(currentUserProvider.future);
+      expect(user, equals(domainUser));
     });
 
     test('markOnboardingCompleteProvider actualiza y devuelve nuevo user', () async {
