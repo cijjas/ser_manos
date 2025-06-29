@@ -23,15 +23,15 @@
 
 ## 🧾 Documentación
 - [ ] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
-- [ ] Mejorar especificidad de métrica `screen_view`.
+- [x] Mejorar especificidad de métrica `screen_view`.
 - [x] Usar `markdownlint` para mejorar formato del README.
 - [x] Describir cómo aceptar un voluntariado en el README.
 - [x] Corregir typo en nombre del proyecto de Firebase.
 - [x] Asegurarse de agregar a los profesores como editores en Firebase.
 
 ## 🧹 Limpieza del Proyecto
-- [x] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [ ] Agregar `const` en constructores donde corresponda.
+- [x] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [x] Eliminar comentarios generados por LLMs.
 - [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
 - [x] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/models/novedad.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
 
 import '../../../constants/app_routes.dart';
 import '../../tokens/colors.dart';
@@ -13,13 +14,28 @@ class CardNovedades extends StatelessWidget {
 
   const CardNovedades({super.key, required this.novedad});
 
+  Future<void> _logViewNewsEvent() async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'view_news_detail',
+      parameters: {
+        'news_id': novedad.id,
+        'news_title': novedad.titulo,
+        'news_source': novedad.emisor,
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => context.pushNamed(
-        RouteNames.newsDetail,
-        pathParameters: {'id': novedad.id},
-      ),
+      onTap: () {
+        _logViewNewsEvent();
+
+        context.pushNamed(
+          RouteNames.newsDetail,
+          pathParameters: {'id': novedad.id},
+        );
+      },
       child: Container(
         height: 156,
         decoration: const BoxDecoration(

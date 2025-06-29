@@ -18,6 +18,9 @@ import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
+import 'package:firebase_analytics/firebase_analytics.dart';
+
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 class VoluntariadoDetallePage extends ConsumerWidget {
   const VoluntariadoDetallePage({
@@ -28,26 +31,92 @@ class VoluntariadoDetallePage extends ConsumerWidget {
   final String voluntariadoId;
 
   Future<void> _handleApply(
-      BuildContext context, WidgetRef ref, User user) async {
-    await ref
-        .read(userServiceProvider)
-        .postulateToVoluntariado(user, voluntariadoId);
+      BuildContext context, WidgetRef ref, User user, Voluntariado voluntariado) async {
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'apply_for_volunteering',
+      parameters: {
+        'voluntariado_id': voluntariado.id,
+        'voluntariado_name': voluntariado.nombre,
+        'voluntariado_type': voluntariado.tipo,
+      },
+    );
+
+    try {
+      await ref.read(userServiceProvider).postulateToVoluntariado(user, voluntariadoId);
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        stack,
+        reason: 'Failed to apply for volunteering',
+        information: ['Voluntariado ID: $voluntariadoId', 'User ID: ${user.id}'],
+        fatal: false,
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al postularte. Intenta de nuevo.')),
+        );
+      }
+    }
   }
 
   Future<void> _handleWithdraw(
       BuildContext context, WidgetRef ref, User user, Voluntariado? participatingVoluntariado) async {
     if (participatingVoluntariado == null) return;
-    await ref
-        .read(userServiceProvider)
-        .withdrawPostulation(user, participatingVoluntariado.id);
+
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'withdraw_application',
+      parameters: {
+        'voluntariado_id': participatingVoluntariado.id,
+        'voluntariado_name': participatingVoluntariado.nombre,
+      },
+    );
+
+    try {
+      await ref.read(userServiceProvider).withdrawPostulation(user, participatingVoluntariado.id);
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        stack,
+        reason: 'Failed to withdraw postulation',
+        information: ['Voluntariado ID: ${participatingVoluntariado.id}', 'User ID: ${user.id}'],
+        fatal: false,
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al retirar la postulación. Intenta de nuevo.')),
+        );
+      }
+    }
   }
 
   Future<void> _handleAbandon(
       BuildContext context, WidgetRef ref, User user, Voluntariado? participatingVoluntariado) async {
     if (participatingVoluntariado == null) return;
-    await ref
-        .read(userServiceProvider)
-        .abandonVoluntariado(user, participatingVoluntariado.id);
+
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'abandon_volunteering',
+      parameters: {
+        'voluntariado_id': participatingVoluntariado.id,
+        'voluntariado_name': participatingVoluntariado.nombre,
+      },
+    );
+
+    try {
+      await ref.read(userServiceProvider).abandonVoluntariado(user, participatingVoluntariado.id);
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        stack,
+        reason: 'Failed to abandon volunteering',
+        information: ['Voluntariado ID: ${participatingVoluntariado.id}', 'User ID: ${user.id}'],
+        fatal: false,
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al abandonar el voluntariado. Intenta de nuevo.')),
+        );
+      }
+    }
   }
 
   @override
@@ -55,8 +124,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
     final voluntariadoAsync = ref.watch(voluntariadoProvider(voluntariadoId));
     final currentUserAsync = ref.watch(currentUserProvider);
 
-    final participatingVoluntariado =
-        ref.watch(voluntariadoParticipatingProvider);
+    final participatingVoluntariado = ref.watch(voluntariadoParticipatingProvider);
 
     return voluntariadoAsync.when(
       data: (voluntariado) {
@@ -68,22 +136,34 @@ class VoluntariadoDetallePage extends ConsumerWidget {
               voluntariado,
               user,
               participatingVoluntariado.value,
-              () => _handleApply(context, ref, user),
-              () => _handleWithdraw(context, ref, user, participatingVoluntariado.value),
-              () => _handleAbandon(context, ref, user, participatingVoluntariado.value),
+                  () => _handleApply(context, ref, user, voluntariado),
+                  () => _handleWithdraw(context, ref, user, participatingVoluntariado.value),
+                  () => _handleAbandon(context, ref, user, participatingVoluntariado.value),
             );
           },
-          loading: () =>
-              const Scaffold(body: Center(child: CircularProgressIndicator())),
-          error: (err, _) =>
-              Scaffold(body: Center(child: Text('Error de usuario: $err'))),
+          loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+          error: (err, stack) {
+            FirebaseCrashlytics.instance.recordError(
+              err,
+              stack,
+              reason: 'Failed to load current user data for VoluntariadoDetallePage',
+              fatal: false,
+            );
+            return Scaffold(body: Center(child: Text('Ocurrió un error al cargar tus datos. Por favor, intenta de nuevo.')));
+          },
         );
       },
-      loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
-      error: (error, _) {
+      loading: () => const Scaffold(body: Center(child: CircularProgressIndicator())),
+      error: (error, stack) {
+        FirebaseCrashlytics.instance.recordError(
+          error,
+          stack,
+          reason: 'Failed to load voluntariado data for VoluntariadoDetallePage',
+          information: ['Voluntariado ID: $voluntariadoId'],
+          fatal: false,
+        );
         ref.invalidate(voluntariadoProvider(voluntariadoId));
-        return Scaffold(body: Center(child: Text('Error: $error')));
+        return Scaffold(body: Center(child: Text('Ocurrió un error al cargar el voluntariado. Por favor, intenta de nuevo.')));
       },
     );
   }
@@ -96,24 +176,37 @@ class VoluntariadoDetallePage extends ConsumerWidget {
   }
 
   Widget _buildContent(
-    BuildContext context,
-    WidgetRef ref,
-    Voluntariado voluntariado,
-    User user,
-    Voluntariado? participatingVoluntariado,
-    Future<void> Function()? onApply,
-    Future<void> Function()? onWithdraw,
-    Future<void> Function()? onAbandon,
-  ) {
+      BuildContext context,
+      WidgetRef ref,
+      Voluntariado voluntariado,
+      User user,
+      Voluntariado? participatingVoluntariado,
+      Future<void> Function()? onApply,
+      Future<void> Function()? onWithdraw,
+      Future<void> Function()? onAbandon,
+      ) {
     final media = MediaQuery.of(context);
 
     Future<void> wrappedApply() async {
       final currentUser = ref.read(currentUserProvider).value;
-      if (currentUser == null) return;
+      if (currentUser == null) {
+        FirebaseCrashlytics.instance.recordError(
+          'Current user is null when attempting to apply',
+          StackTrace.current,
+          reason: 'Unexpected null user in wrappedApply',
+          fatal: false,
+        );
+        if (context.mounted) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Error: No se pudo obtener la información del usuario.')),
+          );
+        }
+        return;
+      }
 
       if (_isProfileComplete(currentUser)) {
         _showConfirmModal(context, voluntariado,
-            () => onApply != null ? onApply() : {}, ActionType.postulate);
+                () => onApply != null ? onApply() : {}, ActionType.postulate);
       } else {
         final bool? confirmed = await showDialog<bool>(
           context: context,
@@ -123,27 +216,38 @@ class VoluntariadoDetallePage extends ConsumerWidget {
             confirmLabel: "Confirmar",
             onConfirm: () => Navigator.of(dialogContext).pop(true),
             onCancel: () => Navigator.of(dialogContext).pop(false),
-            actionType: ActionType
-                .postulate,
+            actionType: ActionType.postulate,
           ),
         );
         if (!context.mounted) return;
 
         if (confirmed == true) {
-          final profileSaved =
-              await GoRouter.of(context).push<bool>(AppRoutes.homeProfileEdit);
+          final profileSaved = await GoRouter.of(context).push<bool>(AppRoutes.homeProfileEdit);
           if (!context.mounted) return;
 
           if (profileSaved == true) {
             ref.invalidate(currentUserProvider);
-            final freshUser = await ref.read(currentUserProvider.future);
-
-            _showConfirmModal(
-              context,
-              voluntariado,
-              () => _handleApply(context, ref, freshUser),
-              ActionType.postulate,
-            );
+            try {
+              final freshUser = await ref.read(currentUserProvider.future);
+              _showConfirmModal(
+                context,
+                voluntariado,
+                    () => _handleApply(context, ref, freshUser, voluntariado),
+                ActionType.postulate,
+              );
+            } catch (e, stack) {
+              FirebaseCrashlytics.instance.recordError(
+                e,
+                stack,
+                reason: 'Failed to fetch fresh user after profile edit for application',
+                fatal: false,
+              );
+              if (context.mounted) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  const SnackBar(content: Text('Error al actualizar tus datos. Intenta postularte de nuevo.')),
+                );
+              }
+            }
           }
         }
       }
@@ -154,7 +258,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
         return;
       }
       _showConfirmModal(context, participatingVoluntariado,
-          () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
+              () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
     }
 
     Future<void> wrappedAbandon() async {
@@ -162,7 +266,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
         return;
       }
       _showConfirmModal(context, participatingVoluntariado,
-          () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
+              () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
     }
 
     return Scaffold(
@@ -181,11 +285,20 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                     child: Image.network(
                       voluntariado.imageUrl,
                       fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Container(
-                        color: AppColors.neutral10,
-                        alignment: Alignment.center,
-                        child: const Icon(Icons.broken_image, size: 64, color: Colors.grey),
-                      ),
+                      errorBuilder: (context, error, stackTrace) {
+                        FirebaseCrashlytics.instance.recordError(
+                          error,
+                          stackTrace,
+                          reason: 'Failed to load voluntariado image',
+                          information: ['Voluntariado ID: ${voluntariado.id}', 'Image URL: ${voluntariado.imageUrl}'],
+                          fatal: false,
+                        );
+                        return Container(
+                          color: AppColors.neutral10,
+                          alignment: Alignment.center,
+                          child: const Icon(Icons.broken_image, size: 64, color: AppColors.neutral50),
+                        );
+                      },
                       loadingBuilder: (context, child, loadingProgress) {
                         if (loadingProgress == null) return child;
                         return const Center(child: CircularProgressIndicator());
@@ -225,8 +338,8 @@ class VoluntariadoDetallePage extends ConsumerWidget {
                         MarkdownBody(
                           data: voluntariado.requisitos,
                           styleSheet:
-                              MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                  .copyWith(
+                          MarkdownStyleSheet.fromTheme(Theme.of(context))
+                              .copyWith(
                             p: AppTypography.body01,
                           ),
                         ),
@@ -248,7 +361,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
               ),
             ),
           ),
-
           const Positioned(
             top: 0,
             left: 0,
@@ -258,7 +370,6 @@ class VoluntariadoDetallePage extends ConsumerWidget {
               hasShadow: true,
             ),
           ),
-
           Positioned(
             top: 8,
             left: 8,
@@ -292,15 +403,15 @@ void _showConfirmModal(BuildContext context, Voluntariado voluntariado,
 }
 
 class _BottomSection extends StatelessWidget {
-  const _BottomSection(
-      {required this.state,
-      required this.onApply,
-      required this.onWithdraw,
-      required this.onAbandon,
-      this.participatingVoluntariado});
+  const _BottomSection({
+    required this.state,
+    required this.onApply,
+    required this.onWithdraw,
+    required this.onAbandon,
+    this.participatingVoluntariado,
+  });
 
   final Voluntariado? participatingVoluntariado;
-
   final VoluntariadoUserState state;
   final Future<void> Function() onApply;
   final Future<void> Function() onWithdraw;
@@ -309,7 +420,9 @@ class _BottomSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (state) {
-      case VoluntariadoUserState.available || VoluntariadoUserState.rejected || VoluntariadoUserState.completed:
+      case VoluntariadoUserState.available ||
+      VoluntariadoUserState.rejected ||
+      VoluntariadoUserState.completed:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -325,7 +438,7 @@ class _BottomSection extends StatelessWidget {
         return _InfoWithLink(
           title: 'Te has postulado',
           subtitle:
-              'Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.',
+          'Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.',
           linkLabel: 'Retirar postulación',
           onLinkPressed: onWithdraw,
         );
@@ -334,7 +447,7 @@ class _BottomSection extends StatelessWidget {
         return _InfoWithLink(
           title: 'Estas participando',
           subtitle:
-              'La organización confirmó que ya estas\nparticipando de este voluntariado',
+          'La organización confirmó que ya estas\nparticipando de este voluntariado',
           linkLabel: 'Abandonar voluntariado',
           onLinkPressed: onAbandon,
         );
@@ -358,7 +471,7 @@ class _BottomSection extends StatelessWidget {
         );
 
       case VoluntariadoUserState.busyOther ||
-            VoluntariadoUserState.busyOtherPending:
+      VoluntariadoUserState.busyOtherPending:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -416,7 +529,7 @@ class _InfoWithLink extends StatelessWidget {
           onPressed: onLinkPressed,
           child: Text(linkLabel,
               style:
-                  AppTypography.button.copyWith(color: AppColors.primary100)),
+              AppTypography.button.copyWith(color: AppColors.primary100)),
         ),
       ],
     );
@@ -453,16 +566,43 @@ class _LocationCardState extends State<_LocationCard> {
       setState(() {
         _address = '${place.street}, ${place.locality}, ${place.country}';
       });
-    } catch (e) {
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        stack,
+        reason: 'Failed to get address from coordinates',
+        information: ['Latitude: ${widget.location.latitude}', 'Longitude: ${widget.location.longitude}'],
+        fatal: false,
+      );
       setState(() => _address = 'No se pudo obtener la dirección');
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Error al cargar la dirección. Intenta de nuevo.')),
+        );
+      }
     }
   }
 
   void _openNativeMaps() {
-    MapsLauncher.launchCoordinates(
-      widget.location.latitude,
-      widget.location.longitude,
-    );
+    try {
+      MapsLauncher.launchCoordinates(
+        widget.location.latitude,
+        widget.location.longitude,
+      );
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        stack,
+        reason: 'Failed to launch native maps',
+        information: ['Latitude: ${widget.location.latitude}', 'Longitude: ${widget.location.longitude}'],
+        fatal: false,
+      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('No se pudo abrir el mapa. Asegúrate de tener una aplicación de mapas instalada.')),
+        );
+      }
+    }
   }
 
   @override
@@ -488,7 +628,7 @@ class _LocationCardState extends State<_LocationCard> {
               color: AppColors.neutral25,
               alignment: Alignment.center,
               child:
-                  const Icon(Icons.map, size: 64, color: AppColors.neutral50),
+              const Icon(Icons.map, size: 64, color: AppColors.neutral50),
             ),
           ),
           Container(
@@ -514,23 +654,27 @@ VoluntariadoUserState _determineUserState(
     Voluntariado voluntariado, User user) {
   try {
     final userVoluntariado = user.voluntariados?.firstWhere(
-      (v) => v.id == voluntariado.id,
+          (v) => v.id == voluntariado.id,
     );
 
     if (userVoluntariado != null) {
       return userVoluntariado.estado;
     }
-  } catch (_) {}
+  } catch (e, stack) {
+    FirebaseCrashlytics.instance.recordError(
+      e,
+      stack,
+      reason: 'Error determining user state for specific voluntariado',
+      information: ['Voluntariado ID: ${voluntariado.id}', 'User ID: ${user.id}'],
+      fatal: false,
+    );
+  }
 
-  if (user.voluntariados
-          ?.any((v) => v.estado == VoluntariadoUserState.accepted) ??
-      false) {
+  if (user.voluntariados?.any((v) => v.estado == VoluntariadoUserState.accepted) ?? false) {
     return VoluntariadoUserState.busyOther;
   }
 
-  if (user.voluntariados
-          ?.any((v) => v.estado == VoluntariadoUserState.pending) ??
-      false) {
+  if (user.voluntariados?.any((v) => v.estado == VoluntariadoUserState.pending) ?? false) {
     return VoluntariadoUserState.busyOtherPending;
   }
 

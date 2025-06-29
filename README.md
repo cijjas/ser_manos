@@ -326,36 +326,21 @@ flutter test --update-goldens
 ### 4.5. Monitoring and Events
 
 - **Decision:**  
-  The application integrates **Firebase Crashlytics** and **Firebase Analytics**
-  to ensure robust error monitoring and comprehensive user behavior tracking.
+  The application integrates **Firebase Crashlytics** and **Firebase Analytics** to ensure robust error monitoring and user behavior tracking.
 
-- **Argumentation:**
-  - **Firebase Crashlytics:**  
-     Provides real-time crash reporting, enabling the development team to
-    detect, investigate, and resolve issues that occur in production. With crash
-    data (e.g., `app_exception`, `auth_error`), we can prioritize bug fixes
-    based on frequency and impact, significantly improving app stability and
-    user experience.
-  - **Firebase Analytics:**  
-     Enables the collection of detailed insights into user interactions and
-    navigation flows throughout the app. By tracking custom and automatic
-    events, we are able to better understand what users do, how they engage with
-    key features, and where they may drop off. The following user actions are
-    being tracked as key indicators of engagement and feature usage: 1.
-    1. **Volunteer Application**  
-        Tracks when a user successfully applies for a volunteer opportunity.  
-        This helps assess engagement with the core functionality of the platform
-       and identify which types of opportunities users respond to the most.
+  - **Argumentation:**
+    - **Firebase Crashlytics:** Provides real-time crash reporting across UI layers and service-level handlers, aiding in debugging and ensuring stability.
 
-    2. **Screen View** Automatically records when a user navigates to a screen
-       (e.g., `EntryScreen`, `VolunteeringsTab`, `ProfileTab`). This data is
-       used to analyze user flows, discover which features are most accessed,
-       and improve the visibility or UX of underutilized sections.
+    - **Firebase Analytics:**  
+      Enables the collection of detailed insights into user interactions and navigation flows throughout the app. By tracking custom and automatic events, we gain a better understanding of how users engage with core features. The following user actions are tracked as key engagement metrics:
 
-    3. **Like Toggle Count** Logs every time a user taps the like button on a
-       volunteering opportunity. These interactions reflect user preferences,
-       allowing us to surface popular content and enhance recommendation
-       strategies in the future.
+      1. **Volunteer Application**  
+         Tracks when a user successfully applies for a volunteer opportunity, helping us measure interest in volunteering options and overall platform engagement.
+
+      2. **Like Toggle Count**  
+         Logs every time a user taps the like button on a volunteering opportunity, reflecting user preferences and helping inform future content strategies.
+
+      3. In addition to these direct interaction metrics, we calculate advanced metrics using specific custom events. The **News Interaction Rate** is computed by dividing the total number of `view_news_detail` events (triggered when users tap on a news card to read the full article) by the total number of `share_news` events (triggered when users press the share button in the news detail page). The **Postulation Regret Index** is calculated by summing the `withdraw_application` and `abandon_volunteering` events (triggered when users retract a pending application or abandon an accepted volunteering opportunity) and dividing by the total `apply_for_volunteering` events (triggered when users confirm an application), expressed as a percentage. These metrics help us analyze user confidence, the quality of information presented, and the overall effectiveness of the app’s content and processes.
 
 ### 4.6. Security and Portability
 

@@ -1,10 +1,13 @@
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import 'package:ser_manos/models/novedad.dart';
 import 'package:ser_manos/providers/novedad_provider.dart';
@@ -29,8 +32,14 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
 
     setState(() => isSharing = true);
 
-    // https es requisito para Universal Links (iOS) y App Links (Android).
-    // en un caso real debería ser https
+    await FirebaseAnalytics.instance.logEvent(
+      name: 'share_news',
+      parameters: {
+        'news_id': novedad.id,
+        'news_title': novedad.titulo,
+      },
+    );
+
     final url = 'http://sermanos.app/novedad/${novedad.id}';
     final text = '${novedad.resumen}\n\nDescubre más aquí:\n$url';
 
@@ -47,8 +56,15 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
       await file.writeAsBytes(response.bodyBytes);
 
       await Share.shareXFiles([XFile(path)], text: text);
+    } catch (e, stack) {
+      FirebaseCrashlytics.instance.recordError(
+        e,
+        stack,
+        reason: 'Failed to download news image for sharing',
+        information: ['Novedad ID: ${novedad.id}', 'Image URL: ${novedad.imagenUrl}'],
+        fatal: false,
+      );
 
-    } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Ocurrió un error inesperado, intentalo en un rato.')),
@@ -67,7 +83,10 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
       backgroundColor: AppColors.neutral0,
       body: novedadAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => Center(child: Text('Error: $e')),
+        error: (e, stack) {
+          FirebaseCrashlytics.instance.recordError(e, stack);
+          return const Center(child: Text('Ocurrió un error al cargar la novedad.'));
+        },
         data: (novedad) => SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,14 +116,23 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                             child: const Center(child: CircularProgressIndicator()),
                           );
                         },
-                        errorBuilder: (context, error, stackTrace) => Container(
-                          width: double.infinity,
-                          height: 160,
-                          color: AppColors.neutral10,
-                          child: const Center(
-                            child: Icon(Icons.broken_image, size: 64, color: AppColors.neutral50),
-                          ),
-                        ),
+                        errorBuilder: (context, error, stackTrace) {
+                          FirebaseCrashlytics.instance.recordError(
+                            error,
+                            stackTrace,
+                            reason: 'Failed to load news image for display',
+                            information: ['Novedad ID: ${novedad.id}', 'Image URL: ${novedad.imagenUrl}'],
+                            fatal: false,
+                          );
+                          return Container(
+                            width: double.infinity,
+                            height: 160,
+                            color: AppColors.neutral10,
+                            child: const Center(
+                              child: Icon(Icons.broken_image, size: 64, color: AppColors.neutral50),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(height: 16),
