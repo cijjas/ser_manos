@@ -149,7 +149,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
               reason: 'Failed to load current user data for VoluntariadoDetallePage',
               fatal: false,
             );
-            return Scaffold(body: Center(child: Text('Ocurrió un error al cargar tus datos. Por favor, intenta de nuevo.')));
+            return const Scaffold(body: Center(child: Text('Ocurrió un error al cargar tus datos. Por favor, intenta de nuevo.')));
           },
         );
       },
@@ -163,7 +163,7 @@ class VoluntariadoDetallePage extends ConsumerWidget {
           fatal: false,
         );
         ref.invalidate(voluntariadoProvider(voluntariadoId));
-        return Scaffold(body: Center(child: Text('Ocurrió un error al cargar el voluntariado. Por favor, intenta de nuevo.')));
+        return const Scaffold(body: Center(child: Text('Ocurrió un error al cargar el voluntariado. Por favor, intenta de nuevo.')));
       },
     );
   }
