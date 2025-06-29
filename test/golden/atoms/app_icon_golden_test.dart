@@ -22,15 +22,15 @@ void main() {
       ..overrideDevicesForAllScenarios(devices: [Device.phone])
       ..addScenario(
         name: 'default-neutral',
-        widget: buildIcon(AppIcons.FAVORITO_OUTLINE, AppIconsColor.DEFAULT),
+        widget: buildIcon(AppIcons.favoritoOutline, AppIconsColor.defaultColor),
       )
       ..addScenario(
         name: 'primary',
-        widget: buildIcon(AppIcons.FAVORITO, AppIconsColor.PRIMARY),
+        widget: buildIcon(AppIcons.favorito, AppIconsColor.primary),
       )
       ..addScenario(
         name: 'disabled',
-        widget: buildIcon(AppIcons.FAVORITO_OUTLINE, AppIconsColor.DISABLED),
+        widget: buildIcon(AppIcons.favoritoOutline, AppIconsColor.disabled),
       );
 
     await tester.pumpDeviceBuilder(builder);

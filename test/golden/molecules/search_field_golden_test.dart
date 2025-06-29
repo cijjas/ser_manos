@@ -22,8 +22,8 @@ void main() {
         widget: _appFrame(
           const SearchField(
             emptySuffix: AppIcon(
-              icon: AppIcons.LISTA,
-              color: AppIconsColor.PRIMARY,
+              icon: AppIcons.lista,
+              color: AppIconsColor.primary,
             ),
           ),
           theme: ThemeData.light(),
@@ -37,8 +37,8 @@ void main() {
           SearchField(
             controller: TextEditingController(text: 'comedor'),
             emptySuffix: const AppIcon(
-              icon: AppIcons.LISTA,
-              color: AppIconsColor.PRIMARY,
+              icon: AppIcons.lista,
+              color: AppIconsColor.primary,
             ),
           ),
           theme: ThemeData.light(),
@@ -51,8 +51,8 @@ void main() {
         widget: _appFrame(
           const SearchField(
             emptySuffix: AppIcon(
-              icon: AppIcons.LISTA,
-              color: AppIconsColor.PRIMARY,
+              icon: AppIcons.lista,
+              color: AppIconsColor.primary,
             ),
           ),
           theme: ThemeData.dark(useMaterial3: true),

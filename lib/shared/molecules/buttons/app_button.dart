@@ -35,7 +35,7 @@ class AppButton extends StatelessWidget {
             : (type == AppButtonType.filled ? AppColors.neutral0 : AppColors.primary100));
 
     final Color rippleColor = switch (type) {
-      AppButtonType.filled => AppColors.neutral10.withOpacity(0.1),
+      AppButtonType.filled => AppColors.neutral10.withValues(alpha: 0.1),
       AppButtonType.tonal  => AppColors.neutral25,
     };
 

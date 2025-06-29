@@ -68,14 +68,14 @@ class FotoPerfil extends StatelessWidget {
         placeholder: (_, __) => Container(
           width: diameter,
           height: diameter,
-          color: AppColors.neutral100.withOpacity(0.3),
+          color: AppColors.neutral100.withValues(alpha: 0.3),
           child: const CircularProgressIndicator(),
         ),
         errorWidget: (_, __, ___) => Container(
           width: diameter,
           height: diameter,
           alignment: Alignment.center,
-          color: AppColors.neutral100.withOpacity(0.3),
+          color: AppColors.neutral100.withValues(alpha: 0.3),
           child: Icon(Icons.person, size: diameter * 0.5, color: Colors.grey),
         ),
       );
@@ -84,7 +84,7 @@ class FotoPerfil extends StatelessWidget {
         width: diameter,
         height: diameter,
         alignment: Alignment.center,
-        color: AppColors.neutral100.withOpacity(0.3),
+        color: AppColors.neutral100.withValues(alpha: 0.3),
         child: Icon(Icons.person, size: diameter * 0.5, color: Colors.grey),
       );
     }

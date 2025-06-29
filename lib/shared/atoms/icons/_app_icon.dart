@@ -12,7 +12,7 @@ class AppIcon extends StatelessWidget {
   const AppIcon({
     super.key,
     required this.icon,
-    this.color = AppIconsColor.DEFAULT,
+    this.color = AppIconsColor.defaultColor,
     this.size = 24,
     this.overrideColor,
   });
@@ -30,15 +30,15 @@ class AppIcon extends StatelessWidget {
 
   Color _getColorFromEnum(AppIconsColor color) {
     switch (color) {
-      case AppIconsColor.PRIMARY:
+      case AppIconsColor.primary:
         return AppColors.primary100;
-      case AppIconsColor.SECONDARY:
+      case AppIconsColor.secondary:
         return AppColors.secondary200;
-      case AppIconsColor.SECONDARY_DISABLED:
+      case AppIconsColor.secondaryDisabled:
         return AppColors.secondary80;
-      case AppIconsColor.DISABLED:
+      case AppIconsColor.disabled:
         return AppColors.neutral25;
-      case AppIconsColor.NEUTRAL_75:
+      case AppIconsColor.neutral75:
         return AppColors.neutral75;
       default:
         return AppColors.neutral0;

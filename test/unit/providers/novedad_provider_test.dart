@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod/riverpod.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ser_manos/providers/novedad_provider.dart';
 import 'package:ser_manos/models/novedad.dart';
 import 'package:mockito/mockito.dart';

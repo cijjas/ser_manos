@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:ser_manos/converters/geoPoint_converter.dart';
+import 'package:ser_manos/converters/geopoint_converter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ser_manos/converters/trim_converter.dart';
 

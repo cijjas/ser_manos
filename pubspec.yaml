@@ -47,6 +47,7 @@ dependencies:
   url_launcher: ^6.2.4
   maps_launcher: ^3.0.0+1
   geolocator: ^14.0.1
+  geocoding: ^2.1.0
 
 dev_dependencies:
   flutter_test:
@@ -62,7 +63,6 @@ dev_dependencies:
   freezed: ^2.4.5
   json_serializable: ^6.7.1
   network_image_mock: ^2.1.0
-  geocoding: ^2.1.0
 
 flutter_icons:
   android: true

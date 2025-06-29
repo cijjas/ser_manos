@@ -7,17 +7,14 @@ import '../models/user.dart';
 
 class UserService {
   UserService({
-    FirebaseFirestore?   firestore,
-    FirebaseAnalytics?   analytics,
+    FirebaseFirestore? firestore,
+    FirebaseAnalytics? analytics,
     FirebaseCrashlytics? crashlytics,
-  })  : _firestore   = firestore   ?? FirebaseFirestore.instance,
-        _analytics   = analytics   ?? FirebaseAnalytics.instance,
+  })  : _analytics = analytics ?? FirebaseAnalytics.instance,
         _crashlytics = crashlytics ?? FirebaseCrashlytics.instance,
-        _users       = (firestore ?? FirebaseFirestore.instance)
-            .collection('users');
+        _users = (firestore ?? FirebaseFirestore.instance).collection('users');
 
-  final FirebaseFirestore   _firestore;
-  final FirebaseAnalytics   _analytics;
+  final FirebaseAnalytics _analytics;
   final FirebaseCrashlytics _crashlytics;
   final CollectionReference<Map<String, dynamic>> _users;
 
@@ -46,18 +43,17 @@ class UserService {
 
   // ─────────── helper para cambiar estado de voluntariado ───────────
   Future<bool> _setUserVoluntariadoState(
-      String voluntariadoId,
-      User user,
-      VoluntariadoUserState newState,
-      ) async {
+    String voluntariadoId,
+    User user,
+    VoluntariadoUserState newState,
+  ) async {
     try {
       // construir voluntariado actualizado
       UserVoluntariado newVoluntariado;
       if (user.voluntariados?.isNotEmpty ?? false) {
         final existing = user.voluntariados!.firstWhere(
-              (v) => v.id == voluntariadoId,
-          orElse: () =>
-              UserVoluntariado(id: voluntariadoId, estado: newState),
+          (v) => v.id == voluntariadoId,
+          orElse: () => UserVoluntariado(id: voluntariadoId, estado: newState),
         );
         newVoluntariado = existing.copyWith(estado: newState);
       } else {
@@ -67,9 +63,7 @@ class UserService {
 
       // lista final
       final updated = [
-        ...(user.voluntariados ?? [])
-            .where((v) => v.id != voluntariadoId)
-            ,
+        ...(user.voluntariados ?? []).where((v) => v.id != voluntariadoId),
         if (newState != VoluntariadoUserState.available) newVoluntariado,
       ];
 
@@ -80,9 +74,9 @@ class UserService {
       _analytics.logEvent(name: 'voluntariado_state_updated', parameters: {
         'voluntariadoId': voluntariadoId,
         'oldState': user.voluntariados
-            ?.firstWhereOrNull((v) => v.id == voluntariadoId)
-            ?.estado
-            .toString() ??
+                ?.firstWhereOrNull((v) => v.id == voluntariadoId)
+                ?.estado
+                .toString() ??
             'not found',
         'newState': newState.toString(),
         'userId': user.id,
@@ -154,14 +148,15 @@ class UserService {
   // watchers
   Stream<UserVoluntariado?> watchParticipating(String userId) {
     return _users.doc(userId).snapshots().map((doc) =>
-        User.fromJson(doc.data()!).voluntariados?.firstWhereOrNull(
-                (v) => v.estado == VoluntariadoUserState.accepted || v.estado == VoluntariadoUserState.pending));
+        User.fromJson(doc.data()!).voluntariados?.firstWhereOrNull((v) =>
+            v.estado == VoluntariadoUserState.accepted ||
+            v.estado == VoluntariadoUserState.pending));
   }
 
   Stream<User> watchOne(String id) {
     return _users.doc(id).snapshots().where((d) => d.exists).map(
           (d) => User.fromJson(d.data()!),
-    );
+        );
   }
 
   // ─────────── Likes ───────────
@@ -191,7 +186,8 @@ class UserService {
       final data = user.toJson();
 
       if (user.voluntariados != null) {
-        data['voluntariados'] = user.voluntariados!.map((v) => v.toJson()).toList();
+        data['voluntariados'] =
+            user.voluntariados!.map((v) => v.toJson()).toList();
       }
 
       await _users.doc(user.id).set(data, SetOptions(merge: true));

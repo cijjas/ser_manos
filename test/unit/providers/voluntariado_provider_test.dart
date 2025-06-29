@@ -41,9 +41,11 @@ ProviderContainer makeContainer({
     userServiceProvider.overrideWithValue(userService),
 
     // Usuario autenticado (Firebase)
-    authStateProvider.overrideWithProvider(
-      StreamProvider((_) => Stream.value(firebaseUser)),
-    ),
+    // authStateProvider.overrideWithProvider(
+    //   StreamProvider((_) => Stream.value(firebaseUser)),
+    // ),
+
+    authStateProvider.overrideWith((ref) => Stream.value(firebaseUser)), // firebaseUser is of type auth.User
 
     // Usuario dominio (ya resuelto)
     currentUserProvider.overrideWith((_) => Stream.value(domainUser)),
@@ -105,7 +107,7 @@ void main() {
       // Cambiamos la query
       container.read(voluntariadoSearchQueryProvider.notifier).state = 'com';
 
-      final lista = await container.read(voluntariadosProvider.stream).first;
+      final lista = await container.read(voluntariadosProvider.future);
       expect(lista, [vol1]);
     });
   });

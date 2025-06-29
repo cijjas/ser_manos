@@ -68,7 +68,7 @@ class ShortButton extends StatelessWidget {
         padding: WidgetStateProperty.all(padding),
         backgroundColor: WidgetStateProperty.all(backgroundColor),
         overlayColor: WidgetStateProperty.all(
-          AppColors.neutral10.withOpacity(0.1),
+          AppColors.neutral10.withValues(alpha: 0.1),
         ),
         shape: WidgetStateProperty.all(
           RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),

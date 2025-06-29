@@ -35,8 +35,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
   final ValueNotifier<bool> _canRegister = ValueNotifier(false);
   bool _isLoading = false;
   String? _errorMessage;
-  bool _submitPressed = false;
-
 
   @override
   void initState() {
@@ -68,7 +66,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
   Future<void> _handleRegister() async {
     setState(() {
-      _submitPressed = true;
       _errorMessage = null;
     });
 

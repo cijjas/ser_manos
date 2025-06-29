@@ -78,9 +78,9 @@ class CardVoluntariado extends StatelessWidget {
                           }
                         },
                         child: AppIcon(
-                          icon: isLiked ? AppIcons.FAVORITO : AppIcons.FAVORITO_OUTLINE,
+                          icon: isLiked ? AppIcons.favorito : AppIcons.favoritoOutline,
                           size: 24,
-                          color: AppIconsColor.PRIMARY,
+                          color: AppIconsColor.primary,
                         )),
                     const SizedBox(width: 16),
                     GestureDetector(
@@ -91,9 +91,9 @@ class CardVoluntariado extends StatelessWidget {
                         );
                       },
                       child: const AppIcon(
-                        icon: AppIcons.UBICACION,
+                        icon: AppIcons.ubicacion,
                         size: 24,
-                        color: AppIconsColor.PRIMARY,
+                        color: AppIconsColor.primary,
                       ),
                     ),
                   ],

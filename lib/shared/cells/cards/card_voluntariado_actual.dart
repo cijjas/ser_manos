@@ -61,9 +61,9 @@ class CardVoluntariadoActual extends CardVoluntariado {
                         MapsLauncher.launchCoordinates(lat, lng);
                       },
                       child: const AppIcon(
-                        icon: AppIcons.UBICACION,
+                        icon: AppIcons.ubicacion,
                         size: 24,
-                        color: AppIconsColor.PRIMARY,
+                        color: AppIconsColor.primary,
                       ),
                     )
                   ],

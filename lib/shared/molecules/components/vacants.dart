@@ -35,11 +35,11 @@ class VacantsDisplay extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               AppIcon(
-                icon: AppIcons.PERSONA,
+                icon: AppIcons.persona,
                 size: 20,
                 color: hayVacantes
-                    ? AppIconsColor.SECONDARY
-                    : AppIconsColor.SECONDARY_DISABLED,
+                    ? AppIconsColor.secondary
+                    : AppIconsColor.secondaryDisabled,
               ),
               Text(
                 number.toString(),
