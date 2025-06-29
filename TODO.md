@@ -3,7 +3,6 @@
 ## 🧪 Funcionalidad y UX
 - [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo tampoco? quizas poruqe no les funcionaba el detalle no podian ver el abandonar voluntariado? no se no entiendo
 - [ ] Corregir error al ingresar a vistas de detalle de voluntariados en producción.
-- [ ] Mostrar voluntariado en actividad luego de postularse y ser confirmado. -> al postularse que ya aparezca (no despues de postularse)
 - [x] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de input).
 - [x] Unificar idioma en los textos de validación (no mezclar inglés y español).
 - [x] Ajustar separación entre chip de vacantes y títulos según el Design System.
@@ -22,7 +21,7 @@
 - [x] Mostrar voluntariado en actividad luego de postularse y ser confirmado.
 
 ## 🧾 Documentación
-- [ ] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
+- [x] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
 - [x] Mejorar especificidad de métrica `screen_view`.
 - [x] Usar `markdownlint` para mejorar formato del README.
 - [x] Describir cómo aceptar un voluntariado en el README.

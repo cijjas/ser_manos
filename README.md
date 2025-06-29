@@ -7,18 +7,18 @@
 - [1. Introduction](#1-introduction)
 - [2. Project Objective and Structure](#2-project-objective-and-structure)
 - [3. Features Implemented](#3-features-implemented)
-  - [3.1. Core Functional Requirements](#31-core-functional-requirements)
-  - [3.2. Special Features](#32-special-features)
+    - [3.1. Core Functional Requirements](#31-core-functional-requirements)
+    - [3.2. Special Features](#32-special-features)
 - [4. Technical Specifications and Decisions](#4-technical-specifications-and-decisions)
-  - [4.1. Architecture and State Management](#41-architecture-and-state-management)
-  - [4.2. Deep Links and Routing](#42-deep-links-and-routing)
-  - [4.3. Backend Integration](#43-backend-integration)
-  - [4.4. Testing Strategy](#44-testing-strategy)
-  - [4.5. Monitoring and Events](#45-monitoring-and-events)
-  - [4.6. Security and Portability](#46-security-and-portability)
-  - [4.7. Data Models](#47-data-models)
-  - [4.8. Project Structure](#48-project-structure)
-  - [4.9. Dependencies (pubspec.yaml)](#49-dependencies-pubspecyaml)
+    - [4.1. Architecture and State Management](#41-architecture-and-state-management)
+    - [4.2. Deep Links and Routing](#42-deep-links-and-routing)
+    - [4.3. Backend Integration](#43-backend-integration)
+    - [4.4. Testing Strategy](#44-testing-strategy)
+    - [4.5. Monitoring and Events](#45-monitoring-and-events)
+    - [4.6. Security and Portability](#46-security-and-portability)
+    - [4.7. Data Models](#47-data-models)
+    - [4.8. Project Structure](#48-project-structure)
+    - [4.9. Dependencies (pubspec.yaml)](#49-dependencies-pubspecyaml)
 - [5. Installation and Setup](#5-installation-and-setup)
 - [6. Running the Application](#6-running-the-application)
 - [7. Development Team](#7-development-team)
@@ -54,24 +54,24 @@ The application includes the following core functionalities:
   and iOS devices, ensuring a consistent user experience across platforms.
 - **Volunteer Opportunity Exploration:** Users can browse available volunteer
   opportunities. Each opportunity includes:
-  - An image
-  - Volunteer type (e.g., social action)
-  - Title
-  - Mission/Purpose
-  - Activity details
-  - Geographical coordinates for location
-  - Address
-  - Rich text requirements for participation (supporting Markdown)
-  - Creation date
-  - Available slots
-  - Opportunities are ordered by proximity to the user (if location access is
-    granted) and by creation date (newest to oldest).
-  - Users can mark volunteer opportunities as favorites, which are persisted in
-    the backend.
-  - Location icons within volunteer cards can open Google Maps via a deep link
-    with the selected coordinates.
-  - Volunteer opportunities can be searched by title, mission/purpose, and
-    activity details.
+    - An image
+    - Volunteer type (e.g., social action)
+    - Title
+    - Mission/Purpose
+    - Activity details
+    - Geographical coordinates for location
+    - Address
+    - Rich text requirements for participation (supporting Markdown)
+    - Creation date
+    - Available slots
+    - Opportunities are ordered by proximity to the user (if location access is
+      granted) and by creation date (newest to oldest).
+    - Users can mark volunteer opportunities as favorites, which are persisted in
+      the backend.
+    - Location icons within volunteer cards can open Google Maps via a deep link
+      with the selected coordinates.
+    - Volunteer opportunities can be searched by title, mission/purpose, and
+      activity details.
 - **Volunteer Opportunity Details:** Users can view detailed information about
   each volunteer opportunity. There is a tappable map widget that will open the
   device's native map application with the selected coordinates.
@@ -102,56 +102,55 @@ updates are reflected instantly in the UI.
 **Technical Implementation & Decisions:**
 
 - **Technology Choice:**
-  - **Cloud Firestore** was selected for its native support for real-time
-    listeners and easy integration with Flutter’s reactive widget system.
-  - **Riverpod** is used to manage state and expose Firestore streams to the UI
-    in a modular and testable way.
+    - **Cloud Firestore** was selected for its native support for real-time
+      listeners and easy integration with Flutter’s reactive widget system.
+    - **Riverpod** is used to manage state and expose Firestore streams to the UI
+      in a modular and testable way.
 
 - **Usage Across the App:**
-  - **Volunteer Opportunities (`voluntariados`):** Real-time streams update
-    availability, details, and filtering results as new opportunities are added
-    or updated.
-  - **News (`novedades`):** A live feed of updates allows users to receive the
-    latest news without polling.
-  - **Users:** Profile data, postulations, and interaction states (e.g., likes,
-    onboarding progress) are synced via document listeners.
-  - **Location-Aware Data:** Opportunities are sorted dynamically by proximity
-    using `Geolocator`, reacting in real-time to both user movement and database
-    changes.
+    - **Volunteer Opportunities (`voluntariados`):** Real-time streams update
+      availability, details, and filtering results as new opportunities are added
+      or updated.
+    - **News (`novedades`):** A live feed of updates allows users to receive the
+      latest news without polling.
+    - **Users:** Profile data, postulations, and interaction states (e.g., likes,
+      onboarding progress) are synced via document listeners.
+    - **Location-Aware Data:** Opportunities are sorted dynamically by proximity
+      using `Geolocator`, reacting in real-time to both user movement and database
+      changes.
 
 - **Implementation Highlights:**
-  - Streams are exposed via `StreamProvider`s and managed in service classes.
-    For example:
+    - Streams are exposed via `StreamProvider`s and managed in service classes.
+      For example:
 
-    ```dart
-    Stream<User> watchOne(String userId) =>
-        _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
+      ```dart
+      Stream<User> watchOne(String userId) =>
+          _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
+  
+      Stream<List<Novedad>> watchAll() =>
+          _collection.orderBy('createdAt', descending: true).snapshots()
+                     .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
+      ```
 
-    Stream<List<Novedad>> watchAll() =>
-        _collection.orderBy('createdAt', descending: true).snapshots()
-                   .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
-    ```
-
-  - These streams drive the reactive UI, ensuring updates like slot
-    availability, news items, and user state (e.g., onboarding, postulation
-    status) are reflected immediately.
+    - These streams drive the reactive UI, ensuring updates like slot
+      availability, news items, and user state (e.g., onboarding, postulation
+      status) are reflected immediately.
 
 - **Crash Reporting & Logging:**
-  - All service-layer operations are wrapped with **Firebase Crashlytics** and
-    **Analytics** for error tracking and observability. Errors in real-time
-    updates (e.g., permission issues, invalid states) are logged with relevant
-    context.
+    - All service-layer operations are wrapped with **Firebase Crashlytics** and
+      **Analytics** for error tracking and observability. Errors in real-time
+      updates (e.g., permission issues, invalid states) are logged with relevant
+      context.
 
 - **Benefits of Real-Time Architecture:**
-  - **No polling or refresh logic**—Firestore pushes changes directly to the
-    client.
-  - **Optimized performance**—updates are granular and batched efficiently by
-    Firestore.
-  - **Highly reactive UI**—users see changes reflected across tabs and screens
-    immediately.
-  - **Developer efficiency**—a consistent pattern (stream + provider + model) is
-    used across all entities.
-
+    - **No polling or refresh logic**—Firestore pushes changes directly to the
+      client.
+    - **Optimized performance**—updates are granular and batched efficiently by
+      Firestore.
+    - **Highly reactive UI**—users see changes reflected across tabs and screens
+      immediately.
+    - **Developer efficiency**—a consistent pattern (stream + provider + model) is
+      used across all entities.
 
 ### 3.2.2. Push Notifications
 
@@ -166,35 +165,35 @@ engagement and immediacy for critical events. These include:
 **Technical Implementation & Decisions:**
 
 - **Technology Stack:**
-  - **Firebase Cloud Messaging (FCM):** Used to send and route push
-    notifications to user devices.
-  - **Firebase Cloud Functions (v2):** Implemented to trigger notifications
-    automatically based on changes in Firestore data.
-  - **`flutter_local_notifications`:** Used to display notifications while the
-    app is in the foreground.
-  - **`go_router`:** Handles deep linking and in-app navigation based on
-    notification payloads.
+    - **Firebase Cloud Messaging (FCM):** Used to send and route push
+      notifications to user devices.
+    - **Firebase Cloud Functions (v2):** Implemented to trigger notifications
+      automatically based on changes in Firestore data.
+    - **`flutter_local_notifications`:** Used to display notifications while the
+      app is in the foreground.
+    - **`go_router`:** Handles deep linking and in-app navigation based on
+      notification payloads.
 
 - **Backend Notification Triggers:**
-  - Implemented using **Firebase Cloud Functions (v2)** with **Firestore
-    triggers**:
-    - `onDocumentUpdated` listens for changes in user documents. When a user’s
-      volunteer application status (`estado`) changes, a personalized FCM
-      notification is sent.
-    - `onDocumentCreated` listens for new entries in the `novedades` collection.
-      When a news item is added, a broadcast notification is sent to all users
-      with valid FCM tokens.
-  - Each function sends structured FCM payloads including metadata (`type`,
-    `voluntariadoId`, `newsId`) used for routing.
+    - Implemented using **Firebase Cloud Functions (v2)** with **Firestore
+      triggers**:
+        - `onDocumentUpdated` listens for changes in user documents. When a user’s
+          volunteer application status (`estado`) changes, a personalized FCM
+          notification is sent.
+        - `onDocumentCreated` listens for new entries in the `novedades` collection.
+          When a news item is added, a broadcast notification is sent to all users
+          with valid FCM tokens.
+    - Each function sends structured FCM payloads including metadata (`type`,
+      `voluntariadoId`, `newsId`) used for routing.
 
 - **Client-Side Notification Handling:**
-  - Foreground messages are intercepted by `flutter_local_notifications`,
-    displaying native push UI elements.
-  - A custom `NotificationService` handles:
-    - Initialization of local notification channels.
-    - Parsing of incoming payloads.
-    - Navigating the user via `go_router` to appropriate screens (e.g.,
-      `/voluntariado/{id}` or `/novedad/{id}`).
+    - Foreground messages are intercepted by `flutter_local_notifications`,
+      displaying native push UI elements.
+    - A custom `NotificationService` handles:
+        - Initialization of local notification channels.
+        - Parsing of incoming payloads.
+        - Navigating the user via `go_router` to appropriate screens (e.g.,
+          `/voluntariado/{id}` or `/novedad/{id}`).
 
 - **Example Payloads:**
 
@@ -212,13 +211,37 @@ engagement and immediacy for critical events. These include:
 }
 ```
 
-**How to test?**  
-The notifications can only be tested on android devices. As described, the backend listens for 2 types of events, to see a notification these listeners need to be triggered.
-One example is by changing the users application status to accepted or rejected via Firestore database. On the other hand to trigger the news notification a new item has to be created here are the steps:
-1. go to Firebase console
-2. click on news collection
-3. click on add document
-4. fill out with all the necessary fields for a news item (use another news item for reference)
+### 🔔 How to Test Push Notifications
+
+Notifications can **only be tested on Android devices**.
+
+The backend listens for two types of events:
+
+- **Application Status Change:**  
+  Find the user's `voluntariados` field in Firestore. Change the `estado` field from `"pending"` to either `"accepted"` or `"rejected"` to simulate the application process and trigger a notification.
+
+- **New Novedad Created:**  
+  Adding a new document to the `novedades` collection triggers a "news" notification.
+
+#### 📢 Steps to Trigger a News Notification Manually
+
+1. Go to the [Firebase Console](https://console.firebase.google.com/)
+2. Select your project and navigate to **Firestore Database**
+3. Click on the **`novedades`** collection
+4. Click **"Add Document"**
+5. Fill in the required fields based on the `Novedad` model:
+
+| Field         | Type      | Example Value                          |
+|---------------|-----------|----------------------------------------|
+| `id`          | string    | `mock-id`                              |
+| `titulo`      | string    | `Nueva oportunidad de voluntariado`    |
+| `resumen`     | string    | `Se abrió un nuevo puesto en XYZ`      |
+| `emisor`      | string    | `Equipo de SerManos`                   |
+| `imagenUrl`   | string    | `https://example.com/image.jpg`        |
+| `descripcion` | string    | `Detalles completos de la novedad...`  |
+| `createdAt`   | timestamp | Click the clock icon to set it to now  |
+
+Once saved, the notification should appear on any Android device with the app installed and notification permissions enabled.
 
 #### 3.2.3. Camera
 
@@ -230,21 +253,21 @@ functionality
   system. This provides a personalized user experience and aligns with modern
   app standards where profile customization is expected.
 - **Technical Implementation and Decisions:**
-  - **Technology Choice:** We utilized the `image_picker` Flutter plugin, which
-    provides a unified API for accessing both the device camera and gallery
-    across iOS and Android platforms.
-  - **Integration:** A modal bottom sheet is presented when the user opts to
-    update their profile picture. It gives the option to either take a new photo
-    using the camera or choose an existing one from the gallery. Upon selection,
-    the image is compressed and uploaded to Firebase Storage, and the resulting
-    download URL is saved to the user's profile document in Cloud Firestore.
-  - **Implementation Details:**
-    - Permissions for camera and storage access are handled gracefully, using
-      platform-specific permission prompts.
-    - The selected image is previewed before confirmation, giving users the
-      opportunity to cancel or retake.
-    - After upload, the app updates the UI reactively using Riverpod to reflect
-      the new profile image.
+    - **Technology Choice:** We utilized the `image_picker` Flutter plugin, which
+      provides a unified API for accessing both the device camera and gallery
+      across iOS and Android platforms.
+    - **Integration:** A modal bottom sheet is presented when the user opts to
+      update their profile picture. It gives the option to either take a new photo
+      using the camera or choose an existing one from the gallery. Upon selection,
+      the image is compressed and uploaded to Firebase Storage, and the resulting
+      download URL is saved to the user's profile document in Cloud Firestore.
+    - **Implementation Details:**
+        - Permissions for camera and storage access are handled gracefully, using
+          platform-specific permission prompts.
+        - The selected image is previewed before confirmation, giving users the
+          opportunity to cancel or retake.
+        - After upload, the app updates the UI reactively using Riverpod to reflect
+          the new profile image.
 
 ## 4. Technical Specifications and Decisions
 
@@ -285,12 +308,12 @@ used in the development of Ser Manos.
   that align perfectly with the application's requirements (user authentication,
   real-time database, file storage). Its ease of integration with Flutter via
   official SDKs significantly accelerated development.
-  - **Firebase Authentication** handles user registration and login securely.
-  - **Cloud Firestore** persists volunteer opportunities, user profiles, news,
-    and user interactions (e.g., favorites). It also powers the real-time
-    updates for volunteer vacancies.
-  - **Firebase Storage** is used for storing images associated with volunteer
-    opportunities and user profile pictures.
+    - **Firebase Authentication** handles user registration and login securely.
+    - **Cloud Firestore** persists volunteer opportunities, user profiles, news,
+      and user interactions (e.g., favorites). It also powers the real-time
+      updates for volunteer vacancies.
+    - **Firebase Storage** is used for storing images associated with volunteer
+      opportunities and user profile pictures.
 
 ### 4.4. Testing Strategy
 
@@ -298,29 +321,29 @@ used in the development of Ser Manos.
   tests**. This fulfills the requirement to write both unit and golden tests for
   delivery.
 - **Argumentation:**
-  - **Unit Tests:** Unit tests were implemented to validate models, JSON
-    converters, Riverpod providers, and Firebase-integrated services. These
-    tests cover key business logic such as postulations, likes, login
-    functionality, and provider state changes. Firebase behavior was simulated
-    using mock and fake libraries including `fake_cloud_firestore`,
-    `firebase_auth_mocks`, and `firebase_storage_mocks`. According to the LCOV
-    report, the test suite achieves 68% total coverage. Specifically, models and
-    converters reached 100%, Firebase services approximately 71%, and providers
-    around 52%.
-  - **Golden Tests:** Visual regression tests (via golden_toolkit) safeguard UI
-    consistency:
-    - Atoms & Molecules: AppIcon, AppTextField, SearchField, StatusBar,
-      AppButton / ShortButton / AppFloatingButton, VacantsDisplay.
-    - Components & Cells: Volunteer cards (CardVoluntariado,
-      CardVoluntariadoActual) and CardNovedades.
-    - Screens / Wireframes: Home (list & map views), Voluntariado detail (all
-      states), Novedad detail, Entry, Login, and Register pages.
+    - **Unit Tests:** Unit tests were implemented to validate models, JSON
+      converters, Riverpod providers, and Firebase-integrated services. These
+      tests cover key business logic such as postulations, likes, login
+      functionality, and provider state changes. Firebase behavior was simulated
+      using mock and fake libraries including `fake_cloud_firestore`,
+      `firebase_auth_mocks`, and `firebase_storage_mocks`. According to the LCOV
+      report, the test suite achieves 68% total coverage. Specifically, models and
+      converters reached 100%, Firebase services approximately 71%, and providers
+      around 52%.
+    - **Golden Tests:** Visual regression tests (via golden_toolkit) safeguard UI
+      consistency:
+        - Atoms & Molecules: AppIcon, AppTextField, SearchField, StatusBar,
+          AppButton / ShortButton / AppFloatingButton, VacantsDisplay.
+        - Components & Cells: Volunteer cards (CardVoluntariado,
+          CardVoluntariadoActual) and CardNovedades.
+        - Screens / Wireframes: Home (list & map views), Voluntariado detail (all
+          states), Novedad detail, Entry, Login, and Register pages.
 
 To run the tests use:
 
 ```bash
 dart run build_runner build --delete-conflicting-outputs
-flutter test --update-goldens
+fvm flutter test --update-goldens
 ```
 
 ### 4.5. Monitoring and Events
@@ -333,7 +356,6 @@ flutter test --update-goldens
 
     - **Firebase Analytics:**  
       Enables the collection of detailed insights into user interactions and navigation flows throughout the app. By tracking custom and automatic events, we gain a better understanding of how users engage with core features. The following user actions are tracked as key engagement metrics:
-
       1. **Volunteer Application**  
          Tracks when a user successfully applies for a volunteer opportunity, helping us measure interest in volunteering options and overall platform engagement.
 
@@ -510,8 +532,8 @@ layers for reuse and domain directories for cohesion.
 - `cells/` – Mid-level components including cards, forms, and modals.
 - `tokens/` – Global design tokens (colors, spacing, typography).
 - `wireframes/` – Complete UI screens grouped by app feature/domain:
-  - `home/`, `perfil/`, `novedades/`, `voluntariados/`, `ingreso/`, and
-    `error/`.
+    - `home/`, `perfil/`, `novedades/`, `voluntariados/`, `ingreso/`, and
+      `error/`.
 
 ### 4.9. Dependencies (`pubspec.yaml`)
 
@@ -609,39 +631,56 @@ To set up the project locally, follow these steps:
    cd ser_manos
    ```
 
-2. **Install Flutter dependencies:**
-
+2. **Install FVM**
    ```bash
-   flutter pub get
+   dart pub global activate fvm
    ```
 
-3. **Firebase Configuration:**
-   - Follow the official Firebase documentation to create a Firebase project.
-   - Add your Android and iOS apps to the Firebase project.
-   - Download the following config files and place them as described:
-     - `android/app/google-services.json`
-     - `ios/Runner/GoogleService-Info.plist`
-   - Enable the required Firebase services: **Authentication**, **Cloud
-     Firestore**, **Storage**, **Messaging**, **Analytics**, and
-     **Crashlytics**.
-   - Run the FlutterFire CLI to link your app and generate
-     `firebase_options.dart`:
+3. **Add FVM to your shell PATH**
+   Add this line to your `.bashrc`, `.zshrc`, or similar:
+   ```bash
+   export PATH="$PATH":"$HOME/.pub-cache/bin"
+   ```
 
-     ```bash
-     dart pub global activate flutterfire_cli
-     flutterfire configure
-     ```
+4. **Install the correct Flutter version**
 
-   - This will generate `lib/firebase_options.dart` and update your project
-     settings.
+   ```bash
+   fvm install
+   ```
 
-4. **Code Generation:**
-   - Run the build runner to generate necessary files (e.g., for `freezed`,
-     `json_serializable`):
+5. **Install Flutter dependencies:**
 
-     ```bash
-     dart run build_runner build --delete-conflicting-outputs
-     ```
+   ```bash
+   fvm flutter pub get
+   ```
+
+6. **Firebase Configuration:**
+    - Follow the official Firebase documentation to create a Firebase project.
+    - Add your Android and iOS apps to the Firebase project.
+    - Download the following config files and place them as described:
+        - `android/app/google-services.json`
+        - `ios/Runner/GoogleService-Info.plist`
+    - Enable the required Firebase services: **Authentication**, **Cloud
+      Firestore**, **Storage**, **Messaging**, **Analytics**, and
+      **Crashlytics**.
+    - Run the FlutterFire CLI to link your app and generate
+      `firebase_options.dart`:
+
+      ```bash
+      dart pub global activate flutterfire_cli
+      flutterfire configure
+      ```
+
+    - This will generate `lib/firebase_options.dart` and update your project
+      settings.
+
+7. **Code Generation:**
+    - Run the build runner to generate necessary files (e.g., for `freezed`,
+      `json_serializable`):
+
+      ```bash
+      dart run build_runner build --delete-conflicting-outputs
+      ```
 
 ## 6. Running the Application
 
@@ -651,16 +690,8 @@ To run the application on a simulator or physical device:
 2. **Run the app:**
 
    ```bash
-   flutter run
+   fvm flutter run
    ```
-
-### Backend data modification
-
-After a user applies to a volunteer opportunity, the application status can be
-changed in the Firestore Database, in the `users` collection, find the
-`voluntariados` field of the user in question. Change the `estado` field from
-`applied` to either `accepted` or `rejected` to simulate the application
-process.
 
 ## 7. Development Team
 
@@ -673,9 +704,9 @@ process.
 - **ITBA** for providing the special practical assignment and guidance for
   _Desarrollo de Aplicaciones Móviles Multiplataforma_.
 - The tutors for their invaluable support and feedback throughout the course:
-  - [FrBernad](https://github.com/FrBernad)
-  - [glpecile](https://github.com/glpecile)
-  - [NicolasRampoldi](https://github.com/NicolasRampoldi)
+    - [FrBernad](https://github.com/FrBernad)
+    - [glpecile](https://github.com/glpecile)
+    - [NicolasRampoldi](https://github.com/NicolasRampoldi)
 - The open-source community.
 
 ## 9. License
