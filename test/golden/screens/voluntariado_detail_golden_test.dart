@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+import 'package:geocoding/geocoding.dart';
 
-import 'package:geocoding_platform_interface/geocoding_platform_interface.dart';
-
-import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/models/user.dart';
+import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/providers/user_provider.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
@@ -18,24 +17,24 @@ import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_detail.da
 import '../../mocks/mocks.mocks.dart';
 
 class _FakeGeo extends GeocodingPlatform {
+  _FakeGeo();
   @override
   Future<List<Placemark>> placemarkFromCoordinates(
       double latitude,
       double longitude, {
         String? localeIdentifier,
-      }) async {
-    return [
-      Placemark(
-        name: 'Fake St.',
-        locality: 'Test City',
-        country: 'AR',
-      )
-    ];
-  }
+      }) async =>
+      [
+        const Placemark(
+          name: 'Street',
+          subLocality: 'Locality',
+          locality: 'City',
+          administrativeArea: 'State',
+          postalCode: '0000',
+          country: 'Country',
+        )
+      ];
 }
-
-// ─────────────────────────────────────────────────────────────
-// Helpers
 
 Voluntariado _fakeVol(String id) => Voluntariado(
   id: id,
@@ -44,7 +43,7 @@ Voluntariado _fakeVol(String id) => Voluntariado(
   vacantes: 5,
   location: const LatLng(-34.6, -58.38),
   imageUrl: 'https://dummyimage.com/640x360/000/fff&text=$id',
-  descripcion: 'Una descripción extensa del voluntariado.',
+  descripcion: 'Descripción extensa.',
   resumen: 'Ayudamos a quienes más lo necesitan.',
   requisitos: '* Compromiso\n* Tiempo libre',
   createdAt: DateTime(2025),
@@ -58,19 +57,12 @@ const _fakeUser = User(
   hasSeenOnboarding: true,
 );
 
-// ─────────────────────────────────────────────────────────────
-
 void main() {
-  setUpAll(() {
-    GeocodingPlatform.instance = _FakeGeo();
-  });
+  GeocodingPlatform.instance = _FakeGeo();
 
   testGoldens('VoluntariadoDetalle – available', (tester) async {
-    TestWidgetsFlutterBinding.ensureInitialized();
     await loadAppFonts();
-
     await mockNetworkImagesFor(() async {
-      // ── mocks de servicios ─────────────────────────────
       final mockVolService = MockVoluntariadoService();
       when(mockVolService.watchOne('v1'))
           .thenAnswer((_) => Stream.value(_fakeVol('v1')));
@@ -79,7 +71,6 @@ void main() {
       when(mockUserService.watchOne('u1'))
           .thenAnswer((_) => Stream.value(_fakeUser));
 
-      // ── overrides de Riverpod ──────────────────────────
       final overrides = <Override>[
         voluntariadoServiceProvider.overrideWithValue(mockVolService),
         userServiceProvider.overrideWithValue(mockUserService),
@@ -106,9 +97,8 @@ void main() {
       await screenMatchesGolden(
         tester,
         'voluntariado_detail_available',
-        customPump: (tester) async {
-          await tester.pump(const Duration(milliseconds: 200));
-        },
+        customPump: (tester) async =>
+            tester.pump(const Duration(milliseconds: 200)),
       );
     });
   });
