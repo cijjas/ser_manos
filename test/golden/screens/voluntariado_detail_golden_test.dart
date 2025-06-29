@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
+
+import 'package:geocoding_platform_interface/geocoding_platform_interface.dart'; // ← NEW
 
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/models/user.dart';
@@ -14,8 +17,25 @@ import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_detail.da
 
 import '../../mocks/mocks.mocks.dart';
 
-// ───────────────────────────────────────────────────────────────
-// Helpers (fake data)
+class _FakeGeo extends GeocodingPlatform {
+  @override
+  Future<List<Placemark>> placemarkFromCoordinates(
+      double latitude,
+      double longitude, {
+        String? localeIdentifier,
+      }) async {
+    return [
+      Placemark(
+        name: 'Fake St.',
+        locality: 'Test City',
+        country: 'AR',
+      )
+    ];
+  }
+}
+
+// ─────────────────────────────────────────────────────────────
+// Helpers
 
 Voluntariado _fakeVol(String id) => Voluntariado(
   id: id,
@@ -38,10 +58,15 @@ const _fakeUser = User(
   hasSeenOnboarding: true,
 );
 
-// ───────────────────────────────────────────────────────────────
+// ─────────────────────────────────────────────────────────────
 
 void main() {
+  setUpAll(() {
+    GeocodingPlatform.instance = _FakeGeo();
+  });
+
   testGoldens('VoluntariadoDetalle – available', (tester) async {
+    TestWidgetsFlutterBinding.ensureInitialized();
     await loadAppFonts();
 
     await mockNetworkImagesFor(() async {
@@ -58,7 +83,7 @@ void main() {
       final overrides = <Override>[
         voluntariadoServiceProvider.overrideWithValue(mockVolService),
         userServiceProvider.overrideWithValue(mockUserService),
-        authStateProvider.overrideWith((_) => Stream.value(null)), // logged-in fake
+        authStateProvider.overrideWith((_) => Stream.value(null)),
         currentUserProvider.overrideWith((_) => Stream.value(_fakeUser)),
       ];
 
@@ -76,13 +101,14 @@ void main() {
         );
 
       await tester.pumpDeviceBuilder(builder);
-      await tester.pump(const Duration(milliseconds: 300)); // 1-2 frames
+      await tester.pump(const Duration(milliseconds: 300));
 
       await screenMatchesGolden(
         tester,
         'voluntariado_detail_available',
-        customPump: (tester) async =>
-            tester.pump(const Duration(milliseconds: 200)),
+        customPump: (tester) async {
+          await tester.pump(const Duration(milliseconds: 200));
+        },
       );
     });
   });

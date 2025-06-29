@@ -44,9 +44,9 @@ void main() {
       expect((vols.first as UserVoluntariado).id, 'v1');
     });
 
-    test('campos opcionales pueden ser null y no se serializan', () {
+    test('campos opcionales pueden ser null y se mantienen en toJson', () {
       const minimalJson = {
-        'id'    : 'u124',
+        'id': 'u124',
         'nombre': 'Linus',
         'apellido': 'Torvalds',
         'email': 'linus@kernel.org',
@@ -60,8 +60,14 @@ void main() {
       expect(user.telefono, isNull);
       expect(user.hasSeenOnboarding, isFalse);
 
-      expect(encoded.containsKey('telefono'), isFalse);
-      expect(encoded.containsKey('genero'),   isFalse);
+      // la clave existe y su valor es null
+      expect(encoded.containsKey('telefono'), isTrue);
+      expect(encoded['telefono'], isNull);
+
+      // otro campo opcional
+      expect(encoded.containsKey('genero'), isTrue);
+      expect(encoded['genero'], isNull);
+
       expect(encoded['hasSeenOnboarding'], false);
     });
 
