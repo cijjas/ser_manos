@@ -29,7 +29,7 @@
 - [x] Asegurarse de agregar a los profesores como editores en Firebase.
 
 ## 🧹 Limpieza del Proyecto
-- [ ] Agregar `const` en constructores donde corresponda.
+- [x] Agregar `const` en constructores donde corresponda.
 - [x] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
 - [x] Eliminar comentarios generados por LLMs.
 - [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no aplican.
@@ -39,7 +39,7 @@
 - [x] Cambiar el uso de `flutter pub run build_runner build` a `dart run build_runner build --delete-conflicting-outputs`.
     
 ## 🛠️ Mejores Prácticas
-- [ ] Resolver los issues detectados por `flutter analyze` -> Dejar para el final
+- [x] Resolver los issues detectados por `flutter analyze` -> Dejar para el final
 - [ ] Corregir error al correr `flutter pub get` por primera vez.
 - [x] Centralizar rutas y assets en clases como `AppAssets` y `AppRoutes` (evitar strings hardcodeadas). 
 - [x] Usar un único idioma para rutas (`/home/profile`, `/home/postularse`, etc.).
