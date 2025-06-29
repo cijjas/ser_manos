@@ -21,7 +21,7 @@
 - [x] Mostrar voluntariado en actividad luego de postularse y ser confirmado.
 
 ## 🧾 Documentación
-- [ ] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
+- [x] Explicar cómo crear una noticia que dispare la función de notificación en Firebase.
 - [ ] Mejorar especificidad de métrica `screen_view`.
 - [x] Usar `markdownlint` para mejorar formato del README.
 - [x] Describir cómo aceptar un voluntariado en el README.
