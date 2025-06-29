@@ -1,7 +1,3 @@
-// ================================================================
-// lib/shared/molecules/components/foto_perfil.dart
-// ================================================================
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
@@ -84,7 +80,6 @@ class FotoPerfil extends StatelessWidget {
         ),
       );
     } else {
-      // Placeholder cuando no hay imagen
       imageContent = Container(
         width: diameter,
         height: diameter,

@@ -1,8 +1,3 @@
-
-// ================================================================
-// lib/shared/cells/cards/card_foto.dart
-// ================================================================
-
 import 'dart:io';
 import 'package:flutter/material.dart';
 import '../../tokens/colors.dart';

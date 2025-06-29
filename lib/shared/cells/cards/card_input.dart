@@ -1,5 +1,3 @@
-// lib/shared/cells/cards/card_input.dart
-
 import 'package:flutter/material.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
@@ -51,7 +49,6 @@ class CardInputState extends State<CardInput> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          // Header azul
           Container(
             width: double.infinity,
             height: 40,
@@ -65,7 +62,6 @@ class CardInputState extends State<CardInput> {
               ),
             ),
           ),
-          // Opciones
           ...List.generate(widget.options.length, (i) {
             final selected = _selectedIndex == i;
             return InkWell(

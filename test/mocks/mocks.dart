@@ -1,4 +1,3 @@
-// test/mocks/mocks.dart
 import 'package:mockito/annotations.dart';
 
 import 'package:ser_manos/services/novedad_service.dart';

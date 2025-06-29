@@ -82,6 +82,4 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
       )
     );
   }
-
-
 }

@@ -49,7 +49,6 @@ class CardInformacion extends StatelessWidget {
             ),
           ),
 
-          // Info items
           Expanded(
             child: Container(
               width: double.infinity,

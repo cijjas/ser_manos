@@ -11,7 +11,6 @@ void main() {
     test('retorna FALSE cuando el usuario está deslogueado (User == null)', () async {
       final container = ProviderContainer(
         overrides: [
-          // Stream que emite inmediatamente null
           authStateProvider.overrideWithProvider(
             StreamProvider<User?>((ref) => Stream.value(null)),
           ),
@@ -19,7 +18,6 @@ void main() {
       );
       addTearDown(container.dispose);
 
-      // Esperamos a que el Stream entregue su primer valor
       await container.read(authStateProvider.future);
 
       expect(container.read(isLoggedInProvider), isFalse);
@@ -58,7 +56,6 @@ void main() {
         container.dispose();
       });
 
-      // Listener que guarda los cambios de bool
       final history = <bool>[];
       container.listen<bool>(
         isLoggedInProvider,
@@ -66,13 +63,10 @@ void main() {
         fireImmediately: true,
       );
 
-      // Estado inicial: null → false
       expect(history, [false]);
 
-      // Emitimos el usuario
       controller.add(mockUser);
 
-      // Dejamos que el event-loop procese la emisión
       await Future.delayed(Duration.zero);
 
       expect(container.read(isLoggedInProvider), isTrue);

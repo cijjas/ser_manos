@@ -62,7 +62,7 @@ class FormBuilderDateField extends StatelessWidget {
             );
             if (picked != null) {
               field.didChange(picked);
-              field.validate(); // Force validation
+              field.validate();
             }
           },
         );

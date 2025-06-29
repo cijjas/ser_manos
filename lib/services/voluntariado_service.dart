@@ -16,7 +16,6 @@ class VoluntariadoService {
   final FirebaseCrashlytics _crashlytics;
   final CollectionReference<Map<String, dynamic>> _ref;
 
-  // watchers
   Stream<Voluntariado> watchOne(String id) {
     return _ref.doc(id).snapshots().map(
           (doc) => Voluntariado.fromJson(doc.id, doc.data()!),
@@ -53,7 +52,6 @@ class VoluntariadoService {
           final distanceComparison = da.compareTo(db);
           if (distanceComparison != 0) return distanceComparison;
         }
-        // If distances are equal, compare createdAt (newer first)
         return b.createdAt.compareTo(a.createdAt);
       });
 

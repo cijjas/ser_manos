@@ -18,7 +18,6 @@ class AppRoutes {
   static const homeProfileEdit     = '/home/profile/edit';
 }
 
-/// Nombres de rutas (GoRouter name:) para autocompletado seguro.
 class RouteNames {
   static const entry                = 'EntryScreen';
   static const login                = 'LoginScreen';

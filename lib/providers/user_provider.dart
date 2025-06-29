@@ -25,10 +25,8 @@ final currentUserProvider = StreamProvider<User>((ref) {
 
 
 final markOnboardingCompleteProvider = FutureProvider<User?>((ref) async {
-  // Get the current user from currentUserProvider
   final user = await ref.watch(currentUserProvider.future);
 
-  // Update the users onboarding status
   return ref.read(userServiceProvider).updateUser(
       user.copyWith(
         hasSeenOnboarding: true,
@@ -48,7 +46,7 @@ final userLocationProvider = FutureProvider<Position?>((ref) async {
   if (!serviceEnabled || permission == LocationPermission.denied) {
     permission = await Geolocator.requestPermission();
     if (permission == LocationPermission.denied || permission == LocationPermission.deniedForever) {
-      return null; // Location services are not enabled or permission denied
+      return null;
     }
   }
 

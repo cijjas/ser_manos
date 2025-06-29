@@ -16,7 +16,6 @@ void main() {
   }
 
   testGoldens('AppIcon colour variants', (tester) async {
-    // Make sure custom fonts render exactly like in the app
     await loadAppFonts();
 
     final builder = DeviceBuilder()

@@ -46,7 +46,6 @@ void main() {
           .thenAnswer((_) async {});
 
       final overrides = <Override>[
-        isMapViewProvider.overrideWith((ref) => false),
         voluntariadosProvider.overrideWith(
               (ref) => Stream.value([fakeVol('v1'), fakeVol('v2')]),
         ),

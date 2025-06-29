@@ -5,13 +5,11 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'package:ser_manos/models/novedad.dart';
 import 'package:ser_manos/shared/cells/cards/card_novedades.dart';
 
-/// helper frame
 Widget _frame(Widget w, {ThemeData? theme}) => MaterialApp(
   theme: theme ?? ThemeData.light(useMaterial3: true),
   home: Scaffold(body: Center(child: w)),
 );
 
-/// fake data
 Novedad fakeNews(String id) => Novedad(
   id: id,
   titulo: 'New spaces for volunteering',

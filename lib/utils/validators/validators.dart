@@ -1,5 +1,3 @@
-// lib/utils/validators/validators.dart
-
 class AppValidators {
   static String? email(String? value) {
     final email = value?.trim() ?? '';
@@ -9,7 +7,6 @@ class AppValidators {
     return null;
   }
 
-  /// Validates login password only after submit.
   static String? loginPassword(String? value, {required bool submitPressed}) {
     if (!submitPressed) return null;
     final password = value ?? '';

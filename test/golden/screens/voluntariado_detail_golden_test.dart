@@ -1,4 +1,3 @@
-// test/golden/screens/voluntariado_detail_golden_test.dart
 import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +12,7 @@ import 'package:ser_manos/providers/user_provider.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
 import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_detail.dart';
 
-import '../../mocks/mocks.mocks.dart';   // Mockito mocks already generated
+import '../../mocks/mocks.mocks.dart';
 
 // ───────────────────────────────────────────────────────────────
 // Helpers (fake data)
@@ -63,7 +62,6 @@ void main() {
         currentUserProvider.overrideWith((_) => Stream.value(_fakeUser)),
       ];
 
-      // ── escenario único (modo light) ───────────────────
       final builder = DeviceBuilder()
         ..overrideDevicesForAllScenarios(devices: [Device.phone])
         ..addScenario(

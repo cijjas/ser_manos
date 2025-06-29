@@ -11,7 +11,7 @@ void main() {
   late FakeFirebaseFirestore  fakeDb;
   late MockFirebaseAnalytics  mockAnalytics;
   late MockFirebaseCrashlytics mockCrash;
-  late UserService            sut;          // System-Under-Test
+  late UserService            sut;
 
   // ───────────────── usuario base ─────────────────
   const baseUser = User(
@@ -49,7 +49,6 @@ void main() {
     });
 
     test('registra fallo en Crashlytics + evento de error', () async {
-      // =====  MOCK Firestore que lanza =====
       final mockFs    = MockFirebaseFirestore();
       final mockColl  = MockCollectionReference<Map<String, dynamic>>();
       final mockDoc   = MockDocumentReference<Map<String, dynamic>>();

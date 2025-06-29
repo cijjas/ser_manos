@@ -339,11 +339,11 @@ used in the development of Ser Manos.
         - Screens / Wireframes: Home (list & map views), Voluntariado detail (all
           states), Novedad detail, Entry, Login, and Register pages.
 
-To run the test use:
+To run the tests use:
 
 ```bash
 dart run build_runner build --delete-conflicting-outputs
-fvm flutter test test/golden/molecules --update-goldens
+fvm flutter test --update-goldens
 ```
 
 ### 4.5. Monitoring and Events

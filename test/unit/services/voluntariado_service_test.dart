@@ -86,7 +86,7 @@ void main() {
     });
 
     test('incrementAvailableSlots suma 1', () async {
-      await sut.decrementAvailableSlots('v1'); // queda en 0
+      await sut.decrementAvailableSlots('v1');
 
       final ok = await sut.incrementAvailableSlots('v1');
       expect(ok, isTrue);
