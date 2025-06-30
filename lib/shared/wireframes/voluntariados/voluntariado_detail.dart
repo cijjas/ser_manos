@@ -198,7 +198,7 @@ class _VoluntariadoDetallePageState
           stack,
           reason:
               'Failed to load voluntariado data for VoluntariadoDetallePage',
-          information: ['Voluntariado ID: {$widget.voluntariadoId}'],
+          information: ['Voluntariado ID: ${widget.voluntariadoId}'],
           fatal: false,
         );
         ref.invalidate(voluntariadoProvider(widget.voluntariadoId));
