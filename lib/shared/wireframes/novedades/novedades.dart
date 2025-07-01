@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ser_manos/shared/cells/cards/card_novedades.dart';
 import '../../../providers/novedad_provider.dart';
+import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../tokens/border_radius.dart';
@@ -19,7 +20,7 @@ class NewsPage extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 8),
-          const Text("Novedades", style: AppTypography.headline01),
+          Text(context.strings.news, style: AppTypography.headline01),
           const SizedBox(height: 16),
           novedadesAsync.when(
             data: (news) => news.isNotEmpty
@@ -35,9 +36,9 @@ class NewsPage extends ConsumerWidget {
                 color: AppColors.neutral0,
                 borderRadius: AppBorderRadius.border4,
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Aún no hay novedades.',
+                  context.strings.noNewsYet,
                   style: AppTypography.subtitle01,
                   textAlign: TextAlign.center,
                 ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../../../constants/app_routes.dart';
+import '../../../utils/app_strings.dart';
 import '../../cells/modals/confirm_modal.dart';
 import '../../molecules/components/foto_perfil.dart';
 import '../../cells/cards/card_informacion.dart';
@@ -37,10 +38,10 @@ class PerfilCompletoPage extends StatelessWidget {
     showDialog(
         context: context,
         builder: (context) => ConfirmApplicationModal(
-          title: '¿Estás seguro que quieres cerrar sesión?',
+          title: context.strings.logoutConfirmTitle,
           message: '',
-          confirmLabel: 'Cerrar sesión',
-          cancelLabel: 'Cancelar',
+          confirmLabel: context.strings.logoutButton,
+          cancelLabel: context.strings.cancel,
           onConfirm: () {
             Navigator.pop(context);
             onLogoutPressed();
@@ -102,18 +103,18 @@ class PerfilCompletoPage extends StatelessWidget {
                 child: Column(
                   children: [
                     CardInformacion(
-                      title: 'Información personal',
-                      label1: 'Fecha de nacimiento',
+                      title: context.strings.personalInformation,
+                      label1: context.strings.birthDate,
                       content1: birthDate,
-                      label2: 'Género',
+                      label2: context.strings.gender,
                       content2: gender,
                     ),
                     const SizedBox(height: 24),
                     CardInformacion(
-                      title: 'Datos de contacto',
-                      label1: 'Teléfono',
+                      title: context.strings.contactData,
+                      label1: context.strings.phone,
                       content1: phone,
-                      label2: 'E-mail',
+                      label2: context.strings.email,
                       content2: email,
                     ),
                   ],
@@ -127,7 +128,7 @@ class PerfilCompletoPage extends StatelessWidget {
                 child: Column(
                   children: [
                     AppButton(
-                      label: 'Editar perfil',
+                      label: context.strings.editProfile,
                       onPressed: () {
                         context.push(AppRoutes.homeProfileEdit);
                       },
@@ -135,7 +136,7 @@ class PerfilCompletoPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     AppButton(
-                      label: 'Cerrar sesión',
+                      label: context.strings.logoutButton,
                       onPressed: () => _showLogoutModal(context),
                       type: AppButtonType.tonal,
                       textColor: AppColors.error100,

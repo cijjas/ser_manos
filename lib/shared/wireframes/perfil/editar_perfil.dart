@@ -8,6 +8,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:ser_manos/constants/app_routes.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 import '../../../models/user.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
@@ -101,7 +102,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Hubo un error al cargar los datos. Intentalo en un rato.')),
+          SnackBar(content: Text(context.strings.loadDataErrorMessage)),
         );
       }
     }
@@ -373,8 +374,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 FormBuilderAppTextField(
                   focusNode: _phoneFocus,
                   name: 'telefono',
-                  labelText: 'Teléfono',
-                  hintText: 'Ej: +5491178445459',
+                  labelText: context.strings.phone,
+                  hintText: context.strings.phoneHint,
                   keyboardType: TextInputType.phone,
                   validator: (v) => AppValidators.phone(v),
                   inputFormatters: [
@@ -388,8 +389,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 FormBuilderAppTextField(
                   focusNode: _emailFocus,
                   name: 'email',
-                  labelText: 'Mail',
-                  hintText: 'Ej: mimail@mail.com',
+                  labelText: context.strings.email,
+                  hintText: context.strings.emailEditHint,
                   keyboardType: TextInputType.emailAddress,
                   validator: AppValidators.email,
                   onFieldSubmitted: (_) => _formKey.currentState?.fields['email']?.validate(),
@@ -398,7 +399,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 const SizedBox(height: 32),
                 // ───────────────── Botón Guardar ─────────────────
                 AppButton(
-                  label: 'Guardar datos',
+                  label: context.strings.saveData,
                   isLoading: _isSaving,
                   onPressed: _areAllFieldsFilled && (_formKey.currentState?.isDirty ?? false) && !_isSaving && _hasChanges()
                       ? _save

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:ser_manos/constants/app_assets.dart';
+import '../../../utils/app_strings.dart';
 
 import '../../molecules/buttons/short_button.dart';
 import '../../molecules/buttons/app_button.dart';
@@ -26,10 +27,10 @@ class PerfilIncompletoPage extends StatelessWidget {
     showDialog(
       context: context,
       builder: (context) => ConfirmApplicationModal(
-        title: '¿Estás seguro que quieres cerrar sesión?',
+        title: context.strings.logoutConfirmTitle,
         message: '',
-        confirmLabel: 'Cerrar sesión',
-        cancelLabel: 'Cancelar',
+        confirmLabel: context.strings.logoutButton,
+        cancelLabel: context.strings.cancel,
         onConfirm: () {
           Navigator.pop(context);
           onLogoutPressed();
@@ -83,7 +84,7 @@ class PerfilIncompletoPage extends StatelessWidget {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      '¡Completá tu perfil para tener\nacceso a mejores oportunidades!',
+                      context.strings.completeProfileMessage,
                       style: AppTypography.body02.copyWith(
                         color: AppColors.neutral75,
                       ),
@@ -100,7 +101,7 @@ class PerfilIncompletoPage extends StatelessWidget {
                 children: [
                   Center(
                     child: ShortButton(
-                      label: 'Completar',
+                      label: context.strings.complete,
                       icon: Icons.add,
                       onPressed: onCompletePressed,
                       variant: ShortButtonVariant.regular,
@@ -108,7 +109,7 @@ class PerfilIncompletoPage extends StatelessWidget {
                   ),
                   const SizedBox(height: 32),
                   AppButton(
-                    label: 'Cerrar sesión',
+                    label: context.strings.logoutButton,
                     onPressed: () => _showLogoutModal(context),
                     type: AppButtonType.tonal,
                     textColor: AppColors.error100,

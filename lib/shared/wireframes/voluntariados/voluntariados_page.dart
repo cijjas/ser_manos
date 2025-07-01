@@ -6,6 +6,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_list.dart';
+import 'package:ser_manos/utils/app_strings.dart';
+
 import '../../../constants/app_routes.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
@@ -76,7 +78,7 @@ class _SearchAndToggleViewHeaderState
   @override
   Widget build(BuildContext context) {
     return SearchField(
-      hintText: 'Buscar',
+      hintText: context.strings.searchHint,
       onChanged: _onSearchChanged,
     );
   }
@@ -98,7 +100,7 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text("Tu actividad", style: AppTypography.headline01),
+            Text(context.strings.yourActivity, style: AppTypography.headline01),
             const SizedBox(height: 16),
             SingleChildScrollView(
               padding: const EdgeInsets.only(bottom: 16),
@@ -144,7 +146,7 @@ class VoluntariadosListSection extends ConsumerWidget {
       data: (voluntariados) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Text("Voluntariados", style: AppTypography.headline01),
+          Text(context.strings.volunteering, style: AppTypography.headline01),
           const SizedBox(height: 16),
           VoluntariadoListItems(
               voluntariados: voluntariados,

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 
@@ -92,7 +93,7 @@ class FotoPerfil extends StatelessWidget {
     final avatar = ClipOval(child: imageContent);
 
     return Semantics(
-      label: 'Foto de perfil',
+      label: context.strings.profilePhoto,
       button: onTap != null,
       child: Material(
         shape: const CircleBorder(),

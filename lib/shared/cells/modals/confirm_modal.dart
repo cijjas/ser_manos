@@ -1,16 +1,27 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_strings.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../tokens/typography.dart';
 import '../../tokens/colors.dart';
 
 enum ActionType {
-  postulate("Te estás por postular a"),
-  withdraw("¿Estás seguro de que quieres retirar tu postulación?"),
-  abandon("¿Estás seguro de que quieres abandonar tu voluntariado?"),
-  logout("¿Estás seguro que quieres cerrar sesión?");
+  postulate,
+  withdraw,
+  abandon,
+  logout;
 
-  final String message;
-  const ActionType(this.message);
+  String getMessage(BuildContext context) {
+    switch (this) {
+      case ActionType.postulate:
+        return context.strings.postulateActionMessage;
+      case ActionType.withdraw:
+        return context.strings.withdrawActionMessage;
+      case ActionType.abandon:
+        return context.strings.abandonActionMessage;
+      case ActionType.logout:
+        return context.strings.logoutConfirmTitle;
+    }
+  }
 }
 
 class ConfirmApplicationModal extends StatelessWidget {
@@ -36,7 +47,7 @@ class ConfirmApplicationModal extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final String effectiveMessage = message ?? actionType.message;
+    final String effectiveMessage = message ?? actionType.getMessage(context);
 
     return Dialog(
       shape: RoundedRectangleBorder(
@@ -70,7 +81,7 @@ class ConfirmApplicationModal extends StatelessWidget {
               children: [
                 Expanded(
                   child: AppButton(
-                    label: cancelLabel ?? 'Cancelar',
+                    label: cancelLabel ?? context.strings.cancel,
                     onPressed: onCancel,
                     type: AppButtonType.tonal,
                   ),
@@ -78,7 +89,7 @@ class ConfirmApplicationModal extends StatelessWidget {
                 const SizedBox(width: 16),
                 Expanded(
                   child: AppButton(
-                    label: confirmLabel ?? 'Confirmar',
+                    label: confirmLabel ?? context.strings.confirm,
                     onPressed: onConfirm,
                     type: AppButtonType.tonal,
                   ),

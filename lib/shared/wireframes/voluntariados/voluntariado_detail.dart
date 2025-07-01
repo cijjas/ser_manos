@@ -12,6 +12,7 @@ import 'package:geocoding/geocoding.dart';
 import '../../../constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
+import '../../../utils/app_strings.dart';
 import '../../cells/modals/confirm_modal.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../molecules/components/vacants.dart';
@@ -66,8 +67,8 @@ class _VoluntariadoDetallePageState
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text('Error al postularte. Intenta de nuevo.')),
+          SnackBar(
+              content: Text(context.strings.applyError)),
         );
       }
     }
@@ -102,9 +103,9 @@ class _VoluntariadoDetallePageState
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
               content:
-                  Text('Error al retirar la postulación. Intenta de nuevo.')),
+                  Text(context.strings.withdrawError)),
         );
       }
     }
@@ -139,9 +140,9 @@ class _VoluntariadoDetallePageState
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
+          SnackBar(
               content: Text(
-                  'Error al abandonar el voluntariado. Intenta de nuevo.')),
+                  context.strings.abandonError)),
         );
       }
     }
@@ -375,7 +376,7 @@ class _VoluntariadoDetallePageState
                             style: AppTypography.body01
                                 .copyWith(color: AppColors.secondary200)),
                         const SizedBox(height: 32),
-                        const Text('Sobre la actividad',
+                        Text(context.strings.aboutActivity,
                             style: AppTypography.headline02),
                         const SizedBox(height: 8),
                         Text(voluntariado.descripcion,
@@ -385,7 +386,7 @@ class _VoluntariadoDetallePageState
                           location: voluntariado.location,
                         ),
                         const SizedBox(height: 32),
-                        const Text('Participar del voluntariado',
+                        Text(context.strings.participateVolunteering,
                             style: AppTypography.headline02),
                         const SizedBox(height: 16),
                         MarkdownBody(
@@ -480,7 +481,7 @@ class _BottomSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             AppButton(
-              label: 'Postularme',
+              label: context.strings.applyButton,
               onPressed: onApply,
               type: AppButtonType.filled,
             ),
@@ -489,34 +490,34 @@ class _BottomSection extends StatelessWidget {
 
       case VoluntariadoUserState.pending:
         return _InfoWithLink(
-          title: 'Te has postulado',
+          title: context.strings.appliedTitle,
           subtitle:
-              'Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.',
-          linkLabel: 'Retirar postulación',
+              context.strings.appliedSubtitle,
+          linkLabel: context.strings.withdrawApplication,
           onLinkPressed: onWithdraw,
         );
 
       case VoluntariadoUserState.accepted:
         return _InfoWithLink(
-          title: 'Estas participando',
+          title: context.strings.participatingTitle,
           subtitle:
-              'La organización confirmó que ya estas\nparticipando de este voluntariado',
-          linkLabel: 'Abandonar voluntariado',
+              context.strings.participatingSubtitle,
+          linkLabel: context.strings.leaveVolunteering,
           onLinkPressed: onAbandon,
         );
 
       case VoluntariadoUserState.full:
-        return const Column(
+        return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              'No hay vacantes disponibles para postularse',
+              context.strings.noVacanciesMessage,
               style: AppTypography.body01,
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             AppButton(
-              label: 'Postularme',
+              label: context.strings.applyButton,
               onPressed: null, // disabled
               type: AppButtonType.filled,
             ),
@@ -528,8 +529,8 @@ class _BottomSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Text(
-              'Ya estas participando en otro voluntariado, debes abandonarlo primero para postularte a este.',
+            Text(
+              context.strings.alreadyParticipating,
               style: AppTypography.body01,
               textAlign: TextAlign.center,
             ),
@@ -538,13 +539,13 @@ class _BottomSection extends StatelessWidget {
               onPressed: state == VoluntariadoUserState.busyOtherPending
                   ? onWithdraw
                   : onAbandon,
-              child: Text('Abandonar voluntariado actual',
+              child: Text(context.strings.leaveCurrentVolunteering,
                   style: AppTypography.button
                       .copyWith(color: AppColors.primary100)),
             ),
             const SizedBox(height: 16),
-            const AppButton(
-              label: 'Postularme',
+            AppButton(
+              label: context.strings.applyButton,
               onPressed: null,
               type: AppButtonType.filled,
             ),

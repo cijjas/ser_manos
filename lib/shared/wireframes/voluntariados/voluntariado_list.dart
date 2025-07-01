@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import '../../../constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../models/voluntariado.dart';
+import '../../../utils/app_strings.dart';
 import '../../cells/cards/card_voluntariado.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
@@ -65,8 +66,8 @@ class VoluntariadoListItems extends ConsumerWidget {
         ),
         child: Text(
           isSearching
-              ? "No hay voluntariados vigentes para tu búsqueda."
-              : "Actualmente no hay voluntariados vigentes. Pronto se irán incorporando nuevos.",
+              ? context.strings.noVolunteeringForSearch
+              : context.strings.noVolunteeringAvailable,
           style: AppTypography.subtitle01,
           textAlign: TextAlign.center,
         ),

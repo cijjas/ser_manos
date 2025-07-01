@@ -1,0 +1,311 @@
+{
+  "@@locale": "es",
+  "@@last_modified": "2025-06-30T12:00:00.000Z",
+  
+  "appTitle": "SerManos",
+  "loginPageTitle": "Iniciar Sesión",
+  "registerPageTitle": "Registrarse",
+  "beginButtonLabel": "Comenzar",
+  "entryPageQuote": "\"El esfuerzo desinteresado para llevar alegría a los demás será el comienzo de una vida más feliz para nosotros\"",
+  "welcomeMessage": "¡Bienvenido!",
+  "welcomeSubtitle": "Nunca subestimes tu habilidad para mejorar la vida de alguien.",
+  "email": "Email",
+  "emailHint": "Ej: juan@mail.com",
+  "emailEditHint": "Ej: mimail@mail.com",
+  "password": "Contraseña",
+  "passwordHint": "Mínimo 6 caracteres",
+  "name": "Nombre",
+  "nameHint": "Ej: Juan",
+  "surname": "Apellido",
+  "surnameHint": "Ej: Bárcena",
+  "phone": "Teléfono",
+  "phoneHint": "Ej: +5491178445459",
+  "dateOfBirth": "Fecha de nacimiento",
+  "profileInformation": "Información de perfil",
+  "contactData": "Datos de contacto",
+  "profileData": "Datos de perfil",
+  "genderMale": "Hombre",
+  "genderFemale": "Mujer",
+  "genderNonBinary": "No binario",
+  "selectGenderError": "Seleccioná tu género.",
+  "saveData": "Guardar datos",
+  "logout": "Cerrar sesión",
+  "logoutConfirmation": "¿Estás seguro que quieres cerrar sesión?",
+  "cancel": "Cancelar",
+  "confirm": "Confirmar",
+  "changePhoto": "Cambiar foto",
+  "dataSavedSuccessfully": "Datos guardados exitosamente",
+  "saveErrorMessage": "Hubo un error al guardar. Intentalo en un rato.",
+  "loadDataErrorMessage": "Hubo un error al cargar los datos. Intentalo en un rato.",
+  "myProfile": "Mi perfil",
+  "searchHint": "Buscar",
+  "yourActivity": "Tu actividad",
+  "volunteering": "Voluntariados",
+  "participateInVolunteering": "Participar del voluntariado",
+  "applyToVolunteering": "Postularme",
+  "youHaveApplied": "Te has postulado",
+  "youHaveAppliedDescription": "Te has postulado y entrarás en la lista de candidatos. Mientras tanto podrás realizar otros voluntariados",
+  "youAreParticipating": "Estas participando",
+  "youAreParticipatingDescription": "Ya estás participando de esta actividad",
+  "openMapsError": "No se pudo abrir el mapa. Intenta de nuevo.",
+  "unknownError": "Ocurrió un error inesperado",
+  "vacancies": "Vacantes",
+  "errorPageTitle": "Error",
+  "pageNotFound": "Página no encontrada",
+  "loadingMessage": "Cargando...",
+  "dateInputHint": "DD/MM/YYYY",
+  "requiredFieldError": "Este campo es obligatorio",
+  "invalidEmailError": "Ingresá un email válido",
+  "passwordTooShortError": "La contraseña debe tener al menos 6 caracteres",
+  "invalidPhoneError": "Ingresá un teléfono válido",
+  "addressErrorMessage": "No se pudo obtener la dirección",
+  
+  "loggingIn": "Iniciando sesión...",
+  "noAccount": "No tengo cuenta",
+  "registering": "Registrando...",
+  "alreadyHaveAccount": "Ya tengo cuenta",
+  "takePhoto": "Tomar una foto",
+  "chooseFromGallery": "Elegir de galería",
+  "imageNotOnDisk": "La imagen no existe en disco.",
+  "errorAuth": "Error de autenticación",
+  "errorUser": "Error de usuario",
+  "location": "Ubicación",
+  "address": "Dirección",
+  "loadAddressError": "Error al cargar la dirección. Intenta de nuevo.",
+  "leaveCurrentVolunteering": "Abandonar voluntariado actual",
+  "logoutConfirmTitle": "¿Estás seguro que quieres cerrar sesión?",
+  "@logoutConfirmTitle": {
+    "description": "Title for logout confirmation modal"
+  },
+
+  "logoutButton": "Cerrar sesión",
+  "@logoutButton": {
+    "description": "Label for logout button"
+  },
+
+  "cancel": "Cancelar",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+
+  "personalInformation": "Información personal",
+  "@personalInformation": {
+    "description": "Personal information section title"
+  },
+
+  "contactData": "Datos de contacto",
+  "@contactData": {
+    "description": "Contact data section title"
+  },
+
+  "birthDate": "Fecha de nacimiento",
+  "@birthDate": {
+    "description": "Birth date field label"
+  },
+
+  "gender": "Género",
+  "@gender": {
+    "description": "Gender field label"
+  },
+
+  "phone": "Teléfono",
+  "@phone": {
+    "description": "Phone field label"
+  },
+
+  "editProfile": "Editar perfil",
+  "@editProfile": {
+    "description": "Edit profile button label"
+  },
+
+  "completeProfileMessage": "¡Completá tu perfil para tener\nacceso a mejores oportunidades!",
+  "@completeProfileMessage": {
+    "description": "Message encouraging profile completion"
+  },
+
+  "complete": "Completar",
+  "@complete": {
+    "description": "Complete button label"
+  },
+
+  "applyError": "Error al postularte. Intenta de nuevo.",
+  "@applyError": {
+    "description": "Error message when application fails"
+  },
+
+  "withdrawError": "Error al retirar la postulación. Intenta de nuevo.",
+  "@withdrawError": {
+    "description": "Error message when withdrawing application fails"
+  },
+
+  "abandonError": "Error al abandonar el voluntariado. Intenta de nuevo.",
+  "@abandonError": {
+    "description": "Error message when abandoning volunteering fails"
+  },
+
+  "aboutActivity": "Sobre la actividad",
+  "@aboutActivity": {
+    "description": "Section title for activity description"
+  },
+
+  "participateVolunteering": "Participar del voluntariado",
+  "@participateVolunteering": {
+    "description": "Section title for participation requirements"
+  },
+
+  "applyButton": "Postularme",
+  "@applyButton": {
+    "description": "Apply button label"
+  },
+
+  "applyButtonLabel": "Postularme",
+  "@applyButtonLabel": {
+    "description": "Apply button label for tab navigation"
+  },
+
+  "withdrawApplication": "Retirar postulación",
+  "@withdrawApplication": {
+    "description": "Withdraw application button label"
+  },
+
+  "alreadyParticipating": "Ya estas participando en otro voluntariado, debes abandonarlo primero para postularte a este.",
+  "@alreadyParticipating": {
+    "description": "Message when user is already participating in another volunteering"
+  },
+
+  "appliedTitle": "Te has postulado",
+  "@appliedTitle": {
+    "description": "Title when user has applied"
+  },
+
+  "appliedSubtitle": "Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.",
+  "@appliedSubtitle": {
+    "description": "Subtitle when user has applied"
+  },
+
+  "participatingTitle": "Estas participando",
+  "@participatingTitle": {
+    "description": "Title when user is participating"
+  },
+
+  "participatingSubtitle": "La organización confirmó que ya estas\nparticipando de este voluntariado",
+  "@participatingSubtitle": {
+    "description": "Subtitle when user is participating"
+  },
+
+  "leaveVolunteering": "Abandonar voluntariado",
+  "@leaveVolunteering": {
+    "description": "Leave volunteering action"
+  },
+
+  "noVacanciesMessage": "No hay vacantes disponibles para postularse",
+  "@noVacanciesMessage": {
+    "description": "Message when no vacancies are available"
+  },
+
+  "confirm": "Confirmar",
+  "@confirm": {
+    "description": "Confirm button label"
+  },
+
+  "postulateActionMessage": "Te estás por postular a",
+  "@postulateActionMessage": {
+    "description": "Message when user is about to apply"
+  },
+
+  "withdrawActionMessage": "¿Estás seguro de que quieres retirar tu postulación?",
+  "@withdrawActionMessage": {
+    "description": "Message when user wants to withdraw application"
+  },
+
+  "abandonActionMessage": "¿Estás seguro de que quieres abandonar tu voluntariado?",
+  "@abandonActionMessage": {
+    "description": "Message when user wants to abandon volunteering"
+  },
+
+  "shareErrorMessage": "Ocurrió un error inesperado, intentalo en un rato.",
+  "@shareErrorMessage": {
+    "description": "Error message when sharing fails"
+  },
+
+  "loadNewsError": "Ocurrió un error al cargar la novedad.",
+  "@loadNewsError": {
+    "description": "Error message when loading news fails"
+  },
+
+  "shareThisNote": "Comparte esta nota",
+  "@shareThisNote": {
+    "description": "Share section title"
+  },
+
+  "share": "Compartir",
+  "@share": {
+    "description": "Share button label"
+  },
+
+  "discoverMore": "Descubre más aquí:",
+  "@discoverMore": {
+    "description": "Text before shared URL"
+  },
+
+  "profilePhoto": "Foto de perfil",
+  "@profilePhoto": {
+    "description": "Accessibility label for profile photo"
+  },
+
+  "news": "Novedades",
+  "@news": {
+    "description": "News section title"
+  },
+
+  "noNewsYet": "Aún no hay novedades.",
+  "@noNewsYet": {
+    "description": "Message when there are no news items"
+  },
+
+  "vacancies_dot": "Vacantes:",
+  "@vacancies_dot": {
+    "description": "Label for vacancies count"
+  },
+
+  "error": "Error",
+  "@error": {
+    "description": "Error page title"
+  },
+
+  "unexpectedError": "Ocurrió un error inesperado, intentalo en un rato.",
+  "@unexpectedError": {
+    "description": "Default error message"
+  },
+
+  "goBack": "Volver",
+  "@goBack": {
+    "description": "Go back button label"
+  },
+
+  "noVolunteeringForSearch": "No hay voluntariados vigentes para tu búsqueda.",
+  "@noVolunteeringForSearch": {
+    "description": "Message when search returns no volunteering results"
+  },
+
+  "noVolunteeringAvailable": "Actualmente no hay voluntariados vigentes. Pronto se irán incorporando nuevos.",
+  "@noVolunteeringAvailable": {
+    "description": "Message when no volunteering opportunities are available"
+  },
+
+  "volunteer": "Voluntario",
+  "@volunteer": {
+    "description": "Volunteer role"
+  },
+
+
+  "uploadPhoto": "Subir foto",
+  "@uploadPhoto": {
+    "description": "Upload photo button label"
+  },
+
+  "readMore": "Leer Más",
+  "@readMore": {
+    "description": "Read more link on news cards"
+  }
+}

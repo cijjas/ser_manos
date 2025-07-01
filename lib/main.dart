@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:ser_manos/providers/user_provider.dart';
+import 'package:ser_manos/generated/l10n/app_localizations.dart';
 
 import 'firebase_options.dart';
 import 'router/app_router.dart';
@@ -81,9 +82,14 @@ class _MyAppState extends ConsumerState<MyApp> {
     final router = ref.watch(routerProvider);
     return MaterialApp.router(
       localizationsDelegates: const [
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('es', ''),
+        Locale('en', ''),
       ],
       debugShowCheckedModeBanner: false,
       routerConfig: router,

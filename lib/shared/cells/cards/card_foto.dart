@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../molecules/buttons/short_button.dart';
@@ -44,14 +45,14 @@ class CardFotoPerfil extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Foto de perfil',
+                  context.strings.profilePhoto,
                   style: AppTypography.subtitle01.copyWith(
                     color: AppColors.neutral100,
                   ),
                 ),
                 const SizedBox(height: 8),
                 ShortButton(
-                  label: 'Cambiar foto',
+                  label: context.strings.changePhoto,
                   onPressed: isLoading ? null : onChange,
                 ),
               ],
@@ -69,13 +70,13 @@ class CardFotoPerfil extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(
-            'Foto de perfil',
+            context.strings.profilePhoto,
             style: AppTypography.subtitle01.copyWith(
               color: AppColors.neutral100,
             ),
           ),
           ShortButton(
-            label: 'Subir foto',
+            label: context.strings.uploadPhoto,
             onPressed: isLoading ? null : onChange,
           ),
         ],

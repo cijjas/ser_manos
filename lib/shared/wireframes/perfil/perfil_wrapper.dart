@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import '../../../constants/app_routes.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
+import '../../../utils/app_strings.dart';
 import '../../wireframes/perfil/perfil_completo.dart';
 import '../../wireframes/perfil/perfil_incompleto.dart';
 
@@ -21,7 +22,7 @@ class PerfilWrapperPage extends ConsumerWidget {
         body: Center(child: CircularProgressIndicator()),
       ),
       error: (e, _) => Scaffold(
-        body: Center(child: Text('Error auth: $e')),
+        body: Center(child: Text(context.strings.errorAuth)),
       ),
       data: (fbUser) {
         if (fbUser == null) {
@@ -38,7 +39,7 @@ class PerfilWrapperPage extends ConsumerWidget {
             body: Center(child: CircularProgressIndicator()),
           ),
           error: (e, _) => Scaffold(
-            body: Center(child: Text('Error user: $e')),
+            body: Center(child: Text(context.strings.errorUser)),
           ),
           data: (u) {
             final fullName = '${u.nombre} ${u.apellido}';
@@ -57,7 +58,8 @@ class PerfilWrapperPage extends ConsumerWidget {
             if (incomplete) {
               return PerfilIncompletoPage(
                 name: fullName,
-                onCompletePressed: () => context.push(AppRoutes.homeProfileEdit),
+                onCompletePressed: () =>
+                    context.push(AppRoutes.homeProfileEdit),
                 onLogoutPressed: () async {
                   await ref.read(authServiceProvider).signOut();
                   WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -68,7 +70,7 @@ class PerfilWrapperPage extends ConsumerWidget {
             } else {
               return PerfilCompletoPage(
                 imageUrl: u.imagenUrl!,
-                role: 'Voluntario',
+                role: context.strings.volunteer,
                 name: fullName,
                 email: u.email,
                 birthDate: birthDate,

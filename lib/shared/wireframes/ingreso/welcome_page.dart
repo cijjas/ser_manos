@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 
 import '../../../constants/app_routes.dart';
 import '../../../providers/user_provider.dart';
@@ -46,19 +47,19 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            const Expanded(
+            Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  AppSymbolText(),
-                  SizedBox(height: 30),
-                  Text("¡Bienvenido!",
+                  const AppSymbolText(),
+                  const SizedBox(height: 30),
+                  Text(context.strings.welcomeMessage,
                     style: AppTypography.headline01,
                     textAlign: TextAlign.center,
                   ),
-                  SizedBox(height: 48),
-                  Text("Nunca subestimes tu habilidad para mejorar la vida de alguien.",
+                  const SizedBox(height: 48),
+                  Text(context.strings.welcomeSubtitle,
                     style: AppTypography.subtitle01,
                     textAlign: TextAlign.center,
                   )
@@ -70,7 +71,7 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
               child: Column(
                 children: [
                   AppButton(
-                    label: "Comenzar",
+                    label: context.strings.beginButtonLabel,
                     onPressed: () => onBeginPress(context),
                     type: AppButtonType.filled,
                   ),

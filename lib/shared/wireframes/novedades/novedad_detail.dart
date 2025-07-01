@@ -13,6 +13,7 @@ import 'package:ser_manos/providers/novedad_provider.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
+import '../../../utils/app_strings.dart';
 import '../../cells/header/header_seccion.dart';
 
 class NovedadDetail extends ConsumerStatefulWidget {
@@ -40,7 +41,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
     );
 
     final url = 'http://sermanos.app/novedad/${novedad.id}';
-    final text = '${novedad.resumen}\n\nDescubre más aquí:\n$url';
+    final discoverMoreText = mounted ? context.strings.discoverMore : 'Descubre más aquí:';
+    final text = '${novedad.resumen}\n\n$discoverMoreText\n$url';
 
     try {
       final response = await http.get(Uri.parse(novedad.imagenUrl));
@@ -66,7 +68,7 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Ocurrió un error inesperado, intentalo en un rato.')),
+          SnackBar(content: Text(context.strings.shareErrorMessage)),
         );
       }
     } finally {
@@ -84,7 +86,7 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, stack) {
           FirebaseCrashlytics.instance.recordError(e, stack);
-          return const Center(child: Text('Ocurrió un error al cargar la novedad.'));
+          return Center(child: Text(context.strings.loadNewsError));
         },
         data: (novedad) => SingleChildScrollView(
           child: Column(
@@ -152,10 +154,10 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                 child: Center(
                   child: Column(
                     children: [
-                      const Text('Comparte esta nota', style: AppTypography.headline02),
+                      Text(context.strings.shareThisNote, style: AppTypography.headline02),
                       const SizedBox(height: 12),
                       AppButton(
-                        label: 'Compartir',
+                        label: context.strings.share,
                         onPressed: isSharing ? null : () => _handleShare(novedad),
                         type: AppButtonType.filled,
                         isLoading: isSharing,

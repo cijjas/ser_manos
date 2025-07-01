@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:ser_manos/constants/app_routes.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 
 import '../../atoms/symbols/app_symbol_text.dart';
 import '../../molecules/status_bar/status_bar.dart';
@@ -29,14 +30,14 @@ class EntryPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.max,
           children: [
-            const Expanded(
+            Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 spacing: 32,
                 children: [
-                  AppSymbolText(),
-                  Text("\"El esfuerzo desinteresado para llevar alegría a los demás será el comienzo de una vida más feliz para nosotros\"",
+                  const AppSymbolText(),
+                  Text(context.strings.entryPageQuote,
                     style: AppTypography.subtitle01,
                     textAlign: TextAlign.center,
                   )
@@ -47,8 +48,8 @@ class EntryPage extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 children: [
-                  AppButton(label: "Iniciar Sesión", onPressed: ()=> context.go(AppRoutes.login), type: AppButtonType.filled),
-                  AppButton(label: "Resgistrarse", onPressed: ()=> context.go(AppRoutes.register), type: AppButtonType.tonal),
+                  AppButton(label: context.strings.loginPageTitle, onPressed: ()=> context.go(AppRoutes.login), type: AppButtonType.filled),
+                  AppButton(label: context.strings.registerPageTitle, onPressed: ()=> context.go(AppRoutes.register), type: AppButtonType.tonal),
                 ],
               )
             )

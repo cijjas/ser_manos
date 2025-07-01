@@ -13,6 +13,7 @@ import 'package:ser_manos/shared/molecules/input/form_builder_password_field.dar
 import 'package:ser_manos/shared/atoms/symbols/app_symbol_text.dart';
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 
 import '../../../utils/validators/validators.dart';
 
@@ -133,8 +134,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 FormBuilderAppTextField(
                                   focusNode: _emailFocus,
                                   name: 'email',
-                                  labelText: 'Email',
-                                  hintText: 'Email',
+                                  labelText: context.strings.email,
+                                  hintText: context.strings.email,
                                   keyboardType: TextInputType.emailAddress,
                                   validator: AppValidators.email,
                                   textInputAction: TextInputAction.next,
@@ -149,8 +150,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                 FormBuilderPasswordField(
                                   focusNode: _passwordFocus,
                                   name: 'password',
-                                  labelText: 'Contraseña',
-                                  hintText: 'Contraseña',
+                                  labelText: context.strings.password,
+                                  hintText: context.strings.password,
                                   validator: _passwordValidator,
                                   textInputAction: TextInputAction.done,
                                 ),
@@ -178,13 +179,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   children: [
                     AppButton(
                       label:
-                      _isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión',
+                      _isLoading ? context.strings.loggingIn : context.strings.loginPageTitle,
                       onPressed:
                       (_isLoading || !canLogin) ? null : _handleLogin,
                       type: AppButtonType.filled,
                     ),
                     AppButton(
-                      label: 'No tengo cuenta',
+                      label: context.strings.noAccount,
                       onPressed: _isLoading
                           ? null
                           : () => context.go(AppRoutes.register),

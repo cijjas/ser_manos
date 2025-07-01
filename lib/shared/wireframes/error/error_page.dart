@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
+import '../../../utils/app_strings.dart';
 
 
 class ErrorPage extends StatelessWidget {
-  final String message;
+  final String? message;
 
-  const ErrorPage({super.key, this.message = "Ha ocurrido un error inesperado."});
+  const ErrorPage({super.key, this.message});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Error")),
+      appBar: AppBar(title: Text(context.strings.error)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24.0),
@@ -19,14 +20,14 @@ class ErrorPage extends StatelessWidget {
               const Icon(Icons.error_outline, size: 64, color: Colors.red),
               const SizedBox(height: 16),
               Text(
-                message,
+                message ?? context.strings.unexpectedError,
                 style: const TextStyle(fontSize: 18),
                 textAlign: TextAlign.center,
               ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () => Navigator.of(context).maybePop(),
-                child: const Text("Volver"),
+                child: Text(context.strings.goBack),
               ),
             ],
           ),

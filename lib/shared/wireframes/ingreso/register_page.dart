@@ -13,6 +13,7 @@ import 'package:ser_manos/shared/molecules/input/form_builder_password_field.dar
 import 'package:ser_manos/shared/atoms/symbols/app_symbol_text.dart';
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 import 'package:ser_manos/models/user.dart' as model;
 
 import '../../../utils/validators/validators.dart';
@@ -156,10 +157,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 FormBuilderAppTextField(
                                   focusNode: _nameFocus,
                                   name: 'name',
-                                  labelText: 'Nombre',
-                                  hintText: 'Ej: Juan',
+                                  labelText: context.strings.name,
+                                  hintText: context.strings.nameHint,
                                   keyboardType: TextInputType.name,
-                                validator: (v) => AppValidators.required(v, label: 'nombre'),
+                                validator: (v) => AppValidators.required(v, label: context.strings.name.toLowerCase()),
 
                                 onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.next,
@@ -173,10 +174,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 FormBuilderAppTextField(
                                     focusNode: _surnameFocus,
                                     name: 'surname',
-                                    labelText: 'Apellido',
-                                    hintText: 'Ej: Bárcena',
+                                    labelText: context.strings.surname,
+                                    hintText: context.strings.surnameHint,
                                     keyboardType: TextInputType.name,
-                                    validator: (v) => AppValidators.required(v, label: 'apellido'),
+                                    validator: (v) => AppValidators.required(v, label: context.strings.surname.toLowerCase()),
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -189,8 +190,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 FormBuilderAppTextField(
                                     focusNode: _emailFocus,
                                     name: 'email',
-                                    labelText: 'Email',
-                                    hintText: 'Ej: juan@mail.com',
+                                    labelText: context.strings.email,
+                                    hintText: context.strings.emailHint,
                                     keyboardType: TextInputType.emailAddress,
                                     validator: AppValidators.email,
                                     onChanged: (_) => _updateCanRegister(),
@@ -204,8 +205,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                 FormBuilderPasswordField(
                                   focusNode: _passwordFocus,
                                   name: 'password',
-                                  labelText: 'Contraseña',
-                                  hintText: 'Mínimo 6 caracteres',
+                                  labelText: context.strings.password,
+                                  hintText: context.strings.passwordHint,
                                     validator: AppValidators.registerPassword,
                                     onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.done,
@@ -235,13 +236,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 builder: (_, canRegister, __) => Column(
                   children: [
                     AppButton(
-                      label: _isLoading ? 'Registrando...' : 'Registrarse',
+                      label: _isLoading ? context.strings.registering : context.strings.registerPageTitle,
                       onPressed:
                           (_isLoading || !canRegister) ? null : _handleRegister,
                       type: AppButtonType.filled,
                     ),
                     AppButton(
-                      label: 'Ya tengo cuenta',
+                      label: context.strings.alreadyHaveAccount,
                       onPressed:
                           _isLoading ? null : () => context.go(AppRoutes.login),
                       type: AppButtonType.tonal,

@@ -1,0 +1,602 @@
+{
+  "@@locale": "en",
+  "@@last_modified": "2025-06-30T12:00:00.000Z",
+  
+  "appTitle": "SerManos",
+  "@appTitle": {
+    "description": "The title of the application"
+  },
+
+  "loginPageTitle": "Log In",
+  "@loginPageTitle": {
+    "description": "Title for login page"
+  },
+
+  "registerPageTitle": "Sign Up",
+  "@registerPageTitle": {
+    "description": "Title for register page"
+  },
+
+  "beginButtonLabel": "Get Started",
+  "@beginButtonLabel": {
+    "description": "Label for begin button"
+  },
+
+  "entryPageQuote": "\"The selfless effort to bring joy to others will be the beginning of a happier life for ourselves\"",
+  "@entryPageQuote": {
+    "description": "Quote displayed on entry page"
+  },
+
+  "welcomeMessage": "Welcome!",
+  "@welcomeMessage": {
+    "description": "Welcome message"
+  },
+
+  "welcomeSubtitle": "Never underestimate your ability to improve someone's life.",
+  "@welcomeSubtitle": {
+    "description": "Welcome page subtitle"
+  },
+
+  "email": "Email",
+  "@email": {
+    "description": "Email field label"
+  },
+
+  "emailHint": "e.g. john@mail.com",
+  "@emailHint": {
+    "description": "Email field hint text"
+  },
+
+  "emailEditHint": "e.g. myemail@mail.com",
+  "@emailEditHint": {
+    "description": "Email field hint text for edit profile"
+  },
+
+  "password": "Password",
+  "@password": {
+    "description": "Password field label"
+  },
+
+  "passwordHint": "Minimum 6 characters",
+  "@passwordHint": {
+    "description": "Password field hint text"
+  },
+
+  "name": "Name",
+  "@name": {
+    "description": "Name field label"
+  },
+
+  "nameHint": "e.g. John",
+  "@nameHint": {
+    "description": "Name field hint text"
+  },
+
+  "surname": "Last Name",
+  "@surname": {
+    "description": "Surname field label"
+  },
+
+  "surnameHint": "e.g. Smith",
+  "@surnameHint": {
+    "description": "Surname field hint text"
+  },
+
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone field label"
+  },
+
+  "phoneHint": "e.g. +5491178445459",
+  "@phoneHint": {
+    "description": "Phone field hint text"
+  },
+
+  "dateOfBirth": "Date of Birth",
+  "@dateOfBirth": {
+    "description": "Date of birth field label"
+  },
+
+  "profileInformation": "Profile Information",
+  "@profileInformation": {
+    "description": "Profile information section title"
+  },
+
+  "contactData": "Contact Information",
+  "@contactData": {
+    "description": "Contact data section title"
+  },
+
+  "personalInformation": "Personal Information",
+  "@personalInformation": {
+    "description": "Personal information section title"
+  },
+
+  "profileData": "Profile Data",
+  "@profileData": {
+    "description": "Profile data section title"
+  },
+
+  "genderMale": "Male",
+  "@genderMale": {
+    "description": "Male gender option"
+  },
+
+  "genderFemale": "Female",
+  "@genderFemale": {
+    "description": "Female gender option"
+  },
+
+  "genderNonBinary": "Non-binary",
+  "@genderNonBinary": {
+    "description": "Non-binary gender option"
+  },
+
+  "selectGenderError": "Please select your gender.",
+  "@selectGenderError": {
+    "description": "Error message for gender selection"
+  },
+
+  "saveData": "Save Data",
+  "@saveData": {
+    "description": "Save data button label"
+  },
+
+  "editProfile": "Edit Profile",
+  "@editProfile": {
+    "description": "Edit profile button label"
+  },
+
+  "logout": "Log out",
+  "@logout": {
+    "description": "Logout button label"
+  },
+
+  "logoutConfirmation": "Are you sure you want to log out?",
+  "@logoutConfirmation": {
+    "description": "Logout confirmation message"
+  },
+
+  "logoutConfirmTitle": "Are you sure you want to log out?",
+  "@logoutConfirmTitle": {
+    "description": "Title for logout confirmation modal"
+  },
+
+  "logoutButton": "Log out",
+  "@logoutButton": {
+    "description": "Label for logout button"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button label"
+  },
+
+  "profilePhoto": "Profile photo",
+  "@profilePhoto": {
+    "description": "Profile photo label"
+  },
+
+  "changePhoto": "Change photo",
+  "@changePhoto": {
+    "description": "Change photo button label"
+  },
+
+  "uploadPhoto": "Upload photo",
+  "@uploadPhoto": {
+    "description": "Upload photo button label"
+  },
+
+  "dataSavedSuccessfully": "Data saved successfully",
+  "@dataSavedSuccessfully": {
+    "description": "Success message when data is saved"
+  },
+
+  "saveErrorMessage": "There was an error saving. Try again later.",
+  "@saveErrorMessage": {
+    "description": "Error message when save fails"
+  },
+
+  "loadDataErrorMessage": "There was an error loading the data. Try again later.",
+  "@loadDataErrorMessage": {
+    "description": "Error message when loading data fails"
+  },
+
+  "applyButton": "Apply",
+  "@applyButton": {
+    "description": "Apply button label"
+  },
+
+  "applyButtonLabel": "Apply",
+  "@applyButtonLabel": {
+    "description": "Apply button label for tab navigation"
+  },
+
+  "myProfile": "My profile",
+  "@myProfile": {
+    "description": "My profile tab label"
+  },
+
+  "news": "News",
+  "@news": {
+    "description": "News tab label"
+  },
+
+  "searchHint": "Search",
+  "@searchHint": {
+    "description": "Search field hint text"
+  },
+
+  "yourActivity": "Your activity",
+  "@yourActivity": {
+    "description": "Your activity section title"
+  },
+
+  "volunteering": "Volunteering",
+  "@volunteering": {
+    "description": "Volunteering section title"
+  },
+
+  "aboutActivity": "About the activity",
+  "@aboutActivity": {
+    "description": "About the activity section title"
+  },
+
+  "participateInVolunteering": "Participate in volunteering",
+  "@participateInVolunteering": {
+    "description": "Participate in volunteering section title"
+  },
+
+  "applyToVolunteering": "Apply",
+  "@applyToVolunteering": {
+    "description": "Apply to volunteering button label"
+  },
+
+  "youHaveApplied": "You have applied",
+  "@youHaveApplied": {
+    "description": "You have applied status title"
+  },
+
+  "youHaveAppliedDescription": "You have applied and will enter the candidate list. Meanwhile you can do other volunteering activities",
+  "@youHaveAppliedDescription": {
+    "description": "Description when user has applied"
+  },
+
+  "withdrawApplication": "Withdraw Application",
+  "@withdrawApplication": {
+    "description": "Withdraw application link label"
+  },
+
+  "youAreParticipating": "You Are Participating",
+  "@youAreParticipating": {
+    "description": "You are participating status title"
+  },
+
+  "youAreParticipatingDescription": "You are already participating in this activity",
+  "@youAreParticipatingDescription": {
+    "description": "Description when user is participating"
+  },
+
+  "applyError": "Error applying. Try again.",
+  "@applyError": {
+    "description": "Error message when applying fails"
+  },
+
+  "withdrawError": "Error withdrawing application. Try again.",
+  "@withdrawError": {
+    "description": "Error message when withdrawing application fails"
+  },
+
+  "openMapsError": "Could not open map. Try again.",
+  "@openMapsError": {
+    "description": "Error message when opening maps fails"
+  },
+
+  "unknownError": "An unexpected error occurred",
+  "@unknownError": {
+    "description": "Generic unknown error message"
+  },
+
+  "unexpectedError": "An unexpected error occurred, try again later.",
+  "@unexpectedError": {
+    "description": "Unexpected error message"
+  },
+
+  "shareThisNote": "Share This Note",
+  "@shareThisNote": {
+    "description": "Share this note section title"
+  },
+
+  "share": "Share",
+  "@share": {
+    "description": "Share button label"
+  },
+
+  "loadNewsError": "An error occurred loading the news.",
+  "@loadNewsError": {
+    "description": "Error message when loading news fails"
+  },
+
+  "noNewsYet": "No news yet.",
+  "@noNewsYet": {
+    "description": "Message when there are no news"
+  },
+
+  "vacancies": "Vacancies",
+  "@vacancies": {
+    "description": "Vacancies label"
+  },
+
+  "errorPageTitle": "Error",
+  "@errorPageTitle": {
+    "description": "Error page title"
+  },
+
+  "goBack": "Go Back",
+  "@goBack": {
+    "description": "Go back button label"
+  },
+
+  "pageNotFound": "Page not found",
+  "@pageNotFound": {
+    "description": "Page not found error message"
+  },
+
+  "loadingMessage": "Loading...",
+  "@loadingMessage": {
+    "description": "Loading message"
+  },
+
+  "dateInputHint": "DD/MM/YYYY",
+  "@dateInputHint": {
+    "description": "Date input format hint"
+  },
+
+  "requiredFieldError": "This field is required",
+  "@requiredFieldError": {
+    "description": "Required field validation error"
+  },
+
+  "invalidEmailError": "Enter a valid email",
+  "@invalidEmailError": {
+    "description": "Invalid email validation error"
+  },
+
+  "passwordTooShortError": "Password must be at least 6 characters",
+  "@passwordTooShortError": {
+    "description": "Password too short validation error"
+  },
+
+  "invalidPhoneError": "Enter a valid phone",
+  "@invalidPhoneError": {
+    "description": "Invalid phone validation error"
+  },
+
+  "addressErrorMessage": "Could not get address",
+  "@addressErrorMessage": {
+    "description": "Error message when address cannot be retrieved"
+  },
+
+  "loggingIn": "Logging in...",
+  "@loggingIn": {
+    "description": "Loading state for login button"
+  },
+
+  "noAccount": "Don't have an account",
+  "@noAccount": {
+    "description": "No account button label"
+  },
+
+  "registering": "Registering...",
+  "@registering": {
+    "description": "Loading state for register button"
+  },
+
+  "alreadyHaveAccount": "Already have an account",
+  "@alreadyHaveAccount": {
+    "description": "Already have account button label"
+  },
+
+  "complete": "Complete",
+  "@complete": {
+    "description": "Complete button label"
+  },
+
+  "takePhoto": "Take a photo",
+  "@takePhoto": {
+    "description": "Take photo option"
+  },
+
+  "chooseFromGallery": "Choose from gallery",
+  "@chooseFromGallery": {
+    "description": "Choose from gallery option"
+  },
+
+  "imageNotOnDisk": "The image does not exist on disk.",
+  "@imageNotOnDisk": {
+    "description": "Error when image file not found"
+  },
+
+
+  "errorUser": "User error",
+  "@errorUser": {
+    "description": "User error message"
+  },
+
+  "location": "Location",
+  "@location": {
+    "description": "Location label"
+  },
+
+  "address": "Address",
+  "@address": {
+    "description": "Address label"
+  },
+
+  "loadAddressError": "Error loading address. Try again.",
+  "@loadAddressError": {
+    "description": "Error when loading address fails"
+  },
+
+  "leaveCurrentVolunteering": "Leave current volunteering",
+  "@leaveCurrentVolunteering": {
+    "description": "Leave current volunteering action"
+  },
+
+  "cancel": "Cancel",
+  "@cancel": {
+    "description": "Cancel button label"
+  },
+
+  "birthDate": "Birth Date",
+  "@birthDate": {
+    "description": "Birth date field label"
+  },
+
+  "gender": "Gender",
+  "@gender": {
+    "description": "Gender field label"
+  },
+
+  "phone": "Phone",
+  "@phone": {
+    "description": "Phone field label"
+  },
+
+
+  "completeProfileMessage": "Complete your profile to get\naccess to better opportunities!",
+  "@completeProfileMessage": {
+    "description": "Message encouraging profile completion"
+  },
+
+  "abandonError": "Error leaving volunteering. Try again.",
+  "@abandonError": {
+    "description": "Error message when abandoning volunteering fails"
+  },
+
+
+  "participateVolunteering": "Participate in volunteering",
+  "@participateVolunteering": {
+    "description": "Section title for participation requirements"
+  },
+
+  "alreadyParticipating": "You are already participating in another volunteering, you must leave it first to apply to this one.",
+  "@alreadyParticipating": {
+    "description": "Message when user is already participating in another volunteering"
+  },
+
+  "appliedTitle": "You have applied",
+  "@appliedTitle": {
+    "description": "Title when user has applied"
+  },
+
+  "appliedSubtitle": "Soon the organization will contact you\nand register you as a participant.",
+  "@appliedSubtitle": {
+    "description": "Subtitle when user has applied"
+  },
+
+  "participatingTitle": "You are participating",
+  "@participatingTitle": {
+    "description": "Title when user is participating"
+  },
+
+  "participatingSubtitle": "The organization confirmed that you are\nalready participating in this volunteering",
+  "@participatingSubtitle": {
+    "description": "Subtitle when user is participating"
+  },
+
+  "leaveVolunteering": "Leave volunteering",
+  "@leaveVolunteering": {
+    "description": "Leave volunteering action"
+  },
+
+  "noVacanciesMessage": "No vacancies available to apply",
+  "@noVacanciesMessage": {
+    "description": "Message when no vacancies are available"
+  },
+
+  "confirm": "Confirm",
+  "@confirm": {
+    "description": "Confirm button label"
+  },
+
+  "postulateActionMessage": "You are about to apply to",
+  "@postulateActionMessage": {
+    "description": "Message when user is about to apply"
+  },
+
+  "withdrawActionMessage": "Are you sure you want to withdraw your application?",
+  "@withdrawActionMessage": {
+    "description": "Message when user wants to withdraw application"
+  },
+
+  "abandonActionMessage": "Are you sure you want to leave your volunteering?",
+  "@abandonActionMessage": {
+    "description": "Message when user wants to abandon volunteering"
+  },
+
+  "shareErrorMessage": "An unexpected error occurred, try again later.",
+  "@shareErrorMessage": {
+    "description": "Error message when sharing fails"
+  },
+
+
+  "share": "Share",
+  "@share": {
+    "description": "Share button label"
+  },
+
+  "discoverMore": "Discover more here:",
+  "@discoverMore": {
+    "description": "Text before shared URL"
+  },
+
+
+
+  "vacancies_dot": "Vacancies:",
+  "@vacancies_dot": {
+    "description": "Label for vacancies count"
+  },
+
+  "error": "Error",
+  "@error": {
+    "description": "Error page title"
+  },
+
+  "noVolunteeringForSearch": "No current volunteering opportunities for your search.",
+  "@noVolunteeringForSearch": {
+    "description": "Message when search returns no volunteering results"
+  },
+
+  "noVolunteeringAvailable": "Currently there are no current volunteering opportunities. New ones will be added soon.",
+  "@noVolunteeringAvailable": {
+    "description": "Message when no volunteering opportunities are available"
+  },
+
+  "errorAuth": "Auth error:",
+  "@errorAuth": {
+    "description": "Authentication error prefix"
+  },
+
+
+  "volunteer": "Volunteer",
+  "@volunteer": {
+    "description": "Volunteer role"
+  },
+
+  "changePhoto": "Change photo",
+  "@changePhoto": {
+    "description": "Change photo button label"
+  },
+
+
+  "readMore": "Read More",
+  "@readMore": {
+    "description": "Read more link on news cards"
+  }
+}

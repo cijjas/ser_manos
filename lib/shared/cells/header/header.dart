@@ -2,11 +2,11 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/constants/app_routes.dart';
+import 'package:ser_manos/shared/molecules/tabs/tab.dart';
+import 'package:ser_manos/shared/atoms/symbols/app_wordmark.dart';
+import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
-
-import '../../atoms/symbols/app_wordmark.dart';
-import '../../molecules/status_bar/status_bar.dart';
-import '../../molecules/tabs/tab.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 
 class AppHeader extends StatefulWidget {
   final Widget body;
@@ -65,21 +65,21 @@ class _AppHeaderState extends State<AppHeader> {
               children: [
                 Expanded(
                   child: AppTab(
-                    label: 'Postularse',
+                    label: context.strings.applyButtonLabel,
                     isSelected: widget.selectedIndex == 0,
                     onTap: () => context.go(AppRoutes.homeVolunteering),
                   ),
                 ),
                 Expanded(
                   child: AppTab(
-                    label: 'Mi perfil',
+                    label: context.strings.myProfile,
                     isSelected: widget.selectedIndex == 1,
                     onTap: () => context.go(AppRoutes.homeProfile),
                   ),
                 ),
                 Expanded(
                   child: AppTab(
-                    label: 'Novedades',
+                    label: context.strings.news,
                     isSelected: widget.selectedIndex == 2,
                     onTap: () => context.go(AppRoutes.homeNews),
                   ),

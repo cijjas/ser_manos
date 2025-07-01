@@ -5,6 +5,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
 import '../../../constants/app_routes.dart';
+import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
@@ -86,7 +87,7 @@ class CardNovedades extends StatelessWidget {
                     Align(
                       alignment: Alignment.bottomRight,
                       child: Text(
-                        'Leer Más',
+                        context.strings.readMore,
                         style: AppTypography.button.copyWith(
                           color: AppColors.primary100,
                           fontWeight: FontWeight.w600,

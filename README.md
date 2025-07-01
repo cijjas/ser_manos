@@ -65,13 +65,13 @@ The application includes the following core functionalities:
   - Creation date
   - Available slots
   - Opportunities are ordered by proximity to the user (if location access is
-      granted) and by creation date (newest to oldest).
+    granted) and by creation date (newest to oldest).
   - Users can mark volunteer opportunities as favorites, which are persisted in
-      the backend.
+    the backend.
   - Location icons within volunteer cards can open Google Maps via a deep link
-      with the selected coordinates.
+    with the selected coordinates.
   - Volunteer opportunities can be searched by title, mission/purpose, and
-      activity details.
+    activity details.
 - **Volunteer Opportunity Details:** Users can view detailed information about
   each volunteer opportunity. There is a tappable map widget that will open the
   device's native map application with the selected coordinates.
@@ -102,26 +102,29 @@ updates are reflected instantly in the UI.
 **Technical Implementation & Decisions:**
 
 - **Technology Choice:**
+
   - **Cloud Firestore** was selected for its native support for real-time
-      listeners and easy integration with Flutter’s reactive widget system.
+    listeners and easy integration with Flutter’s reactive widget system.
   - **Riverpod** is used to manage state and expose Firestore streams to the UI
-      in a modular and testable way.
+    in a modular and testable way.
 
 - **Usage Across the App:**
+
   - **Volunteer Opportunities (`voluntariados`):** Real-time streams update
-      availability, details, and filtering results as new opportunities are added
-      or updated.
+    availability, details, and filtering results as new opportunities are added
+    or updated.
   - **News (`novedades`):** A live feed of updates allows users to receive the
-      latest news without polling.
+    latest news without polling.
   - **Users:** Profile data, postulations, and interaction states (e.g., likes,
-      onboarding progress) are synced via document listeners.
+    onboarding progress) are synced via document listeners.
   - **Location-Aware Data:** Opportunities are sorted dynamically by proximity
-      using `Geolocator`, reacting in real-time to both user movement and database
-      changes.
+    using `Geolocator`, reacting in real-time to both user movement and database
+    changes.
 
 - **Implementation Highlights:**
+
   - Streams are exposed via `StreamProvider`s and managed in service classes.
-      For example:
+    For example:
 
           ```dart
           Stream<User> watchOne(String userId) =>
@@ -133,24 +136,25 @@ updates are reflected instantly in the UI.
           ```
 
   - These streams drive the reactive UI, ensuring updates like slot
-      availability, news items, and user state (e.g., onboarding, postulation
-      status) are reflected immediately.
+    availability, news items, and user state (e.g., onboarding, postulation
+    status) are reflected immediately.
 
 - **Crash Reporting & Logging:**
+
   - All service-layer operations are wrapped with **Firebase Crashlytics** and
-      **Analytics** for error tracking and observability. Errors in real-time
-      updates (e.g., permission issues, invalid states) are logged with relevant
-      context.
+    **Analytics** for error tracking and observability. Errors in real-time
+    updates (e.g., permission issues, invalid states) are logged with relevant
+    context.
 
 - **Benefits of Real-Time Architecture:**
   - **No polling or refresh logic**—Firestore pushes changes directly to the
-      client.
+    client.
   - **Optimized performance**—updates are granular and batched efficiently by
-      Firestore.
+    Firestore.
   - **Highly reactive UI**—users see changes reflected across tabs and screens
-      immediately.
+    immediately.
   - **Developer efficiency**—a consistent pattern (stream + provider + model) is
-      used across all entities.
+    used across all entities.
 
 ### 3.2.2. Push Notifications
 
@@ -165,35 +169,38 @@ engagement and immediacy for critical events. These include:
 **Technical Implementation & Decisions:**
 
 - **Technology Stack:**
+
   - **Firebase Cloud Messaging (FCM):** Used to send and route push
-      notifications to user devices.
+    notifications to user devices.
   - **Firebase Cloud Functions (v2):** Implemented to trigger notifications
-      automatically based on changes in Firestore data.
+    automatically based on changes in Firestore data.
   - **`flutter_local_notifications`:** Used to display notifications while the
-      app is in the foreground.
+    app is in the foreground.
   - **`go_router`:** Handles deep linking and in-app navigation based on
-      notification payloads.
+    notification payloads.
 
 - **Backend Notification Triggers:**
+
   - Implemented using **Firebase Cloud Functions (v2)** with **Firestore
-      triggers**:
+    triggers**:
     - `onDocumentUpdated` listens for changes in user documents. When a user’s
-          volunteer application status (`estado`) changes, a personalized FCM
-          notification is sent.
+      volunteer application status (`estado`) changes, a personalized FCM
+      notification is sent.
     - `onDocumentCreated` listens for new entries in the `novedades` collection.
-          When a news item is added, a broadcast notification is sent to all users
-          with valid FCM tokens.
+      When a news item is added, a broadcast notification is sent to all users
+      with valid FCM tokens.
   - Each function sends structured FCM payloads including metadata (`type`,
-      `voluntariadoId`, `newsId`) used for routing.
+    `voluntariadoId`, `newsId`) used for routing.
 
 - **Client-Side Notification Handling:**
+
   - Foreground messages are intercepted by `flutter_local_notifications`,
-      displaying native push UI elements.
+    displaying native push UI elements.
   - A custom `NotificationService` handles:
     - Initialization of local notification channels.
     - Parsing of incoming payloads.
     - Navigating the user via `go_router` to appropriate screens (e.g.,
-          `/voluntariado/{id}` or `/novedad/{id}`).
+      `/voluntariado/{id}` or `/novedad/{id}`).
 
 - **Example Payloads:**
 
@@ -211,21 +218,22 @@ engagement and immediacy for critical events. These include:
 }
 ```
 
-### 🔔 How to Test Push Notifications
+### How to Test Push Notifications
 
 Notifications can **only be tested on Android devices**.
 
 The backend listens for two types of events:
 
 - **Application Status Change:**  
-  Find the user's `voluntariados` field in Firestore. Change the `estado` field from `"pending"` to
-  either `"accepted"` or `"rejected"` to simulate the application process and trigger a
-  notification.
+  Find the user's `voluntariados` field in Firestore. Change the `estado` field
+  from `"pending"` to either `"accepted"` or `"rejected"` to simulate the
+  application process and trigger a notification.
 
 - **New Novedad Created:**  
-  Adding a new document to the `novedades` collection triggers a "news" notification.
+  Adding a new document to the `novedades` collection triggers a "news"
+  notification.
 
-#### 📢 Steps to Trigger a News Notification Manually
+#### Steps to Trigger a News Notification Manually
 
 1. Go to the [Firebase Console](https://console.firebase.google.com/)
 2. Select your project and navigate to **Firestore Database**
@@ -234,7 +242,7 @@ The backend listens for two types of events:
 5. Fill in the required fields based on the `Novedad` model:
 
 | Field         | Type      | Example Value                         |
-|---------------|-----------|---------------------------------------|
+| ------------- | --------- | ------------------------------------- |
 | `id`          | string    | `mock-id`                             |
 | `titulo`      | string    | `Nueva oportunidad de voluntariado`   |
 | `resumen`     | string    | `Se abrió un nuevo puesto en XYZ`     |
@@ -243,8 +251,8 @@ The backend listens for two types of events:
 | `descripcion` | string    | `Detalles completos de la novedad...` |
 | `createdAt`   | timestamp | Click the clock icon to set it to now |
 
-Once saved, the notification should appear on any Android device with the app installed and
-notification permissions enabled.
+Once saved, the notification should appear on any Android device with the app
+installed and notification permissions enabled.
 
 #### 3.2.3. Camera
 
@@ -257,20 +265,68 @@ functionality
   app standards where profile customization is expected.
 - **Technical Implementation and Decisions:**
   - **Technology Choice:** We utilized the `image_picker` Flutter plugin, which
-      provides a unified API for accessing both the device camera and gallery
-      across iOS and Android platforms.
+    provides a unified API for accessing both the device camera and gallery
+    across iOS and Android platforms.
   - **Integration:** A modal bottom sheet is presented when the user opts to
-      update their profile picture. It gives the option to either take a new photo
-      using the camera or choose an existing one from the gallery. Upon selection,
-      the image is compressed and uploaded to Firebase Storage, and the resulting
-      download URL is saved to the user's profile document in Cloud Firestore.
+    update their profile picture. It gives the option to either take a new photo
+    using the camera or choose an existing one from the gallery. Upon selection,
+    the image is compressed and uploaded to Firebase Storage, and the resulting
+    download URL is saved to the user's profile document in Cloud Firestore.
   - **Implementation Details:**
     - Permissions for camera and storage access are handled gracefully, using
-          platform-specific permission prompts.
+      platform-specific permission prompts.
     - The selected image is previewed before confirmation, giving users the
-          opportunity to cancel or retake.
+      opportunity to cancel or retake.
     - After upload, the app updates the UI reactively using Riverpod to reflect
-          the new profile image.
+      the new profile image.
+
+### 3.2.3. Internationalization (i18n)
+
+**Description:**  
+The application supports multiple languages (English and Spanish) with automatic
+language detection based on the user's device settings. All user-facing text is
+properly internationalized, providing a localized experience for different
+markets.
+
+**Technical Implementation & Decisions:**
+
+- **Technology Choice:**
+
+  - **Flutter's built-in `Intl` package** with Application Resource Bundle (ARB)
+    files for managing translations.
+  - **Code generation** via `flutter gen-l10n` to create type-safe localization
+    classes.
+  - **Context-based string access** through a custom utility for ergonomic
+    usage.
+
+- **Implementation Details:**
+
+  - **ARB Files:** Separate `.arb` files for English (`app_en.arb`) and Spanish
+    (`app_es.arb`) containing all translatable strings with descriptions and
+    context.
+  - **Automatic Locale Detection:** The app automatically detects and uses the
+    device's language setting, falling back to Spanish as the default.
+  - **Type-Safe Access:** All strings are accessed via `context.strings.keyName`
+    pattern, providing compile-time safety and IDE autocomplete.
+  - **Comprehensive Coverage:** All user-facing text including forms, buttons,
+    error messages, navigation labels, and content descriptions are
+    internationalized.
+
+- **Configuration:**
+
+  - `l10n.yaml` configuration file defining localization settings
+  - Generated classes in `lib/generated/l10n/` for seamless integration
+  - Support for both languages declared in `MaterialApp.router` with proper
+    delegates
+
+- **Benefits:**
+  - **Market Expansion:** Ready for both English and Spanish-speaking markets
+  - **User Experience:** Native language support improves accessibility and user
+    satisfaction
+  - **Maintainability:** Centralized translation management with clear
+    separation of concerns
+  - **Extensibility:** Easy to add new languages by creating additional ARB
+    files
 
 ## 4. Technical Specifications and Decisions
 
@@ -313,10 +369,10 @@ used in the development of Ser Manos.
   official SDKs significantly accelerated development.
   - **Firebase Authentication** handles user registration and login securely.
   - **Cloud Firestore** persists volunteer opportunities, user profiles, news,
-      and user interactions (e.g., favorites). It also powers the real-time
-      updates for volunteer vacancies.
+    and user interactions (e.g., favorites). It also powers the real-time
+    updates for volunteer vacancies.
   - **Firebase Storage** is used for storing images associated with volunteer
-      opportunities and user profile pictures.
+    opportunities and user profile pictures.
 
 ### 4.4. Testing Strategy
 
@@ -325,22 +381,22 @@ used in the development of Ser Manos.
   delivery.
 - **Argumentation:**
   - **Unit Tests:** Unit tests were implemented to validate models, JSON
-      converters, Riverpod providers, and Firebase-integrated services. These
-      tests cover key business logic such as postulations, likes, login
-      functionality, and provider state changes. Firebase behavior was simulated
-      using mock and fake libraries including `fake_cloud_firestore`,
-      `firebase_auth_mocks`, and `firebase_storage_mocks`. According to the LCOV
-      report, the test suite achieves 68% total coverage. Specifically, models and
-      converters reached 100%, Firebase services approximately 71%, and providers
-      around 52%.
+    converters, Riverpod providers, and Firebase-integrated services. These
+    tests cover key business logic such as postulations, likes, login
+    functionality, and provider state changes. Firebase behavior was simulated
+    using mock and fake libraries including `fake_cloud_firestore`,
+    `firebase_auth_mocks`, and `firebase_storage_mocks`. According to the LCOV
+    report, the test suite achieves 68% total coverage. Specifically, models and
+    converters reached 100%, Firebase services approximately 71%, and providers
+    around 52%.
   - **Golden Tests:** Visual regression tests (via golden_toolkit) safeguard UI
-      consistency:
+    consistency:
     - Atoms & Molecules: AppIcon, AppTextField, SearchField, StatusBar,
-          AppButton / ShortButton / AppFloatingButton, VacantsDisplay.
+      AppButton / ShortButton / AppFloatingButton, VacantsDisplay.
     - Components & Cells: Volunteer cards (CardVoluntariado,
-          CardVoluntariadoActual) and CardNovedades.
+      CardVoluntariadoActual) and CardNovedades.
     - Screens / Wireframes: Home (list & map views), Voluntariado detail (all
-          states), Novedad detail, Entry, Login, and Register pages.
+      states), Novedad detail, Entry, Login, and Register pages.
 
 To run the tests use:
 
@@ -352,35 +408,38 @@ fvm flutter test --update-goldens
 ### 4.5. Monitoring and Events
 
 - **Decision:**  
-  The application integrates **Firebase Crashlytics** and **Firebase Analytics** to ensure robust
-  error monitoring and user behavior tracking.
+  The application integrates **Firebase Crashlytics** and **Firebase Analytics**
+  to ensure robust error monitoring and user behavior tracking.
 
   - **Argumentation:**
-    - **Firebase Crashlytics:** Provides real-time crash reporting across UI layers and
-          service-level handlers, aiding in debugging and ensuring stability.
+
+    - **Firebase Crashlytics:** Provides real-time crash reporting across UI
+      layers and service-level handlers, aiding in debugging and ensuring
+      stability.
 
     - **Firebase Analytics:**  
-          Enables the collection of detailed insights into user interactions and navigation flows
-          throughout the app. By tracking custom and automatic events, we gain a better
-          understanding of how users engage with core features. The following user actions are
-          tracked as key engagement metrics:
-            1. **Volunteer Application**  
-               Tracks when a user successfully applies for a volunteer opportunity, helping us
-               measure interest in volunteering options and overall platform engagement.
-            2. **Like Toggle Count**  
-               Logs every time a user taps the like button on a volunteering opportunity, reflecting
-               user preferences and helping inform future content strategies.
-            3. In addition to these direct interaction metrics, we calculate advanced metrics using
-               specific custom events. The **News Interaction Rate** is computed by dividing the
-               total number of `view_news_detail` events (triggered when users tap on a news card to
-               read the full article) by the total number of `share_news` events (triggered when
-               users press the share button in the news detail page). The **Postulation Regret Index
-               ** is calculated by summing the `withdraw_application` and `abandon_volunteering`
-               events (triggered when users retract a pending application or abandon an accepted
-               volunteering opportunity) and dividing by the total `apply_for_volunteering` events (
-               triggered when users confirm an application), expressed as a percentage. These
-               metrics help us analyze user confidence, the quality of information presented, and
-               the overall effectiveness of the app’s content and processes.
+       Enables the collection of detailed insights into user interactions and navigation
+      flows throughout the app. By tracking custom and automatic events, we gain
+      a better understanding of how users engage with core features. The following
+      user actions are tracked as key engagement metrics: 1. **Volunteer Application**  
+
+      Tracks when a user successfully applies for a volunteer opportunity,
+      helping us measure interest in volunteering options and overall platform
+      engagement. 2. **Like Toggle Count**  
+       Logs every time a user taps the like button on a volunteering opportunity,
+      reflecting user preferences and helping inform future content strategies. 3.
+      In addition to these direct interaction metrics, we calculate advanced metrics
+      using specific custom events. The **News Interaction Rate** is computed by
+      dividing the total number of `view_news_detail` events (triggered when users
+      tap on a news card to read the full article) by the total number of `share_news`
+      events (triggered when users press the share button in the news detail page).
+      The **Postulation Regret Index ** is calculated by summing the `withdraw_application`
+      and `abandon_volunteering` events (triggered when users retract a pending application
+      or abandon an accepted volunteering opportunity) and dividing by the total
+      `apply_for_volunteering` events ( triggered when users confirm an application),
+      expressed as a percentage. These metrics help us analyze user confidence, the
+      quality of information presented, and the overall effectiveness of the app’s
+      content and processes.
 
 ### 4.6. Security and Portability
 
@@ -416,8 +475,8 @@ These models can be found in the `lib/models/` directory.
       apellido: String
       email: String
       hasSeenOnboarding: Bool (optional)
-      voluntariados: List<UserVoluntariado> (optional) 
-      likedVoluntariados: List<String> (optional) 
+      voluntariados: List<UserVoluntariado> (optional)
+      likedVoluntariados: List<String> (optional)
       telefono: String (optional)
       fechaNacimiento: DateTime (optional)
       genero: String (optional)
@@ -443,7 +502,7 @@ These models can be found in the `lib/models/` directory.
   Represents a volunteer opportunity.
 
   ```pseudocode
-  enum VoluntariadoStatus { ... } 
+  enum VoluntariadoStatus { ... }
 
   class Voluntariado {
       id: String
@@ -467,8 +526,9 @@ This project follows a **hybrid architecture** that combines both
   (e.g., `models`, `services`, `providers`, `router`). This makes it easy to
   locate shared logic and maintain consistency.
 - **Feature-first**: At the UI level, particularly under `shared/wireframes/`,
-  screens are grouped by feature domain (`home`, `perfil`, `novedades`, etc.),
-  enabling easier collaboration, testing, and navigation for large teams.
+  screens are grouped by feature domain (`home`, `perfil`, `novedades`,
+  `voluntariados`, `ingreso/`, and `error/`), enabling easier collaboration,
+  testing, and navigation for large teams.
 
 This hybrid approach allows for:
 
@@ -486,9 +546,37 @@ starts the root widget tree.
 
 Auto-generated Firebase configuration for cross-platform initialization.
 
+#### `l10n.yaml`
+
+Configuration file for Flutter's internationalization system, defining supported
+locales and ARB file locations.
+
 ---
 
 #### Data and Logic Layers
+
+##### `l10n/`
+
+Internationalization resources:
+
+- `app_en.arb` – English translations with metadata and descriptions.
+- `app_es.arb` – Spanish translations with metadata and descriptions.
+
+##### `generated/l10n/`
+
+Auto-generated localization classes from ARB files:
+
+- `app_localizations.dart` – Main localization class with type-safe string
+  access.
+- `app_localizations_en.dart`, `app_localizations_es.dart` – Language-specific
+  implementations.
+
+##### `utils/`
+
+Utility classes for improved developer experience:
+
+- `app_strings.dart` – Extension on `BuildContext` for ergonomic string access
+  via `context.strings`.
 
 ##### `converters/`
 
@@ -551,7 +639,7 @@ layers for reuse and domain directories for cohesion.
 - `tokens/` – Global design tokens (colors, spacing, typography).
 - `wireframes/` – Complete UI screens grouped by app feature/domain:
   - `home/`, `perfil/`, `novedades/`, `voluntariados/`, `ingreso/`, and
-      `error/`.
+    `error/`.
 
 ### 4.9. Dependencies (`pubspec.yaml`)
 
@@ -604,8 +692,15 @@ development experience.
 - `flutter_svg`: Renders SVG vector assets.
 - `flutter_markdown`: Renders Markdown content (e.g., news, descriptions).
 - `cached_network_image`: Efficient image loading with caching.
-- `intl`: Internationalization, formatting dates and numbers.
 - `cupertino_icons`: iOS-style icon set.
+
+#### Internationalization
+
+- `intl`: Internationalization, formatting dates and numbers.
+- `flutter_localizations`: Flutter's built-in localization support for Material
+  and Cupertino widgets.
+- Generated localization classes via `flutter gen-l10n` for type-safe string
+  access.
 
 #### Sharing & External Actions
 
@@ -655,8 +750,8 @@ To set up the project locally, follow these steps:
    dart pub global activate fvm
    ```
 
-3. **Add FVM to your shell PATH**
-   Add this line to your `.bashrc`, `.zshrc`, or similar:
+3. **Add FVM to your shell PATH** Add this line to your `.bashrc`, `.zshrc`, or
+   similar:
 
    ```bash
    export PATH="$PATH":"$HOME/.pub-cache/bin"
@@ -675,32 +770,40 @@ To set up the project locally, follow these steps:
    ```
 
 6. **Firebase Configuration:**
-    - Follow the official Firebase documentation to create a Firebase project.
-    - Add your Android and iOS apps to the Firebase project.
-    - Download the following config files and place them as described:
-        - `android/app/google-services.json`
-        - `ios/Runner/GoogleService-Info.plist`
-    - Enable the required Firebase services: **Authentication**, **Cloud
-      Firestore**, **Storage**, **Messaging**, **Analytics**, and
-      **Crashlytics**.
-    - Run the FlutterFire CLI to link your app and generate
-      `firebase_options.dart`:
 
-      ```bash
-      dart pub global activate flutterfire_cli
-      flutterfire configure
-      ```
+   - Follow the official Firebase documentation to create a Firebase project.
+   - Add your Android and iOS apps to the Firebase project.
+   - Download the following config files and place them as described:
+     - `android/app/google-services.json`
+     - `ios/Runner/GoogleService-Info.plist`
+   - Enable the required Firebase services: **Authentication**, **Cloud
+     Firestore**, **Storage**, **Messaging**, **Analytics**, and
+     **Crashlytics**.
+   - Run the FlutterFire CLI to link your app and generate
+     `firebase_options.dart`:
 
-    - This will generate `lib/firebase_options.dart` and update your project
-      settings.
+     ```bash
+     dart pub global activate flutterfire_cli
+     flutterfire configure
+     ```
+
+   - This will generate `lib/firebase_options.dart` and update your project
+     settings.
 
 7. **Code Generation:**
-    - Run the build runner to generate necessary files (e.g., for `freezed`,
-      `json_serializable`):
 
-      ```bash
-      dart run build_runner build --delete-conflicting-outputs
-      ```
+   - Run the build runner to generate necessary files (e.g., for `freezed`,
+     `json_serializable`):
+
+     ```bash
+     dart run build_runner build --delete-conflicting-outputs
+     ```
+
+   - Generate localization files from ARB resources:
+
+     ```bash
+     flutter gen-l10n
+     ```
 
 ## 6. Running the Application
 
@@ -712,6 +815,18 @@ To run the application on a simulator or physical device:
    ```bash
    fvm flutter run
    ```
+
+### Testing Different Languages
+
+The app automatically detects your device's language setting and displays
+content in English or Spanish accordingly. To test different languages:
+
+- **Change your device/simulator language** to English or Spanish in the system
+  settings
+- **For development testing:** Temporarily add `locale: const Locale('en', '')`
+  or `locale: const Locale('es', '')` to the `MaterialApp.router` in `main.dart`
+- The app falls back to Spanish as the default if the device is set to an
+  unsupported language
 
 ## 7. Development Team
 

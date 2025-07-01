@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 
 import '../../../constants/app_icons.dart';
+import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
@@ -26,8 +27,8 @@ class VacantsDisplay extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Text(
-            'Vacantes:',
+          Text(
+            context.strings.vacancies_dot,
             style: AppTypography.body02,
           ),
           const SizedBox(width: 8),
