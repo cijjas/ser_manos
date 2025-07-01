@@ -391,7 +391,7 @@ used in the development of Ser Manos.
 To run the tests use:
 
 ```bash
-dart run build_runner build --delete-conflicting-outputs
+fvm dart run build_runner build --delete-conflicting-outputs
 fvm flutter test --update-goldens
 ```
 
@@ -785,13 +785,13 @@ To set up the project locally, follow these steps:
      `json_serializable`):
 
      ```bash
-     dart run build_runner build --delete-conflicting-outputs
+     fvm dart run build_runner build --delete-conflicting-outputs
      ```
 
    - Generate localization files from ARB resources:
 
      ```bash
-     flutter gen-l10n
+     fvm flutter gen-l10n
      ```
 
 ## 6. Running the Application
