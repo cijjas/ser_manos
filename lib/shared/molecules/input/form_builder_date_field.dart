@@ -21,7 +21,6 @@ class FormBuilderDateField extends StatelessWidget {
     this.validator,
   });
 
-
   @override
   Widget build(BuildContext context) {
     return FormBuilderField<DateTime>(
@@ -68,5 +67,4 @@ class FormBuilderDateField extends StatelessWidget {
       },
     );
   }
-
 }

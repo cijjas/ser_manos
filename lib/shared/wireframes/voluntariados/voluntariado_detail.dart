@@ -67,8 +67,7 @@ class _VoluntariadoDetallePageState
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(context.strings.applyError)),
+          SnackBar(content: Text(context.strings.applyError)),
         );
       }
     }
@@ -103,9 +102,7 @@ class _VoluntariadoDetallePageState
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content:
-                  Text(context.strings.withdrawError)),
+          SnackBar(content: Text(context.strings.withdrawError)),
         );
       }
     }
@@ -140,9 +137,7 @@ class _VoluntariadoDetallePageState
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-              content: Text(
-                  context.strings.abandonError)),
+          SnackBar(content: Text(context.strings.abandonError)),
         );
       }
     }
@@ -491,8 +486,7 @@ class _BottomSection extends StatelessWidget {
       case VoluntariadoUserState.pending:
         return _InfoWithLink(
           title: context.strings.appliedTitle,
-          subtitle:
-              context.strings.appliedSubtitle,
+          subtitle: context.strings.appliedSubtitle,
           linkLabel: context.strings.withdrawApplication,
           onLinkPressed: onWithdraw,
         );
@@ -500,8 +494,7 @@ class _BottomSection extends StatelessWidget {
       case VoluntariadoUserState.accepted:
         return _InfoWithLink(
           title: context.strings.participatingTitle,
-          subtitle:
-              context.strings.participatingSubtitle,
+          subtitle: context.strings.participatingSubtitle,
           linkLabel: context.strings.leaveVolunteering,
           onLinkPressed: onAbandon,
         );

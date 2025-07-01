@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 
 import 'package:ser_manos/shared/molecules/status_bar/status_bar.dart';
+import '../../utils/test_utils.dart';
 
-Widget _frame(StatusBar bar, {ThemeData? theme}) => MaterialApp(
-  theme: theme ?? ThemeData.light(useMaterial3: true),
-  home: Scaffold(appBar: bar, body: const SizedBox.expand()),
-);
+Widget _frame(StatusBar bar, {ThemeData? theme}) => testAppWithHome(
+      home: Scaffold(appBar: bar, body: const SizedBox.expand()),
+      theme: theme,
+    );
 
 void main() {
   testGoldens('StatusBar variants', (tester) async {

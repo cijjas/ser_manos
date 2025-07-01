@@ -65,7 +65,8 @@ class ConfirmApplicationModal extends StatelessWidget {
             if (effectiveMessage.isNotEmpty) ...[
               Text(
                 effectiveMessage,
-                style: AppTypography.subtitle01.copyWith(color: AppColors.neutral100),
+                style: AppTypography.subtitle01
+                    .copyWith(color: AppColors.neutral100),
                 textAlign: TextAlign.left,
               ),
               const SizedBox(height: 8),
@@ -73,7 +74,8 @@ class ConfirmApplicationModal extends StatelessWidget {
             if (title.isNotEmpty)
               Text(
                 title,
-                style: AppTypography.headline02.copyWith(color: AppColors.neutral100),
+                style: AppTypography.headline02
+                    .copyWith(color: AppColors.neutral100),
               ),
             const SizedBox(height: 24),
             Row(

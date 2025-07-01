@@ -11,6 +11,7 @@ import 'package:ser_manos/shared/wireframes/ingreso/register_page.dart';
 import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/providers/user_provider.dart';
 import '../../mocks/mocks.mocks.dart';
+import '../../utils/test_utils.dart';
 
 class _FakeUserCredential extends Fake implements UserCredential {}
 
@@ -19,7 +20,7 @@ void main() {
 
   late MockAuthService mockAuth;
   late MockUserService mockUser;
-  late UserCredential  fakeCred;
+  late UserCredential fakeCred;
 
   setUp(() {
     mockAuth = MockAuthService();
@@ -37,7 +38,7 @@ void main() {
         authServiceProvider.overrideWithValue(mockAuth),
         userServiceProvider.overrideWithValue(mockUser),
       ],
-      child: MaterialApp(home: child),
+      child: testAppWithHome(home: child),
     );
   }
 
@@ -47,8 +48,8 @@ void main() {
 
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [Device.phone])
-      ..addScenario(name: 'Entry',    widget: await wrap(const EntryPage()))
-      ..addScenario(name: 'Welcome',  widget: await wrap(const WelcomePage()));
+      ..addScenario(name: 'Entry', widget: await wrap(const EntryPage()))
+      ..addScenario(name: 'Welcome', widget: await wrap(const WelcomePage()));
 
     await tester.pumpDeviceBuilder(builder);
     await screenMatchesGolden(tester, 'auth_entry_welcome');
@@ -60,7 +61,7 @@ void main() {
 
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [Device.phone])
-      ..addScenario(name: 'Login',    widget: await wrap(const LoginPage()))
+      ..addScenario(name: 'Login', widget: await wrap(const LoginPage()))
       ..addScenario(name: 'Register', widget: await wrap(const RegisterPage()));
 
     await tester.pumpDeviceBuilder(builder);

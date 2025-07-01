@@ -4,7 +4,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -43,7 +43,7 @@ dependencies:
   flutter_form_builder: ^9.1.1
   form_builder_validators: ^11.1.2
 
-#  Launch url to maps
+  #  Launch url to maps
   url_launcher: ^6.2.4
   maps_launcher: ^3.0.0+1
   geolocator: ^14.0.1
@@ -68,7 +68,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/icons/app_icon.png"
+  image_path: 'assets/icons/app_icon.png'
 
 flutter:
   uses-material-design: true

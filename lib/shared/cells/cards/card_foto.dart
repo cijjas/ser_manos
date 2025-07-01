@@ -24,7 +24,8 @@ class CardFotoPerfil extends StatelessWidget {
   Widget build(BuildContext context) {
     // Priorizar imagen local sobre la remota
     final bool hasLocalImage = imagenLocal != null;
-    final bool hasRemoteImage = imagenUrlRemota != null && imagenUrlRemota!.isNotEmpty;
+    final bool hasRemoteImage =
+        imagenUrlRemota != null && imagenUrlRemota!.isNotEmpty;
     final bool hasAnyImage = hasLocalImage || hasRemoteImage;
 
     return Container(
@@ -37,12 +38,37 @@ class CardFotoPerfil extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       child: hasAnyImage
           ? Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.strings.profilePhoto,
+                        style: AppTypography.subtitle01.copyWith(
+                          color: AppColors.neutral100,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      ShortButton(
+                        label: context.strings.changePhoto,
+                        onPressed: isLoading ? null : onChange,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 16),
+                FotoPerfil.sm(
+                  imageUrl: hasLocalImage ? null : imagenUrlRemota,
+                  localImageFile: imagenLocal,
+                  onTap: isLoading ? null : onChange,
+                ),
+              ],
+            )
+          : Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   context.strings.profilePhoto,
@@ -50,37 +76,12 @@ class CardFotoPerfil extends StatelessWidget {
                     color: AppColors.neutral100,
                   ),
                 ),
-                const SizedBox(height: 8),
                 ShortButton(
-                  label: context.strings.changePhoto,
+                  label: context.strings.uploadPhoto,
                   onPressed: isLoading ? null : onChange,
                 ),
               ],
             ),
-          ),
-          const SizedBox(width: 16),
-          FotoPerfil.sm(
-            imageUrl: hasLocalImage ? null : imagenUrlRemota,
-            localImageFile: imagenLocal,
-            onTap: isLoading ? null : onChange,
-          ),
-        ],
-      )
-          : Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            context.strings.profilePhoto,
-            style: AppTypography.subtitle01.copyWith(
-              color: AppColors.neutral100,
-            ),
-          ),
-          ShortButton(
-            label: context.strings.uploadPhoto,
-            onPressed: isLoading ? null : onChange,
-          ),
-        ],
-      ),
     );
   }
 }

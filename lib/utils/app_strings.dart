@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:ser_manos/generated/l10n/app_localizations.dart';
 
 /// Utility class to provide easy access to localized strings throughout the app.
-/// 
+///
 /// Usage:
 /// ```dart
 /// Text(AppStrings.of(context).loginPageTitle)
@@ -14,7 +14,7 @@ class AppStrings {
 }
 
 /// Extension on BuildContext to make accessing localized strings even easier.
-/// 
+///
 /// Usage:
 /// ```dart
 /// Text(context.strings.loginPageTitle)

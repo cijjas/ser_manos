@@ -9,19 +9,20 @@ import 'package:ser_manos/providers/novedad_provider.dart';
 import 'package:ser_manos/shared/wireframes/novedades/novedad_detail.dart';
 
 import '../../mocks/mocks.mocks.dart';
+import '../../utils/test_utils.dart';
 
 // ───────────────────────── helpers ──────────────────────────
 Novedad _fakeNovedad() => Novedad(
-  id: 'n1',
-  titulo: 'Nueva campaña solidaria',
-  resumen: 'Únete para ayudar a los niños de la zona rural.',
-  emisor: 'SerManos ONG',
-  imagenUrl: 'https://dummyimage.com/600x400/000/fff&text=novedad',
-  descripcion:
-  'Este es el cuerpo completo de la noticia. Aquí iría un texto algo más extenso '
-      'describiendo la iniciativa, sus objetivos, cómo colaborar, etc.',
-  createdAt: DateTime(2025, 1, 1),
-);
+      id: 'n1',
+      titulo: 'Nueva campaña solidaria',
+      resumen: 'Únete para ayudar a los niños de la zona rural.',
+      emisor: 'SerManos ONG',
+      imagenUrl: 'https://dummyimage.com/600x400/000/fff&text=novedad',
+      descripcion:
+          'Este es el cuerpo completo de la noticia. Aquí iría un texto algo más extenso '
+          'describiendo la iniciativa, sus objetivos, cómo colaborar, etc.',
+      createdAt: DateTime(2025, 1, 1),
+    );
 
 // ───────────────────────── test ─────────────────────────────
 void main() {
@@ -43,9 +44,9 @@ void main() {
           name: 'light',
           widget: ProviderScope(
             overrides: overrides,
-            child: MaterialApp(
-              theme: ThemeData.light(),
+            child: testAppWithHome(
               home: const NovedadDetail(id: 'n1'),
+              theme: ThemeData.light(),
             ),
           ),
         )
@@ -53,9 +54,9 @@ void main() {
           name: 'dark',
           widget: ProviderScope(
             overrides: overrides,
-            child: MaterialApp(
-              theme: ThemeData.dark(),
+            child: testAppWithHome(
               home: const NovedadDetail(id: 'n1'),
+              theme: ThemeData.dark(),
             ),
           ),
         );
@@ -66,7 +67,8 @@ void main() {
       await screenMatchesGolden(
         tester,
         'novedad_detail_page',
-        customPump: (tester) async => tester.pump(const Duration(milliseconds: 200)),
+        customPump: (tester) async =>
+            tester.pump(const Duration(milliseconds: 200)),
       );
     });
   });

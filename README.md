@@ -102,14 +102,12 @@ updates are reflected instantly in the UI.
 **Technical Implementation & Decisions:**
 
 - **Technology Choice:**
-
   - **Cloud Firestore** was selected for its native support for real-time
     listeners and easy integration with Flutter’s reactive widget system.
   - **Riverpod** is used to manage state and expose Firestore streams to the UI
     in a modular and testable way.
 
 - **Usage Across the App:**
-
   - **Volunteer Opportunities (`voluntariados`):** Real-time streams update
     availability, details, and filtering results as new opportunities are added
     or updated.
@@ -122,25 +120,23 @@ updates are reflected instantly in the UI.
     changes.
 
 - **Implementation Highlights:**
-
   - Streams are exposed via `StreamProvider`s and managed in service classes.
     For example:
 
-          ```dart
-          Stream<User> watchOne(String userId) =>
-              _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
+    ```dart
+    Stream<User> watchOne(String userId) =>
+        _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
 
-          Stream<List<Novedad>> watchAll() =>
-              _collection.orderBy('createdAt', descending: true).snapshots()
-                         .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
-          ```
+    Stream<List<Novedad>> watchAll() =>
+        _collection.orderBy('createdAt', descending: true).snapshots()
+                   .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
+    ```
 
   - These streams drive the reactive UI, ensuring updates like slot
     availability, news items, and user state (e.g., onboarding, postulation
     status) are reflected immediately.
 
 - **Crash Reporting & Logging:**
-
   - All service-layer operations are wrapped with **Firebase Crashlytics** and
     **Analytics** for error tracking and observability. Errors in real-time
     updates (e.g., permission issues, invalid states) are logged with relevant
@@ -169,7 +165,6 @@ engagement and immediacy for critical events. These include:
 **Technical Implementation & Decisions:**
 
 - **Technology Stack:**
-
   - **Firebase Cloud Messaging (FCM):** Used to send and route push
     notifications to user devices.
   - **Firebase Cloud Functions (v2):** Implemented to trigger notifications
@@ -180,7 +175,6 @@ engagement and immediacy for critical events. These include:
     notification payloads.
 
 - **Backend Notification Triggers:**
-
   - Implemented using **Firebase Cloud Functions (v2)** with **Firestore
     triggers**:
     - `onDocumentUpdated` listens for changes in user documents. When a user’s
@@ -193,7 +187,6 @@ engagement and immediacy for critical events. These include:
     `voluntariadoId`, `newsId`) used for routing.
 
 - **Client-Side Notification Handling:**
-
   - Foreground messages are intercepted by `flutter_local_notifications`,
     displaying native push UI elements.
   - A custom `NotificationService` handles:
@@ -291,7 +284,6 @@ markets.
 **Technical Implementation & Decisions:**
 
 - **Technology Choice:**
-
   - **Flutter's built-in `Intl` package** with Application Resource Bundle (ARB)
     files for managing translations.
   - **Code generation** via `flutter gen-l10n` to create type-safe localization
@@ -300,7 +292,6 @@ markets.
     usage.
 
 - **Implementation Details:**
-
   - **ARB Files:** Separate `.arb` files for English (`app_en.arb`) and Spanish
     (`app_es.arb`) containing all translatable strings with descriptions and
     context.
@@ -313,7 +304,6 @@ markets.
     internationalized.
 
 - **Configuration:**
-
   - `l10n.yaml` configuration file defining localization settings
   - Generated classes in `lib/generated/l10n/` for seamless integration
   - Support for both languages declared in `MaterialApp.router` with proper
@@ -410,36 +400,37 @@ fvm flutter test --update-goldens
 - **Decision:**  
   The application integrates **Firebase Crashlytics** and **Firebase Analytics**
   to ensure robust error monitoring and user behavior tracking.
-
   - **Argumentation:**
-
     - **Firebase Crashlytics:** Provides real-time crash reporting across UI
       layers and service-level handlers, aiding in debugging and ensuring
       stability.
 
     - **Firebase Analytics:**  
-       Enables the collection of detailed insights into user interactions and navigation
-      flows throughout the app. By tracking custom and automatic events, we gain
-      a better understanding of how users engage with core features. The following
-      user actions are tracked as key engagement metrics: 1. **Volunteer Application**  
+       Enables the collection of detailed insights into user interactions and
+      navigation flows throughout the app. By tracking custom and automatic
+      events, we gain a better understanding of how users engage with core
+      features. The following user actions are tracked as key engagement
+      metrics: 1. **Volunteer Application**
 
       Tracks when a user successfully applies for a volunteer opportunity,
       helping us measure interest in volunteering options and overall platform
       engagement. 2. **Like Toggle Count**  
-       Logs every time a user taps the like button on a volunteering opportunity,
-      reflecting user preferences and helping inform future content strategies. 3.
-      In addition to these direct interaction metrics, we calculate advanced metrics
-      using specific custom events. The **News Interaction Rate** is computed by
-      dividing the total number of `view_news_detail` events (triggered when users
-      tap on a news card to read the full article) by the total number of `share_news`
-      events (triggered when users press the share button in the news detail page).
-      The **Postulation Regret Index ** is calculated by summing the `withdraw_application`
-      and `abandon_volunteering` events (triggered when users retract a pending application
-      or abandon an accepted volunteering opportunity) and dividing by the total
-      `apply_for_volunteering` events ( triggered when users confirm an application),
-      expressed as a percentage. These metrics help us analyze user confidence, the
-      quality of information presented, and the overall effectiveness of the app’s
-      content and processes.
+       Logs every time a user taps the like button on a volunteering
+      opportunity, reflecting user preferences and helping inform future content
+      strategies. 3. In addition to these direct interaction metrics, we
+      calculate advanced metrics using specific custom events. The **News
+      Interaction Rate** is computed by dividing the total number of
+      `view_news_detail` events (triggered when users tap on a news card to read
+      the full article) by the total number of `share_news` events (triggered
+      when users press the share button in the news detail page). The
+      **Postulation Regret Index** is calculated by summing the
+      `withdraw_application` and `abandon_volunteering` events (triggered when
+      users retract a pending application or abandon an accepted volunteering
+      opportunity) and dividing by the total `apply_for_volunteering` events (
+      triggered when users confirm an application), expressed as a percentage.
+      These metrics help us analyze user confidence, the quality of information
+      presented, and the overall effectiveness of the app’s content and
+      processes.
 
 ### 4.6. Security and Portability
 
@@ -770,7 +761,6 @@ To set up the project locally, follow these steps:
    ```
 
 6. **Firebase Configuration:**
-
    - Follow the official Firebase documentation to create a Firebase project.
    - Add your Android and iOS apps to the Firebase project.
    - Download the following config files and place them as described:
@@ -791,7 +781,6 @@ To set up the project locally, follow these steps:
      settings.
 
 7. **Code Generation:**
-
    - Run the build runner to generate necessary files (e.g., for `freezed`,
      `json_serializable`):
 

@@ -12,7 +12,6 @@ import '../../molecules/status_bar/status_bar.dart';
 import '../../tokens/colors.dart';
 
 class WelcomePage extends ConsumerStatefulWidget {
-
   const WelcomePage({
     super.key,
   });
@@ -24,7 +23,6 @@ class WelcomePage extends ConsumerStatefulWidget {
 }
 
 class _WelcomePageState extends ConsumerState<WelcomePage> {
-
   Future<void> onBeginPress(BuildContext context) async {
     await ref.read(markOnboardingCompleteProvider.future);
 
@@ -37,50 +35,48 @@ class _WelcomePageState extends ConsumerState<WelcomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: AppColors.neutral0,
-      appBar: const StatusBar(style: StatusBarStyle.light),
-      body: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.max,
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  const AppSymbolText(),
-                  const SizedBox(height: 30),
-                  Text(context.strings.welcomeMessage,
-                    style: AppTypography.headline01,
-                    textAlign: TextAlign.center,
-                  ),
-                  const SizedBox(height: 48),
-                  Text(context.strings.welcomeSubtitle,
-                    style: AppTypography.subtitle01,
-                    textAlign: TextAlign.center,
-                  )
-                ],
-              )
-            ),
-            SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  AppButton(
-                    label: context.strings.beginButtonLabel,
-                    onPressed: () => onBeginPress(context),
-                    type: AppButtonType.filled,
-                  ),
-                ],
-              )
-            )
-          ],
-        )
-      )
-    );
+        appBar: const StatusBar(style: StatusBarStyle.light),
+        body: Container(
+            width: double.infinity,
+            height: double.infinity,
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 92),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Expanded(
+                    child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    const AppSymbolText(),
+                    const SizedBox(height: 30),
+                    Text(
+                      context.strings.welcomeMessage,
+                      style: AppTypography.headline01,
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 48),
+                    Text(
+                      context.strings.welcomeSubtitle,
+                      style: AppTypography.subtitle01,
+                      textAlign: TextAlign.center,
+                    )
+                  ],
+                )),
+                SizedBox(
+                    width: double.infinity,
+                    child: Column(
+                      children: [
+                        AppButton(
+                          label: context.strings.beginButtonLabel,
+                          onPressed: () => onBeginPress(context),
+                          type: AppButtonType.filled,
+                        ),
+                      ],
+                    ))
+              ],
+            )));
   }
 }

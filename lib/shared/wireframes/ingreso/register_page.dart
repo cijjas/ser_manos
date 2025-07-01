@@ -148,7 +148,6 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                         children: [
                           const AppSymbolText(),
                           const SizedBox(height: 32),
-
                           FormBuilder(
                             key: _formKey,
                             autovalidateMode: AutovalidateMode.onUnfocus,
@@ -160,9 +159,10 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   labelText: context.strings.name,
                                   hintText: context.strings.nameHint,
                                   keyboardType: TextInputType.name,
-                                validator: (v) => AppValidators.required(v, label: context.strings.name.toLowerCase()),
-
-                                onChanged: (_) => _updateCanRegister(),
+                                  validator: (v) => AppValidators.required(v,
+                                      label:
+                                          context.strings.name.toLowerCase()),
+                                  onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.next,
                                   onFieldSubmitted: (_) => {
                                     _formKey.currentState?.fields["name"]
@@ -177,7 +177,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: context.strings.surname,
                                     hintText: context.strings.surnameHint,
                                     keyboardType: TextInputType.name,
-                                    validator: (v) => AppValidators.required(v, label: context.strings.surname.toLowerCase()),
+                                    validator: (v) => AppValidators.required(v,
+                                        label: context.strings.surname
+                                            .toLowerCase()),
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -207,14 +209,13 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   name: 'password',
                                   labelText: context.strings.password,
                                   hintText: context.strings.passwordHint,
-                                    validator: AppValidators.registerPassword,
-                                    onChanged: (_) => _updateCanRegister(),
+                                  validator: AppValidators.registerPassword,
+                                  onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.done,
                                 ),
                               ],
                             ),
                           ),
-
                           if (_errorMessage != null) ...[
                             const SizedBox(height: 16),
                             Text(
@@ -236,7 +237,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                 builder: (_, canRegister, __) => Column(
                   children: [
                     AppButton(
-                      label: _isLoading ? context.strings.registering : context.strings.registerPageTitle,
+                      label: _isLoading
+                          ? context.strings.registering
+                          : context.strings.registerPageTitle,
                       onPressed:
                           (_isLoading || !canRegister) ? null : _handleRegister,
                       type: AppButtonType.filled,

@@ -25,20 +25,19 @@ class PerfilIncompletoPage extends StatelessWidget {
 
   void _showLogoutModal(BuildContext context) {
     showDialog(
-      context: context,
-      builder: (context) => ConfirmApplicationModal(
-        title: context.strings.logoutConfirmTitle,
-        message: '',
-        confirmLabel: context.strings.logoutButton,
-        cancelLabel: context.strings.cancel,
-        onConfirm: () {
-          Navigator.pop(context);
-          onLogoutPressed();
-        },
-        onCancel: () => Navigator.pop(context),
-        actionType: ActionType.logout,
-      )
-    );
+        context: context,
+        builder: (context) => ConfirmApplicationModal(
+              title: context.strings.logoutConfirmTitle,
+              message: '',
+              confirmLabel: context.strings.logoutButton,
+              cancelLabel: context.strings.cancel,
+              onConfirm: () {
+                Navigator.pop(context);
+                onLogoutPressed();
+              },
+              onCancel: () => Navigator.pop(context),
+              actionType: ActionType.logout,
+            ));
   }
 
   @override
@@ -94,7 +93,6 @@ class PerfilIncompletoPage extends StatelessWidget {
                 ),
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
               child: Column(

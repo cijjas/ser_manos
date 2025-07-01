@@ -59,9 +59,12 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   bool _hasChanges() {
     if (_originalUser == null) return true;
     final values = _formKey.currentState?.value ?? {};
-    if ((values['email'] as String?)?.trim() != _originalUser!.email.trim()) return true;
-    if ((values['telefono'] as String?)?.trim() != _originalUser!.telefono?.trim()) return true;
-    if (values['fechaNacimiento'] != _originalUser!.fechaNacimiento) return true;
+    if ((values['email'] as String?)?.trim() != _originalUser!.email.trim())
+      return true;
+    if ((values['telefono'] as String?)?.trim() !=
+        _originalUser!.telefono?.trim()) return true;
+    if (values['fechaNacimiento'] != _originalUser!.fechaNacimiento)
+      return true;
     final generoIndex = values['genero'] as int?;
     final currentGenero = (generoIndex != null)
         ? ['Hombre', 'Mujer', 'No binario'][generoIndex]
@@ -70,7 +73,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     if (_imagenLocalParaSubir != null) return true;
     return false;
   }
-
 
   Future<void> _loadUser() async {
     final fbUser = ref.read(authStateProvider).value;
@@ -98,7 +100,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       });
 
       _updateButtonState();
-
     } catch (e) {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
@@ -123,7 +124,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       });
     }
   }
-
 
   Future<void> _showImageSourceSelector() async {
     if (_isSaving) return;
@@ -263,8 +263,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
           onPressed: _isSaving
               ? null
               : () => context.canPop()
-              ? context.pop()
-              : context.go(AppRoutes.homeProfile),
+                  ? context.pop()
+                  : context.go(AppRoutes.homeProfile),
         ),
         elevation: 0,
         backgroundColor: AppColors.neutral0,
@@ -305,7 +305,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 FormBuilderField<int?>(
                   name: 'genero',
                   validator: (value) =>
-                  value == null ? 'Seleccioná tu género.' : null,
+                      value == null ? 'Seleccioná tu género.' : null,
                   builder: (field) {
                     return Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -315,12 +315,11 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                           options: const ['Hombre', 'Mujer', 'No binario'],
                           selectedIndex: field.value,
                           onSelected:
-                          _isSaving ? null : (i) => field.didChange(i),
+                              _isSaving ? null : (i) => field.didChange(i),
                         ),
                         if (field.hasError)
                           Padding(
-                            padding:
-                            const EdgeInsets.only(left: 12, top: 8),
+                            padding: const EdgeInsets.only(left: 12, top: 8),
                             child: Text(
                               field.errorText!,
                               style: AppTypography.caption
@@ -335,7 +334,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 // ───────────────── Foto de perfil ─────────────────
                 FormBuilderField<bool>(
                   name: 'imagenValida',
-                  initialValue: _fotoUrl != null || _imagenLocalParaSubir != null,
+                  initialValue:
+                      _fotoUrl != null || _imagenLocalParaSubir != null,
                   validator: FormBuilderValidators.equal(true,
                       errorText: 'Selecciona una foto de perfil'),
                   builder: (field) {
@@ -393,7 +393,8 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                   hintText: context.strings.emailEditHint,
                   keyboardType: TextInputType.emailAddress,
                   validator: AppValidators.email,
-                  onFieldSubmitted: (_) => _formKey.currentState?.fields['email']?.validate(),
+                  onFieldSubmitted: (_) =>
+                      _formKey.currentState?.fields['email']?.validate(),
                   textInputAction: TextInputAction.done,
                 ),
                 const SizedBox(height: 32),
@@ -401,7 +402,10 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                 AppButton(
                   label: context.strings.saveData,
                   isLoading: _isSaving,
-                  onPressed: _areAllFieldsFilled && (_formKey.currentState?.isDirty ?? false) && !_isSaving && _hasChanges()
+                  onPressed: _areAllFieldsFilled &&
+                          (_formKey.currentState?.isDirty ?? false) &&
+                          !_isSaving &&
+                          _hasChanges()
                       ? _save
                       : null,
                   type: AppButtonType.filled,

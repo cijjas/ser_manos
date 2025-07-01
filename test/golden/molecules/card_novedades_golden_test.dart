@@ -4,22 +4,23 @@ import 'package:network_image_mock/network_image_mock.dart';
 
 import 'package:ser_manos/models/novedad.dart';
 import 'package:ser_manos/shared/cells/cards/card_novedades.dart';
+import '../../utils/test_utils.dart';
 
-Widget _frame(Widget w, {ThemeData? theme}) => MaterialApp(
-  theme: theme ?? ThemeData.light(useMaterial3: true),
-  home: Scaffold(body: Center(child: w)),
-);
+Widget _frame(Widget w, {ThemeData? theme}) => testApp(
+      child: w,
+      theme: theme,
+    );
 
 Novedad fakeNews(String id) => Novedad(
-  id: id,
-  titulo: 'New spaces for volunteering',
-  resumen:
-  'Discover the latest opportunities we’ve opened for community work.',
-  emisor: 'SerManos',
-  imagenUrl: 'https://dummyimage.com/300x400/ccc/aaa&text=news',
-  descripcion: 'Long **markdown** body …',
-  createdAt: DateTime(2025, 6, 1),
-);
+      id: id,
+      titulo: 'New spaces for volunteering',
+      resumen:
+          'Discover the latest opportunities we’ve opened for community work.',
+      emisor: 'SerManos',
+      imagenUrl: 'https://dummyimage.com/300x400/ccc/aaa&text=news',
+      descripcion: 'Long **markdown** body …',
+      createdAt: DateTime(2025, 6, 1),
+    );
 
 void main() {
   testGoldens('CardNovedades widget', (tester) async {

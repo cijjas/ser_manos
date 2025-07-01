@@ -3,11 +3,12 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:ser_manos/shared/molecules/input/search_field.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/constants/app_icons.dart';
+import '../../utils/test_utils.dart';
 
-Widget _appFrame(Widget child, {ThemeData? theme}) => MaterialApp(
-  theme: theme ?? ThemeData.light(),
-  home: Scaffold(body: Center(child: child)),
-);
+Widget _appFrame(Widget child, {ThemeData? theme}) => testApp(
+      child: child,
+      theme: theme,
+    );
 
 void main() {
   testGoldens('SearchField – empty vs. with-text', (tester) async {
@@ -16,7 +17,7 @@ void main() {
     final builder = DeviceBuilder()
       ..overrideDevicesForAllScenarios(devices: [Device.phone])
 
-    // ────────────────────────────────────────────────────────
+      // ────────────────────────────────────────────────────────
       ..addScenario(
         name: 'empty (light)',
         widget: _appFrame(
@@ -30,7 +31,7 @@ void main() {
         ),
       )
 
-    // ────────────────────────────────────────────────────────
+      // ────────────────────────────────────────────────────────
       ..addScenario(
         name: 'typed text (light)',
         widget: _appFrame(
@@ -45,7 +46,7 @@ void main() {
         ),
       )
 
-    // ────────────────────────────────────────────────────────
+      // ────────────────────────────────────────────────────────
       ..addScenario(
         name: 'empty (dark)',
         widget: _appFrame(

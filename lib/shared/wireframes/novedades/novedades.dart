@@ -25,25 +25,27 @@ class NewsPage extends ConsumerWidget {
           novedadesAsync.when(
             data: (news) => news.isNotEmpty
                 ? Column(
-              children: news.map((novedad) => Padding(
-                padding: const EdgeInsets.only(bottom: 24),
-                child: CardNovedades(novedad: novedad),
-              )).toList(),
-            )
+                    children: news
+                        .map((novedad) => Padding(
+                              padding: const EdgeInsets.only(bottom: 24),
+                              child: CardNovedades(novedad: novedad),
+                            ))
+                        .toList(),
+                  )
                 : Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: AppColors.neutral0,
-                borderRadius: AppBorderRadius.border4,
-              ),
-              child: Center(
-                child: Text(
-                  context.strings.noNewsYet,
-                  style: AppTypography.subtitle01,
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
+                    padding: const EdgeInsets.all(24),
+                    decoration: const BoxDecoration(
+                      color: AppColors.neutral0,
+                      borderRadius: AppBorderRadius.border4,
+                    ),
+                    child: Center(
+                      child: Text(
+                        context.strings.noNewsYet,
+                        style: AppTypography.subtitle01,
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ),
             loading: () => const Center(child: CircularProgressIndicator()),
             error: (e, _) => Center(child: Text('Error: $e')),
           ),

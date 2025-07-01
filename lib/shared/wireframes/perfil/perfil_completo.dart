@@ -32,24 +32,21 @@ class PerfilCompletoPage extends StatelessWidget {
   final String gender;
   final String phone;
 
-
-
   void _showLogoutModal(BuildContext context) {
     showDialog(
         context: context,
         builder: (context) => ConfirmApplicationModal(
-          title: context.strings.logoutConfirmTitle,
-          message: '',
-          confirmLabel: context.strings.logoutButton,
-          cancelLabel: context.strings.cancel,
-          onConfirm: () {
-            Navigator.pop(context);
-            onLogoutPressed();
-          },
-          onCancel: () => Navigator.pop(context),
-          actionType: ActionType.logout,
-        )
-    );
+              title: context.strings.logoutConfirmTitle,
+              message: '',
+              confirmLabel: context.strings.logoutButton,
+              cancelLabel: context.strings.cancel,
+              onConfirm: () {
+                Navigator.pop(context);
+                onLogoutPressed();
+              },
+              onCancel: () => Navigator.pop(context),
+              actionType: ActionType.logout,
+            ));
   }
 
   @override
@@ -94,10 +91,7 @@ class PerfilCompletoPage extends StatelessWidget {
                   ],
                 ),
               ),
-
-
               const SizedBox(height: 32),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
@@ -120,9 +114,7 @@ class PerfilCompletoPage extends StatelessWidget {
                   ],
                 ),
               ),
-
               const SizedBox(height: 40),
-
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(

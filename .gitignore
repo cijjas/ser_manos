@@ -52,3 +52,7 @@ ios/Runner/GoogleService-Info.plist
 windows
 macos
 linux
+
+# Node.js (for documentation tools)
+node_modules/
+package-lock.json

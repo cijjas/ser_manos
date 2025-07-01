@@ -25,8 +25,6 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 void main() {
   runZonedGuarded(() async {
-
-
     WidgetsFlutterBinding.ensureInitialized();
 
     // Firebase
@@ -43,8 +41,8 @@ void main() {
 
     FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
     FirebaseMessaging.onMessage.listen(NotificationService.show);
-    FirebaseMessaging.onMessageOpenedApp.listen(NotificationService.handleRemoteMessage);
-
+    FirebaseMessaging.onMessageOpenedApp
+        .listen(NotificationService.handleRemoteMessage);
 
     FirebaseMessaging.instance.onTokenRefresh.listen((newToken) async {
       final currentUser = FirebaseAuth.instance.currentUser;

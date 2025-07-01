@@ -129,7 +129,8 @@ class _NovedadImage extends StatelessWidget {
             );
             return Container(
               color: AppColors.neutral10,
-              child: const Icon(Icons.broken_image, size: 48, color: Colors.grey),
+              child:
+                  const Icon(Icons.broken_image, size: 48, color: Colors.grey),
             );
           },
           loadingBuilder: (context, child, loadingProgress) {

@@ -41,7 +41,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
     );
 
     final url = 'http://sermanos.app/novedad/${novedad.id}';
-    final discoverMoreText = mounted ? context.strings.discoverMore : 'Descubre más aquí:';
+    final discoverMoreText =
+        mounted ? context.strings.discoverMore : 'Descubre más aquí:';
     final text = '${novedad.resumen}\n\n$discoverMoreText\n$url';
 
     try {
@@ -51,7 +52,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
       }
 
       final dir = await getTemporaryDirectory();
-      final fileName = 'shared_novedad_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final fileName =
+          'shared_novedad_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final path = '${dir.path}/$fileName';
       final file = File(path);
       await file.writeAsBytes(response.bodyBytes);
@@ -62,7 +64,10 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
         e,
         stack,
         reason: 'Failed to download news image for sharing',
-        information: ['Novedad ID: ${novedad.id}', 'Image URL: ${novedad.imagenUrl}'],
+        information: [
+          'Novedad ID: ${novedad.id}',
+          'Image URL: ${novedad.imagenUrl}'
+        ],
         fatal: false,
       );
 
@@ -98,7 +103,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(novedad.emisor.toUpperCase(), style: AppTypography.overline),
+                    Text(novedad.emisor.toUpperCase(),
+                        style: AppTypography.overline),
                     const SizedBox(height: 4),
                     Text(novedad.titulo, style: AppTypography.headline02),
                     const SizedBox(height: 16),
@@ -114,7 +120,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                           return Container(
                             height: 160,
                             color: AppColors.neutral10,
-                            child: const Center(child: CircularProgressIndicator()),
+                            child: const Center(
+                                child: CircularProgressIndicator()),
                           );
                         },
                         errorBuilder: (context, error, stackTrace) {
@@ -122,7 +129,10 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                             error,
                             stackTrace,
                             reason: 'Failed to load news image for display',
-                            information: ['Novedad ID: ${novedad.id}', 'Image URL: ${novedad.imagenUrl}'],
+                            information: [
+                              'Novedad ID: ${novedad.id}',
+                              'Image URL: ${novedad.imagenUrl}'
+                            ],
                             fatal: false,
                           );
                           return Container(
@@ -130,7 +140,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                             height: 160,
                             color: AppColors.neutral10,
                             child: const Center(
-                              child: Icon(Icons.broken_image, size: 64, color: AppColors.neutral50),
+                              child: Icon(Icons.broken_image,
+                                  size: 64, color: AppColors.neutral50),
                             ),
                           );
                         },
@@ -154,11 +165,13 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                 child: Center(
                   child: Column(
                     children: [
-                      Text(context.strings.shareThisNote, style: AppTypography.headline02),
+                      Text(context.strings.shareThisNote,
+                          style: AppTypography.headline02),
                       const SizedBox(height: 12),
                       AppButton(
                         label: context.strings.share,
-                        onPressed: isSharing ? null : () => _handleShare(novedad),
+                        onPressed:
+                            isSharing ? null : () => _handleShare(novedad),
                         type: AppButtonType.filled,
                         isLoading: isSharing,
                       ),

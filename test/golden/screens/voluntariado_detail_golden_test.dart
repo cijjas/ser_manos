@@ -15,15 +15,16 @@ import 'package:ser_manos/providers/voluntariado_provider.dart';
 import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_detail.dart';
 
 import '../../mocks/mocks.mocks.dart';
+import '../../utils/test_utils.dart';
 
 class _FakeGeo extends GeocodingPlatform {
   _FakeGeo();
   @override
   Future<List<Placemark>> placemarkFromCoordinates(
-      double latitude,
-      double longitude, {
-        String? localeIdentifier,
-      }) async =>
+    double latitude,
+    double longitude, {
+    String? localeIdentifier,
+  }) async =>
       [
         const Placemark(
           name: 'Street',
@@ -37,17 +38,17 @@ class _FakeGeo extends GeocodingPlatform {
 }
 
 Voluntariado _fakeVol(String id) => Voluntariado(
-  id: id,
-  nombre: 'Comedor Solidario',
-  tipo: 'Alimentos',
-  vacantes: 5,
-  location: const LatLng(-34.6, -58.38),
-  imageUrl: 'https://dummyimage.com/640x360/000/fff&text=$id',
-  descripcion: 'Descripción extensa.',
-  resumen: 'Ayudamos a quienes más lo necesitan.',
-  requisitos: '* Compromiso\n* Tiempo libre',
-  createdAt: DateTime(2025),
-);
+      id: id,
+      nombre: 'Comedor Solidario',
+      tipo: 'Alimentos',
+      vacantes: 5,
+      location: const LatLng(-34.6, -58.38),
+      imageUrl: 'https://dummyimage.com/640x360/000/fff&text=$id',
+      descripcion: 'Descripción extensa.',
+      resumen: 'Ayudamos a quienes más lo necesitan.',
+      requisitos: '* Compromiso\n* Tiempo libre',
+      createdAt: DateTime(2025),
+    );
 
 const _fakeUser = User(
   id: 'u1',
@@ -84,9 +85,9 @@ void main() {
           name: 'light',
           widget: ProviderScope(
             overrides: overrides,
-            child: MaterialApp(
-              theme: ThemeData.light(useMaterial3: true),
+            child: testAppWithHome(
               home: const VoluntariadoDetallePage(voluntariadoId: 'v1'),
+              theme: ThemeData.light(useMaterial3: true),
             ),
           ),
         );

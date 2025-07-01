@@ -101,8 +101,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-
-
     return Scaffold(
       backgroundColor: AppColors.neutral0,
       appBar: const StatusBar(style: StatusBarStyle.light),
@@ -124,7 +122,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                         children: [
                           const AppSymbolText(),
                           const SizedBox(height: 32),
-
                           FormBuilder(
                             key: _formKey,
                             autovalidateMode: AutovalidateMode.onUnfocus,
@@ -172,16 +169,16 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   ),
                 ),
               ),
-
               ValueListenableBuilder<bool>(
                 valueListenable: _canLogin,
                 builder: (_, canLogin, __) => Column(
                   children: [
                     AppButton(
-                      label:
-                      _isLoading ? context.strings.loggingIn : context.strings.loginPageTitle,
+                      label: _isLoading
+                          ? context.strings.loggingIn
+                          : context.strings.loginPageTitle,
                       onPressed:
-                      (_isLoading || !canLogin) ? null : _handleLogin,
+                          (_isLoading || !canLogin) ? null : _handleLogin,
                       type: AppButtonType.filled,
                     ),
                     AppButton(

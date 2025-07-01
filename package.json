@@ -1,0 +1,17 @@
+{
+  "name": "ser-manos-docs",
+  "version": "1.0.0",
+  "description": "Documentation linting and formatting for Ser Manos",
+  "scripts": {
+    "lint:md": "markdownlint *.md --config .markdownlint.json",
+    "lint:md:fix": "markdownlint *.md --config .markdownlint.json --fix",
+    "format:md": "prettier --write *.md",
+    "docs:check": "npm run lint:md && echo 'Markdown linting passed'",
+    "docs:fix": "npm run format:md && npm run lint:md:fix && echo 'Markdown formatted and linted'"
+  },
+  "devDependencies": {
+    "markdownlint-cli": "^0.37.0",
+    "markdownlint-cli2": "^0.10.0",
+    "prettier": "^3.0.0"
+  }
+}
