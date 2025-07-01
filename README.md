@@ -731,7 +731,6 @@ To run the application on a simulator or physical device:
 
 ## 9. License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
-for details.
+This project is licensed under the MIT License.
 
 ---
