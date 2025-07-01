@@ -11,7 +11,7 @@ plugins {
 android {
     namespace = "com.example.ser_manos"
     compileSdk = flutter.compileSdkVersion
-    ndkVersion = "29.0.13113456" // TODO check hardcoded
+    ndkVersion = "29.0.13113456"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
@@ -28,7 +28,7 @@ android {
         applicationId = "com.example.ser_manos"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
-        minSdk = 23 // flutter.minSdkVersion TODO check
+        minSdk = 23
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName
