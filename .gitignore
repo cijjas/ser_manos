@@ -43,12 +43,34 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/build/
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 /lib/firebase_options.dart
 
+# Firebase
+.firebaserc
+.firebase/
+
 # FVM Version Cache
 .fvm/
+!.fvmrc
 windows
 macos
 linux
+
+# Node.js (for documentation tools)
+node_modules/
+package-lock.json
+functions/package-lock.json
+
+# Flutter metadata
+.metadata
+
+# IDE
+.idea/
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
