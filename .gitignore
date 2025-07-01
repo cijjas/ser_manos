@@ -43,12 +43,14 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+/android/build/
 android/app/google-services.json
 ios/Runner/GoogleService-Info.plist
 /lib/firebase_options.dart
 
 # FVM Version Cache
 .fvm/
+!.fvmrc
 windows
 macos
 linux
@@ -56,3 +58,4 @@ linux
 # Node.js (for documentation tools)
 node_modules/
 package-lock.json
+functions/package-lock.json
