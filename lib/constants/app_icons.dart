@@ -1,37 +1,37 @@
 import 'package:flutter/material.dart';
 
 enum AppIcons {
-  mostrar(Icons.visibility),
-  mostrarOutline(Icons.visibility_outlined),
-  ocultar(Icons.visibility_off),
-  ocultarOutline(Icons.visibility_off_outlined),
+  show(Icons.visibility),
+  showOutline(Icons.visibility_outlined),
+  hide(Icons.visibility_off),
+  hideOutline(Icons.visibility_off_outlined),
 
-  favorito(Icons.favorite),
-  favoritoOutline(Icons.favorite_outline),
+  favorite(Icons.favorite),
+  favoriteOutline(Icons.favorite_outline),
 
-  buscar(Icons.search),
+  search(Icons.search),
 
-  anadir(Icons.add),
+  add(Icons.add),
 
-  atras(Icons.arrow_back),
+  back(Icons.arrow_back),
 
-  cerrar(Icons.close),
+  close(Icons.close),
 
-  ubicacion(Icons.location_on),
-  ubicacionOutline(Icons.location_on_outlined),
+  location(Icons.location_on),
+  locationOutline(Icons.location_on_outlined),
 
-  calendario(Icons.calendar_month),
+  calendar(Icons.calendar_month),
 
   error(Icons.error),
   errorOutline(Icons.error_outline),
 
-  lista(Icons.list),
+  list(Icons.list),
 
-  mapa(Icons.map),
+  map(Icons.map),
 
-  navegacion(Icons.navigation),
+  navigation(Icons.navigation),
 
-  persona(Icons.person);
+  person(Icons.person);
 
   final IconData iconData;
 

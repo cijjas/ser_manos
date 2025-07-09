@@ -81,7 +81,7 @@ class _SearchFieldState extends State<SearchField> {
           prefixIcon: const Padding(
             padding: EdgeInsetsDirectional.only(start: 16, end: 4),
             child: AppIcon(
-              icon: AppIcons.buscar,
+              icon: AppIcons.search,
               color: AppIconsColor.neutral75,
             ),
           ),
