@@ -106,7 +106,7 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
         return buildParticipatingVoluntariado(context, voluntariado);
       },
       error: (e, _) => VoluntariadoError(
-          message: "Error al cargar tu actividad.\n${e.toString()}"),
+          message: context.strings.loadActivityError),
       loading: () {
         if (lastVoluntariado != null) {
           return buildParticipatingVoluntariado(context, lastVoluntariado);
@@ -173,8 +173,8 @@ class VoluntariadosListSection extends ConsumerWidget {
       ),
       error: (e, _) {
         ref.invalidate(voluntariadosProvider);
-        return const VoluntariadoError(
-            message: "Error al cargar los voluntariados.");
+        return VoluntariadoError(
+            message: context.strings.loadVolunteeringError);
       },
       loading: () => const VoluntariadoLoading(),
     );
@@ -186,7 +186,7 @@ class VoluntariadoError extends StatelessWidget {
 
   const VoluntariadoError({
     super.key,
-    this.message = 'Error al cargar los voluntariados.',
+    this.message = '',
   });
 
   @override

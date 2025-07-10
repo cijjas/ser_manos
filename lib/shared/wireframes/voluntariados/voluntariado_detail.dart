@@ -251,9 +251,9 @@ class _VoluntariadoDetallePageState
         final bool? confirmed = await showDialog<bool>(
           context: context,
           builder: (dialogContext) => ConfirmApplicationModal(
-            message: "Para postularte debes primero completar tus datos.",
+            message: context.strings.completeProfileFirstMessage,
             title: "",
-            confirmLabel: "Confirmar",
+            confirmLabel: context.strings.confirmLabel,
             onConfirm: () => Navigator.of(dialogContext).pop(true),
             onCancel: () => Navigator.of(dialogContext).pop(false),
             actionType: ActionType.postulate,

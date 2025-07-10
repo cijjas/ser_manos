@@ -352,4 +352,16 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get volunteerCreatedAtLabel => 'Creado el';
+
+  @override
+  String get completeProfileFirstMessage => 'Para postularte debes primero completar tus datos.';
+
+  @override
+  String get confirmLabel => 'Confirmar';
+
+  @override
+  String get loadActivityError => 'Error al cargar tu actividad.';
+
+  @override
+  String get loadVolunteeringError => 'Error al cargar los voluntariados.';
 }

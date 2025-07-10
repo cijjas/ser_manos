@@ -317,5 +317,22 @@
   "volunteerCreatedAtLabel": "Creado el",
   "@volunteerCreatedAtLabel": {
     "description": "Etiqueta para la fecha de creación del voluntariado"
+  },
+
+  "completeProfileFirstMessage": "Para postularte debes primero completar tus datos.",
+  "@completeProfileFirstMessage": {
+    "description": "Mensaje mostrado cuando el usuario debe completar el perfil antes de postularse."
+  },
+  "confirmLabel": "Confirmar",
+  "@confirmLabel": {
+    "description": "Etiqueta para el botón de confirmar en diálogos."
+  },
+  "loadActivityError": "Error al cargar tu actividad.",
+  "@loadActivityError": {
+    "description": "Mensaje de error al cargar la actividad del usuario."
+  },
+  "loadVolunteeringError": "Error al cargar los voluntariados.",
+  "@loadVolunteeringError": {
+    "description": "Mensaje de error al cargar los voluntariados."
   }
 }

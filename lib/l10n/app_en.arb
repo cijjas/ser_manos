@@ -608,5 +608,22 @@
   "volunteerCreatedAtLabel": "Created on",
   "@volunteerCreatedAtLabel": {
     "description": "Label for the creation date of the volunteer opportunity"
+  },
+
+  "completeProfileFirstMessage": "You must complete your profile before applying.",
+  "@completeProfileFirstMessage": {
+    "description": "Message shown when user must complete profile before applying."
+  },
+  "confirmLabel": "Confirm",
+  "@confirmLabel": {
+    "description": "Label for confirm button in dialogs."
+  },
+  "loadActivityError": "Error loading your activity.",
+  "@loadActivityError": {
+    "description": "Error message when loading user's activity fails."
+  },
+  "loadVolunteeringError": "Error loading volunteer opportunities.",
+  "@loadVolunteeringError": {
+    "description": "Error message when loading volunteer opportunities fails."
   }
 }

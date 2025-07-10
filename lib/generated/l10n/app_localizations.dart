@@ -784,6 +784,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Created on'**
   String get volunteerCreatedAtLabel;
+
+  /// Message shown when user must complete profile before applying.
+  ///
+  /// In en, this message translates to:
+  /// **'You must complete your profile before applying.'**
+  String get completeProfileFirstMessage;
+
+  /// Label for confirm button in dialogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirmLabel;
+
+  /// Error message when loading user's activity fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading your activity.'**
+  String get loadActivityError;
+
+  /// Error message when loading volunteer opportunities fails.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading volunteer opportunities.'**
+  String get loadVolunteeringError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
