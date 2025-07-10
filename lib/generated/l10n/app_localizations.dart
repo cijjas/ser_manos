@@ -191,12 +191,6 @@ abstract class AppLocalizations {
   /// **'e.g. Smith'**
   String get surnameHint;
 
-  /// Phone field label
-  ///
-  /// In en, this message translates to:
-  /// **'Phone'**
-  String get phone;
-
   /// Phone field hint text
   ///
   /// In en, this message translates to:
@@ -298,12 +292,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get cancel;
-
-  /// Confirm button label
-  ///
-  /// In en, this message translates to:
-  /// **'Confirm'**
-  String get confirm;
 
   /// Profile photo label
   ///
@@ -466,12 +454,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Share This Note'**
   String get shareThisNote;
-
-  /// Share button label
-  ///
-  /// In en, this message translates to:
-  /// **'Share'**
-  String get share;
 
   /// Error message when loading news fails
   ///
@@ -641,6 +623,12 @@ abstract class AppLocalizations {
   /// **'Gender'**
   String get gender;
 
+  /// Phone field label
+  ///
+  /// In en, this message translates to:
+  /// **'Phone'**
+  String get phone;
+
   /// Message encouraging profile completion
   ///
   /// In en, this message translates to:
@@ -701,6 +689,12 @@ abstract class AppLocalizations {
   /// **'No vacancies available to apply'**
   String get noVacanciesMessage;
 
+  /// Confirm button label
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
   /// Message when user is about to apply
   ///
   /// In en, this message translates to:
@@ -724,6 +718,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'An unexpected error occurred, try again later.'**
   String get shareErrorMessage;
+
+  /// Share button label
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get share;
 
   /// Text before shared URL
   ///

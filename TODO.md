@@ -7,7 +7,7 @@ todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 - [ ] Asignar direcciones diferentes a los voluntariados de prueba.
 - [x] Corregir márgenes del radio group según el Design System.
 - [x] Corregir márgenes en la card de detalle de perfil.
-- [ ] Permitir que presionar Enter en el último campo de inicio de sesión envíe el formulario.
+- [x] Permitir que presionar Enter en el último campo de inicio de sesión envíe el formulario.
 - [ ] Corregir márgenes de la vista “completar perfil” para respetar el Design System.
 - [ ] Prevenir error momentáneo al cargar voluntariados tras crear cuenta nueva sin completar perfil.
 - [ ] Evitar re-render innecesario al dar like en cards de voluntariados.

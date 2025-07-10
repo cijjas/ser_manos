@@ -57,9 +57,6 @@ class AppLocalizationsEs extends AppLocalizations {
   String get surnameHint => 'Ej: Bárcena';
 
   @override
-  String get phone => 'Teléfono';
-
-  @override
   String get phoneHint => 'Ej: +5491178445459';
 
   @override
@@ -109,9 +106,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get cancel => 'Cancelar';
-
-  @override
-  String get confirm => 'Confirmar';
 
   @override
   String get profilePhoto => 'Foto de perfil';
@@ -193,9 +187,6 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shareThisNote => 'Comparte esta nota';
-
-  @override
-  String get share => 'Compartir';
 
   @override
   String get loadNewsError => 'Ocurrió un error al cargar la novedad.';
@@ -282,6 +273,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get gender => 'Género';
 
   @override
+  String get phone => 'Teléfono';
+
+  @override
   String get completeProfileMessage => '¡Completá tu perfil para tener\nacceso a mejores oportunidades!';
 
   @override
@@ -312,6 +306,9 @@ class AppLocalizationsEs extends AppLocalizations {
   String get noVacanciesMessage => 'No hay vacantes disponibles para postularse';
 
   @override
+  String get confirm => 'Confirmar';
+
+  @override
   String get postulateActionMessage => 'Te estás por postular a';
 
   @override
@@ -322,6 +319,9 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get shareErrorMessage => 'Ocurrió un error inesperado, intentalo en un rato.';
+
+  @override
+  String get share => 'Compartir';
 
   @override
   String get discoverMore => 'Descubre más aquí:';
