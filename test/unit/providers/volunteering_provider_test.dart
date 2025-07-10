@@ -6,11 +6,11 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mockito/mockito.dart';
 
-import 'package:ser_manos/models/voluntariado.dart';
+import 'package:ser_manos/models/volunteering.dart';
 import 'package:ser_manos/models/user.dart' as domain;
 import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/providers/user_provider.dart';
-import 'package:ser_manos/providers/voluntariado_provider.dart';
+import 'package:ser_manos/providers/volunteering_provider.dart';
 
 import '../../mocks/mocks.mocks.dart';
 
@@ -30,14 +30,14 @@ final _testPosition = Position(
 );
 
 ProviderContainer makeContainer({
-  required MockVoluntariadoService volService,
+  required MockVolunteeringService volService,
   required MockUserService userService,
   required auth.User firebaseUser,
   required domain.User domainUser,
 }) {
   return ProviderContainer(overrides: [
     // Servicios mock
-    voluntariadoServiceProvider.overrideWithValue(volService),
+    volunteeringServiceProvider.overrideWithValue(volService),
     userServiceProvider.overrideWithValue(userService),
 
     // Usuario autenticado (Firebase)
@@ -56,18 +56,18 @@ ProviderContainer makeContainer({
 }
 
 void main() {
-  group('Voluntariado providers', () {
-    late MockVoluntariadoService volService;
+  group('Volunteering providers', () {
+    late MockVolunteeringService volService;
     late MockUserService         userService;
-    late Voluntariado            vol1;
+    late Volunteering            vol1;
     late domain.User             domainUser;
     late auth.User               firebaseUser;
 
     setUp(() {
-      volService  = MockVoluntariadoService();
+      volService  = MockVolunteeringService();
       userService = MockUserService();
 
-      vol1 = Voluntariado(
+      vol1 = Volunteering(
         id:          'v1',
         name:        'Comedor',
         type:        'Alimentos',
@@ -92,7 +92,7 @@ void main() {
       firebaseUser = MockUser(uid: 'uid1', email: 'a@b.c');
     });
 
-    test('voluntariadosProvider devuelve lista filtrada', () async {
+    test('volunteeringsProvider devuelve lista filtrada', () async {
       // Stub para cualquier query y ubicación
       when(volService.watchFiltered(any, any))
           .thenAnswer((_) => Stream.value([vol1]));
@@ -106,9 +106,9 @@ void main() {
       addTearDown(container.dispose);
 
       // Cambiamos la query
-      container.read(voluntariadoSearchQueryProvider.notifier).state = 'com';
+      container.read(volunteeringSearchQueryProvider.notifier).state = 'com';
 
-      final lista = await container.read(voluntariadosProvider.future);
+      final lista = await container.read(volunteeringsProvider.future);
       expect(lista, [vol1]);
     });
   });

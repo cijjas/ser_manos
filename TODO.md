@@ -27,7 +27,7 @@ todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 - [ ] Separar sección de aceptación de voluntariados en README y enlazarla desde “How to test push notifications”.
 - [ ] Agregar nueva línea al final del archivo en `.fvmrc`, `.gitignore`, `app_routes.dart`, `trim_converter.dart`, `novedad.dart`, etc. (recomendar linter/IDE rule).
 - [~] Unificar idioma en los íconos (`app_icons.dart`) y en los modelos (evitar mezclar inglés y español).
-- [ ] Eliminar comentarios redundantes en español en modelos.
+- [x] Eliminar comentarios redundantes en español en modelos.
 - [x] Decidir entre español o inglés como idioma general del código/documentación.
 - [ ] Mantener consistencia entre la versión del tag/release y la del `pubspec.yaml`.
 

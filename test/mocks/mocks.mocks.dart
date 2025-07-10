@@ -10,11 +10,11 @@ import 'package:geolocator/geolocator.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
 import 'package:ser_manos/models/novedad.dart' as _i5;
 import 'package:ser_manos/models/user.dart' as _i7;
-import 'package:ser_manos/models/voluntariado.dart' as _i9;
+import 'package:ser_manos/models/volunteering.dart' as _i9;
 import 'package:ser_manos/services/auth_service.dart' as _i11;
 import 'package:ser_manos/services/novedad_service.dart' as _i3;
 import 'package:ser_manos/services/user_service.dart' as _i6;
-import 'package:ser_manos/services/voluntariado_service.dart' as _i8;
+import 'package:ser_manos/services/volunteering_service.dart' as _i8;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -92,13 +92,13 @@ class MockUserService extends _i1.Mock implements _i6.UserService {
       ) as _i4.Future<void>);
 
   @override
-  _i4.Future<bool> postulateToVoluntariado(
+  _i4.Future<bool> postulateToVolunteering(
     _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #postulateToVoluntariado,
+          #postulateToVolunteering,
           [
             user,
             id,
@@ -126,13 +126,13 @@ class MockUserService extends _i1.Mock implements _i6.UserService {
       ) as _i4.Future<bool>);
 
   @override
-  _i4.Future<bool> abandonVoluntariado(
+  _i4.Future<bool> abandonVolunteering(
     _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #abandonVoluntariado,
+          #abandonVolunteering,
           [
             user,
             id,
@@ -143,15 +143,15 @@ class MockUserService extends _i1.Mock implements _i6.UserService {
       ) as _i4.Future<bool>);
 
   @override
-  _i4.Stream<_i7.UserVoluntariado?> watchParticipating(String? userId) =>
+  _i4.Stream<_i7.UserVolunteering?> watchParticipating(String? userId) =>
       (super.noSuchMethod(
         Invocation.method(
           #watchParticipating,
           [userId],
         ),
-        returnValue: _i4.Stream<_i7.UserVoluntariado?>.empty(),
-        returnValueForMissingStub: _i4.Stream<_i7.UserVoluntariado?>.empty(),
-      ) as _i4.Stream<_i7.UserVoluntariado?>);
+        returnValue: _i4.Stream<_i7.UserVolunteering?>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i7.UserVolunteering?>.empty(),
+      ) as _i4.Stream<_i7.UserVolunteering?>);
 
   @override
   _i4.Stream<_i7.User> watchOne(String? id) => (super.noSuchMethod(
@@ -164,13 +164,13 @@ class MockUserService extends _i1.Mock implements _i6.UserService {
       ) as _i4.Stream<_i7.User>);
 
   @override
-  _i4.Future<void> toggleLikeVoluntariado(
+  _i4.Future<void> toggleLikeVolunteering(
     _i7.User? user,
     String? id,
   ) =>
       (super.noSuchMethod(
         Invocation.method(
-          #toggleLikeVoluntariado,
+          #toggleLikeVolunteering,
           [
             user,
             id,
@@ -191,23 +191,23 @@ class MockUserService extends _i1.Mock implements _i6.UserService {
       ) as _i4.Future<_i7.User?>);
 }
 
-/// A class which mocks [VoluntariadoService].
+/// A class which mocks [VolunteeringService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockVoluntariadoService extends _i1.Mock
-    implements _i8.VoluntariadoService {
+class MockVolunteeringService extends _i1.Mock
+    implements _i8.VolunteeringService {
   @override
-  _i4.Stream<_i9.Voluntariado> watchOne(String? id) => (super.noSuchMethod(
+  _i4.Stream<_i9.Volunteering> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOne,
           [id],
         ),
-        returnValue: _i4.Stream<_i9.Voluntariado>.empty(),
-        returnValueForMissingStub: _i4.Stream<_i9.Voluntariado>.empty(),
-      ) as _i4.Stream<_i9.Voluntariado>);
+        returnValue: _i4.Stream<_i9.Volunteering>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i9.Volunteering>.empty(),
+      ) as _i4.Stream<_i9.Volunteering>);
 
   @override
-  _i4.Stream<List<_i9.Voluntariado>> watchFiltered(
+  _i4.Stream<List<_i9.Volunteering>> watchFiltered(
     String? query,
     _i10.Position? userPosition,
   ) =>
@@ -219,9 +219,9 @@ class MockVoluntariadoService extends _i1.Mock
             userPosition,
           ],
         ),
-        returnValue: _i4.Stream<List<_i9.Voluntariado>>.empty(),
-        returnValueForMissingStub: _i4.Stream<List<_i9.Voluntariado>>.empty(),
-      ) as _i4.Stream<List<_i9.Voluntariado>>);
+        returnValue: _i4.Stream<List<_i9.Volunteering>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i9.Volunteering>>.empty(),
+      ) as _i4.Stream<List<_i9.Volunteering>>);
 
   @override
   _i4.Future<bool> decrementAvailableSlots(String? id) => (super.noSuchMethod(

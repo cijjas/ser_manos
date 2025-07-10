@@ -4,27 +4,26 @@ part 'user.freezed.dart';
 part 'user.g.dart';
 
 
-/// Estados posibles con respecto al voluntariado
-enum VoluntariadoUserState {
-  available,  // hay vacantes y el usuario libre
-  pending,    // se postuló, espera confirmación
-  accepted,   // fue aceptado
-  full,       // sin vacantes
-  busyOther,  // participa en otro voluntariado
-  busyOtherPending, // participa en otro voluntariado, espera confirmación
-  rejected,  // fue rechazado
+enum VolunteeringUserState {
+  available,
+  pending,
+  accepted,
+  full,
+  busyOther,
+  busyOtherPending,
+  rejected,
   completed
 }
 
 @Freezed(toJson: true)
-class UserVoluntariado with _$UserVoluntariado {
-  const factory UserVoluntariado({
+class UserVolunteering with _$UserVolunteering {
+  const factory UserVolunteering({
     required String id,
-    required VoluntariadoUserState estado,
-  }) = _UserVoluntariado;
+    required VolunteeringUserState estado,
+  }) = _UserVolunteering;
 
-  factory UserVoluntariado.fromJson(Map<String, dynamic> json) =>
-      _$UserVoluntariadoFromJson(json);
+  factory UserVolunteering.fromJson(Map<String, dynamic> json) =>
+      _$UserVolunteeringFromJson(json);
 }
 
 @Freezed(toJson: true)
@@ -35,8 +34,8 @@ class User with _$User {
     required String apellido,
     required String email,
     required bool hasSeenOnboarding,
-    List<UserVoluntariado>? voluntariados,
-    List<String>? likedVoluntariados,
+    @JsonKey(name: 'voluntariados') List<UserVolunteering>? volunteerings,
+    @JsonKey(name: 'likedVoluntariados') List<String>? likedVolunteerings,
     String? telefono,
     DateTime? fechaNacimiento,
     String? genero,

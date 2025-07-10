@@ -15,27 +15,25 @@ import '../shared/wireframes/ingreso/register_page.dart';
 import '../shared/wireframes/novedades/novedad_detail.dart';
 import '../shared/wireframes/perfil/editar_perfil.dart';
 import '../shared/wireframes/perfil/perfil_wrapper.dart';
-import '../shared/wireframes/voluntariados/voluntariado_detail.dart';
-import '../shared/wireframes/voluntariados/voluntariados_page.dart';
+import '../shared/wireframes/volunteerings/volunteering_detail.dart';
+import '../shared/wireframes/volunteerings/volunteering_page.dart';
 import 'go_router_observer.dart';
 
 int tabIndexFromLocation(String loc) {
   if (loc.startsWith(AppRoutes.homeVolunteering)) return 0;
-  if (loc.startsWith(AppRoutes.homeProfile))        return 1;
+  if (loc.startsWith(AppRoutes.homeProfile)) return 1;
   return 2; // news
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
 
-/// Notificador para refresh cuando cambia auth / onboarding
 final routerRefreshNotifierProvider = Provider((ref) {
   final notifier = ValueNotifier<int>(0);
 
   ref.listen(authStateProvider, (_, __) => notifier.value++);
   ref.listen(
-    currentUserProvider
-        .select((u) => u.valueOrNull?.hasSeenOnboarding),
-        (prev, next) {
+    currentUserProvider.select((u) => u.valueOrNull?.hasSeenOnboarding),
+    (prev, next) {
       if (prev != next) notifier.value++;
     },
   );
@@ -51,18 +49,15 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: navigatorKey,
     restorationScopeId: 'router',
     refreshListenable: refreshNotifier,
-    errorBuilder: (_, __) =>
-    const ErrorPage(message: 'Página no encontrada'),
+    errorBuilder: (_, __) => const ErrorPage(message: 'Página no encontrada'),
     initialLocation: AppRoutes.entry,
-
-    /// --------- REDIRECTS ----------
     redirect: (context, state) {
-      final authState       = ref.read(authStateProvider);
-      final currentUserAsync= ref.read(currentUserProvider);
+      final authState = ref.read(authStateProvider);
+      final currentUserAsync = ref.read(currentUserProvider);
       if (authState.isLoading || currentUserAsync.isLoading) return null;
 
       final isLoggedIn = authState.valueOrNull != null;
-      final user       = currentUserAsync.valueOrNull;
+      final user = currentUserAsync.valueOrNull;
 
       if (isLoggedIn &&
           user != null &&
@@ -92,7 +87,6 @@ final routerProvider = Provider<GoRouter>((ref) {
       }
       return null;
     },
-
     routes: [
       GoRoute(
         path: AppRoutes.entry,
@@ -114,8 +108,6 @@ final routerProvider = Provider<GoRouter>((ref) {
         name: RouteNames.welcome,
         builder: (_, __) => const WelcomePage(),
       ),
-
-      /// ----- HOME + TABS -----
       ShellRoute(
         builder: (context, state, child) {
           final idx = tabIndexFromLocation(state.uri.toString());
@@ -126,50 +118,43 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.homeProfile,
             name: RouteNames.profileTab,
             pageBuilder: (_, __) =>
-            const NoTransitionPage(child: PerfilWrapperPage()),
+                const NoTransitionPage(child: PerfilWrapperPage()),
           ),
           GoRoute(
             path: AppRoutes.homeVolunteering,
             name: RouteNames.volunteeringTab,
             pageBuilder: (_, __) =>
-            const NoTransitionPage(child: VoluntariadosPage()),
+                const NoTransitionPage(child: VolunteeringsPage()),
           ),
           GoRoute(
             path: AppRoutes.homeNews,
             name: RouteNames.newsTab,
-            pageBuilder: (_, __) =>
-            const NoTransitionPage(child: NewsPage()),
+            pageBuilder: (_, __) => const NoTransitionPage(child: NewsPage()),
           ),
         ],
       ),
-
-      /// ----- DETALLES -----
       GoRoute(
         path: AppRoutes.volunteering,
         name: RouteNames.volunteeringDetails,
-        builder: (_, state) =>
-            VoluntariadoDetallePage(voluntariadoId: state.pathParameters['id']!),
+        builder: (_, state) => VolunteeringDetallePage(
+            volunteeringId: state.pathParameters['id']!),
       ),
       GoRoute(
         path: AppRoutes.news,
         name: RouteNames.newsDetail,
-        builder: (_, state) =>
-            NovedadDetail(id: state.pathParameters['id']!),
+        builder: (_, state) => NovedadDetail(id: state.pathParameters['id']!),
       ),
-
-      /// ----- EDITAR PERFIL -----
       GoRoute(
         path: AppRoutes.homeProfileEdit,
         pageBuilder: (_, __) => CustomTransitionPage(
           child: const EditarPerfilPage(),
-          transitionsBuilder: (_, animation, __, child) =>
-              SlideTransition(
-                position: Tween<Offset>(
-                  begin: const Offset(0, 1),
-                  end: Offset.zero,
-                ).animate(animation),
-                child: child,
-              ),
+          transitionsBuilder: (_, animation, __, child) => SlideTransition(
+            position: Tween<Offset>(
+              begin: const Offset(0, 1),
+              end: Offset.zero,
+            ).animate(animation),
+            child: child,
+          ),
         ),
       ),
     ],

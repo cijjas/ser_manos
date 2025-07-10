@@ -6,29 +6,29 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserVoluntariadoImpl _$$UserVoluntariadoImplFromJson(
+_$UserVolunteeringImpl _$$UserVolunteeringImplFromJson(
         Map<String, dynamic> json) =>
-    _$UserVoluntariadoImpl(
+    _$UserVolunteeringImpl(
       id: json['id'] as String,
-      estado: $enumDecode(_$VoluntariadoUserStateEnumMap, json['estado']),
+      estado: $enumDecode(_$VolunteeringUserStateEnumMap, json['estado']),
     );
 
-Map<String, dynamic> _$$UserVoluntariadoImplToJson(
-        _$UserVoluntariadoImpl instance) =>
+Map<String, dynamic> _$$UserVolunteeringImplToJson(
+        _$UserVolunteeringImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'estado': _$VoluntariadoUserStateEnumMap[instance.estado]!,
+      'estado': _$VolunteeringUserStateEnumMap[instance.estado]!,
     };
 
-const _$VoluntariadoUserStateEnumMap = {
-  VoluntariadoUserState.available: 'available',
-  VoluntariadoUserState.pending: 'pending',
-  VoluntariadoUserState.accepted: 'accepted',
-  VoluntariadoUserState.full: 'full',
-  VoluntariadoUserState.busyOther: 'busyOther',
-  VoluntariadoUserState.busyOtherPending: 'busyOtherPending',
-  VoluntariadoUserState.rejected: 'rejected',
-  VoluntariadoUserState.completed: 'completed',
+const _$VolunteeringUserStateEnumMap = {
+  VolunteeringUserState.available: 'available',
+  VolunteeringUserState.pending: 'pending',
+  VolunteeringUserState.accepted: 'accepted',
+  VolunteeringUserState.full: 'full',
+  VolunteeringUserState.busyOther: 'busyOther',
+  VolunteeringUserState.busyOtherPending: 'busyOtherPending',
+  VolunteeringUserState.rejected: 'rejected',
+  VolunteeringUserState.completed: 'completed',
 };
 
 _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
@@ -37,10 +37,10 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       apellido: json['apellido'] as String,
       email: json['email'] as String,
       hasSeenOnboarding: json['hasSeenOnboarding'] as bool,
-      voluntariados: (json['voluntariados'] as List<dynamic>?)
-          ?.map((e) => UserVoluntariado.fromJson(e as Map<String, dynamic>))
+      volunteerings: (json['voluntariados'] as List<dynamic>?)
+          ?.map((e) => UserVolunteering.fromJson(e as Map<String, dynamic>))
           .toList(),
-      likedVoluntariados: (json['likedVoluntariados'] as List<dynamic>?)
+      likedVolunteerings: (json['likedVoluntariados'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
       telefono: json['telefono'] as String?,
@@ -59,8 +59,8 @@ Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
       'apellido': instance.apellido,
       'email': instance.email,
       'hasSeenOnboarding': instance.hasSeenOnboarding,
-      'voluntariados': instance.voluntariados,
-      'likedVoluntariados': instance.likedVoluntariados,
+      'voluntariados': instance.volunteerings,
+      'likedVoluntariados': instance.likedVolunteerings,
       'telefono': instance.telefono,
       'fechaNacimiento': instance.fechaNacimiento?.toIso8601String(),
       'genero': instance.genero,

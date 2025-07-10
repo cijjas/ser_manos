@@ -2,7 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-import 'package:ser_manos/services/voluntariado_service.dart';
+import 'package:ser_manos/services/volunteering_service.dart';
 
 import '../../mocks/firebase_mocks.mocks.dart';
 
@@ -33,20 +33,20 @@ Future<void> addVol({
 void main() {
   late FakeFirebaseFirestore   fakeDb;
   late MockFirebaseCrashlytics mockCrash;
-  late VoluntariadoService     sut;
+  late VolunteeringService     sut;
 
   setUp(() {
     fakeDb   = FakeFirebaseFirestore();
     mockCrash = MockFirebaseCrashlytics();
 
-    sut = VoluntariadoService(
+    sut = VolunteeringService(
       firestore:   fakeDb,
       crashlytics: mockCrash,
     );
   });
 
   // ─────────── Lectores ───────────
-  test('watchOne emite voluntariado con id correcto', () async {
+  test('watchOne emite volunteering con id correcto', () async {
     await addVol(db: fakeDb, id: 'v1', nombre: 'Comedor');
 
     final v = await sut.watchOne('v1').first;

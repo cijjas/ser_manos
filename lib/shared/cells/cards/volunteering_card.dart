@@ -3,7 +3,7 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import '../../../models/voluntariado.dart';
+import '../../../models/volunteering.dart';
 import '../../../constants/app_icons.dart';
 import '../../molecules/components/vacants.dart';
 import '../../tokens/border_radius.dart';
@@ -11,15 +11,15 @@ import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
 
-class CardVoluntariado extends StatelessWidget {
+class VolunteeringCard extends StatelessWidget {
   final VoidCallback? onTap;
   final void Function(String id)? onLikeTap;
-  final Voluntariado voluntariado;
+  final Volunteering volunteering;
   final bool isLiked;
 
-  const CardVoluntariado({
+  const VolunteeringCard({
     super.key,
-    required this.voluntariado,
+    required this.volunteering,
     this.isLiked = false,
     this.onTap,
     this.onLikeTap
@@ -41,16 +41,16 @@ class CardVoluntariado extends StatelessWidget {
             width: double.infinity,
             height: 138,
             child: Image.network(
-              voluntariado.imageUrl,
+              volunteering.imageUrl,
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 FirebaseCrashlytics.instance.recordError(
                   error,
                   stackTrace,
-                  reason: 'Failed to load voluntariado card image',
+                  reason: 'Failed to load volunteering card image',
                   information: [
-                    'Voluntariado ID: ${voluntariado.id}',
-                    'Image URL: ${voluntariado.imageUrl}'
+                    'Volunteering ID: ${volunteering.id}',
+                    'Image URL: ${volunteering.imageUrl}'
                   ],
                   fatal: false,
                 );
@@ -75,11 +75,11 @@ class CardVoluntariado extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(voluntariado.type.toUpperCase(),
+                    Text(volunteering.type.toUpperCase(),
                         style: AppTypography.overline),
-                    Text(voluntariado.name, style: AppTypography.subtitle01),
+                    Text(volunteering.name, style: AppTypography.subtitle01),
                     const SizedBox(height: 4),
-                    VacantsDisplay(number: voluntariado.vacancies),
+                    VacantsDisplay(number: volunteering.vacancies),
                   ],
                 ),
                 Row(
@@ -87,7 +87,7 @@ class CardVoluntariado extends StatelessWidget {
                     GestureDetector(
                         onTap: () async {
                           if (onLikeTap != null) {
-                            onLikeTap!(voluntariado.id);
+                            onLikeTap!(volunteering.id);
                           }
                         },
                         child: AppIcon(
@@ -99,8 +99,8 @@ class CardVoluntariado extends StatelessWidget {
                     GestureDetector(
                       onTap: () {
                         MapsLauncher.launchCoordinates(
-                          voluntariado.location.latitude,
-                          voluntariado.location.longitude,
+                          volunteering.location.latitude,
+                          volunteering.location.longitude,
                         );
                       },
                       child: const AppIcon(

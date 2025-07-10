@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:geolocator/geolocator.dart';
-import '../models/voluntariado.dart';
+import '../models/volunteering.dart';
 
-class VoluntariadoService {
-  VoluntariadoService({
+class VolunteeringService {
+  VolunteeringService({
     FirebaseFirestore?   firestore,
     FirebaseCrashlytics? crashlytics,
   })  : _firestore   = firestore   ?? FirebaseFirestore.instance,
@@ -16,18 +16,18 @@ class VoluntariadoService {
   final FirebaseCrashlytics _crashlytics;
   final CollectionReference<Map<String, dynamic>> _ref;
 
-  Stream<Voluntariado> watchOne(String id) {
+  Stream<Volunteering> watchOne(String id) {
     return _ref.doc(id).snapshots().map(
-          (doc) => Voluntariado.fromJson(doc.id, doc.data()!),
+          (doc) => Volunteering.fromJson(doc.id, doc.data()!),
     );
   }
 
-  Stream<List<Voluntariado>> watchFiltered(String query, Position? userPosition) {
+  Stream<List<Volunteering>> watchFiltered(String query, Position? userPosition) {
     final lower = query.toLowerCase();
 
     return _ref.snapshots().map((snap) {
       final docs = snap.docs
-          .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
+          .map((doc) => Volunteering.fromJson(doc.id, doc.data()))
           .where((v) =>
       v.name.toLowerCase().contains(lower) ||
           v.description.toLowerCase().contains(lower) ||

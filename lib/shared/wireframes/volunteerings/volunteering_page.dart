@@ -1,23 +1,23 @@
-// voluntariados_page.dart
+// volunteering_page.dart
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
-import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_list.dart';
+import 'package:ser_manos/shared/wireframes/volunteerings/volunteering_list.dart';
 import 'package:ser_manos/utils/app_strings.dart';
 
 import '../../../constants/app_routes.dart';
-import '../../../models/voluntariado.dart';
+import '../../../models/volunteering.dart';
 import '../../../providers/user_provider.dart';
-import '../../../providers/voluntariado_provider.dart';
-import '../../cells/cards/card_voluntariado_actual.dart';
+import '../../../providers/volunteering_provider.dart';
+import '../../cells/cards/current_volunteering_card.dart';
 import '../../molecules/input/search_field.dart';
 import '../../tokens/typography.dart';
 
-class VoluntariadosPage extends ConsumerWidget {
-  const VoluntariadosPage({super.key});
+class VolunteeringsPage extends ConsumerWidget {
+  const VolunteeringsPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -38,8 +38,8 @@ class VoluntariadosPage extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 16),
-                    ParticipatingVoluntariadoSection(),
-                    VoluntariadosListSection(),
+                    ParticipatingVolunteeringSection(),
+                    VolunteeringsListSection(),
                   ],
                 ),
               ),
@@ -66,7 +66,7 @@ class _SearchAndToggleViewHeaderState
   void _onSearchChanged(String query) {
     _debounce?.cancel();
     _debounce = Timer(const Duration(milliseconds: 400), () {
-      ref.read(voluntariadoSearchQueryProvider.notifier).state = query;
+      ref.read(volunteeringSearchQueryProvider.notifier).state = query;
     });
   }
 
@@ -85,31 +85,31 @@ class _SearchAndToggleViewHeaderState
   }
 }
 
-final lastVoluntariadoProvider = StateProvider<Voluntariado?>((ref) => null);
+final lastVolunteeringProvider = StateProvider<Volunteering?>((ref) => null);
 
-class ParticipatingVoluntariadoSection extends ConsumerWidget {
-  const ParticipatingVoluntariadoSection({super.key});
+class ParticipatingVolunteeringSection extends ConsumerWidget {
+  const ParticipatingVolunteeringSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final participatingVoluntariado =
-        ref.watch(voluntariadoParticipatingProvider);
-    final lastVoluntariado = ref.watch(lastVoluntariadoProvider);
+    final participatingVolunteering =
+        ref.watch(volunteeringParticipatingProvider);
+    final lastVolunteering = ref.watch(lastVolunteeringProvider);
 
-    return participatingVoluntariado.when(
+    return participatingVolunteering.when(
       skipLoadingOnRefresh: true,
-      data: (voluntariado) {
-        if (voluntariado == null) return const SizedBox();
+      data: (volunteering) {
+        if (volunteering == null) return const SizedBox();
         WidgetsBinding.instance.addPostFrameCallback((_) {
-          ref.read(lastVoluntariadoProvider.notifier).state = voluntariado;
+          ref.read(lastVolunteeringProvider.notifier).state = volunteering;
         });
-        return buildParticipatingVoluntariado(context, voluntariado);
+        return buildParticipatingVolunteering(context, volunteering);
       },
-      error: (e, _) => VoluntariadoError(
+      error: (e, _) => VolunteeringError(
           message: context.strings.loadActivityError),
       loading: () {
-        if (lastVoluntariado != null) {
-          return buildParticipatingVoluntariado(context, lastVoluntariado);
+        if (lastVolunteering != null) {
+          return buildParticipatingVolunteering(context, lastVolunteering);
         }
         return const SizedBox();
       },
@@ -117,7 +117,7 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
   }
 }
 
-Widget buildParticipatingVoluntariado(BuildContext context, Voluntariado voluntariado) {
+Widget buildParticipatingVolunteering(BuildContext context, Volunteering volunteering) {
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
@@ -125,11 +125,11 @@ Widget buildParticipatingVoluntariado(BuildContext context, Voluntariado volunta
       const SizedBox(height: 16),
       SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 16),
-        child: CardVoluntariadoActual(
-          voluntariado: voluntariado,
+        child: CardVolunteeringActual(
+          volunteering: volunteering,
           onTap: () => context.pushNamed(
             RouteNames.volunteeringDetails,
-            pathParameters: {'id': voluntariado.id},
+            pathParameters: {'id': volunteering.id},
           ),
         ),
       ),
@@ -137,34 +137,34 @@ Widget buildParticipatingVoluntariado(BuildContext context, Voluntariado volunta
   );
 }
 
-class VoluntariadosListSection extends ConsumerWidget {
-  const VoluntariadosListSection({super.key});
+class VolunteeringsListSection extends ConsumerWidget {
+  const VolunteeringsListSection({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final voluntariadosAsync = ref.watch(voluntariadosProvider);
+    final volunteeringsAsync = ref.watch(volunteeringsProvider);
     final user = ref.watch(currentUserProvider).value;
-    final query = ref.watch(voluntariadoSearchQueryProvider);
+    final query = ref.watch(volunteeringSearchQueryProvider);
     final isSearching = query.trim().isNotEmpty;
 
-    Future<void> onLikeTap(WidgetRef ref, String voluntariadoId) async {
+    Future<void> onLikeTap(WidgetRef ref, String volunteeringId) async {
       if (user == null) {
         return;
       }
       await ref
           .read(userServiceProvider)
-          .toggleLikeVoluntariado(user, voluntariadoId);
+          .toggleLikeVolunteering(user, volunteeringId);
     }
 
-    return voluntariadosAsync.when(
+    return volunteeringsAsync.when(
       skipLoadingOnRefresh: true,
-      data: (voluntariados) => Column(
+      data: (volunteerings) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(context.strings.volunteering, style: AppTypography.headline01),
           const SizedBox(height: 16),
-          VoluntariadoListItems(
-              voluntariados: voluntariados,
+          VolunteeringListItems(
+              volunteerings: volunteerings,
               isSearching: isSearching,
               user: user,
               onLikeTap: (id) => onLikeTap(ref, id)),
@@ -172,19 +172,19 @@ class VoluntariadosListSection extends ConsumerWidget {
         ],
       ),
       error: (e, _) {
-        ref.invalidate(voluntariadosProvider);
-        return VoluntariadoError(
+        ref.invalidate(volunteeringsProvider);
+        return VolunteeringError(
             message: context.strings.loadVolunteeringError);
       },
-      loading: () => const VoluntariadoLoading(),
+      loading: () => const VolunteeringLoading(),
     );
   }
 }
 
-class VoluntariadoError extends StatelessWidget {
+class VolunteeringError extends StatelessWidget {
   final String message;
 
-  const VoluntariadoError({
+  const VolunteeringError({
     super.key,
     this.message = '',
   });
@@ -200,8 +200,8 @@ class VoluntariadoError extends StatelessWidget {
   }
 }
 
-class VoluntariadoLoading extends StatelessWidget {
-  const VoluntariadoLoading({super.key});
+class VolunteeringLoading extends StatelessWidget {
+  const VolunteeringLoading({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -24,24 +24,22 @@ void main() {
       final user = User.fromJson(srcJson);
 
       expect(user.id, 'u123');
-      expect(user.voluntariados, isNotNull);
-      expect(user.voluntariados!.first.id, 'v1');
-      expect(user.voluntariados!.first.estado.name, 'accepted');
+      expect(user.volunteerings, isNotNull);
+      expect(user.volunteerings!.first.id, 'v1');
+      expect(user.volunteerings!.first.estado.name, 'accepted');
     });
 
     test('toJson conserva valores escalares y lista de objetos', () {
       final user    = User.fromJson(srcJson);
       final encoded = user.toJson();
 
-      // valores simples
       expect(encoded['email'],             'ada@lovelace.dev');
       expect(encoded['hasSeenOnboarding'], true);
 
-      // la lista contiene objetos UserVoluntariado
       final vols = encoded['voluntariados'] as List;
       expect(vols.length, 1);
-      expect(vols.first, isA<UserVoluntariado>());
-      expect((vols.first as UserVoluntariado).id, 'v1');
+      expect(vols.first, isA<UserVolunteering>());
+      expect((vols.first as UserVolunteering).id, 'v1');
     });
 
     test('campos opcionales pueden ser null y se mantienen en toJson', () {

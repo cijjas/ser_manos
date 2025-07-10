@@ -86,20 +86,20 @@ void main() {
       await fakeDb.collection('users').doc('u1').set(baseUser.toJson());
     });
 
-    test('postulate agrega voluntariado en estado applied', () async {
-      final ok = await sut.postulateToVoluntariado(baseUser, 'v1');
+    test('postulate agrega volunteering en estado applied', () async {
+      final ok = await sut.postulateToVolunteering(baseUser, 'v1');
       expect(ok, isTrue);
 
       final doc  = await fakeDb.doc('users/u1').get();
       final user = User.fromJson(doc.data()!);
 
-      expect(user.voluntariados!.first.id, 'v1');
-      expect(user.voluntariados!.first.estado,
-          VoluntariadoUserState.pending);
+      expect(user.volunteerings!.first.id, 'v1');
+      expect(user.volunteerings!.first.estado,
+          VolunteeringUserState.pending);
     });
 
     test('withdraw pasa a available ⇒ lista vacía', () async {
-      await sut.postulateToVoluntariado(baseUser, 'v1');
+      await sut.postulateToVolunteering(baseUser, 'v1');
       final appliedSnap = await fakeDb.doc('users/u1').get();
       final appliedUser = User.fromJson(appliedSnap.data()!);
 
@@ -108,15 +108,15 @@ void main() {
 
       final snap = await fakeDb.doc('users/u1').get();
       final user = User.fromJson(snap.data()!);
-      expect(user.voluntariados, isEmpty);
+      expect(user.volunteerings, isEmpty);
     });
 
     test('abandon falla si estado != accepted y graba Crashlytics', () async {
-      await sut.postulateToVoluntariado(baseUser, 'v1');
+      await sut.postulateToVolunteering(baseUser, 'v1');
       final snap  = await fakeDb.doc('users/u1').get();
       final user  = User.fromJson(snap.data()!);
 
-      final ok = await sut.abandonVoluntariado(user, 'v1');
+      final ok = await sut.abandonVolunteering(user, 'v1');
       expect(ok, isFalse);
 
       verify(mockCrash.recordError(
@@ -129,17 +129,17 @@ void main() {
   });
 
   // ───────────────────── toggleLike ─────────────────────
-  test('toggleLikeVoluntariado alterna like/unlike', () async {
+  test('toggleLikeVolunteering alterna like/unlike', () async {
     await fakeDb.doc('users/u1').set(baseUser.toJson());
 
     // Like
-    await sut.toggleLikeVoluntariado(baseUser, 'v42');
+    await sut.toggleLikeVolunteering(baseUser, 'v42');
     var snap = await fakeDb.doc('users/u1').get();
     expect((snap.data()!['likedVoluntariados'] as List).contains('v42'), isTrue);
 
     // Unlike
-    await sut.toggleLikeVoluntariado(
-      baseUser.copyWith(likedVoluntariados: ['v42']),
+    await sut.toggleLikeVolunteering(
+      baseUser.copyWith(likedVolunteerings: ['v42']),
       'v42',
     );
     snap = await fakeDb.doc('users/u1').get();

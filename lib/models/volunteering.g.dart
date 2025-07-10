@@ -1,13 +1,13 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'voluntariado.dart';
+part of 'volunteering.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
-    _$VoluntariadoImpl(
+_$VolunteeringImpl _$$VolunteeringImplFromJson(Map<String, dynamic> json) =>
+    _$VolunteeringImpl(
       id: json['id'] as String,
       name: json['nombre'] as String,
       type: json['tipo'] as String,
@@ -23,7 +23,7 @@ _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
     );
 
-Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
+Map<String, dynamic> _$$VolunteeringImplToJson(_$VolunteeringImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nombre': instance.name,

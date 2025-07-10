@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'voluntariado.dart';
+part of 'volunteering.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -14,12 +14,12 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-Voluntariado _$VoluntariadoFromJson(Map<String, dynamic> json) {
-  return _Voluntariado.fromJson(json);
+Volunteering _$VolunteeringFromJson(Map<String, dynamic> json) {
+  return _Volunteering.fromJson(json);
 }
 
 /// @nodoc
-mixin _$Voluntariado {
+mixin _$Volunteering {
   String get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'nombre')
   String get name => throw _privateConstructorUsedError;
@@ -45,21 +45,21 @@ mixin _$Voluntariado {
   @JsonKey(name: 'createdAt')
   DateTime get createdAt => throw _privateConstructorUsedError;
 
-  /// Serializes this Voluntariado to a JSON map.
+  /// Serializes this Volunteering to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of Voluntariado
+  /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $VoluntariadoCopyWith<Voluntariado> get copyWith =>
+  $VolunteeringCopyWith<Volunteering> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $VoluntariadoCopyWith<$Res> {
-  factory $VoluntariadoCopyWith(
-          Voluntariado value, $Res Function(Voluntariado) then) =
-      _$VoluntariadoCopyWithImpl<$Res, Voluntariado>;
+abstract class $VolunteeringCopyWith<$Res> {
+  factory $VolunteeringCopyWith(
+          Volunteering value, $Res Function(Volunteering) then) =
+      _$VolunteeringCopyWithImpl<$Res, Volunteering>;
   @useResult
   $Res call(
       {String id,
@@ -76,16 +76,16 @@ abstract class $VoluntariadoCopyWith<$Res> {
 }
 
 /// @nodoc
-class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
-    implements $VoluntariadoCopyWith<$Res> {
-  _$VoluntariadoCopyWithImpl(this._value, this._then);
+class _$VolunteeringCopyWithImpl<$Res, $Val extends Volunteering>
+    implements $VolunteeringCopyWith<$Res> {
+  _$VolunteeringCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of Voluntariado
+  /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -152,11 +152,11 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
 }
 
 /// @nodoc
-abstract class _$$VoluntariadoImplCopyWith<$Res>
-    implements $VoluntariadoCopyWith<$Res> {
-  factory _$$VoluntariadoImplCopyWith(
-          _$VoluntariadoImpl value, $Res Function(_$VoluntariadoImpl) then) =
-      __$$VoluntariadoImplCopyWithImpl<$Res>;
+abstract class _$$VolunteeringImplCopyWith<$Res>
+    implements $VolunteeringCopyWith<$Res> {
+  factory _$$VolunteeringImplCopyWith(
+          _$VolunteeringImpl value, $Res Function(_$VolunteeringImpl) then) =
+      __$$VolunteeringImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -174,14 +174,14 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$VoluntariadoImplCopyWithImpl<$Res>
-    extends _$VoluntariadoCopyWithImpl<$Res, _$VoluntariadoImpl>
-    implements _$$VoluntariadoImplCopyWith<$Res> {
-  __$$VoluntariadoImplCopyWithImpl(
-      _$VoluntariadoImpl _value, $Res Function(_$VoluntariadoImpl) _then)
+class __$$VolunteeringImplCopyWithImpl<$Res>
+    extends _$VolunteeringCopyWithImpl<$Res, _$VolunteeringImpl>
+    implements _$$VolunteeringImplCopyWith<$Res> {
+  __$$VolunteeringImplCopyWithImpl(
+      _$VolunteeringImpl _value, $Res Function(_$VolunteeringImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of Voluntariado
+  /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -198,7 +198,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     Object? cost = null,
     Object? createdAt = null,
   }) {
-    return _then(_$VoluntariadoImpl(
+    return _then(_$VolunteeringImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -249,8 +249,8 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$VoluntariadoImpl extends _Voluntariado {
-  const _$VoluntariadoImpl(
+class _$VolunteeringImpl extends _Volunteering {
+  const _$VolunteeringImpl(
       {required this.id,
       @JsonKey(name: 'nombre') required this.name,
       @JsonKey(name: 'tipo') required this.type,
@@ -266,8 +266,8 @@ class _$VoluntariadoImpl extends _Voluntariado {
       required this.createdAt})
       : super._();
 
-  factory _$VoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$VoluntariadoImplFromJson(json);
+  factory _$VolunteeringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$VolunteeringImplFromJson(json);
 
   @override
   final String id;
@@ -307,14 +307,14 @@ class _$VoluntariadoImpl extends _Voluntariado {
 
   @override
   String toString() {
-    return 'Voluntariado(id: $id, name: $name, type: $type, vacancies: $vacancies, location: $location, imageUrl: $imageUrl, description: $description, summary: $summary, requirements: $requirements, cost: $cost, createdAt: $createdAt)';
+    return 'Volunteering(id: $id, name: $name, type: $type, vacancies: $vacancies, location: $location, imageUrl: $imageUrl, description: $description, summary: $summary, requirements: $requirements, cost: $cost, createdAt: $createdAt)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$VoluntariadoImpl &&
+            other is _$VolunteeringImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.type, type) || other.type == type) &&
@@ -339,24 +339,24 @@ class _$VoluntariadoImpl extends _Voluntariado {
   int get hashCode => Object.hash(runtimeType, id, name, type, vacancies,
       location, imageUrl, description, summary, requirements, cost, createdAt);
 
-  /// Create a copy of Voluntariado
+  /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$VoluntariadoImplCopyWith<_$VoluntariadoImpl> get copyWith =>
-      __$$VoluntariadoImplCopyWithImpl<_$VoluntariadoImpl>(this, _$identity);
+  _$$VolunteeringImplCopyWith<_$VolunteeringImpl> get copyWith =>
+      __$$VolunteeringImplCopyWithImpl<_$VolunteeringImpl>(this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$VoluntariadoImplToJson(
+    return _$$VolunteeringImplToJson(
       this,
     );
   }
 }
 
-abstract class _Voluntariado extends Voluntariado {
-  const factory _Voluntariado(
+abstract class _Volunteering extends Volunteering {
+  const factory _Volunteering(
       {required final String id,
       @JsonKey(name: 'nombre') required final String name,
       @JsonKey(name: 'tipo') required final String type,
@@ -373,11 +373,11 @@ abstract class _Voluntariado extends Voluntariado {
       @JsonKey(name: 'costo') required final double cost,
       @TimestampConverter()
       @JsonKey(name: 'createdAt')
-      required final DateTime createdAt}) = _$VoluntariadoImpl;
-  const _Voluntariado._() : super._();
+      required final DateTime createdAt}) = _$VolunteeringImpl;
+  const _Volunteering._() : super._();
 
-  factory _Voluntariado.fromJson(Map<String, dynamic> json) =
-      _$VoluntariadoImpl.fromJson;
+  factory _Volunteering.fromJson(Map<String, dynamic> json) =
+      _$VolunteeringImpl.fromJson;
 
   @override
   String get id;
@@ -415,10 +415,10 @@ abstract class _Voluntariado extends Voluntariado {
   @JsonKey(name: 'createdAt')
   DateTime get createdAt;
 
-  /// Create a copy of Voluntariado
+  /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VoluntariadoImplCopyWith<_$VoluntariadoImpl> get copyWith =>
+  _$$VolunteeringImplCopyWith<_$VolunteeringImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

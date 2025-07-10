@@ -1,10 +1,10 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ser_manos/models/voluntariado.dart';
+import 'package:ser_manos/models/volunteering.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
-  group('Voluntariado model', () {
+  group('Volunteering model', () {
     // Datos simulados tal como vendrían de Firestore
     const geo = GeoPoint(-34.6037, -58.3816);          // Obelisco BA
     final ts  = Timestamp.fromDate(DateTime(2024, 5, 1, 10)); // 1-may-2024 10:00
@@ -23,7 +23,7 @@ void main() {
     };
 
     test('fromJson convierte GeoPoint y Timestamp correctamente', () {
-      final v = Voluntariado.fromJson('v123', firestoreJson);
+      final v = Volunteering.fromJson('v123', firestoreJson);
 
       expect(v.id, 'v123');
       expect(v.location, const LatLng(-34.6037, -58.3816)); // GeoPoint a LatLng
@@ -32,7 +32,7 @@ void main() {
     });
 
     test('toJson lleva LatLng y DateTime de vuelta a GeoPoint/Timestamp', () {
-      final v       = Voluntariado.fromJson('v123', firestoreJson);
+      final v       = Volunteering.fromJson('v123', firestoreJson);
       final encoded = v.toJson();
 
       // Ubicación vuelve a ser GeoPoint
@@ -51,14 +51,14 @@ void main() {
     });
 
     test('round-trip mantiene igualdad', () {
-      final original = Voluntariado.fromJson('v123', firestoreJson);
-      final v2       = Voluntariado.fromJson('v123', original.toJson());
+      final original = Volunteering.fromJson('v123', firestoreJson);
+      final v2       = Volunteering.fromJson('v123', original.toJson());
 
       expect(v2, equals(original));
     });
 
     test('copyWith no muta la instancia original', () {
-      final base     = Voluntariado.fromJson('v123', firestoreJson);
+      final base     = Volunteering.fromJson('v123', firestoreJson);
       final modified = base.copyWith(vacancies: 0); // sin plazas
 
       expect(base.vacancies, 5);

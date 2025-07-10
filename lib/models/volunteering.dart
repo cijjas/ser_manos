@@ -7,9 +7,9 @@ import 'package:ser_manos/converters/trim_converter.dart';
 import '../converters/timestamp_converter.dart';
 
 
-part 'voluntariado.freezed.dart';
+part 'volunteering.freezed.dart';
 
-part 'voluntariado.g.dart';
+part 'volunteering.g.dart';
 
 enum VoluntariadoStatus {
   postulado,
@@ -20,9 +20,9 @@ enum VoluntariadoStatus {
 }
 
 @freezed
-class Voluntariado with _$Voluntariado {
-  const Voluntariado._();
-  const factory Voluntariado({
+class Volunteering with _$Volunteering {
+  const Volunteering._();
+  const factory Volunteering({
     required String id,
     @JsonKey(name: 'nombre') required String name,
     @JsonKey(name: 'tipo') required String type,
@@ -34,9 +34,9 @@ class Voluntariado with _$Voluntariado {
     @JsonKey(name: 'requisitos') required String requirements,
     @JsonKey(name: 'costo') required double cost,
     @TimestampConverter() @JsonKey(name: 'createdAt') required DateTime createdAt,
-  }) = _Voluntariado;
+  }) = _Volunteering;
 
-  factory Voluntariado.fromJson(String id, Map<String, dynamic> json) => _$VoluntariadoFromJson({
+  factory Volunteering.fromJson(String id, Map<String, dynamic> json) => _$VolunteeringFromJson({
     'id': id,
     ...json,
   });

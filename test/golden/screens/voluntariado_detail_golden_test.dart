@@ -8,11 +8,11 @@ import 'package:network_image_mock/network_image_mock.dart';
 import 'package:geocoding/geocoding.dart';
 
 import 'package:ser_manos/models/user.dart';
-import 'package:ser_manos/models/voluntariado.dart';
+import 'package:ser_manos/models/volunteering.dart';
 import 'package:ser_manos/providers/auth_provider.dart';
 import 'package:ser_manos/providers/user_provider.dart';
-import 'package:ser_manos/providers/voluntariado_provider.dart';
-import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_detail.dart';
+import 'package:ser_manos/providers/volunteering_provider.dart';
+import 'package:ser_manos/shared/wireframes/volunteerings/volunteering_detail.dart';
 
 import '../../mocks/mocks.mocks.dart';
 import '../../utils/test_utils.dart';
@@ -37,7 +37,7 @@ class _FakeGeo extends GeocodingPlatform {
       ];
 }
 
-Voluntariado _fakeVol(String id) => Voluntariado(
+Volunteering _fakeVol(String id) => Volunteering(
       id: id,
       name: 'Comedor Solidario',
       type: 'Alimentos',
@@ -62,10 +62,10 @@ const _fakeUser = User(
 void main() {
   GeocodingPlatform.instance = _FakeGeo();
 
-  testGoldens('VoluntariadoDetalle – available', (tester) async {
+  testGoldens('VolunteeringDetalle – available', (tester) async {
     await loadAppFonts();
     await mockNetworkImagesFor(() async {
-      final mockVolService = MockVoluntariadoService();
+      final mockVolService = MockVolunteeringService();
       when(mockVolService.watchOne('v1'))
           .thenAnswer((_) => Stream.value(_fakeVol('v1')));
 
@@ -74,7 +74,7 @@ void main() {
           .thenAnswer((_) => Stream.value(_fakeUser));
 
       final overrides = <Override>[
-        voluntariadoServiceProvider.overrideWithValue(mockVolService),
+        volunteeringServiceProvider.overrideWithValue(mockVolService),
         userServiceProvider.overrideWithValue(mockUserService),
         authStateProvider.overrideWith((_) => Stream.value(null)),
         currentUserProvider.overrideWith((_) => Stream.value(_fakeUser)),
@@ -87,7 +87,7 @@ void main() {
           widget: ProviderScope(
             overrides: overrides,
             child: testAppWithHome(
-              home: const VoluntariadoDetallePage(voluntariadoId: 'v1'),
+              home: const VolunteeringDetallePage(volunteeringId: 'v1'),
               theme: ThemeData.light(useMaterial3: true),
             ),
           ),
@@ -98,7 +98,7 @@ void main() {
 
       await screenMatchesGolden(
         tester,
-        'voluntariado_detail_available',
+        'volunteering_detail_available',
         customPump: (tester) async =>
             tester.pump(const Duration(milliseconds: 200)),
       );

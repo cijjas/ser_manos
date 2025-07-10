@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:network_image_mock/network_image_mock.dart';
-import 'package:ser_manos/models/voluntariado.dart';
-import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
-import 'package:ser_manos/shared/cells/cards/card_voluntariado_actual.dart';
+import 'package:ser_manos/models/volunteering.dart';
+import 'package:ser_manos/shared/cells/cards/volunteering_card.dart';
+import 'package:ser_manos/shared/cells/cards/current_volunteering_card.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' show LatLng;
 import '../../utils/test_utils.dart';
 
-Voluntariado fakeVol() => Voluntariado(
+Volunteering fakeVol() => Volunteering(
       id: 'v1',
       name: 'Comedor San José',
       type: 'Alimentos',
@@ -25,13 +25,13 @@ Widget wrap(Widget child, ThemeData theme) =>
     testApp(child: child, theme: theme);
 
 void main() {
-  testGoldens('CardVoluntariado widget', (tester) async {
+  testGoldens('CardVolunteering widget', (tester) async {
     await loadAppFonts();
 
     await mockNetworkImagesFor(() async {
-      final normal = CardVoluntariado(voluntariado: fakeVol());
+      final normal = VolunteeringCard(volunteering: fakeVol());
       final actual =
-          CardVoluntariadoActual(voluntariado: fakeVol(), onTap: () {});
+          CardVolunteeringActual(volunteering: fakeVol(), onTap: () {});
 
       final builder = DeviceBuilder()
         ..overrideDevicesForAllScenarios(devices: [Device.phone])
@@ -55,7 +55,7 @@ void main() {
         );
 
       await tester.pumpDeviceBuilder(builder);
-      await screenMatchesGolden(tester, 'card_voluntariado');
+      await screenMatchesGolden(tester, 'card_volunteering');
     });
   });
 }

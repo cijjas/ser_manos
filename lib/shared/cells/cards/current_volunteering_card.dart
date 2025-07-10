@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
-import 'package:ser_manos/shared/cells/cards/card_voluntariado.dart';
+import 'package:ser_manos/shared/cells/cards/volunteering_card.dart';
 
 import '../../../constants/app_icons.dart';
 import '../../tokens/border_radius.dart';
@@ -9,11 +9,11 @@ import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 import '../../tokens/typography.dart';
 
-class CardVoluntariadoActual extends CardVoluntariado {
+class CardVolunteeringActual extends VolunteeringCard {
 
-  const CardVoluntariadoActual({
+  const CardVolunteeringActual({
     super.key,
-    required super.voluntariado,
+    required super.volunteering,
     required super.onTap,
   });
 
@@ -46,8 +46,8 @@ class CardVoluntariadoActual extends CardVoluntariado {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(voluntariado.type.toUpperCase(), style: AppTypography.caption),
-                        Text(voluntariado.name, style: AppTypography.subtitle01)
+                        Text(volunteering.type.toUpperCase(), style: AppTypography.caption),
+                        Text(volunteering.name, style: AppTypography.subtitle01)
                       ],
                     )
                   ],
@@ -56,8 +56,8 @@ class CardVoluntariadoActual extends CardVoluntariado {
                   children: [
                     GestureDetector(
                       onTap: () {
-                        final lat = voluntariado.location.latitude;
-                        final lng = voluntariado.location.longitude;
+                        final lat = volunteering.location.latitude;
+                        final lng = volunteering.location.longitude;
                         MapsLauncher.launchCoordinates(lat, lng);
                       },
                       child: const AppIcon(

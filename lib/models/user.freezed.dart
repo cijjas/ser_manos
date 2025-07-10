@@ -14,45 +14,45 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-UserVoluntariado _$UserVoluntariadoFromJson(Map<String, dynamic> json) {
-  return _UserVoluntariado.fromJson(json);
+UserVolunteering _$UserVolunteeringFromJson(Map<String, dynamic> json) {
+  return _UserVolunteering.fromJson(json);
 }
 
 /// @nodoc
-mixin _$UserVoluntariado {
+mixin _$UserVolunteering {
   String get id => throw _privateConstructorUsedError;
-  VoluntariadoUserState get estado => throw _privateConstructorUsedError;
+  VolunteeringUserState get estado => throw _privateConstructorUsedError;
 
-  /// Serializes this UserVoluntariado to a JSON map.
+  /// Serializes this UserVolunteering to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
 
-  /// Create a copy of UserVoluntariado
+  /// Create a copy of UserVolunteering
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $UserVoluntariadoCopyWith<UserVoluntariado> get copyWith =>
+  $UserVolunteeringCopyWith<UserVolunteering> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $UserVoluntariadoCopyWith<$Res> {
-  factory $UserVoluntariadoCopyWith(
-          UserVoluntariado value, $Res Function(UserVoluntariado) then) =
-      _$UserVoluntariadoCopyWithImpl<$Res, UserVoluntariado>;
+abstract class $UserVolunteeringCopyWith<$Res> {
+  factory $UserVolunteeringCopyWith(
+          UserVolunteering value, $Res Function(UserVolunteering) then) =
+      _$UserVolunteeringCopyWithImpl<$Res, UserVolunteering>;
   @useResult
-  $Res call({String id, VoluntariadoUserState estado});
+  $Res call({String id, VolunteeringUserState estado});
 }
 
 /// @nodoc
-class _$UserVoluntariadoCopyWithImpl<$Res, $Val extends UserVoluntariado>
-    implements $UserVoluntariadoCopyWith<$Res> {
-  _$UserVoluntariadoCopyWithImpl(this._value, this._then);
+class _$UserVolunteeringCopyWithImpl<$Res, $Val extends UserVolunteering>
+    implements $UserVolunteeringCopyWith<$Res> {
+  _$UserVolunteeringCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
 
-  /// Create a copy of UserVoluntariado
+  /// Create a copy of UserVolunteering
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -68,31 +68,31 @@ class _$UserVoluntariadoCopyWithImpl<$Res, $Val extends UserVoluntariado>
       estado: null == estado
           ? _value.estado
           : estado // ignore: cast_nullable_to_non_nullable
-              as VoluntariadoUserState,
+              as VolunteeringUserState,
     ) as $Val);
   }
 }
 
 /// @nodoc
-abstract class _$$UserVoluntariadoImplCopyWith<$Res>
-    implements $UserVoluntariadoCopyWith<$Res> {
-  factory _$$UserVoluntariadoImplCopyWith(_$UserVoluntariadoImpl value,
-          $Res Function(_$UserVoluntariadoImpl) then) =
-      __$$UserVoluntariadoImplCopyWithImpl<$Res>;
+abstract class _$$UserVolunteeringImplCopyWith<$Res>
+    implements $UserVolunteeringCopyWith<$Res> {
+  factory _$$UserVolunteeringImplCopyWith(_$UserVolunteeringImpl value,
+          $Res Function(_$UserVolunteeringImpl) then) =
+      __$$UserVolunteeringImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, VoluntariadoUserState estado});
+  $Res call({String id, VolunteeringUserState estado});
 }
 
 /// @nodoc
-class __$$UserVoluntariadoImplCopyWithImpl<$Res>
-    extends _$UserVoluntariadoCopyWithImpl<$Res, _$UserVoluntariadoImpl>
-    implements _$$UserVoluntariadoImplCopyWith<$Res> {
-  __$$UserVoluntariadoImplCopyWithImpl(_$UserVoluntariadoImpl _value,
-      $Res Function(_$UserVoluntariadoImpl) _then)
+class __$$UserVolunteeringImplCopyWithImpl<$Res>
+    extends _$UserVolunteeringCopyWithImpl<$Res, _$UserVolunteeringImpl>
+    implements _$$UserVolunteeringImplCopyWith<$Res> {
+  __$$UserVolunteeringImplCopyWithImpl(_$UserVolunteeringImpl _value,
+      $Res Function(_$UserVolunteeringImpl) _then)
       : super(_value, _then);
 
-  /// Create a copy of UserVoluntariado
+  /// Create a copy of UserVolunteering
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
@@ -100,7 +100,7 @@ class __$$UserVoluntariadoImplCopyWithImpl<$Res>
     Object? id = null,
     Object? estado = null,
   }) {
-    return _then(_$UserVoluntariadoImpl(
+    return _then(_$UserVolunteeringImpl(
       id: null == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
@@ -108,34 +108,34 @@ class __$$UserVoluntariadoImplCopyWithImpl<$Res>
       estado: null == estado
           ? _value.estado
           : estado // ignore: cast_nullable_to_non_nullable
-              as VoluntariadoUserState,
+              as VolunteeringUserState,
     ));
   }
 }
 
 /// @nodoc
 @JsonSerializable()
-class _$UserVoluntariadoImpl implements _UserVoluntariado {
-  const _$UserVoluntariadoImpl({required this.id, required this.estado});
+class _$UserVolunteeringImpl implements _UserVolunteering {
+  const _$UserVolunteeringImpl({required this.id, required this.estado});
 
-  factory _$UserVoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
-      _$$UserVoluntariadoImplFromJson(json);
+  factory _$UserVolunteeringImpl.fromJson(Map<String, dynamic> json) =>
+      _$$UserVolunteeringImplFromJson(json);
 
   @override
   final String id;
   @override
-  final VoluntariadoUserState estado;
+  final VolunteeringUserState estado;
 
   @override
   String toString() {
-    return 'UserVoluntariado(id: $id, estado: $estado)';
+    return 'UserVolunteering(id: $id, estado: $estado)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$UserVoluntariadoImpl &&
+            other is _$UserVolunteeringImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.estado, estado) || other.estado == estado));
   }
@@ -144,41 +144,41 @@ class _$UserVoluntariadoImpl implements _UserVoluntariado {
   @override
   int get hashCode => Object.hash(runtimeType, id, estado);
 
-  /// Create a copy of UserVoluntariado
+  /// Create a copy of UserVolunteering
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$UserVoluntariadoImplCopyWith<_$UserVoluntariadoImpl> get copyWith =>
-      __$$UserVoluntariadoImplCopyWithImpl<_$UserVoluntariadoImpl>(
+  _$$UserVolunteeringImplCopyWith<_$UserVolunteeringImpl> get copyWith =>
+      __$$UserVolunteeringImplCopyWithImpl<_$UserVolunteeringImpl>(
           this, _$identity);
 
   @override
   Map<String, dynamic> toJson() {
-    return _$$UserVoluntariadoImplToJson(
+    return _$$UserVolunteeringImplToJson(
       this,
     );
   }
 }
 
-abstract class _UserVoluntariado implements UserVoluntariado {
-  const factory _UserVoluntariado(
+abstract class _UserVolunteering implements UserVolunteering {
+  const factory _UserVolunteering(
       {required final String id,
-      required final VoluntariadoUserState estado}) = _$UserVoluntariadoImpl;
+      required final VolunteeringUserState estado}) = _$UserVolunteeringImpl;
 
-  factory _UserVoluntariado.fromJson(Map<String, dynamic> json) =
-      _$UserVoluntariadoImpl.fromJson;
+  factory _UserVolunteering.fromJson(Map<String, dynamic> json) =
+      _$UserVolunteeringImpl.fromJson;
 
   @override
   String get id;
   @override
-  VoluntariadoUserState get estado;
+  VolunteeringUserState get estado;
 
-  /// Create a copy of UserVoluntariado
+  /// Create a copy of UserVolunteering
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$UserVoluntariadoImplCopyWith<_$UserVoluntariadoImpl> get copyWith =>
+  _$$UserVolunteeringImplCopyWith<_$UserVolunteeringImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -193,9 +193,11 @@ mixin _$User {
   String get apellido => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
   bool get hasSeenOnboarding => throw _privateConstructorUsedError;
-  List<UserVoluntariado>? get voluntariados =>
+  @JsonKey(name: 'voluntariados')
+  List<UserVolunteering>? get volunteerings =>
       throw _privateConstructorUsedError;
-  List<String>? get likedVoluntariados => throw _privateConstructorUsedError;
+  @JsonKey(name: 'likedVoluntariados')
+  List<String>? get likedVolunteerings => throw _privateConstructorUsedError;
   String? get telefono => throw _privateConstructorUsedError;
   DateTime? get fechaNacimiento => throw _privateConstructorUsedError;
   String? get genero => throw _privateConstructorUsedError;
@@ -222,8 +224,8 @@ abstract class $UserCopyWith<$Res> {
       String apellido,
       String email,
       bool hasSeenOnboarding,
-      List<UserVoluntariado>? voluntariados,
-      List<String>? likedVoluntariados,
+      @JsonKey(name: 'voluntariados') List<UserVolunteering>? volunteerings,
+      @JsonKey(name: 'likedVoluntariados') List<String>? likedVolunteerings,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -251,8 +253,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? apellido = null,
     Object? email = null,
     Object? hasSeenOnboarding = null,
-    Object? voluntariados = freezed,
-    Object? likedVoluntariados = freezed,
+    Object? volunteerings = freezed,
+    Object? likedVolunteerings = freezed,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -280,13 +282,13 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.hasSeenOnboarding
           : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
               as bool,
-      voluntariados: freezed == voluntariados
-          ? _value.voluntariados
-          : voluntariados // ignore: cast_nullable_to_non_nullable
-              as List<UserVoluntariado>?,
-      likedVoluntariados: freezed == likedVoluntariados
-          ? _value.likedVoluntariados
-          : likedVoluntariados // ignore: cast_nullable_to_non_nullable
+      volunteerings: freezed == volunteerings
+          ? _value.volunteerings
+          : volunteerings // ignore: cast_nullable_to_non_nullable
+              as List<UserVolunteering>?,
+      likedVolunteerings: freezed == likedVolunteerings
+          ? _value.likedVolunteerings
+          : likedVolunteerings // ignore: cast_nullable_to_non_nullable
               as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
@@ -325,8 +327,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       String apellido,
       String email,
       bool hasSeenOnboarding,
-      List<UserVoluntariado>? voluntariados,
-      List<String>? likedVoluntariados,
+      @JsonKey(name: 'voluntariados') List<UserVolunteering>? volunteerings,
+      @JsonKey(name: 'likedVoluntariados') List<String>? likedVolunteerings,
       String? telefono,
       DateTime? fechaNacimiento,
       String? genero,
@@ -351,8 +353,8 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? apellido = null,
     Object? email = null,
     Object? hasSeenOnboarding = null,
-    Object? voluntariados = freezed,
-    Object? likedVoluntariados = freezed,
+    Object? volunteerings = freezed,
+    Object? likedVolunteerings = freezed,
     Object? telefono = freezed,
     Object? fechaNacimiento = freezed,
     Object? genero = freezed,
@@ -380,13 +382,13 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.hasSeenOnboarding
           : hasSeenOnboarding // ignore: cast_nullable_to_non_nullable
               as bool,
-      voluntariados: freezed == voluntariados
-          ? _value._voluntariados
-          : voluntariados // ignore: cast_nullable_to_non_nullable
-              as List<UserVoluntariado>?,
-      likedVoluntariados: freezed == likedVoluntariados
-          ? _value._likedVoluntariados
-          : likedVoluntariados // ignore: cast_nullable_to_non_nullable
+      volunteerings: freezed == volunteerings
+          ? _value._volunteerings
+          : volunteerings // ignore: cast_nullable_to_non_nullable
+              as List<UserVolunteering>?,
+      likedVolunteerings: freezed == likedVolunteerings
+          ? _value._likedVolunteerings
+          : likedVolunteerings // ignore: cast_nullable_to_non_nullable
               as List<String>?,
       telefono: freezed == telefono
           ? _value.telefono
@@ -421,15 +423,17 @@ class _$UserImpl implements _User {
       required this.apellido,
       required this.email,
       required this.hasSeenOnboarding,
-      final List<UserVoluntariado>? voluntariados,
-      final List<String>? likedVoluntariados,
+      @JsonKey(name: 'voluntariados')
+      final List<UserVolunteering>? volunteerings,
+      @JsonKey(name: 'likedVoluntariados')
+      final List<String>? likedVolunteerings,
       this.telefono,
       this.fechaNacimiento,
       this.genero,
       this.imagenUrl,
       this.fcmToken})
-      : _voluntariados = voluntariados,
-        _likedVoluntariados = likedVoluntariados;
+      : _volunteerings = volunteerings,
+        _likedVolunteerings = likedVolunteerings;
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
       _$$UserImplFromJson(json);
@@ -444,23 +448,25 @@ class _$UserImpl implements _User {
   final String email;
   @override
   final bool hasSeenOnboarding;
-  final List<UserVoluntariado>? _voluntariados;
+  final List<UserVolunteering>? _volunteerings;
   @override
-  List<UserVoluntariado>? get voluntariados {
-    final value = _voluntariados;
+  @JsonKey(name: 'voluntariados')
+  List<UserVolunteering>? get volunteerings {
+    final value = _volunteerings;
     if (value == null) return null;
-    if (_voluntariados is EqualUnmodifiableListView) return _voluntariados;
+    if (_volunteerings is EqualUnmodifiableListView) return _volunteerings;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
 
-  final List<String>? _likedVoluntariados;
+  final List<String>? _likedVolunteerings;
   @override
-  List<String>? get likedVoluntariados {
-    final value = _likedVoluntariados;
+  @JsonKey(name: 'likedVoluntariados')
+  List<String>? get likedVolunteerings {
+    final value = _likedVolunteerings;
     if (value == null) return null;
-    if (_likedVoluntariados is EqualUnmodifiableListView)
-      return _likedVoluntariados;
+    if (_likedVolunteerings is EqualUnmodifiableListView)
+      return _likedVolunteerings;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(value);
   }
@@ -478,7 +484,7 @@ class _$UserImpl implements _User {
 
   @override
   String toString() {
-    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, voluntariados: $voluntariados, likedVoluntariados: $likedVoluntariados, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl, fcmToken: $fcmToken)';
+    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, volunteerings: $volunteerings, likedVolunteerings: $likedVolunteerings, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl, fcmToken: $fcmToken)';
   }
 
   @override
@@ -494,9 +500,9 @@ class _$UserImpl implements _User {
             (identical(other.hasSeenOnboarding, hasSeenOnboarding) ||
                 other.hasSeenOnboarding == hasSeenOnboarding) &&
             const DeepCollectionEquality()
-                .equals(other._voluntariados, _voluntariados) &&
+                .equals(other._volunteerings, _volunteerings) &&
             const DeepCollectionEquality()
-                .equals(other._likedVoluntariados, _likedVoluntariados) &&
+                .equals(other._likedVolunteerings, _likedVolunteerings) &&
             (identical(other.telefono, telefono) ||
                 other.telefono == telefono) &&
             (identical(other.fechaNacimiento, fechaNacimiento) ||
@@ -517,8 +523,8 @@ class _$UserImpl implements _User {
       apellido,
       email,
       hasSeenOnboarding,
-      const DeepCollectionEquality().hash(_voluntariados),
-      const DeepCollectionEquality().hash(_likedVoluntariados),
+      const DeepCollectionEquality().hash(_volunteerings),
+      const DeepCollectionEquality().hash(_likedVolunteerings),
       telefono,
       fechaNacimiento,
       genero,
@@ -548,8 +554,10 @@ abstract class _User implements User {
       required final String apellido,
       required final String email,
       required final bool hasSeenOnboarding,
-      final List<UserVoluntariado>? voluntariados,
-      final List<String>? likedVoluntariados,
+      @JsonKey(name: 'voluntariados')
+      final List<UserVolunteering>? volunteerings,
+      @JsonKey(name: 'likedVoluntariados')
+      final List<String>? likedVolunteerings,
       final String? telefono,
       final DateTime? fechaNacimiento,
       final String? genero,
@@ -569,9 +577,11 @@ abstract class _User implements User {
   @override
   bool get hasSeenOnboarding;
   @override
-  List<UserVoluntariado>? get voluntariados;
+  @JsonKey(name: 'voluntariados')
+  List<UserVolunteering>? get volunteerings;
   @override
-  List<String>? get likedVoluntariados;
+  @JsonKey(name: 'likedVoluntariados')
+  List<String>? get likedVolunteerings;
   @override
   String? get telefono;
   @override
