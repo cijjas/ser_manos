@@ -119,22 +119,22 @@ updates are reflected instantly in the UI.
       using `Geolocator`, reacting in real-time to both user movement and database
       changes.
 
-- **Implementation Highlights:**
-  - Streams are exposed via `StreamProvider`s and managed in service classes.
-      For example:
+  - **Implementation Highlights:**
+    - Streams are exposed via `StreamProvider`s and managed in service classes.
+        For example:
 
-          ```dart
-          Stream<User> watchOne(String userId) =>
-              _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
+    ```dart
+            Stream<User> watchOne(String userId) =>
+                _users.doc(userId).snapshots().map((doc) => User.fromJson(doc.data()!));
 
-          Stream<List<Novedad>> watchAll() =>
-              _collection.orderBy('createdAt', descending: true).snapshots()
-                         .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
-          ```
+            Stream<List<Novedad>> watchAll() =>
+                _collection.orderBy('createdAt', descending: true).snapshots()
+                           .map((snap) => snap.docs.map((d) => Novedad.fromJson(d.data())).toList());
+      ```
 
-  - These streams drive the reactive UI, ensuring updates like slot
-      availability, news items, and user state (e.g., onboarding, postulation
-      status) are reflected immediately.
+    - These streams drive the reactive UI, ensuring updates like slot
+        availability, news items, and user state (e.g., onboarding, postulation
+        status) are reflected immediately.
 
 - **Crash Reporting & Logging:**
   - All service-layer operations are wrapped with **Firebase Crashlytics** and
@@ -374,8 +374,8 @@ fvm flutter test --update-goldens
                specific custom events. The **News Interaction Rate** is computed by dividing the
                total number of `view_news_detail` events (triggered when users tap on a news card to
                read the full article) by the total number of `share_news` events (triggered when
-               users press the share button in the news detail page). The **Postulation Regret Index
-               ** is calculated by summing the `withdraw_application` and `abandon_volunteering`
+               users press the share button in the news detail page). The **Postulation Regret Index**
+               is calculated by summing the `withdraw_application` and `abandon_volunteering`
                events (triggered when users retract a pending application or abandon an accepted
                volunteering opportunity) and dividing by the total `apply_for_volunteering` events (
                triggered when users confirm an application), expressed as a percentage. These
