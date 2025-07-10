@@ -1,0 +1,2 @@
+- si el costo es 1000, hay que poner 1000ARS y 1000USD? O convertirlo?
+- tema de la retrocompatibilidad? Ok, se rompe entre v1 y v2, pero hacemos v2 y v3 compatibles y listo, no? No hay que hacer que v1 funcione de nuevo?

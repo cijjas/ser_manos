@@ -346,4 +346,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get readMore => 'Read More';
+
+  @override
+  String get volunteerCostLabel => 'Cost';
+
+  @override
+  String get volunteerCreatedAtLabel => 'Created on';
 }

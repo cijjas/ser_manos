@@ -121,7 +121,7 @@ Widget buildParticipatingVoluntariado(BuildContext context, Voluntariado volunta
   return Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      const Text(context.strings.yourActivity, style: AppTypography.headline01),
+      Text(context.strings.yourActivity, style: AppTypography.headline01),
       const SizedBox(height: 16),
       SingleChildScrollView(
         padding: const EdgeInsets.only(bottom: 16),

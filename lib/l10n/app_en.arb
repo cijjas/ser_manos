@@ -598,5 +598,15 @@
   "readMore": "Read More",
   "@readMore": {
     "description": "Read more link on news cards"
+  },
+
+  "volunteerCostLabel": "Cost",
+  "@volunteerCostLabel": {
+    "description": "Label for the cost of the volunteer opportunity"
+  },
+
+  "volunteerCreatedAtLabel": "Created on",
+  "@volunteerCreatedAtLabel": {
+    "description": "Label for the creation date of the volunteer opportunity"
   }
 }

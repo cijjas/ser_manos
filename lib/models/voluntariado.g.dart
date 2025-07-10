@@ -18,6 +18,7 @@ _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
       descripcion: json['descripcion'] as String,
       resumen: json['resumen'] as String,
       requisitos: json['requisitos'] as String,
+      costo: (json['costo'] as num).toDouble(),
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
     );
@@ -33,5 +34,6 @@ Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
       'descripcion': instance.descripcion,
       'resumen': instance.resumen,
       'requisitos': instance.requisitos,
+      'costo': instance.costo,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

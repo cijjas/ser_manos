@@ -31,6 +31,7 @@ mixin _$Voluntariado {
   String get descripcion => throw _privateConstructorUsedError;
   String get resumen => throw _privateConstructorUsedError;
   String get requisitos => throw _privateConstructorUsedError;
+  double get costo => throw _privateConstructorUsedError;
   @TimestampConverter()
   DateTime get createdAt => throw _privateConstructorUsedError;
 
@@ -60,6 +61,7 @@ abstract class $VoluntariadoCopyWith<$Res> {
       String descripcion,
       String resumen,
       String requisitos,
+      double costo,
       @TimestampConverter() DateTime createdAt});
 }
 
@@ -87,6 +89,7 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
     Object? descripcion = null,
     Object? resumen = null,
     Object? requisitos = null,
+    Object? costo = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -126,6 +129,10 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
           ? _value.requisitos
           : requisitos // ignore: cast_nullable_to_non_nullable
               as String,
+      costo: null == costo
+          ? _value.costo
+          : costo // ignore: cast_nullable_to_non_nullable
+              as double,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -152,6 +159,7 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
       String descripcion,
       String resumen,
       String requisitos,
+      double costo,
       @TimestampConverter() DateTime createdAt});
 }
 
@@ -177,6 +185,7 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
     Object? descripcion = null,
     Object? resumen = null,
     Object? requisitos = null,
+    Object? costo = null,
     Object? createdAt = null,
   }) {
     return _then(_$VoluntariadoImpl(
@@ -216,6 +225,10 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           ? _value.requisitos
           : requisitos // ignore: cast_nullable_to_non_nullable
               as String,
+      costo: null == costo
+          ? _value.costo
+          : costo // ignore: cast_nullable_to_non_nullable
+              as double,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -237,6 +250,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
       required this.descripcion,
       required this.resumen,
       required this.requisitos,
+      required this.costo,
       @TimestampConverter() required this.createdAt});
 
   factory _$VoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
@@ -263,12 +277,14 @@ class _$VoluntariadoImpl implements _Voluntariado {
   @override
   final String requisitos;
   @override
+  final double costo;
+  @override
   @TimestampConverter()
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos, createdAt: $createdAt)';
+    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos, costo: $costo, createdAt: $createdAt)';
   }
 
   @override
@@ -290,6 +306,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
             (identical(other.resumen, resumen) || other.resumen == resumen) &&
             (identical(other.requisitos, requisitos) ||
                 other.requisitos == requisitos) &&
+            (identical(other.costo, costo) || other.costo == costo) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -297,7 +314,7 @@ class _$VoluntariadoImpl implements _Voluntariado {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode => Object.hash(runtimeType, id, nombre, tipo, vacantes,
-      location, imageUrl, descripcion, resumen, requisitos, createdAt);
+      location, imageUrl, descripcion, resumen, requisitos, costo, createdAt);
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
@@ -326,6 +343,7 @@ abstract class _Voluntariado implements Voluntariado {
           required final String descripcion,
           required final String resumen,
           required final String requisitos,
+          required final double costo,
           @TimestampConverter() required final DateTime createdAt}) =
       _$VoluntariadoImpl;
 
@@ -352,6 +370,8 @@ abstract class _Voluntariado implements Voluntariado {
   String get resumen;
   @override
   String get requisitos;
+  @override
+  double get costo;
   @override
   @TimestampConverter()
   DateTime get createdAt;

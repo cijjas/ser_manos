@@ -307,5 +307,15 @@
   "readMore": "Leer Más",
   "@readMore": {
     "description": "Read more link on news cards"
+  },
+
+  "volunteerCostLabel": "Costo",
+  "@volunteerCostLabel": {
+    "description": "Etiqueta para el costo del voluntariado"
+  },
+
+  "volunteerCreatedAtLabel": "Creado el",
+  "@volunteerCreatedAtLabel": {
+    "description": "Etiqueta para la fecha de creación del voluntariado"
   }
 }

@@ -8,7 +8,7 @@ import 'package:maps_launcher/maps_launcher.dart';
 import 'package:ser_manos/models/voluntariado.dart';
 import 'package:ser_manos/providers/voluntariado_provider.dart';
 import 'package:geocoding/geocoding.dart';
-
+import 'package:intl/intl.dart';
 import '../../../constants/app_routes.dart';
 import '../../../models/user.dart';
 import '../../../providers/user_provider.dart';
@@ -394,7 +394,28 @@ class _VoluntariadoDetallePageState
                         ),
                         const SizedBox(height: 24),
                         VacantsDisplay(number: voluntariado.vacantes),
-                        const SizedBox(height: 32),
+                        const SizedBox(height: 16),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                // Localized cost label and value
+                                '${context.strings.volunteerCostLabel}: '
+                                '${NumberFormat.simpleCurrency(locale: Localizations.localeOf(context).toString()).format(voluntariado.costo)}',
+                                style: AppTypography.body01,
+                              ),
+                              const SizedBox(height: 4),
+                              Text(
+                                // Localized creation date label and value
+                                '${context.strings.volunteerCreatedAtLabel}: '
+                                '${DateFormat.yMMMMd(Localizations.localeOf(context).toString()).format(voluntariado.createdAt)}',
+                                style: AppTypography.body01,
+                              ),
+                            ],
+                          ),
+                        ),
                         _BottomSection(
                           state: _determineUserState(voluntariado, user),
                           participatingVoluntariado: participatingVoluntariado,

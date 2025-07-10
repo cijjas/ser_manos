@@ -31,6 +31,7 @@ class Voluntariado with _$Voluntariado {
     required String descripcion,
     required String resumen,
     required String requisitos,
+    required double costo,
     @TimestampConverter() required DateTime createdAt,
   }) = _Voluntariado;
 

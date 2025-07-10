@@ -772,6 +772,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Read More'**
   String get readMore;
+
+  /// Label for the cost of the volunteer opportunity
+  ///
+  /// In en, this message translates to:
+  /// **'Cost'**
+  String get volunteerCostLabel;
+
+  /// Label for the creation date of the volunteer opportunity
+  ///
+  /// In en, this message translates to:
+  /// **'Created on'**
+  String get volunteerCreatedAtLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
