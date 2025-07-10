@@ -10,6 +10,7 @@ class ShortButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final ShortButtonVariant variant;
   final bool isLoading;
+  final double? height;
 
   const ShortButton({
     super.key,
@@ -18,6 +19,7 @@ class ShortButton extends StatelessWidget {
     required this.onPressed,
     this.variant = ShortButtonVariant.regular,
     this.isLoading = false,
+    this.height,
   });
 
   @override
@@ -50,9 +52,12 @@ class ShortButton extends StatelessWidget {
         children.add(Icon(icon, size: 20, color: foregroundColor));
         children.add(const SizedBox(width: 8));
       }
-      children.add(Text(
-        label,
-        style: AppTypography.button.copyWith(color: foregroundColor),
+      children.add(Flexible(
+        child: Text(
+          label,
+          style: AppTypography.button.copyWith(color: foregroundColor),
+          overflow: TextOverflow.ellipsis,
+        ),
       ));
 
       child = Row(
@@ -64,7 +69,7 @@ class ShortButton extends StatelessWidget {
     return TextButton(
       onPressed: isDisabled ? null : onPressed,
       style: ButtonStyle(
-        minimumSize: WidgetStateProperty.all(const Size(0, 36)),
+        minimumSize: WidgetStateProperty.all(Size(0, height ?? 36)),
         padding: WidgetStateProperty.all(padding),
         backgroundColor: WidgetStateProperty.all(backgroundColor),
         overlayColor: WidgetStateProperty.all(
