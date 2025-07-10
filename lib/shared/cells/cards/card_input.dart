@@ -41,6 +41,7 @@ class CardInputState extends State<CardInput> {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
+      height: 152,
       decoration: BoxDecoration(
         color: AppColors.neutral10,
         borderRadius: BorderRadius.circular(4),
@@ -62,59 +63,67 @@ class CardInputState extends State<CardInput> {
               ),
             ),
           ),
-          ...List.generate(widget.options.length, (i) {
-            final selected = _selectedIndex == i;
-            return InkWell(
-              onTap: () {
-                setState(() {
-                  _selectedIndex = i;
-                });
-                widget.onSelected?.call(i);
-              },
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
-                child: Row(
-                  children: [
-                    // Outer circle (border)
-                    Container(
-                      width: 24,
-                      height: 24,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.primary100,
-                          width: 2,
-                        ),
-                      ),
-                      // Inner circle if selected
-                      child: selected
-                          ? Center(
-                        child: Container(
-                          width: 12,
-                          height: 12,
-                          decoration: const BoxDecoration(
+          Container(
+            width: double.infinity,
+            height: 112,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: List.generate(widget.options.length, (i) {
+                final selected = _selectedIndex == i;
+                return InkWell(
+                  onTap: () {
+                    setState(() {
+                      _selectedIndex = i;
+                    });
+                    widget.onSelected?.call(i);
+                  },
+                  child: Container(
+                    height: 32,
+                    padding: const EdgeInsets.all(4),
+                    child: Row(
+                      children: [
+                        // Outer circle (border)
+                        Container(
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: AppColors.primary100,
+                            border: Border.all(
+                              color: AppColors.primary100,
+                              width: 2,
+                            ),
+                          ),
+                          // Inner circle if selected
+                          child: selected
+                              ? Center(
+                            child: Container(
+                              width: 12,
+                              height: 12,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.primary100,
+                              ),
+                            ),
+                          )
+                              : null,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            widget.options[i],
+                            style: AppTypography.body01.copyWith(
+                              color: AppColors.neutral100,
+                            ),
                           ),
                         ),
-                      )
-                          : null,
+                      ],
                     ),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Text(
-                        widget.options[i],
-                        style: AppTypography.body01.copyWith(
-                          color: AppColors.neutral100,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            );
-          }),
+                  ),
+                );
+              }),
+            ),
+          ),
         ],
       ),
     );

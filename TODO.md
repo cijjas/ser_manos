@@ -2,13 +2,13 @@
 todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 
 ## 🧪 Funcionalidad y UX
-- [ ] Corregir error de inicio de sesión con usuarios creados en versiones anteriores (rompe retrocompatibilidad).
+- [x] Corregir error de inicio de sesión con usuarios creados en versiones anteriores (rompe retrocompatibilidad). (CHEQUEAR)
 - [ ] Mostrar requisitos para participar en todos los voluntariados (no solo en “Voluntariado de prueba 1b”).
 - [ ] Asignar direcciones diferentes a los voluntariados de prueba.
-- [ ] Corregir márgenes del radio group según el Design System.
-- [ ] Corregir márgenes en la card de detalle de perfil.
-- [ ] Permitir que presionar Enter en el último campo de inicio de sesión envíe el formulario.
-- [ ] Corregir márgenes de la vista “completar perfil” para respetar el Design System.
+- [x] Corregir márgenes del radio group según el Design System.
+- [x] Corregir márgenes en la card de detalle de perfil.
+- [x] Permitir que presionar Enter en el último campo de inicio de sesión envíe el formulario.
+- [x] Corregir márgenes de la vista “completar perfil” para respetar el Design System.
 - [ ] Prevenir error momentáneo al cargar voluntariados tras crear cuenta nueva sin completar perfil.
 - [ ] Evitar re-render innecesario al dar like en cards de voluntariados.
 - [ ] Corregir error al navegar a novedades en cuentas nuevas sin perfil completo.

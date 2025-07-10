@@ -151,6 +151,11 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   hintText: context.strings.password,
                                   validator: _passwordValidator,
                                   textInputAction: TextInputAction.done,
+                                  onFieldSubmitted: (_) {
+                                    if (_canLogin.value && !_isLoading) {
+                                      _handleLogin();
+                                    }
+                                  },
                                 ),
                               ],
                             ),

@@ -212,6 +212,11 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   validator: AppValidators.registerPassword,
                                   onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.done,
+                                  onFieldSubmitted: (_) {
+                                    if (_canRegister.value && !_isLoading) {
+                                      _handleRegister();
+                                    }
+                                  },
                                 ),
                               ],
                             ),

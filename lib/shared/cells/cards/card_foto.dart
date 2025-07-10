@@ -29,11 +29,13 @@ class CardFotoPerfil extends StatelessWidget {
     final bool hasAnyImage = hasLocalImage || hasRemoteImage;
 
     return Container(
+      width: double.infinity,
+      height: hasAnyImage ? 100 : 52,
       margin: const EdgeInsets.symmetric(vertical: 14),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       decoration: BoxDecoration(
         color: AppColors.secondary25,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(4),
       ),
       clipBehavior: Clip.antiAlias,
       child: hasAnyImage
@@ -41,44 +43,69 @@ class CardFotoPerfil extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        context.strings.profilePhoto,
-                        style: AppTypography.subtitle01.copyWith(
-                          color: AppColors.neutral100,
+                  child: Container(
+                    height: 68,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 24,
+                          child: Text(
+                            context.strings.profilePhoto,
+                            style: AppTypography.subtitle01.copyWith(
+                              color: AppColors.neutral100,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(height: 8),
-                      ShortButton(
-                        label: context.strings.changePhoto,
-                        onPressed: isLoading ? null : onChange,
-                      ),
-                    ],
+                        const SizedBox(height: 8),
+                        SizedBox(
+                          width: 107,
+                          height: 36,
+                          child: ShortButton(
+                            label: context.strings.changePhoto,
+                            onPressed: isLoading ? null : onChange,
+                            variant: ShortButtonVariant.compact,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                const SizedBox(width: 16),
-                FotoPerfil.sm(
-                  imageUrl: hasLocalImage ? null : imagenUrlRemota,
-                  localImageFile: imagenLocal,
-                  onTap: isLoading ? null : onChange,
+                const SizedBox(width: 8),
+                Container(
+                  width: 84,
+                  height: 84,
+                  child: FotoPerfil.sm(
+                    imageUrl: hasLocalImage ? null : imagenUrlRemota,
+                    localImageFile: imagenLocal,
+                    onTap: isLoading ? null : onChange,
+                  ),
                 ),
               ],
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  context.strings.profilePhoto,
-                  style: AppTypography.subtitle01.copyWith(
-                    color: AppColors.neutral100,
+                Expanded(
+                  child: Container(
+                    height: 24,
+                    child: Text(
+                      context.strings.profilePhoto,
+                      style: AppTypography.subtitle01.copyWith(
+                        color: AppColors.neutral100,
+                      ),
+                    ),
                   ),
                 ),
-                ShortButton(
-                  label: context.strings.uploadPhoto,
-                  onPressed: isLoading ? null : onChange,
+                const SizedBox(width: 8),
+                SizedBox(
+                  height: 36,
+                  child: ShortButton(
+                    label: context.strings.uploadPhoto,
+                    onPressed: isLoading ? null : onChange,
+                    variant: ShortButtonVariant.compact,
+                  ),
                 ),
               ],
             ),

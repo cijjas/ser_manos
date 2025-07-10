@@ -54,40 +54,66 @@ class PerfilIncompletoPage extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SvgPicture.asset(
-                      AppAssets.profile,
-                      width: 120,
-                      height: 120,
-                      semanticsLabel: 'Avatar placeholder',
-                      colorFilter: const ColorFilter.mode(
-                        AppColors.secondary100,
-                        BlendMode.srcIn,
+                    Container(
+                      width: 100,
+                      height: 100,
+                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 0),
+                      child: SvgPicture.asset(
+                        AppAssets.profile,
+                        width: 100,
+                        height: 100,
+                        semanticsLabel: 'Avatar placeholder',
+                        colorFilter: const ColorFilter.mode(
+                          AppColors.secondary100,
+                          BlendMode.srcIn,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 32),
-                    Text(
-                      role.toUpperCase(),
-                      style: AppTypography.overline.copyWith(
-                        color: AppColors.neutral75,
-                        letterSpacing: 1.5,
+                    Container(
+                      width: 328,
+                      height: 96,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Container(
+                            width: 328,
+                            height: 16,
+                            child: Text(
+                              role.toUpperCase(),
+                              style: AppTypography.overline.copyWith(
+                                color: AppColors.neutral75,
+                                letterSpacing: 1.5,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            width: 328,
+                            height: 24,
+                            child: Text(
+                              name,
+                              style: AppTypography.subtitle01.copyWith(
+                                color: AppColors.neutral100,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                          const SizedBox(height: 8),
+                          Container(
+                            width: 328,
+                            height: 40,
+                            child: Text(
+                              context.strings.completeProfileMessage,
+                              style: AppTypography.body02.copyWith(
+                                color: AppColors.neutral75,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
+                        ],
                       ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 8),
-                    Text(
-                      name,
-                      style: AppTypography.subtitle01.copyWith(
-                        color: AppColors.neutral100,
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                    const SizedBox(height: 16),
-                    Text(
-                      context.strings.completeProfileMessage,
-                      style: AppTypography.body02.copyWith(
-                        color: AppColors.neutral75,
-                      ),
-                      textAlign: TextAlign.center,
                     ),
                   ],
                 ),
@@ -95,24 +121,38 @@ class PerfilIncompletoPage extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
-              child: Column(
-                children: [
-                  Center(
-                    child: ShortButton(
-                      label: context.strings.complete,
-                      icon: Icons.add,
-                      onPressed: onCompletePressed,
-                      variant: ShortButtonVariant.regular,
+              child: Container(
+                width: 328,
+                height: 128,
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 123,
+                        height: 48,
+                        child: ShortButton(
+                          label: context.strings.complete,
+                          icon: Icons.add,
+                          onPressed: onCompletePressed,
+                          variant: ShortButtonVariant.regular,
+                          height: 48,
+                        ),
+                      ),
                     ),
-                  ),
-                  const SizedBox(height: 32),
-                  AppButton(
-                    label: context.strings.logoutButton,
-                    onPressed: () => _showLogoutModal(context),
-                    type: AppButtonType.tonal,
-                    textColor: AppColors.error100,
-                  ),
-                ],
+                    const SizedBox(height: 10),
+                    Container(
+                      width: 308,
+                      height: 44,
+                      child: AppButton(
+                        label: context.strings.logoutButton,
+                        onPressed: () => _showLogoutModal(context),
+                        type: AppButtonType.tonal,
+                        textColor: AppColors.error100,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],

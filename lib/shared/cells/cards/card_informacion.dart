@@ -29,15 +29,11 @@ class CardInformacion extends StatelessWidget {
       ),
       child: Column(
         children: [
-
           // Header
           Container(
             width: double.infinity,
             height: 40,
-            padding: const EdgeInsets.symmetric(
-              vertical: 8,
-              horizontal: 16,
-            ),
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
             decoration: const BoxDecoration(
               color: AppColors.secondary25,
               borderRadius: BorderRadius.vertical(top: Radius.circular(4)),
@@ -48,22 +44,18 @@ class CardInformacion extends StatelessWidget {
               style: AppTypography.subtitle01,
             ),
           ),
-
-          Expanded(
-            child: Container(
-              width: double.infinity,
-              padding: const EdgeInsets.symmetric(
-                vertical: 8,
-                horizontal: 16,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _InfoItem(label1, content1),
-                  _InfoItem(label2, content2),
-                ],
-              ),
+          // Body
+          Container(
+            width: double.infinity,
+            height: 96,
+            padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _InfoItem(label1, content1),
+                const SizedBox(height: 8),
+                _InfoItem(label2, content2),
+              ],
             ),
           ),
         ],
