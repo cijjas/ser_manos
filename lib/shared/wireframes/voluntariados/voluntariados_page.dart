@@ -9,6 +9,7 @@ import 'package:ser_manos/shared/wireframes/voluntariados/voluntariado_list.dart
 import 'package:ser_manos/utils/app_strings.dart';
 
 import '../../../constants/app_routes.dart';
+import '../../../models/voluntariado.dart';
 import '../../../providers/user_provider.dart';
 import '../../../providers/voluntariado_provider.dart';
 import '../../cells/cards/card_voluntariado_actual.dart';
@@ -84,6 +85,8 @@ class _SearchAndToggleViewHeaderState
   }
 }
 
+final lastVoluntariadoProvider = StateProvider<Voluntariado?>((ref) => null);
+
 class ParticipatingVoluntariadoSection extends ConsumerWidget {
   const ParticipatingVoluntariadoSection({super.key});
 
@@ -91,35 +94,47 @@ class ParticipatingVoluntariadoSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final participatingVoluntariado =
         ref.watch(voluntariadoParticipatingProvider);
+    final lastVoluntariado = ref.watch(lastVoluntariadoProvider);
 
     return participatingVoluntariado.when(
       skipLoadingOnRefresh: true,
       data: (voluntariado) {
         if (voluntariado == null) return const SizedBox();
-
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(context.strings.yourActivity, style: AppTypography.headline01),
-            const SizedBox(height: 16),
-            SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 16),
-              child: CardVoluntariadoActual(
-                voluntariado: voluntariado,
-                onTap: () => context.pushNamed(
-                  RouteNames.volunteeringDetails,
-                  pathParameters: {'id': voluntariado.id},
-                ),
-              ),
-            ),
-          ],
-        );
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(lastVoluntariadoProvider.notifier).state = voluntariado;
+        });
+        return buildParticipatingVoluntariado(context, voluntariado);
       },
       error: (e, _) => VoluntariadoError(
           message: "Error al cargar tu actividad.\n${e.toString()}"),
-      loading: () => const SizedBox(),
+      loading: () {
+        if (lastVoluntariado != null) {
+          return buildParticipatingVoluntariado(context, lastVoluntariado);
+        }
+        return const SizedBox();
+      },
     );
   }
+}
+
+Widget buildParticipatingVoluntariado(BuildContext context, Voluntariado voluntariado) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(context.strings.yourActivity, style: AppTypography.headline01),
+      const SizedBox(height: 16),
+      SingleChildScrollView(
+        padding: const EdgeInsets.only(bottom: 16),
+        child: CardVoluntariadoActual(
+          voluntariado: voluntariado,
+          onTap: () => context.pushNamed(
+            RouteNames.volunteeringDetails,
+            pathParameters: {'id': voluntariado.id},
+          ),
+        ),
+      ),
+    ],
+  );
 }
 
 class VoluntariadosListSection extends ConsumerWidget {

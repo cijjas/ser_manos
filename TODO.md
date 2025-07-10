@@ -1,65 +1,39 @@
-# ✅ Correcciones Grupo 3 – To-Do List
+# Crear el contenido del archivo TODO en formato Markdown
+todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 
 ## 🧪 Funcionalidad y UX
+- [ ] Corregir error de inicio de sesión con usuarios creados en versiones anteriores (rompe retrocompatibilidad).
+- [ ] Mostrar requisitos para participar en todos los voluntariados (no solo en “Voluntariado de prueba 1b”).
+- [ ] Asignar direcciones diferentes a los voluntariados de prueba.
+- [ ] Corregir márgenes del radio group según el Design System.
+- [ ] Corregir márgenes en la card de detalle de perfil.
+- [ ] Permitir que presionar Enter en el último campo de inicio de sesión envíe el formulario.
+- [ ] Corregir márgenes de la vista “completar perfil” para respetar el Design System.
+- [ ] Prevenir error momentáneo al cargar voluntariados tras crear cuenta nueva sin completar perfil.
+- [ ] Evitar re-render innecesario al dar like en cards de voluntariados.
+- [ ] Corregir error al navegar a novedades en cuentas nuevas sin perfil completo.
+- [ ] Revisar manejo de sesión para cuentas recién creadas.
+- [ ] Corregir márgenes del modal de perfil según el Design System.
+- [ ] Reemplazar logo de baja calidad por uno de mejor resolución.
+- [ ] Corregir actualización inconsistente de email (aparece erróneamente como mail primario en la sesión tras editar perfil).
 
-- [ ] Implementar vista para abandonar voluntariado actual. -> No la entendi. yo
-      tampoco? quizas poruqe no les funcionaba el detalle no podian ver el
-      abandonar voluntariado? no se no entiendo
-- [ ] Corregir error al ingresar a vistas de detalle de voluntariados en
-      producción. -> No lo puedo reproducir
-- [x] Corregir navegación entre inputs en formularios (Tab o Enter no cambia de
-      input).
-- [x] Unificar idioma en los textos de validación (no mezclar inglés y español).
-- [x] Ajustar separación entre chip de vacantes y títulos según el Design
-      System.
-- [x] El ícono de “list view” en la search bar debe tener funcionalidad o
-      eliminarse.
-- [x] Implementar técnica de `debounce` en el buscador.
-- [x] Corregir animación indeseada al presionar las tabs de navegación en
-      Android.
-- [x] Hacer que el fondo de las cards de noticias también sea un touch target.
-- [x] Evitar doble subida de foto en la vista de completar perfil.
-- [x] El botón “guardar perfil” no debe estar habilitado si no hay cambios.
-- [x] Arreglar subida de fotos vía cámara en Android (error actual).
-- [x] Permitir editar datos del perfil sin necesidad de subir nueva foto.
-- [x] Corregir re-render de todas las cards al likear una (mejorar manejo de
-      estado). (NO se re renderizaban, solo aparecia un loading extra del
-      current que las sacaba de lugar)
-- [x] Evitar mostrar errores crudos de Firebase mediante snackbars.
-- [x] Reemplazar coordenadas por nombre de calle en el campo dirección.
-- [x] Manejar error 503 al subir imagen de voluntariado. -> No es error del
-      link, si no del proveedor de imágenes que usamos. Usar otro? Usar storage?
-- [x] Mostrar voluntariado en actividad luego de postularse y ser confirmado.
+## 🔗 Deep Linking
+- [ ] Hacer que los deep links funcionen en dispositivos físicos.
+- [ ] Documentar la estrategia de deep linking (ej. agregar links verificados en Android).
+- [ ] Corregir funcionamiento de deep links para la próxima entrega.
 
-## 🧾 Documentación
+## 📝 Documentación y Código
+- [x] Corregir errores de formato Markdown en el README.
+- [ ] Separar sección de aceptación de voluntariados en README y enlazarla desde “How to test push notifications”.
+- [ ] Agregar nueva línea al final del archivo en `.fvmrc`, `.gitignore`, `app_routes.dart`, `trim_converter.dart`, `novedad.dart`, etc. (recomendar linter/IDE rule).
+- [~] Unificar idioma en los íconos (`app_icons.dart`) y en los modelos (evitar mezclar inglés y español).
+- [ ] Eliminar comentarios redundantes en español en modelos.
+- [ ] Decidir entre español o inglés como idioma general del código/documentación.
+- [ ] Mantener consistencia entre la versión del tag/release y la del `pubspec.yaml`.
 
-- [x] Explicar cómo crear una noticia que dispare la función de notificación en
-      Firebase.
-- [x] Mejorar especificidad de métrica `screen_view`.
-- [x] Usar `markdownlint` para mejorar formato del README.
-- [x] Describir cómo aceptar un voluntariado en el README.
-- [x] Corregir typo en nombre del proyecto de Firebase.
-- [x] Asegurarse de agregar a los profesores como editores en Firebase.
+# Guardar el contenido en un archivo .md
+file_path = "/mnt/data/Correcciones_Grupo3_TODO.md"
+with open(file_path, "w") as f:
+f.write(todo_md_content)
 
-## 🧹 Limpieza del Proyecto
-
-- [x] Agregar `const` en constructores donde corresponda.
-- [x] Explicar propósito del directorio `coverage` o eliminarlo si no se usa.
-- [x] Eliminar comentarios generados por LLMs.
-- [x] No incluir directorios innecesarios (`windows`, `macos`, `linux`) si no
-      aplican.
-- [x] Eliminar archivos irrelevantes como `todo.txt` y `preguntas.txt`.
-- [x] Eliminar `prints` en código productivo.
-- [x] Renombrar estado `applied` a `pending`.
-- [x] Cambiar el uso de `flutter pub run build_runner build` a
-      `dart run build_runner build --delete-conflicting-outputs`.
-
-## 🛠️ Mejores Prácticas
-
-- [x] Resolver los issues detectados por `flutter analyze` -> Dejar para el
-      final
-- [ ] Corregir error al correr `flutter pub get` por primera vez.
-- [x] Centralizar rutas y assets en clases como `AppAssets` y `AppRoutes`
-      (evitar strings hardcodeadas).
-- [x] Usar un único idioma para rutas (`/home/profile`, `/home/postularse`,
-      etc.).
+file_path

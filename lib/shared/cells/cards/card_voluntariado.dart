@@ -91,7 +91,7 @@ class CardVoluntariado extends StatelessWidget {
                           }
                         },
                         child: AppIcon(
-                          icon: isLiked ? AppIcons.favorito : AppIcons.favoritoOutline,
+                          icon: isLiked ? AppIcons.favorite : AppIcons.favoriteOutline,
                           size: 24,
                           color: AppIconsColor.primary,
                         )),
@@ -104,7 +104,7 @@ class CardVoluntariado extends StatelessWidget {
                         );
                       },
                       child: const AppIcon(
-                        icon: AppIcons.ubicacion,
+                        icon: AppIcons.location,
                         size: 24,
                         color: AppIconsColor.primary,
                       ),

@@ -32,7 +32,7 @@ class AppHeaderSection extends StatelessWidget {
                 color: Colors.transparent,
                 child: GestureDetector(
                   onTap: () => context.pop(),
-                  child: const AppIcon(icon: AppIcons.atras),
+                  child: const AppIcon(icon: AppIcons.back),
                 ),
               ),
               const SizedBox(width: 16),

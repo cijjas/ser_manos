@@ -23,7 +23,7 @@ void main() {
         widget: _appFrame(
           const SearchField(
             emptySuffix: AppIcon(
-              icon: AppIcons.lista,
+              icon: AppIcons.list,
               color: AppIconsColor.primary,
             ),
           ),
@@ -36,9 +36,9 @@ void main() {
         name: 'typed text (light)',
         widget: _appFrame(
           SearchField(
-            controller: TextEditingController(text: 'comedor'),
+            controller: TextEditingController(text: 'cafeteria'),
             emptySuffix: const AppIcon(
-              icon: AppIcons.lista,
+              icon: AppIcons.list,
               color: AppIconsColor.primary,
             ),
           ),
@@ -52,7 +52,7 @@ void main() {
         widget: _appFrame(
           const SearchField(
             emptySuffix: AppIcon(
-              icon: AppIcons.lista,
+              icon: AppIcons.list,
               color: AppIconsColor.primary,
             ),
           ),
