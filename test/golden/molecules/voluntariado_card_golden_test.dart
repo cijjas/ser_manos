@@ -18,6 +18,7 @@ Voluntariado fakeVol() => Voluntariado(
       resumen: 'Comedor parroquial',
       requisitos: 'Ganas de ayudar',
       createdAt: DateTime(2025),
+      costo: 20.0,
     );
 
 Widget wrap(Widget child, ThemeData theme) =>

@@ -27,6 +27,7 @@ Voluntariado fakeVol(String id) => Voluntariado(
       resumen: 'Resumen $id',
       requisitos: 'Requisitos',
       createdAt: DateTime(2025),
+      costo: 90.0,
     );
 
 const fakeUser = User(

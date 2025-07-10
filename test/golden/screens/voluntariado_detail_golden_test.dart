@@ -48,6 +48,7 @@ Voluntariado _fakeVol(String id) => Voluntariado(
       resumen: 'Ayudamos a quienes más lo necesitan.',
       requisitos: '* Compromiso\n* Tiempo libre',
       createdAt: DateTime(2025),
+      costo: 1000.0,
     );
 
 const _fakeUser = User(

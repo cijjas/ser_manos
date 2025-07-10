@@ -78,6 +78,7 @@ void main() {
         resumen:     'res',
         requisitos:  'req',
         createdAt:   DateTime(2025),
+        costo: 10.0,
       );
 
       domainUser = const domain.User(
