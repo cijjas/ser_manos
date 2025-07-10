@@ -82,11 +82,6 @@
     "description": "Surname field hint text"
   },
 
-  "phone": "Phone",
-  "@phone": {
-    "description": "Phone field label"
-  },
-
   "phoneHint": "e.g. +5491178445459",
   "@phoneHint": {
     "description": "Phone field hint text"
@@ -170,11 +165,6 @@
   "cancel": "Cancel",
   "@cancel": {
     "description": "Cancel button label"
-  },
-
-  "confirm": "Confirm",
-  "@confirm": {
-    "description": "Confirm button label"
   },
 
   "profilePhoto": "Profile photo",
@@ -312,11 +302,6 @@
     "description": "Share this note section title"
   },
 
-  "share": "Share",
-  "@share": {
-    "description": "Share button label"
-  },
-
   "loadNewsError": "An error occurred loading the news.",
   "@loadNewsError": {
     "description": "Error message when loading news fails"
@@ -446,11 +431,6 @@
   "leaveCurrentVolunteering": "Leave current volunteering",
   "@leaveCurrentVolunteering": {
     "description": "Leave current volunteering action"
-  },
-
-  "cancel": "Cancel",
-  "@cancel": {
-    "description": "Cancel button label"
   },
 
   "birthDate": "Birth Date",
@@ -588,12 +568,6 @@
   "@volunteer": {
     "description": "Volunteer role"
   },
-
-  "changePhoto": "Change photo",
-  "@changePhoto": {
-    "description": "Change photo button label"
-  },
-
 
   "readMore": "Read More",
   "@readMore": {

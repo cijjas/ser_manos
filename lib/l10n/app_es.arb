@@ -1,7 +1,6 @@
 {
   "@@locale": "es",
   "@@last_modified": "2025-06-30T12:00:00.000Z",
-  
   "appTitle": "SerManos",
   "loginPageTitle": "Iniciar Sesión",
   "registerPageTitle": "Registrarse",
@@ -59,7 +58,6 @@
   "passwordTooShortError": "La contraseña debe tener al menos 6 caracteres",
   "invalidPhoneError": "Ingresá un teléfono válido",
   "addressErrorMessage": "No se pudo obtener la dirección",
-  
   "loggingIn": "Iniciando sesión...",
   "noAccount": "No tengo cuenta",
   "registering": "Registrando...",
@@ -74,265 +72,52 @@
   "loadAddressError": "Error al cargar la dirección. Intenta de nuevo.",
   "leaveCurrentVolunteering": "Abandonar voluntariado actual",
   "logoutConfirmTitle": "¿Estás seguro que quieres cerrar sesión?",
-  "@logoutConfirmTitle": {
-    "description": "Title for logout confirmation modal"
-  },
-
   "logoutButton": "Cerrar sesión",
-  "@logoutButton": {
-    "description": "Label for logout button"
-  },
-
-  "cancel": "Cancelar",
-  "@cancel": {
-    "description": "Cancel button label"
-  },
-
   "personalInformation": "Información personal",
-  "@personalInformation": {
-    "description": "Personal information section title"
-  },
-
-  "contactData": "Datos de contacto",
-  "@contactData": {
-    "description": "Contact data section title"
-  },
-
   "birthDate": "Fecha de nacimiento",
-  "@birthDate": {
-    "description": "Birth date field label"
-  },
-
   "gender": "Género",
-  "@gender": {
-    "description": "Gender field label"
-  },
-
-  "phone": "Teléfono",
-  "@phone": {
-    "description": "Phone field label"
-  },
-
   "editProfile": "Editar perfil",
-  "@editProfile": {
-    "description": "Edit profile button label"
-  },
-
   "completeProfileMessage": "¡Completá tu perfil para tener\nacceso a mejores oportunidades!",
-  "@completeProfileMessage": {
-    "description": "Message encouraging profile completion"
-  },
-
   "complete": "Completar",
-  "@complete": {
-    "description": "Complete button label"
-  },
-
   "applyError": "Error al postularte. Intenta de nuevo.",
-  "@applyError": {
-    "description": "Error message when application fails"
-  },
-
   "withdrawError": "Error al retirar la postulación. Intenta de nuevo.",
-  "@withdrawError": {
-    "description": "Error message when withdrawing application fails"
-  },
-
   "abandonError": "Error al abandonar el voluntariado. Intenta de nuevo.",
-  "@abandonError": {
-    "description": "Error message when abandoning volunteering fails"
-  },
-
   "aboutActivity": "Sobre la actividad",
-  "@aboutActivity": {
-    "description": "Section title for activity description"
-  },
-
   "participateVolunteering": "Participar del voluntariado",
-  "@participateVolunteering": {
-    "description": "Section title for participation requirements"
-  },
-
   "applyButton": "Postularme",
-  "@applyButton": {
-    "description": "Apply button label"
-  },
-
   "applyButtonLabel": "Postularme",
-  "@applyButtonLabel": {
-    "description": "Apply button label for tab navigation"
-  },
-
   "withdrawApplication": "Retirar postulación",
-  "@withdrawApplication": {
-    "description": "Withdraw application button label"
-  },
-
   "alreadyParticipating": "Ya estas participando en otro voluntariado, debes abandonarlo primero para postularte a este.",
-  "@alreadyParticipating": {
-    "description": "Message when user is already participating in another volunteering"
-  },
-
   "appliedTitle": "Te has postulado",
-  "@appliedTitle": {
-    "description": "Title when user has applied"
-  },
-
   "appliedSubtitle": "Pronto la organización se pondrá en contacto\ncontigo y te inscribirá como participante.",
-  "@appliedSubtitle": {
-    "description": "Subtitle when user has applied"
-  },
-
   "participatingTitle": "Estas participando",
-  "@participatingTitle": {
-    "description": "Title when user is participating"
-  },
-
   "participatingSubtitle": "La organización confirmó que ya estas\nparticipando de este voluntariado",
-  "@participatingSubtitle": {
-    "description": "Subtitle when user is participating"
-  },
-
   "leaveVolunteering": "Abandonar voluntariado",
-  "@leaveVolunteering": {
-    "description": "Leave volunteering action"
-  },
-
   "noVacanciesMessage": "No hay vacantes disponibles para postularse",
-  "@noVacanciesMessage": {
-    "description": "Message when no vacancies are available"
-  },
-
-  "confirm": "Confirmar",
-  "@confirm": {
-    "description": "Confirm button label"
-  },
-
   "postulateActionMessage": "Te estás por postular a",
-  "@postulateActionMessage": {
-    "description": "Message when user is about to apply"
-  },
-
   "withdrawActionMessage": "¿Estás seguro de que quieres retirar tu postulación?",
-  "@withdrawActionMessage": {
-    "description": "Message when user wants to withdraw application"
-  },
-
   "abandonActionMessage": "¿Estás seguro de que quieres abandonar tu voluntariado?",
-  "@abandonActionMessage": {
-    "description": "Message when user wants to abandon volunteering"
-  },
-
   "shareErrorMessage": "Ocurrió un error inesperado, intentalo en un rato.",
-  "@shareErrorMessage": {
-    "description": "Error message when sharing fails"
-  },
-
   "loadNewsError": "Ocurrió un error al cargar la novedad.",
-  "@loadNewsError": {
-    "description": "Error message when loading news fails"
-  },
-
   "shareThisNote": "Comparte esta nota",
-  "@shareThisNote": {
-    "description": "Share section title"
-  },
-
   "share": "Compartir",
-  "@share": {
-    "description": "Share button label"
-  },
-
   "discoverMore": "Descubre más aquí:",
-  "@discoverMore": {
-    "description": "Text before shared URL"
-  },
-
   "profilePhoto": "Foto de perfil",
-  "@profilePhoto": {
-    "description": "Accessibility label for profile photo"
-  },
-
   "news": "Novedades",
-  "@news": {
-    "description": "News section title"
-  },
-
   "noNewsYet": "Aún no hay novedades.",
-  "@noNewsYet": {
-    "description": "Message when there are no news items"
-  },
-
   "vacancies_dot": "Vacantes:",
-  "@vacancies_dot": {
-    "description": "Label for vacancies count"
-  },
-
   "error": "Error",
-  "@error": {
-    "description": "Error page title"
-  },
-
   "unexpectedError": "Ocurrió un error inesperado, intentalo en un rato.",
-  "@unexpectedError": {
-    "description": "Default error message"
-  },
-
   "goBack": "Volver",
-  "@goBack": {
-    "description": "Go back button label"
-  },
-
   "noVolunteeringForSearch": "No hay voluntariados vigentes para tu búsqueda.",
-  "@noVolunteeringForSearch": {
-    "description": "Message when search returns no volunteering results"
-  },
-
   "noVolunteeringAvailable": "Actualmente no hay voluntariados vigentes. Pronto se irán incorporando nuevos.",
-  "@noVolunteeringAvailable": {
-    "description": "Message when no volunteering opportunities are available"
-  },
-
   "volunteer": "Voluntario",
-  "@volunteer": {
-    "description": "Volunteer role"
-  },
-
-
   "uploadPhoto": "Subir foto",
-  "@uploadPhoto": {
-    "description": "Upload photo button label"
-  },
-
   "readMore": "Leer Más",
-  "@readMore": {
-    "description": "Read more link on news cards"
-  },
-
   "volunteerCostLabel": "Costo",
-  "@volunteerCostLabel": {
-    "description": "Etiqueta para el costo del voluntariado"
-  },
-
   "volunteerCreatedAtLabel": "Creado el",
-  "@volunteerCreatedAtLabel": {
-    "description": "Etiqueta para la fecha de creación del voluntariado"
-  },
-
   "completeProfileFirstMessage": "Para postularte debes primero completar tus datos.",
-  "@completeProfileFirstMessage": {
-    "description": "Mensaje mostrado cuando el usuario debe completar el perfil antes de postularse."
-  },
   "confirmLabel": "Confirmar",
-  "@confirmLabel": {
-    "description": "Etiqueta para el botón de confirmar en diálogos."
-  },
   "loadActivityError": "Error al cargar tu actividad.",
-  "@loadActivityError": {
-    "description": "Mensaje de error al cargar la actividad del usuario."
-  },
-  "loadVolunteeringError": "Error al cargar los voluntariados.",
-  "@loadVolunteeringError": {
-    "description": "Mensaje de error al cargar los voluntariados."
-  }
+  "loadVolunteeringError": "Error al cargar los voluntariados."
 }
