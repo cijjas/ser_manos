@@ -31,7 +31,7 @@ class CardFotoPerfil extends StatelessWidget {
     return Container(
       width: double.infinity,
       height: hasAnyImage ? 100 : 52,
-      margin: const EdgeInsets.symmetric(vertical: 14),
+      margin: EdgeInsets.zero,
       padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
       decoration: BoxDecoration(
         color: AppColors.secondary25,
@@ -43,33 +43,27 @@ class CardFotoPerfil extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Expanded(
-                  child: Container(
-                    height: 68,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 24,
-                          child: Text(
-                            context.strings.profilePhoto,
-                            style: AppTypography.subtitle01.copyWith(
-                              color: AppColors.neutral100,
-                            ),
-                          ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.strings.profilePhoto,
+                        style: AppTypography.subtitle01.copyWith(
+                          color: AppColors.neutral100,
                         ),
-                        const SizedBox(height: 8),
-                        SizedBox(
-                          width: 107,
-                          height: 36,
-                          child: ShortButton(
-                            label: context.strings.changePhoto,
-                            onPressed: isLoading ? null : onChange,
-                            variant: ShortButtonVariant.compact,
-                          ),
+                      ),
+                      const SizedBox(height: 8),
+                      SizedBox(
+                        width: 107,
+                        height: 36,
+                        child: ShortButton(
+                          label: context.strings.changePhoto,
+                          onPressed: isLoading ? null : onChange,
+                          variant: ShortButtonVariant.compact,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 8),
