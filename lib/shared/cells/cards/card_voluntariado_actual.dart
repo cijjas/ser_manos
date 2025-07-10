@@ -46,8 +46,8 @@ class CardVoluntariadoActual extends CardVoluntariado {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(voluntariado.tipo.toUpperCase(), style: AppTypography.caption),
-                        Text(voluntariado.nombre, style: AppTypography.subtitle01)
+                        Text(voluntariado.type.toUpperCase(), style: AppTypography.caption),
+                        Text(voluntariado.name, style: AppTypography.subtitle01)
                       ],
                     )
                   ],

@@ -9,16 +9,16 @@ import '../../utils/test_utils.dart';
 
 Voluntariado fakeVol() => Voluntariado(
       id: 'v1',
-      nombre: 'Comedor San José',
-      tipo: 'Alimentos',
-      vacantes: 3,
+      name: 'Comedor San José',
+      type: 'Alimentos',
+      vacancies: 3,
       location: const LatLng(-34.6, -58.4),
       imageUrl: 'https://example.com/stub.png',
-      descripcion: 'Ayuda a servir comidas',
-      resumen: 'Comedor parroquial',
-      requisitos: 'Ganas de ayudar',
+      description: 'Ayuda a servir comidas',
+      summary: 'Comedor parroquial',
+      requirements: 'Ganas de ayudar',
       createdAt: DateTime(2025),
-      costo: 20.0,
+      cost: 20.0,
     );
 
 Widget wrap(Widget child, ThemeData theme) =>

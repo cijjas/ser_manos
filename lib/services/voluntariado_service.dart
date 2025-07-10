@@ -29,9 +29,9 @@ class VoluntariadoService {
       final docs = snap.docs
           .map((doc) => Voluntariado.fromJson(doc.id, doc.data()))
           .where((v) =>
-      v.nombre.toLowerCase().contains(lower) ||
-          v.descripcion.toLowerCase().contains(lower) ||
-          v.tipo.toLowerCase().contains(lower))
+      v.name.toLowerCase().contains(lower) ||
+          v.description.toLowerCase().contains(lower) ||
+          v.type.toLowerCase().contains(lower))
           .toList();
 
       docs.sort((a, b) {

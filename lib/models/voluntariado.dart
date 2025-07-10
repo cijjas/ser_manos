@@ -21,23 +21,23 @@ enum VoluntariadoStatus {
 
 @freezed
 class Voluntariado with _$Voluntariado {
+  const Voluntariado._();
   const factory Voluntariado({
     required String id,
-    required String nombre,
-    required String tipo,
-    required int vacantes,
-    @GeoPointConverter() required LatLng location,
-    @TrimConverter() required String imageUrl,
-    required String descripcion,
-    required String resumen,
-    required String requisitos,
-    required double costo,
-    @TimestampConverter() required DateTime createdAt,
+    @JsonKey(name: 'nombre') required String name,
+    @JsonKey(name: 'tipo') required String type,
+    @JsonKey(name: 'vacantes') required int vacancies,
+    @GeoPointConverter() @JsonKey(name: 'location') required LatLng location,
+    @TrimConverter() @JsonKey(name: 'imageUrl') required String imageUrl,
+    @JsonKey(name: 'descripcion') required String description,
+    @JsonKey(name: 'resumen') required String summary,
+    @JsonKey(name: 'requisitos') required String requirements,
+    @JsonKey(name: 'costo') required double cost,
+    @TimestampConverter() @JsonKey(name: 'createdAt') required DateTime createdAt,
   }) = _Voluntariado;
 
-  factory Voluntariado.fromJson(String id, Map<String, dynamic> json) =>
-      _$VoluntariadoFromJson({
-        "id": id,
-        ...json,
-      });
+  factory Voluntariado.fromJson(String id, Map<String, dynamic> json) => _$VoluntariadoFromJson({
+    'id': id,
+    ...json,
+  });
 }

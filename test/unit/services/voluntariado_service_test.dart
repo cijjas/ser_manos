@@ -26,6 +26,7 @@ Future<void> addVol({
     'resumen'       : 'res',
     'requisitos'    : 'req',
     'createdAt'     : ts(2025),
+    'costo': 0,
   });
 }
 
@@ -50,7 +51,7 @@ void main() {
 
     final v = await sut.watchOne('v1').first;
     expect(v.id,     'v1');
-    expect(v.nombre, 'Comedor');
+    expect(v.name, 'Comedor');
   });
 
   test('watchFiltered acota resultados por texto', () async {

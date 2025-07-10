@@ -19,6 +19,7 @@ void main() {
       'resumen': 'Comedor comunitario',
       'requisitos': 'Buena onda y compromiso',
       'createdAt': ts,
+      'costo': 0,
     };
 
     test('fromJson convierte GeoPoint y Timestamp correctamente', () {
@@ -27,7 +28,7 @@ void main() {
       expect(v.id, 'v123');
       expect(v.location, const LatLng(-34.6037, -58.3816)); // GeoPoint a LatLng
       expect(v.createdAt, ts.toDate());                     // Timestamp a DateTime
-      expect(v.vacantes, 5);
+      expect(v.vacancies, 5);
     });
 
     test('toJson lleva LatLng y DateTime de vuelta a GeoPoint/Timestamp', () {
@@ -58,10 +59,10 @@ void main() {
 
     test('copyWith no muta la instancia original', () {
       final base     = Voluntariado.fromJson('v123', firestoreJson);
-      final modified = base.copyWith(vacantes: 0); // sin plazas
+      final modified = base.copyWith(vacancies: 0); // sin plazas
 
-      expect(base.vacantes, 5);
-      expect(modified.vacantes, 0);
+      expect(base.vacancies, 5);
+      expect(modified.vacancies, 0);
       expect(base, isNot(modified));
     });
   });

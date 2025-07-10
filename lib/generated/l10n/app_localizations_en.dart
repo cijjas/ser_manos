@@ -57,9 +57,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get surnameHint => 'e.g. Smith';
 
   @override
-  String get phone => 'Phone';
-
-  @override
   String get phoneHint => 'e.g. +5491178445459';
 
   @override
@@ -109,9 +106,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get cancel => 'Cancel';
-
-  @override
-  String get confirm => 'Confirm';
 
   @override
   String get profilePhoto => 'Profile photo';
@@ -193,9 +187,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareThisNote => 'Share This Note';
-
-  @override
-  String get share => 'Share';
 
   @override
   String get loadNewsError => 'An error occurred loading the news.';
@@ -282,6 +273,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get gender => 'Gender';
 
   @override
+  String get phone => 'Phone';
+
+  @override
   String get completeProfileMessage => 'Complete your profile to get\naccess to better opportunities!';
 
   @override
@@ -312,6 +306,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get noVacanciesMessage => 'No vacancies available to apply';
 
   @override
+  String get confirm => 'Confirm';
+
+  @override
   String get postulateActionMessage => 'You are about to apply to';
 
   @override
@@ -322,6 +319,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shareErrorMessage => 'An unexpected error occurred, try again later.';
+
+  @override
+  String get share => 'Share';
 
   @override
   String get discoverMore => 'Discover more here:';

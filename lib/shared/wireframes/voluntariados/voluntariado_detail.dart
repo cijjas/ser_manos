@@ -45,8 +45,8 @@ class _VoluntariadoDetallePageState
       name: 'apply_for_volunteering',
       parameters: {
         'voluntariado_id': voluntariado.id,
-        'voluntariado_name': voluntariado.nombre,
-        'voluntariado_type': voluntariado.tipo,
+        'voluntariado_name': voluntariado.name,
+        'voluntariado_type': voluntariado.type,
       },
     );
 
@@ -81,7 +81,7 @@ class _VoluntariadoDetallePageState
       name: 'withdraw_application',
       parameters: {
         'voluntariado_id': participatingVoluntariado.id,
-        'voluntariado_name': participatingVoluntariado.nombre,
+        'voluntariado_name': participatingVoluntariado.name,
       },
     );
 
@@ -116,7 +116,7 @@ class _VoluntariadoDetallePageState
       name: 'abandon_volunteering',
       parameters: {
         'voluntariado_id': participatingVoluntariado.id,
-        'voluntariado_name': participatingVoluntariado.nombre,
+        'voluntariado_name': participatingVoluntariado.name,
       },
     );
 
@@ -360,21 +360,21 @@ class _VoluntariadoDetallePageState
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(voluntariado.tipo.toUpperCase(),
+                        Text(voluntariado.type.toUpperCase(),
                             style: AppTypography.overline
                                 .copyWith(color: AppColors.neutral75)),
                         const SizedBox(height: 4),
-                        Text(voluntariado.nombre,
+                        Text(voluntariado.name,
                             style: AppTypography.headline01),
                         const SizedBox(height: 16),
-                        Text(voluntariado.resumen,
+                        Text(voluntariado.summary,
                             style: AppTypography.body01
                                 .copyWith(color: AppColors.secondary200)),
                         const SizedBox(height: 32),
                         Text(context.strings.aboutActivity,
                             style: AppTypography.headline02),
                         const SizedBox(height: 8),
-                        Text(voluntariado.descripcion,
+                        Text(voluntariado.description,
                             style: AppTypography.body01),
                         const SizedBox(height: 32),
                         _LocationCard(
@@ -385,7 +385,7 @@ class _VoluntariadoDetallePageState
                             style: AppTypography.headline02),
                         const SizedBox(height: 16),
                         MarkdownBody(
-                          data: voluntariado.requisitos,
+                          data: voluntariado.requirements,
                           styleSheet:
                               MarkdownStyleSheet.fromTheme(Theme.of(context))
                                   .copyWith(
@@ -393,7 +393,7 @@ class _VoluntariadoDetallePageState
                           ),
                         ),
                         const SizedBox(height: 24),
-                        VacantsDisplay(number: voluntariado.vacantes),
+                        VacantsDisplay(number: voluntariado.vacancies),
                         const SizedBox(height: 16),
                         Padding(
                           padding: const EdgeInsets.only(bottom: 16),
@@ -403,7 +403,7 @@ class _VoluntariadoDetallePageState
                               Text(
                                 // Localized cost label and value
                                 '${context.strings.volunteerCostLabel}: '
-                                '${NumberFormat.simpleCurrency(locale: Localizations.localeOf(context).toString()).format(voluntariado.costo)}',
+                                '${NumberFormat.simpleCurrency(locale: Localizations.localeOf(context).toString()).format(voluntariado.cost)}',
                                 style: AppTypography.body01,
                               ),
                               const SizedBox(height: 4),
@@ -461,7 +461,7 @@ void _showConfirmModal(BuildContext context, Voluntariado voluntariado,
   showDialog(
     context: context,
     builder: (context) => ConfirmApplicationModal(
-      title: voluntariado.nombre,
+      title: voluntariado.name,
       onConfirm: () {
         Navigator.pop(context);
         onConfirm();
@@ -749,7 +749,7 @@ VoluntariadoUserState _determineUserState(
     return VoluntariadoUserState.busyOtherPending;
   }
 
-  if (voluntariado.vacantes <= 0) {
+  if (voluntariado.vacancies <= 0) {
     return VoluntariadoUserState.full;
   }
 

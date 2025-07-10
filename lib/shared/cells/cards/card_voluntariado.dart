@@ -75,11 +75,11 @@ class CardVoluntariado extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(voluntariado.tipo.toUpperCase(),
+                    Text(voluntariado.type.toUpperCase(),
                         style: AppTypography.overline),
-                    Text(voluntariado.nombre, style: AppTypography.subtitle01),
+                    Text(voluntariado.name, style: AppTypography.subtitle01),
                     const SizedBox(height: 4),
-                    VacantsDisplay(number: voluntariado.vacantes),
+                    VacantsDisplay(number: voluntariado.vacancies),
                   ],
                 ),
                 Row(

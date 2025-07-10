@@ -69,16 +69,16 @@ void main() {
 
       vol1 = Voluntariado(
         id:          'v1',
-        nombre:      'Comedor',
-        tipo:        'Alimentos',
-        vacantes:    3,
+        name:        'Comedor',
+        type:        'Alimentos',
+        vacancies:   3,
         location:    const LatLng(0, 0),
         imageUrl:    'img',
-        descripcion: 'desc',
-        resumen:     'res',
-        requisitos:  'req',
+        description: 'desc',
+        summary:     'res',
+        requirements:'req',
         createdAt:   DateTime(2025),
-        costo: 10.0,
+        cost:        10.0,
       );
 
       domainUser = const domain.User(

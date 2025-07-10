@@ -9,16 +9,16 @@ part of 'voluntariado.dart';
 _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
     _$VoluntariadoImpl(
       id: json['id'] as String,
-      nombre: json['nombre'] as String,
-      tipo: json['tipo'] as String,
-      vacantes: (json['vacantes'] as num).toInt(),
+      name: json['nombre'] as String,
+      type: json['tipo'] as String,
+      vacancies: (json['vacantes'] as num).toInt(),
       location:
           const GeoPointConverter().fromJson(json['location'] as GeoPoint),
       imageUrl: const TrimConverter().fromJson(json['imageUrl']),
-      descripcion: json['descripcion'] as String,
-      resumen: json['resumen'] as String,
-      requisitos: json['requisitos'] as String,
-      costo: (json['costo'] as num).toDouble(),
+      description: json['descripcion'] as String,
+      summary: json['resumen'] as String,
+      requirements: json['requisitos'] as String,
+      cost: (json['costo'] as num).toDouble(),
       createdAt:
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
     );
@@ -26,14 +26,14 @@ _$VoluntariadoImpl _$$VoluntariadoImplFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$VoluntariadoImplToJson(_$VoluntariadoImpl instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'nombre': instance.nombre,
-      'tipo': instance.tipo,
-      'vacantes': instance.vacantes,
+      'nombre': instance.name,
+      'tipo': instance.type,
+      'vacantes': instance.vacancies,
       'location': const GeoPointConverter().toJson(instance.location),
       'imageUrl': const TrimConverter().toJson(instance.imageUrl),
-      'descripcion': instance.descripcion,
-      'resumen': instance.resumen,
-      'requisitos': instance.requisitos,
-      'costo': instance.costo,
+      'descripcion': instance.description,
+      'resumen': instance.summary,
+      'requisitos': instance.requirements,
+      'costo': instance.cost,
       'createdAt': const TimestampConverter().toJson(instance.createdAt),
     };

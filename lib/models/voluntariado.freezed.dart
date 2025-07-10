@@ -21,18 +21,28 @@ Voluntariado _$VoluntariadoFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Voluntariado {
   String get id => throw _privateConstructorUsedError;
-  String get nombre => throw _privateConstructorUsedError;
-  String get tipo => throw _privateConstructorUsedError;
-  int get vacantes => throw _privateConstructorUsedError;
+  @JsonKey(name: 'nombre')
+  String get name => throw _privateConstructorUsedError;
+  @JsonKey(name: 'tipo')
+  String get type => throw _privateConstructorUsedError;
+  @JsonKey(name: 'vacantes')
+  int get vacancies => throw _privateConstructorUsedError;
   @GeoPointConverter()
+  @JsonKey(name: 'location')
   LatLng get location => throw _privateConstructorUsedError;
   @TrimConverter()
+  @JsonKey(name: 'imageUrl')
   String get imageUrl => throw _privateConstructorUsedError;
-  String get descripcion => throw _privateConstructorUsedError;
-  String get resumen => throw _privateConstructorUsedError;
-  String get requisitos => throw _privateConstructorUsedError;
-  double get costo => throw _privateConstructorUsedError;
+  @JsonKey(name: 'descripcion')
+  String get description => throw _privateConstructorUsedError;
+  @JsonKey(name: 'resumen')
+  String get summary => throw _privateConstructorUsedError;
+  @JsonKey(name: 'requisitos')
+  String get requirements => throw _privateConstructorUsedError;
+  @JsonKey(name: 'costo')
+  double get cost => throw _privateConstructorUsedError;
   @TimestampConverter()
+  @JsonKey(name: 'createdAt')
   DateTime get createdAt => throw _privateConstructorUsedError;
 
   /// Serializes this Voluntariado to a JSON map.
@@ -53,16 +63,16 @@ abstract class $VoluntariadoCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String nombre,
-      String tipo,
-      int vacantes,
-      @GeoPointConverter() LatLng location,
-      @TrimConverter() String imageUrl,
-      String descripcion,
-      String resumen,
-      String requisitos,
-      double costo,
-      @TimestampConverter() DateTime createdAt});
+      @JsonKey(name: 'nombre') String name,
+      @JsonKey(name: 'tipo') String type,
+      @JsonKey(name: 'vacantes') int vacancies,
+      @GeoPointConverter() @JsonKey(name: 'location') LatLng location,
+      @TrimConverter() @JsonKey(name: 'imageUrl') String imageUrl,
+      @JsonKey(name: 'descripcion') String description,
+      @JsonKey(name: 'resumen') String summary,
+      @JsonKey(name: 'requisitos') String requirements,
+      @JsonKey(name: 'costo') double cost,
+      @TimestampConverter() @JsonKey(name: 'createdAt') DateTime createdAt});
 }
 
 /// @nodoc
@@ -81,15 +91,15 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
   @override
   $Res call({
     Object? id = null,
-    Object? nombre = null,
-    Object? tipo = null,
-    Object? vacantes = null,
+    Object? name = null,
+    Object? type = null,
+    Object? vacancies = null,
     Object? location = null,
     Object? imageUrl = null,
-    Object? descripcion = null,
-    Object? resumen = null,
-    Object? requisitos = null,
-    Object? costo = null,
+    Object? description = null,
+    Object? summary = null,
+    Object? requirements = null,
+    Object? cost = null,
     Object? createdAt = null,
   }) {
     return _then(_value.copyWith(
@@ -97,17 +107,17 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      nombre: null == nombre
-          ? _value.nombre
-          : nombre // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tipo: null == tipo
-          ? _value.tipo
-          : tipo // ignore: cast_nullable_to_non_nullable
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
-      vacantes: null == vacantes
-          ? _value.vacantes
-          : vacantes // ignore: cast_nullable_to_non_nullable
+      vacancies: null == vacancies
+          ? _value.vacancies
+          : vacancies // ignore: cast_nullable_to_non_nullable
               as int,
       location: null == location
           ? _value.location
@@ -117,21 +127,21 @@ class _$VoluntariadoCopyWithImpl<$Res, $Val extends Voluntariado>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      descripcion: null == descripcion
-          ? _value.descripcion
-          : descripcion // ignore: cast_nullable_to_non_nullable
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
-      resumen: null == resumen
-          ? _value.resumen
-          : resumen // ignore: cast_nullable_to_non_nullable
+      summary: null == summary
+          ? _value.summary
+          : summary // ignore: cast_nullable_to_non_nullable
               as String,
-      requisitos: null == requisitos
-          ? _value.requisitos
-          : requisitos // ignore: cast_nullable_to_non_nullable
+      requirements: null == requirements
+          ? _value.requirements
+          : requirements // ignore: cast_nullable_to_non_nullable
               as String,
-      costo: null == costo
-          ? _value.costo
-          : costo // ignore: cast_nullable_to_non_nullable
+      cost: null == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
               as double,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -151,16 +161,16 @@ abstract class _$$VoluntariadoImplCopyWith<$Res>
   @useResult
   $Res call(
       {String id,
-      String nombre,
-      String tipo,
-      int vacantes,
-      @GeoPointConverter() LatLng location,
-      @TrimConverter() String imageUrl,
-      String descripcion,
-      String resumen,
-      String requisitos,
-      double costo,
-      @TimestampConverter() DateTime createdAt});
+      @JsonKey(name: 'nombre') String name,
+      @JsonKey(name: 'tipo') String type,
+      @JsonKey(name: 'vacantes') int vacancies,
+      @GeoPointConverter() @JsonKey(name: 'location') LatLng location,
+      @TrimConverter() @JsonKey(name: 'imageUrl') String imageUrl,
+      @JsonKey(name: 'descripcion') String description,
+      @JsonKey(name: 'resumen') String summary,
+      @JsonKey(name: 'requisitos') String requirements,
+      @JsonKey(name: 'costo') double cost,
+      @TimestampConverter() @JsonKey(name: 'createdAt') DateTime createdAt});
 }
 
 /// @nodoc
@@ -177,15 +187,15 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? id = null,
-    Object? nombre = null,
-    Object? tipo = null,
-    Object? vacantes = null,
+    Object? name = null,
+    Object? type = null,
+    Object? vacancies = null,
     Object? location = null,
     Object? imageUrl = null,
-    Object? descripcion = null,
-    Object? resumen = null,
-    Object? requisitos = null,
-    Object? costo = null,
+    Object? description = null,
+    Object? summary = null,
+    Object? requirements = null,
+    Object? cost = null,
     Object? createdAt = null,
   }) {
     return _then(_$VoluntariadoImpl(
@@ -193,17 +203,17 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      nombre: null == nombre
-          ? _value.nombre
-          : nombre // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      tipo: null == tipo
-          ? _value.tipo
-          : tipo // ignore: cast_nullable_to_non_nullable
+      type: null == type
+          ? _value.type
+          : type // ignore: cast_nullable_to_non_nullable
               as String,
-      vacantes: null == vacantes
-          ? _value.vacantes
-          : vacantes // ignore: cast_nullable_to_non_nullable
+      vacancies: null == vacancies
+          ? _value.vacancies
+          : vacancies // ignore: cast_nullable_to_non_nullable
               as int,
       location: null == location
           ? _value.location
@@ -213,21 +223,21 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
           ? _value.imageUrl
           : imageUrl // ignore: cast_nullable_to_non_nullable
               as String,
-      descripcion: null == descripcion
-          ? _value.descripcion
-          : descripcion // ignore: cast_nullable_to_non_nullable
+      description: null == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String,
-      resumen: null == resumen
-          ? _value.resumen
-          : resumen // ignore: cast_nullable_to_non_nullable
+      summary: null == summary
+          ? _value.summary
+          : summary // ignore: cast_nullable_to_non_nullable
               as String,
-      requisitos: null == requisitos
-          ? _value.requisitos
-          : requisitos // ignore: cast_nullable_to_non_nullable
+      requirements: null == requirements
+          ? _value.requirements
+          : requirements // ignore: cast_nullable_to_non_nullable
               as String,
-      costo: null == costo
-          ? _value.costo
-          : costo // ignore: cast_nullable_to_non_nullable
+      cost: null == cost
+          ? _value.cost
+          : cost // ignore: cast_nullable_to_non_nullable
               as double,
       createdAt: null == createdAt
           ? _value.createdAt
@@ -239,19 +249,22 @@ class __$$VoluntariadoImplCopyWithImpl<$Res>
 
 /// @nodoc
 @JsonSerializable()
-class _$VoluntariadoImpl implements _Voluntariado {
+class _$VoluntariadoImpl extends _Voluntariado {
   const _$VoluntariadoImpl(
       {required this.id,
-      required this.nombre,
-      required this.tipo,
-      required this.vacantes,
-      @GeoPointConverter() required this.location,
-      @TrimConverter() required this.imageUrl,
-      required this.descripcion,
-      required this.resumen,
-      required this.requisitos,
-      required this.costo,
-      @TimestampConverter() required this.createdAt});
+      @JsonKey(name: 'nombre') required this.name,
+      @JsonKey(name: 'tipo') required this.type,
+      @JsonKey(name: 'vacantes') required this.vacancies,
+      @GeoPointConverter() @JsonKey(name: 'location') required this.location,
+      @TrimConverter() @JsonKey(name: 'imageUrl') required this.imageUrl,
+      @JsonKey(name: 'descripcion') required this.description,
+      @JsonKey(name: 'resumen') required this.summary,
+      @JsonKey(name: 'requisitos') required this.requirements,
+      @JsonKey(name: 'costo') required this.cost,
+      @TimestampConverter()
+      @JsonKey(name: 'createdAt')
+      required this.createdAt})
+      : super._();
 
   factory _$VoluntariadoImpl.fromJson(Map<String, dynamic> json) =>
       _$$VoluntariadoImplFromJson(json);
@@ -259,32 +272,42 @@ class _$VoluntariadoImpl implements _Voluntariado {
   @override
   final String id;
   @override
-  final String nombre;
+  @JsonKey(name: 'nombre')
+  final String name;
   @override
-  final String tipo;
+  @JsonKey(name: 'tipo')
+  final String type;
   @override
-  final int vacantes;
+  @JsonKey(name: 'vacantes')
+  final int vacancies;
   @override
   @GeoPointConverter()
+  @JsonKey(name: 'location')
   final LatLng location;
   @override
   @TrimConverter()
+  @JsonKey(name: 'imageUrl')
   final String imageUrl;
   @override
-  final String descripcion;
+  @JsonKey(name: 'descripcion')
+  final String description;
   @override
-  final String resumen;
+  @JsonKey(name: 'resumen')
+  final String summary;
   @override
-  final String requisitos;
+  @JsonKey(name: 'requisitos')
+  final String requirements;
   @override
-  final double costo;
+  @JsonKey(name: 'costo')
+  final double cost;
   @override
   @TimestampConverter()
+  @JsonKey(name: 'createdAt')
   final DateTime createdAt;
 
   @override
   String toString() {
-    return 'Voluntariado(id: $id, nombre: $nombre, tipo: $tipo, vacantes: $vacantes, location: $location, imageUrl: $imageUrl, descripcion: $descripcion, resumen: $resumen, requisitos: $requisitos, costo: $costo, createdAt: $createdAt)';
+    return 'Voluntariado(id: $id, name: $name, type: $type, vacancies: $vacancies, location: $location, imageUrl: $imageUrl, description: $description, summary: $summary, requirements: $requirements, cost: $cost, createdAt: $createdAt)';
   }
 
   @override
@@ -293,28 +316,28 @@ class _$VoluntariadoImpl implements _Voluntariado {
         (other.runtimeType == runtimeType &&
             other is _$VoluntariadoImpl &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.nombre, nombre) || other.nombre == nombre) &&
-            (identical(other.tipo, tipo) || other.tipo == tipo) &&
-            (identical(other.vacantes, vacantes) ||
-                other.vacantes == vacantes) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.type, type) || other.type == type) &&
+            (identical(other.vacancies, vacancies) ||
+                other.vacancies == vacancies) &&
             (identical(other.location, location) ||
                 other.location == location) &&
             (identical(other.imageUrl, imageUrl) ||
                 other.imageUrl == imageUrl) &&
-            (identical(other.descripcion, descripcion) ||
-                other.descripcion == descripcion) &&
-            (identical(other.resumen, resumen) || other.resumen == resumen) &&
-            (identical(other.requisitos, requisitos) ||
-                other.requisitos == requisitos) &&
-            (identical(other.costo, costo) || other.costo == costo) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
+            (identical(other.summary, summary) || other.summary == summary) &&
+            (identical(other.requirements, requirements) ||
+                other.requirements == requirements) &&
+            (identical(other.cost, cost) || other.cost == cost) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  int get hashCode => Object.hash(runtimeType, id, nombre, tipo, vacantes,
-      location, imageUrl, descripcion, resumen, requisitos, costo, createdAt);
+  int get hashCode => Object.hash(runtimeType, id, name, type, vacancies,
+      location, imageUrl, description, summary, requirements, cost, createdAt);
 
   /// Create a copy of Voluntariado
   /// with the given fields replaced by the non-null parameter values.
@@ -332,20 +355,26 @@ class _$VoluntariadoImpl implements _Voluntariado {
   }
 }
 
-abstract class _Voluntariado implements Voluntariado {
+abstract class _Voluntariado extends Voluntariado {
   const factory _Voluntariado(
-          {required final String id,
-          required final String nombre,
-          required final String tipo,
-          required final int vacantes,
-          @GeoPointConverter() required final LatLng location,
-          @TrimConverter() required final String imageUrl,
-          required final String descripcion,
-          required final String resumen,
-          required final String requisitos,
-          required final double costo,
-          @TimestampConverter() required final DateTime createdAt}) =
-      _$VoluntariadoImpl;
+      {required final String id,
+      @JsonKey(name: 'nombre') required final String name,
+      @JsonKey(name: 'tipo') required final String type,
+      @JsonKey(name: 'vacantes') required final int vacancies,
+      @GeoPointConverter()
+      @JsonKey(name: 'location')
+      required final LatLng location,
+      @TrimConverter()
+      @JsonKey(name: 'imageUrl')
+      required final String imageUrl,
+      @JsonKey(name: 'descripcion') required final String description,
+      @JsonKey(name: 'resumen') required final String summary,
+      @JsonKey(name: 'requisitos') required final String requirements,
+      @JsonKey(name: 'costo') required final double cost,
+      @TimestampConverter()
+      @JsonKey(name: 'createdAt')
+      required final DateTime createdAt}) = _$VoluntariadoImpl;
+  const _Voluntariado._() : super._();
 
   factory _Voluntariado.fromJson(Map<String, dynamic> json) =
       _$VoluntariadoImpl.fromJson;
@@ -353,27 +382,37 @@ abstract class _Voluntariado implements Voluntariado {
   @override
   String get id;
   @override
-  String get nombre;
+  @JsonKey(name: 'nombre')
+  String get name;
   @override
-  String get tipo;
+  @JsonKey(name: 'tipo')
+  String get type;
   @override
-  int get vacantes;
+  @JsonKey(name: 'vacantes')
+  int get vacancies;
   @override
   @GeoPointConverter()
+  @JsonKey(name: 'location')
   LatLng get location;
   @override
   @TrimConverter()
+  @JsonKey(name: 'imageUrl')
   String get imageUrl;
   @override
-  String get descripcion;
+  @JsonKey(name: 'descripcion')
+  String get description;
   @override
-  String get resumen;
+  @JsonKey(name: 'resumen')
+  String get summary;
   @override
-  String get requisitos;
+  @JsonKey(name: 'requisitos')
+  String get requirements;
   @override
-  double get costo;
+  @JsonKey(name: 'costo')
+  double get cost;
   @override
   @TimestampConverter()
+  @JsonKey(name: 'createdAt')
   DateTime get createdAt;
 
   /// Create a copy of Voluntariado

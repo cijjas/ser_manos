@@ -18,16 +18,16 @@ import '../../utils/test_utils.dart';
 
 Voluntariado fakeVol(String id) => Voluntariado(
       id: id,
-      nombre: 'Comedor $id',
-      tipo: 'Alimentos',
-      vacantes: 5,
+      name: 'Comedor $id',
+      type: 'Alimentos',
+      vacancies: 5,
       location: const LatLng(0, 0),
       imageUrl: 'https://dummyimage.com/600x400/000/fff&text=$id',
-      descripcion: 'Descripción $id',
-      resumen: 'Resumen $id',
-      requisitos: 'Requisitos',
+      description: 'Descripción $id',
+      summary: 'Resumen $id',
+      requirements: 'Requisitos',
       createdAt: DateTime(2025),
-      costo: 90.0,
+      cost: 90.0,
     );
 
 const fakeUser = User(
