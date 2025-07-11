@@ -3,16 +3,16 @@ import 'package:go_router/go_router.dart';
 import '../../../constants/app_routes.dart';
 import '../../../utils/app_strings.dart';
 import '../../cells/modals/confirm_modal.dart';
-import '../../molecules/components/foto_perfil.dart';
-import '../../cells/cards/card_informacion.dart';
+import '../../molecules/components/profile_picture.dart';
+import '../../cells/cards/information_card.dart';
 import '../../molecules/buttons/app_button.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 
-class PerfilCompletoPage extends StatelessWidget {
+class FullProfilePage extends StatelessWidget {
   final VoidCallback onLogoutPressed;
 
-  const PerfilCompletoPage({
+  const FullProfilePage({
     super.key,
     required this.imageUrl,
     required this.role,
@@ -63,7 +63,7 @@ class PerfilCompletoPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    FotoPerfil.lg(
+                    ProfilePicture.lg(
                       imageUrl: imageUrl.isNotEmpty ? imageUrl : null,
                     ),
                     const SizedBox(height: 24),
@@ -96,7 +96,7 @@ class PerfilCompletoPage extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 24),
                 child: Column(
                   children: [
-                    CardInformacion(
+                    InformationCard(
                       title: context.strings.personalInformation,
                       label1: context.strings.birthDate,
                       content1: birthDate,
@@ -104,7 +104,7 @@ class PerfilCompletoPage extends StatelessWidget {
                       content2: gender,
                     ),
                     const SizedBox(height: 24),
-                    CardInformacion(
+                    InformationCard(
                       title: context.strings.contactData,
                       label1: context.strings.phone,
                       content1: phone,

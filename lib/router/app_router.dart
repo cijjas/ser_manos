@@ -5,6 +5,8 @@ import 'package:ser_manos/shared/wireframes/error/error_page.dart';
 import 'package:ser_manos/shared/wireframes/entry/entry_page.dart';
 import 'package:ser_manos/shared/wireframes/entry/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/news/news.dart';
+import 'package:ser_manos/shared/wireframes/profile/edit_profile.dart';
+import 'package:ser_manos/shared/wireframes/profile/profile_wrapper.dart';
 
 import '../constants/app_routes.dart';
 import '../providers/auth_provider.dart';
@@ -13,8 +15,6 @@ import '../shared/cells/header/header.dart';
 import '../shared/wireframes/entry/login_page.dart';
 import '../shared/wireframes/entry/register_page.dart';
 import '../shared/wireframes/news/news_detail.dart';
-import '../shared/wireframes/perfil/editar_perfil.dart';
-import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/volunteerings/volunteering_detail.dart';
 import '../shared/wireframes/volunteerings/volunteering_page.dart';
 import 'go_router_observer.dart';
@@ -118,7 +118,7 @@ final routerProvider = Provider<GoRouter>((ref) {
             path: AppRoutes.homeProfile,
             name: RouteNames.profileTab,
             pageBuilder: (_, __) =>
-                const NoTransitionPage(child: PerfilWrapperPage()),
+                const NoTransitionPage(child: ProfileWrapperPage()),
           ),
           GoRoute(
             path: AppRoutes.homeVolunteering,
@@ -147,7 +147,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.homeProfileEdit,
         pageBuilder: (_, __) => CustomTransitionPage(
-          child: const EditarPerfilPage(),
+          child: const EditProfilePage(),
           transitionsBuilder: (_, animation, __, child) => SlideTransition(
             position: Tween<Offset>(
               begin: const Offset(0, 1),

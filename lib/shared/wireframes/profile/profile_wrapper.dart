@@ -2,16 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:ser_manos/shared/wireframes/profile/incomplete_profile.dart';
 
 import '../../../constants/app_routes.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../utils/app_strings.dart';
-import '../../wireframes/perfil/perfil_completo.dart';
-import '../../wireframes/perfil/perfil_incompleto.dart';
-
-class PerfilWrapperPage extends ConsumerWidget {
-  const PerfilWrapperPage({super.key});
+import 'full_profile.dart';
+class ProfileWrapperPage extends ConsumerWidget {
+  const ProfileWrapperPage({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -56,7 +55,7 @@ class PerfilWrapperPage extends ConsumerWidget {
                 u.imagenUrl!.isEmpty;
 
             if (incomplete) {
-              return PerfilIncompletoPage(
+              return IncompleteProfilePage(
                 name: fullName,
                 onCompletePressed: () =>
                     context.push(AppRoutes.homeProfileEdit),
@@ -68,7 +67,7 @@ class PerfilWrapperPage extends ConsumerWidget {
                 },
               );
             } else {
-              return PerfilCompletoPage(
+              return FullProfilePage(
                 imageUrl: u.imagenUrl!,
                 role: context.strings.volunteer,
                 name: fullName,

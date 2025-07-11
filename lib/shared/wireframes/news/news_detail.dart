@@ -14,7 +14,7 @@ import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 import '../../../utils/app_strings.dart';
-import '../../cells/header/header_seccion.dart';
+import '../../cells/header/header_section.dart';
 
 class NewsDetail extends ConsumerStatefulWidget {
   final String id;

@@ -4,28 +4,27 @@ import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../molecules/buttons/short_button.dart';
-import '../../molecules/components/foto_perfil.dart';
+import '../../molecules/components/profile_picture.dart';
 
-class CardFotoPerfil extends StatelessWidget {
-  final String? imagenUrlRemota;
-  final File? imagenLocal;
+class ProfilePictureCard extends StatelessWidget {
+  final String? remoteImageUrl;
+  final File? localImage;
   final VoidCallback onChange;
   final bool isLoading;
 
-  const CardFotoPerfil({
+  const ProfilePictureCard({
     super.key,
-    this.imagenUrlRemota,
-    this.imagenLocal,
+    this.remoteImageUrl,
+    this.localImage,
     required this.onChange,
     this.isLoading = false,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Priorizar imagen local sobre la remota
-    final bool hasLocalImage = imagenLocal != null;
+    final bool hasLocalImage = localImage != null;
     final bool hasRemoteImage =
-        imagenUrlRemota != null && imagenUrlRemota!.isNotEmpty;
+        remoteImageUrl != null && remoteImageUrl!.isNotEmpty;
     final bool hasAnyImage = hasLocalImage || hasRemoteImage;
 
     return Container(
@@ -70,9 +69,9 @@ class CardFotoPerfil extends StatelessWidget {
                 Container(
                   width: 84,
                   height: 84,
-                  child: FotoPerfil.sm(
-                    imageUrl: hasLocalImage ? null : imagenUrlRemota,
-                    localImageFile: imagenLocal,
+                  child: ProfilePicture.sm(
+                    imageUrl: hasLocalImage ? null : remoteImageUrl,
+                    localImageFile: localImage,
                     onTap: isLoading ? null : onChange,
                   ),
                 ),

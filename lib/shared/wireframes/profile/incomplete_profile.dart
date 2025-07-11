@@ -9,8 +9,8 @@ import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../cells/modals/confirm_modal.dart';
 
-class PerfilIncompletoPage extends StatelessWidget {
-  const PerfilIncompletoPage({
+class IncompleteProfilePage extends StatelessWidget {
+  const IncompleteProfilePage({
     super.key,
     required this.name,
     this.role = 'Voluntario',

@@ -14,7 +14,7 @@ import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../utils/validators/validators.dart';
 import '../../cells/cards/card_input.dart';
-import '../../cells/cards/card_foto.dart';
+import '../../cells/cards/profile_picture_card.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../molecules/buttons/app_button.dart';
@@ -23,14 +23,14 @@ import '../../molecules/input/form_builder_date_field.dart';
 import 'package:path/path.dart' as path;
 import 'package:flutter/services.dart';
 
-class EditarPerfilPage extends ConsumerStatefulWidget {
-  const EditarPerfilPage({super.key});
+class EditProfilePage extends ConsumerStatefulWidget {
+  const EditProfilePage({super.key});
 
   @override
-  ConsumerState<EditarPerfilPage> createState() => _EditarPerfilPageState();
+  ConsumerState<EditProfilePage> createState() => _EditarPerfilPageState();
 }
 
-class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
+class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
   final _formKey = GlobalKey<FormBuilderState>();
   final _picker = ImagePicker();
 
@@ -38,7 +38,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   final _phoneFocus = FocusNode();
 
   String? _fotoUrl;
-  File? _imagenLocalParaSubir;
+  File? _localImageToUpload;
   bool _isSaving = false;
   User? _originalUser;
   bool _areAllFieldsFilled = false;
@@ -74,7 +74,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
         ? ['Hombre', 'Mujer', 'No binario'][generoIndex]
         : null;
     if (currentGenero != _originalUser!.genero) return true;
-    if (_imagenLocalParaSubir != null) return true;
+    if (_localImageToUpload != null) return true;
     return false;
   }
 
@@ -183,7 +183,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     final savedImage = await tmpFile.copy('${appDir.path}/$fileName');
 
     setState(() {
-      _imagenLocalParaSubir = savedImage;
+      _localImageToUpload = savedImage;
     });
 
     _formKey.currentState?.fields['imagenValida']?.didChange(true);
@@ -207,11 +207,11 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
     String? urlImagenFinalParaGuardar = _fotoUrl;
 
     try {
-      if (_imagenLocalParaSubir != null) {
+      if (_localImageToUpload != null) {
         final storageRef = FirebaseStorage.instance.ref().child(
             'profile_images/${fbUser.uid}_${DateTime.now().millisecondsSinceEpoch}.jpg');
         final metadata = SettableMetadata(contentType: 'image/jpeg');
-        final bytes = await _imagenLocalParaSubir!.readAsBytes();
+        final bytes = await _localImageToUpload!.readAsBytes();
         await storageRef.putData(bytes, metadata);
         urlImagenFinalParaGuardar = await storageRef.getDownloadURL();
       }
@@ -236,7 +236,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
       );
 
       setState(() {
-        _imagenLocalParaSubir = null;
+        _localImageToUpload = null;
         _fotoUrl = urlImagenFinalParaGuardar;
       });
 
@@ -304,7 +304,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                         Text(
-                          'Datos de perfil',
+                          'Datos de profile',
                           style: AppTypography.headline01.copyWith(
                             color: AppColors.neutral100,
                           ),
@@ -332,7 +332,7 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CardInput(
-                                    title: 'Información de perfil',
+                                    title: 'Información de profile',
                                     options: const ['Hombre', 'Mujer', 'No binario'],
                                     selectedIndex: field.value,
                                     onSelected:
@@ -357,16 +357,16 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
                         FormBuilderField<bool>(
                           name: 'imagenValida',
                           initialValue:
-                              _fotoUrl != null || _imagenLocalParaSubir != null,
+                              _fotoUrl != null || _localImageToUpload != null,
                           validator: FormBuilderValidators.equal(true,
-                              errorText: 'Selecciona una foto de perfil'),
+                              errorText: 'Selecciona una foto de profile'),
                           builder: (field) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                CardFotoPerfil(
-                                  imagenUrlRemota: _fotoUrl,
-                                  imagenLocal: _imagenLocalParaSubir,
+                                ProfilePictureCard(
+                                  remoteImageUrl: _fotoUrl,
+                                  localImage: _localImageToUpload,
                                   isLoading: _isSaving,
                                   onChange: _showImageSourceSelector,
                                 ),

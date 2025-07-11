@@ -5,13 +5,13 @@ import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/shadow.dart';
 
-class FotoPerfil extends StatelessWidget {
+class ProfilePicture extends StatelessWidget {
   final String? imageUrl;
   final File? localImageFile;
   final double diameter;
   final VoidCallback? onTap;
 
-  const FotoPerfil({
+  const ProfilePicture({
     super.key,
     this.imageUrl,
     this.localImageFile,
@@ -19,13 +19,13 @@ class FotoPerfil extends StatelessWidget {
     this.onTap,
   });
 
-  factory FotoPerfil.sm({
+  factory ProfilePicture.sm({
     Key? key,
     String? imageUrl,
     File? localImageFile,
     VoidCallback? onTap,
   }) {
-    return FotoPerfil(
+    return ProfilePicture(
       key: key,
       imageUrl: imageUrl,
       localImageFile: localImageFile,
@@ -34,13 +34,13 @@ class FotoPerfil extends StatelessWidget {
     );
   }
 
-  factory FotoPerfil.lg({
+  factory ProfilePicture.lg({
     Key? key,
     String? imageUrl,
     File? localImageFile,
     VoidCallback? onTap,
   }) {
-    return FotoPerfil(
+    return ProfilePicture(
       key: key,
       imageUrl: imageUrl,
       localImageFile: localImageFile,
