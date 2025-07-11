@@ -596,8 +596,24 @@
   "@loadActivityError": {
     "description": "Error message when loading user's activity fails."
   },
+
   "loadVolunteeringError": "Error loading volunteer opportunities.",
   "@loadVolunteeringError": {
     "description": "Error message when loading volunteer opportunities fails."
+  },
+
+  "loadUserDataError": "An error occurred loading your data. Please try again.",
+  "@loadUserDataError": {
+    "description": "Error message when loading user data fails"
+  },
+
+  "getUserInfoError": "Error: Could not get user information.",
+  "@getUserInfoError": {
+    "description": "Error message when user information cannot be retrieved"
+  },
+
+  "updateUserDataError": "Error updating your data. Try applying again.",
+  "@updateUserDataError": {
+    "description": "Error message when updating user data fails during application process"
   }
 }

@@ -364,4 +364,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadVolunteeringError => 'Error loading volunteer opportunities.';
+
+  @override
+  String get loadUserDataError => 'An error occurred loading your data. Please try again.';
+
+  @override
+  String get getUserInfoError => 'Error: Could not get user information.';
+
+  @override
+  String get updateUserDataError => 'Error updating your data. Try applying again.';
 }

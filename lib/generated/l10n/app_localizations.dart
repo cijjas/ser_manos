@@ -808,6 +808,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error loading volunteer opportunities.'**
   String get loadVolunteeringError;
+
+  /// Error message when loading user data fails
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred loading your data. Please try again.'**
+  String get loadUserDataError;
+
+  /// Error message when user information cannot be retrieved
+  ///
+  /// In en, this message translates to:
+  /// **'Error: Could not get user information.'**
+  String get getUserInfoError;
+
+  /// Error message when updating user data fails during application process
+  ///
+  /// In en, this message translates to:
+  /// **'Error updating your data. Try applying again.'**
+  String get updateUserDataError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

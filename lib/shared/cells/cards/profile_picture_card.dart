@@ -66,7 +66,7 @@ class ProfilePictureCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Container(
+                SizedBox(
                   width: 84,
                   height: 84,
                   child: ProfilePicture.sm(
@@ -81,7 +81,7 @@ class ProfilePictureCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Expanded(
-                  child: Container(
+                  child: SizedBox(
                     height: 24,
                     child: Text(
                       context.strings.profilePhoto,

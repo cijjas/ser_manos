@@ -146,11 +146,11 @@ class _VolunteeringDetallePageState
   @override
   Widget build(BuildContext context) {
     final volunteeringAsync =
-        ref.watch(volunteeringProvider(widget.volunteeringId));
+    ref.watch(volunteeringProvider(widget.volunteeringId));
     final currentUserAsync = ref.watch(currentUserProvider);
 
     final participatingVolunteering =
-        ref.watch(volunteeringParticipatingProvider);
+    ref.watch(volunteeringParticipatingProvider);
 
     return volunteeringAsync.when(
       data: (volunteering) {
@@ -162,46 +162,48 @@ class _VolunteeringDetallePageState
               volunteering,
               user,
               participatingVolunteering.value,
-              () => _handleApply(context, ref, user, volunteering),
-              () => _handleWithdraw(
-                  context, ref, user, participatingVolunteering.value),
-              () => _handleAbandon(
-                  context, ref, user, participatingVolunteering.value),
+                  () => _handleApply(context, ref, user, volunteering),
+                  () =>
+                  _handleWithdraw(
+                      context, ref, user, participatingVolunteering.value),
+                  () =>
+                  _handleAbandon(
+                      context, ref, user, participatingVolunteering.value),
             );
           },
           loading: () =>
-              const Scaffold(body: Center(child: CircularProgressIndicator())),
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
           error: (err, stack) {
             FirebaseCrashlytics.instance.recordError(
               err,
               stack,
               reason:
-                  'Failed to load current user data for VolunteeringDetallePage',
+              'Failed to load current user data for VolunteeringDetallePage',
               fatal: false,
             );
-            return const Scaffold(
+            return Scaffold(
                 body: Center(
-                    child: Text(
-                        'Ocurrió un error al cargar tus datos. Por favor, intenta de nuevo.'))); // TODO i18n
+                    child: Text(context.strings.loadUserDataError)
+                )
+            );
           },
         );
       },
       loading: () =>
-          const Scaffold(body: Center(child: CircularProgressIndicator())),
+      const Scaffold(body: Center(child: CircularProgressIndicator())),
       error: (error, stack) {
         FirebaseCrashlytics.instance.recordError(
           error,
           stack,
           reason:
-              'Failed to load volunteering data for VolunteeringDetallePage',
+          'Failed to load volunteering data for VolunteeringDetallePage',
           information: ['Volunteering ID: ${widget.volunteeringId}'],
           fatal: false,
         );
         ref.invalidate(volunteeringProvider(widget.volunteeringId));
-        return const Scaffold(
+        return Scaffold(
             body: Center(
-                child: Text(
-                    'Ocurrió un error al cargar el volunteering. Por favor, intenta de nuevo.'))); // TODO i18n
+                child: Text(context.strings.loadVolunteeringError)));
       },
     );
   }
@@ -213,20 +215,20 @@ class _VolunteeringDetallePageState
         (user.telefono != null && user.telefono!.isNotEmpty);
   }
 
-  Widget _buildContent(
-    BuildContext context,
-    WidgetRef ref,
-    Volunteering volunteering,
-    User user,
-    Volunteering? participatingVolunteering,
-    Future<void> Function()? onApply,
-    Future<void> Function()? onWithdraw,
-    Future<void> Function()? onAbandon,
-  ) {
+  Widget _buildContent(BuildContext context,
+      WidgetRef ref,
+      Volunteering volunteering,
+      User user,
+      Volunteering? participatingVolunteering,
+      Future<void> Function()? onApply,
+      Future<void> Function()? onWithdraw,
+      Future<void> Function()? onAbandon,) {
     final media = MediaQuery.of(context);
 
     Future<void> wrappedApply() async {
-      final currentUser = ref.read(currentUserProvider).value;
+      final currentUser = ref
+          .read(currentUserProvider)
+          .value;
       if (currentUser == null) {
         FirebaseCrashlytics.instance.recordError(
           'Current user is null when attempting to apply',
@@ -236,9 +238,7 @@ class _VolunteeringDetallePageState
         );
         if (context.mounted) {
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-                content: Text(
-                    'Error: No se pudo obtener la información del usuario.')), // TODO i18n
+            SnackBar(content: Text(context.strings.getUserInfoError)),
           );
         }
         return;
@@ -246,24 +246,25 @@ class _VolunteeringDetallePageState
 
       if (_isProfileComplete(currentUser)) {
         _showConfirmModal(context, volunteering,
-            () => onApply != null ? onApply() : {}, ActionType.postulate);
+                () => onApply != null ? onApply() : {}, ActionType.postulate);
       } else {
         final bool? confirmed = await showDialog<bool>(
           context: context,
-          builder: (dialogContext) => ConfirmApplicationModal(
-            message: context.strings.completeProfileFirstMessage,
-            title: "",
-            confirmLabel: context.strings.confirmLabel,
-            onConfirm: () => Navigator.of(dialogContext).pop(true),
-            onCancel: () => Navigator.of(dialogContext).pop(false),
-            actionType: ActionType.postulate,
-          ),
+          builder: (dialogContext) =>
+              ConfirmApplicationModal(
+                message: context.strings.completeProfileFirstMessage,
+                title: "",
+                confirmLabel: context.strings.confirmLabel,
+                onConfirm: () => Navigator.of(dialogContext).pop(true),
+                onCancel: () => Navigator.of(dialogContext).pop(false),
+                actionType: ActionType.postulate,
+              ),
         );
         if (!context.mounted) return;
 
         if (confirmed == true) {
           final profileSaved =
-              await GoRouter.of(context).push<bool>(AppRoutes.homeProfileEdit);
+          await GoRouter.of(context).push<bool>(AppRoutes.homeProfileEdit);
           if (!context.mounted) return;
 
           if (profileSaved == true) {
@@ -274,7 +275,7 @@ class _VolunteeringDetallePageState
               _showConfirmModal(
                 context,
                 volunteering,
-                () => _handleApply(context, ref, freshUser, volunteering),
+                    () => _handleApply(context, ref, freshUser, volunteering),
                 ActionType.postulate,
               );
             } catch (e, stack) {
@@ -282,14 +283,12 @@ class _VolunteeringDetallePageState
                 e,
                 stack,
                 reason:
-                    'Failed to fetch fresh user after profile edit for application',
+                'Failed to fetch fresh user after profile edit for application',
                 fatal: false,
               );
               if (context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(
-                      content: Text(
-                          'Error al actualizar tus datos. Intenta postularte de nuevo.')), // TODO i18n
+                  SnackBar(content: Text(context.strings.updateUserDataError)),
                 );
               }
             }
@@ -303,7 +302,8 @@ class _VolunteeringDetallePageState
         return;
       }
       _showConfirmModal(context, participatingVolunteering,
-          () => onWithdraw != null ? onWithdraw() : {}, ActionType.withdraw);
+              () => onWithdraw != null ? onWithdraw() : {},
+          ActionType.withdraw);
     }
 
     Future<void> wrappedAbandon() async {
@@ -311,7 +311,7 @@ class _VolunteeringDetallePageState
         return;
       }
       _showConfirmModal(context, participatingVolunteering,
-          () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
+              () => onAbandon != null ? onAbandon() : {}, ActionType.abandon);
     }
 
     return Scaffold(
@@ -387,8 +387,8 @@ class _VolunteeringDetallePageState
                         MarkdownBody(
                           data: volunteering.requirements,
                           styleSheet:
-                              MarkdownStyleSheet.fromTheme(Theme.of(context))
-                                  .copyWith(
+                          MarkdownStyleSheet.fromTheme(Theme.of(context))
+                              .copyWith(
                             p: AppTypography.body01,
                           ),
                         ),
@@ -403,14 +403,21 @@ class _VolunteeringDetallePageState
                               Text(
                                 // Localized cost label and value
                                 '${context.strings.volunteerCostLabel}: '
-                                '${NumberFormat.simpleCurrency(locale: Localizations.localeOf(context).toString()).format(volunteering.cost)}',
+                                    '${NumberFormat.simpleCurrency(
+                                    locale: Localizations
+                                        .localeOf(context)
+                                        .toString()).format(
+                                    volunteering.cost)}',
                                 style: AppTypography.body01,
                               ),
                               const SizedBox(height: 4),
                               Text(
                                 // Localized creation date label and value
                                 '${context.strings.volunteerCreatedAtLabel}: '
-                                '${DateFormat.yMMMMd(Localizations.localeOf(context).toString()).format(volunteering.createdAt)}',
+                                    '${DateFormat
+                                    .yMMMMd(
+                                    Localizations.localeOf(context).toString())
+                                    .format(volunteering.createdAt)}',
                                 style: AppTypography.body01,
                               ),
                             ],
@@ -460,15 +467,16 @@ void _showConfirmModal(BuildContext context, Volunteering volunteering,
     Function() onConfirm, ActionType actionType) {
   showDialog(
     context: context,
-    builder: (context) => ConfirmApplicationModal(
-      title: volunteering.name,
-      onConfirm: () {
-        Navigator.pop(context);
-        onConfirm();
-      },
-      onCancel: () => Navigator.pop(context),
-      actionType: actionType,
-    ),
+    builder: (context) =>
+        ConfirmApplicationModal(
+          title: volunteering.name,
+          onConfirm: () {
+            Navigator.pop(context);
+            onConfirm();
+          },
+          onCancel: () => Navigator.pop(context),
+          actionType: actionType,
+        ),
   );
 }
 
@@ -491,8 +499,8 @@ class _BottomSection extends StatelessWidget {
   Widget build(BuildContext context) {
     switch (state) {
       case VolunteeringUserState.available ||
-            VolunteeringUserState.rejected ||
-            VolunteeringUserState.completed:
+      VolunteeringUserState.rejected ||
+      VolunteeringUserState.completed:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -539,7 +547,7 @@ class _BottomSection extends StatelessWidget {
         );
 
       case VolunteeringUserState.busyOther ||
-            VolunteeringUserState.busyOtherPending:
+      VolunteeringUserState.busyOtherPending:
         return Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -597,7 +605,7 @@ class _InfoWithLink extends StatelessWidget {
           onPressed: onLinkPressed,
           child: Text(linkLabel,
               style:
-                  AppTypography.button.copyWith(color: AppColors.primary100)),
+              AppTypography.button.copyWith(color: AppColors.primary100)),
         ),
       ],
     );
@@ -704,7 +712,7 @@ class _LocationCardState extends State<_LocationCard> {
               color: AppColors.neutral25,
               alignment: Alignment.center,
               child:
-                  const Icon(Icons.map, size: 64, color: AppColors.neutral50),
+              const Icon(Icons.map, size: 64, color: AppColors.neutral50),
             ),
           ),
           Container(
@@ -726,11 +734,11 @@ class _LocationCardState extends State<_LocationCard> {
   }
 }
 
-VolunteeringUserState _determineUserState(
-    Volunteering volunteering, User user) {
+VolunteeringUserState _determineUserState(Volunteering volunteering,
+    User user) {
   // Safely find the user's volunteering without throwing exceptions
   final userVolunteering = user.volunteerings?.firstWhereOrNull(
-    (v) => v.id == volunteering.id,
+        (v) => v.id == volunteering.id,
   );
 
   if (userVolunteering != null) {
@@ -738,13 +746,13 @@ VolunteeringUserState _determineUserState(
   }
 
   if (user.volunteerings
-          ?.any((v) => v.estado == VolunteeringUserState.accepted) ??
+      ?.any((v) => v.estado == VolunteeringUserState.accepted) ??
       false) {
     return VolunteeringUserState.busyOther;
   }
 
   if (user.volunteerings
-          ?.any((v) => v.estado == VolunteeringUserState.pending) ??
+      ?.any((v) => v.estado == VolunteeringUserState.pending) ??
       false) {
     return VolunteeringUserState.busyOtherPending;
   }

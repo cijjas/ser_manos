@@ -97,7 +97,7 @@ class _NewsDetailState extends ConsumerState<NewsDetail> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AppHeaderSection(title: 'Novedades'), // TODO i18n
+              AppHeaderSection(title: context.strings.news),
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(

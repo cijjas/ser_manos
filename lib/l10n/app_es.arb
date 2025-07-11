@@ -119,5 +119,8 @@
   "completeProfileFirstMessage": "Para postularte debes primero completar tus datos.",
   "confirmLabel": "Confirmar",
   "loadActivityError": "Error al cargar tu actividad.",
-  "loadVolunteeringError": "Error al cargar los voluntariados."
+  "loadVolunteeringError": "Error al cargar los voluntariados.",
+  "loadUserDataError": "Ocurrió un error al cargar tus datos. Por favor, intenta de nuevo.",
+  "getUserInfoError": "Error: No se pudo obtener la información del usuario.",
+  "updateUserDataError": "Error al actualizar tus datos. Intenta postularte de nuevo."
 }

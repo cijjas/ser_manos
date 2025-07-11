@@ -70,13 +70,13 @@ class IncompleteProfilePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 32),
-                    Container(
+                    SizedBox(
                       width: 328,
                       height: 96,
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Container(
+                          SizedBox(
                             width: 328,
                             height: 16,
                             child: Text(
@@ -89,7 +89,7 @@ class IncompleteProfilePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Container(
+                          SizedBox(
                             width: 328,
                             height: 24,
                             child: Text(
@@ -101,7 +101,7 @@ class IncompleteProfilePage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 8),
-                          Container(
+                          SizedBox(
                             width: 328,
                             height: 40,
                             child: Text(
@@ -128,7 +128,7 @@ class IncompleteProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Center(
-                      child: Container(
+                      child: SizedBox(
                         width: 123,
                         height: 48,
                         child: ShortButton(
@@ -141,7 +141,7 @@ class IncompleteProfilePage extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Container(
+                    SizedBox(
                       width: 308,
                       height: 44,
                       child: AppButton(

@@ -282,7 +282,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                   padding: const EdgeInsets.fromLTRB(0, 20, 16, 20),
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Container(
+                    child: SizedBox(
                       width: 24,
                       height: 24,
                       child: IconButton(
@@ -320,7 +320,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                                 label: 'fecha de nacimiento')),
                         const SizedBox(height: 24),
                         // ───────────────── Información de perfil (género) ─────────────────
-                        Container(
+                        SizedBox(
                           width: double.infinity,
                           height: 152,
                           child: FormBuilderField<int?>(
@@ -435,7 +435,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                     ),
                   const SizedBox(height: 32),
                   // ───────────────── Botón Guardar ─────────────────
-                  Container(
+                  SizedBox(
                     width: double.infinity,
                     height: 44,
                     child: AppButton(
