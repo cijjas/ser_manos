@@ -13,7 +13,7 @@ todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 - [ ] Evitar re-render innecesario al dar like en cards de voluntariados.
 - [ ] Corregir error al navegar a novedades en cuentas nuevas sin perfil completo.
 - [ ] Revisar manejo de sesión para cuentas recién creadas.
-- [ ] Corregir márgenes del modal de perfil según el Design System.
+- [x] Corregir márgenes del modal de perfil según el Design System.
 - [ ] Reemplazar logo de baja calidad por uno de mejor resolución.
 - [ ] Corregir actualización inconsistente de email (aparece erróneamente como mail primario en la sesión tras editar perfil).
 

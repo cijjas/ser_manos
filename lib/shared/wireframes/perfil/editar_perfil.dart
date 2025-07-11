@@ -261,19 +261,6 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.neutral0,
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.close, size: 24),
-          onPressed: _isSaving
-              ? null
-              : () => context.canPop()
-                  ? context.pop()
-                  : context.go(AppRoutes.homeProfile),
-        ),
-        elevation: 0,
-        backgroundColor: AppColors.neutral0,
-        foregroundColor: AppColors.neutral100,
-      ),
       body: SafeArea(
         child: FormBuilder(
           key: _formKey,
@@ -285,139 +272,188 @@ class _EditarPerfilPageState extends ConsumerState<EditarPerfilPage> {
             });
           },
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(vertical: 24, horizontal: 24),
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  'Datos de perfil',
-                  style: AppTypography.headline01.copyWith(
-                    color: AppColors.neutral100,
-                  ),
-                ),
-                const SizedBox(height: 24),
-                // ───────────────── Fecha de nacimiento ─────────────────
-                FormBuilderDateField(
-                    name: 'fechaNacimiento',
-                    label: 'Fecha de nacimiento',
-                    firstDate: DateTime(1900),
-                    lastDate: DateTime.now(),
-                    validator: (v) => AppValidators.required(v,
-                        label: 'fecha de nacimiento')),
-                const SizedBox(height: 24),
-                // ───────────────── Información de perfil (género) ─────────────────
-                FormBuilderField<int?>(
-                  name: 'genero',
-                  validator: (value) =>
-                      value == null ? 'Seleccioná tu género.' : null,
-                  builder: (field) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CardInput(
-                          title: 'Información de perfil',
-                          options: const ['Hombre', 'Mujer', 'No binario'],
-                          selectedIndex: field.value,
-                          onSelected:
-                              _isSaving ? null : (i) => field.didChange(i),
-                        ),
-                        if (field.hasError)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12, top: 8),
-                            child: Text(
-                              field.errorText!,
-                              style: AppTypography.caption
-                                  .copyWith(color: AppColors.error100),
-                            ),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-                const SizedBox(height: 24),
-                // ───────────────── Foto de perfil ─────────────────
-                FormBuilderField<bool>(
-                  name: 'imagenValida',
-                  initialValue:
-                      _fotoUrl != null || _imagenLocalParaSubir != null,
-                  validator: FormBuilderValidators.equal(true,
-                      errorText: 'Selecciona una foto de perfil'),
-                  builder: (field) {
-                    return Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        CardFotoPerfil(
-                          imagenUrlRemota: _fotoUrl,
-                          imagenLocal: _imagenLocalParaSubir,
-                          isLoading: _isSaving,
-                          onChange: _showImageSourceSelector,
-                        ),
-                        if (field.hasError)
-                          Padding(
-                            padding: const EdgeInsets.only(left: 12, top: 8),
-                            child: Text(
-                              field.errorText ?? '',
-                              style: AppTypography.caption
-                                  .copyWith(color: AppColors.error100),
-                            ),
-                          ),
-                      ],
-                    );
-                  },
-                ),
-
-                const SizedBox(height: 32),
-                Text(
-                  'Datos de contacto',
-                  style: AppTypography.headline01.copyWith(
-                    color: AppColors.neutral100,
+                // ───────────────── Header with X button ─────────────────
+                Container(
+                  height: 64,
+                  padding: const EdgeInsets.fromLTRB(0, 20, 16, 20),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      child: IconButton(
+                        padding: EdgeInsets.zero,
+                        constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
+                        icon: const Icon(Icons.close, size: 24),
+                        onPressed: _isSaving
+                            ? null
+                            : () => context.canPop()
+                                ? context.pop()
+                                : context.go(AppRoutes.homeProfile),
+                      ),
+                    ),
                   ),
                 ),
                 const SizedBox(height: 16),
-                // ───────────────── Teléfono ─────────────────
-                FormBuilderAppTextField(
-                  focusNode: _phoneFocus,
-                  name: 'telefono',
-                  labelText: context.strings.phone,
-                  hintText: context.strings.phoneHint,
-                  keyboardType: TextInputType.phone,
-                  validator: (v) => AppValidators.phone(v),
-                  inputFormatters: [
-                    FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
-                  ],
-                  onFieldSubmitted: (_) => _emailFocus.requestFocus(),
-                  textInputAction: TextInputAction.next,
-                ),
-                const SizedBox(height: 24),
-                // ───────────────── Email ─────────────────
-                FormBuilderAppTextField(
-                  focusNode: _emailFocus,
-                  name: 'email',
-                  labelText: context.strings.email,
-                  hintText: context.strings.emailEditHint,
-                  keyboardType: TextInputType.emailAddress,
-                  validator: AppValidators.email,
-                  onFieldSubmitted: (_) =>
-                      _formKey.currentState?.fields['email']?.validate(),
-                  textInputAction: TextInputAction.done,
-                ),
-                const SizedBox(height: 32),
-                // ───────────────── Botón Guardar ─────────────────
-                AppButton(
-                  label: context.strings.saveData,
-                  isLoading: _isSaving,
-                  onPressed: _areAllFieldsFilled &&
-                          (_formKey.currentState?.isDirty ?? false) &&
-                          !_isSaving &&
-                          _hasChanges()
-                      ? _save
-                      : null,
-                  type: AppButtonType.filled,
-                ),
-                const SizedBox(height: 24),
-              ],
+                  // ───────────────── Datos de perfil section ─────────────────
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                        Text(
+                          'Datos de perfil',
+                          style: AppTypography.headline01.copyWith(
+                            color: AppColors.neutral100,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        // ───────────────── Fecha de nacimiento ─────────────────
+                        FormBuilderDateField(
+                            name: 'fechaNacimiento',
+                            label: 'Fecha de nacimiento',
+                            firstDate: DateTime(1900),
+                            lastDate: DateTime.now(),
+                            validator: (v) => AppValidators.required(v,
+                                label: 'fecha de nacimiento')),
+                        const SizedBox(height: 24),
+                        // ───────────────── Información de perfil (género) ─────────────────
+                        Container(
+                          width: double.infinity,
+                          height: 152,
+                          child: FormBuilderField<int?>(
+                            name: 'genero',
+                            validator: (value) =>
+                                value == null ? 'Seleccioná tu género.' : null,
+                            builder: (field) {
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  CardInput(
+                                    title: 'Información de perfil',
+                                    options: const ['Hombre', 'Mujer', 'No binario'],
+                                    selectedIndex: field.value,
+                                    onSelected:
+                                        _isSaving ? null : (i) => field.didChange(i),
+                                  ),
+                                  if (field.hasError)
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 12, top: 8),
+                                      child: Text(
+                                        field.errorText!,
+                                        style: AppTypography.caption
+                                            .copyWith(color: AppColors.error100),
+                                      ),
+                                    ),
+                                ],
+                              );
+                            },
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        // ───────────────── Foto de perfil ─────────────────
+                        FormBuilderField<bool>(
+                          name: 'imagenValida',
+                          initialValue:
+                              _fotoUrl != null || _imagenLocalParaSubir != null,
+                          validator: FormBuilderValidators.equal(true,
+                              errorText: 'Selecciona una foto de perfil'),
+                          builder: (field) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                CardFotoPerfil(
+                                  imagenUrlRemota: _fotoUrl,
+                                  imagenLocal: _imagenLocalParaSubir,
+                                  isLoading: _isSaving,
+                                  onChange: _showImageSourceSelector,
+                                ),
+                                if (field.hasError)
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 12, top: 8),
+                                    child: Text(
+                                      field.errorText ?? '',
+                                      style: AppTypography.caption
+                                          .copyWith(color: AppColors.error100),
+                                    ),
+                                  ),
+                              ],
+                            );
+                          },
+                        ),
+                      ],
+                    ),
+                  const SizedBox(height: 32),
+                  // ───────────────── Datos de contacto section ─────────────────
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                        Text(
+                          'Datos de contacto',
+                          style: AppTypography.headline01.copyWith(
+                            color: AppColors.neutral100,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          'Estos datos serán los que otros usuarios vean cuando te postules a una actividad.',
+                          style: AppTypography.body01.copyWith(
+                            color: AppColors.neutral75,
+                          ),
+                        ),
+                        const SizedBox(height: 24),
+                        // ───────────────── Teléfono ─────────────────
+                        FormBuilderAppTextField(
+                          focusNode: _phoneFocus,
+                          name: 'telefono',
+                          labelText: context.strings.phone,
+                          hintText: context.strings.phoneHint,
+                          keyboardType: TextInputType.phone,
+                          validator: (v) => AppValidators.phone(v),
+                          inputFormatters: [
+                            FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
+                          ],
+                          onFieldSubmitted: (_) => _emailFocus.requestFocus(),
+                          textInputAction: TextInputAction.next,
+                        ),
+                        const SizedBox(height: 24),
+                        // ───────────────── Email ─────────────────
+                        FormBuilderAppTextField(
+                          focusNode: _emailFocus,
+                          name: 'email',
+                          labelText: context.strings.email,
+                          hintText: context.strings.emailEditHint,
+                          keyboardType: TextInputType.emailAddress,
+                          validator: AppValidators.email,
+                          onFieldSubmitted: (_) =>
+                              _formKey.currentState?.fields['email']?.validate(),
+                          textInputAction: TextInputAction.done,
+                        ),
+                      ],
+                    ),
+                  const SizedBox(height: 32),
+                  // ───────────────── Botón Guardar ─────────────────
+                  Container(
+                    width: double.infinity,
+                    height: 44,
+                    child: AppButton(
+                      label: context.strings.saveData,
+                      isLoading: _isSaving,
+                      onPressed: _areAllFieldsFilled &&
+                              (_formKey.currentState?.isDirty ?? false) &&
+                              !_isSaving &&
+                              _hasChanges()
+                          ? _save
+                          : null,
+                      type: AppButtonType.filled,
+                    ),
+                  ),
+                  const SizedBox(height: 24),
+                ],
+              ),
             ),
-          ),
         ),
       ),
     );
