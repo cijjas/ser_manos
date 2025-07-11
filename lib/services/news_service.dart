@@ -1,29 +1,29 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:ser_manos/models/novedad.dart';
+import 'package:ser_manos/models/news.dart';
 
-class NovedadService {
-  NovedadService({FirebaseFirestore? firestore})
+class NewsService {
+  NewsService({FirebaseFirestore? firestore})
       : _collection =
             (firestore ?? FirebaseFirestore.instance).collection('novedades');
 
   final CollectionReference<Map<String, dynamic>> _collection;
 
-  Future<List<Novedad>> getAll() async {
+  Future<List<News>> getAll() async {
     final query =
         await _collection.orderBy('createdAt', descending: true).get();
-    return query.docs.map((doc) => Novedad.fromJson(doc.data())).toList();
+    return query.docs.map((doc) => News.fromJson(doc.data())).toList();
   }
 
-  Stream<List<Novedad>> watchAll() {
+  Stream<List<News>> watchAll() {
     return _collection.orderBy('createdAt', descending: true).snapshots().map(
         (snap) =>
-            snap.docs.map((doc) => Novedad.fromJson(doc.data())).toList());
+            snap.docs.map((doc) => News.fromJson(doc.data())).toList());
   }
 
-  Stream<Novedad> watchOne(String id) {
+  Stream<News> watchOne(String id) {
     return _collection
         .doc(id)
         .snapshots()
-        .map((doc) => Novedad.fromJson(doc.data()!));
+        .map((doc) => News.fromJson(doc.data()!));
   }
 }

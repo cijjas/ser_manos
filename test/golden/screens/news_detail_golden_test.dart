@@ -4,21 +4,21 @@ import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:mockito/mockito.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'package:ser_manos/models/novedad.dart';
-import 'package:ser_manos/providers/novedad_provider.dart';
-import 'package:ser_manos/shared/wireframes/novedades/novedad_detail.dart';
+import 'package:ser_manos/models/news.dart';
+import 'package:ser_manos/providers/news_provider.dart';
+import 'package:ser_manos/shared/wireframes/news/news_detail.dart';
 
 import '../../mocks/mocks.mocks.dart';
 import '../../utils/test_utils.dart';
 
 // ───────────────────────── helpers ──────────────────────────
-Novedad _fakeNovedad() => Novedad(
+News _fakeNews() => News(
       id: 'n1',
-      titulo: 'Nueva campaña solidaria',
-      resumen: 'Únete para ayudar a los niños de la zona rural.',
-      emisor: 'SerManos ONG',
-      imagenUrl: 'https://dummyimage.com/600x400/000/fff&text=novedad',
-      descripcion:
+      title: 'Nueva campaña solidaria',
+      summary: 'Únete para ayudar a los niños de la zona rural.',
+      sender: 'SerManos ONG',
+      imageUrl: 'https://dummyimage.com/600x400/000/fff&text=novedad',
+      description:
           'Este es el cuerpo completo de la noticia. Aquí iría un texto algo más extenso '
           'describiendo la iniciativa, sus objetivos, cómo colaborar, etc.',
       createdAt: DateTime(2025, 1, 1),
@@ -26,16 +26,16 @@ Novedad _fakeNovedad() => Novedad(
 
 // ───────────────────────── test ─────────────────────────────
 void main() {
-  testGoldens('NovedadDetail – light & dark', (tester) async {
+  testGoldens('NewsDetail – light & dark', (tester) async {
     await loadAppFonts();
 
     await mockNetworkImagesFor(() async {
-      final mockNovedadService = MockNovedadService();
-      when(mockNovedadService.watchOne('n1'))
-          .thenAnswer((_) => Stream.value(_fakeNovedad()));
+      final mockNewsService = MockNewsService();
+      when(mockNewsService.watchOne('n1'))
+          .thenAnswer((_) => Stream.value(_fakeNews()));
 
       final overrides = <Override>[
-        novedadServiceProvider.overrideWithValue(mockNovedadService),
+        newsServiceProvider.overrideWithValue(mockNewsService),
       ];
 
       final builder = DeviceBuilder()
@@ -45,7 +45,7 @@ void main() {
           widget: ProviderScope(
             overrides: overrides,
             child: testAppWithHome(
-              home: const NovedadDetail(id: 'n1'),
+              home: const NewsDetail(id: 'n1'),
               theme: ThemeData.light(),
             ),
           ),
@@ -55,7 +55,7 @@ void main() {
           widget: ProviderScope(
             overrides: overrides,
             child: testAppWithHome(
-              home: const NovedadDetail(id: 'n1'),
+              home: const NewsDetail(id: 'n1'),
               theme: ThemeData.dark(),
             ),
           ),
@@ -66,7 +66,7 @@ void main() {
 
       await screenMatchesGolden(
         tester,
-        'novedad_detail_page',
+        'news_detail_page',
         customPump: (tester) async =>
             tester.pump(const Duration(milliseconds: 200)),
       );

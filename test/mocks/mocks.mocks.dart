@@ -8,11 +8,11 @@ import 'dart:async' as _i4;
 import 'package:firebase_auth/firebase_auth.dart' as _i2;
 import 'package:geolocator/geolocator.dart' as _i10;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:ser_manos/models/novedad.dart' as _i5;
+import 'package:ser_manos/models/news.dart' as _i5;
 import 'package:ser_manos/models/user.dart' as _i7;
 import 'package:ser_manos/models/volunteering.dart' as _i9;
 import 'package:ser_manos/services/auth_service.dart' as _i11;
-import 'package:ser_manos/services/novedad_service.dart' as _i3;
+import 'package:ser_manos/services/news_service.dart' as _i3;
 import 'package:ser_manos/services/user_service.dart' as _i6;
 import 'package:ser_manos/services/volunteering_service.dart' as _i8;
 
@@ -41,40 +41,40 @@ class _FakeUserCredential_0 extends _i1.SmartFake
         );
 }
 
-/// A class which mocks [NovedadService].
+/// A class which mocks [NewsService].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockNovedadService extends _i1.Mock implements _i3.NovedadService {
+class MockNewsService extends _i1.Mock implements _i3.NewsService {
   @override
-  _i4.Future<List<_i5.Novedad>> getAll() => (super.noSuchMethod(
+  _i4.Future<List<_i5.News>> getAll() => (super.noSuchMethod(
         Invocation.method(
           #getAll,
           [],
         ),
-        returnValue: _i4.Future<List<_i5.Novedad>>.value(<_i5.Novedad>[]),
+        returnValue: _i4.Future<List<_i5.News>>.value(<_i5.News>[]),
         returnValueForMissingStub:
-            _i4.Future<List<_i5.Novedad>>.value(<_i5.Novedad>[]),
-      ) as _i4.Future<List<_i5.Novedad>>);
+            _i4.Future<List<_i5.News>>.value(<_i5.News>[]),
+      ) as _i4.Future<List<_i5.News>>);
 
   @override
-  _i4.Stream<List<_i5.Novedad>> watchAll() => (super.noSuchMethod(
+  _i4.Stream<List<_i5.News>> watchAll() => (super.noSuchMethod(
         Invocation.method(
           #watchAll,
           [],
         ),
-        returnValue: _i4.Stream<List<_i5.Novedad>>.empty(),
-        returnValueForMissingStub: _i4.Stream<List<_i5.Novedad>>.empty(),
-      ) as _i4.Stream<List<_i5.Novedad>>);
+        returnValue: _i4.Stream<List<_i5.News>>.empty(),
+        returnValueForMissingStub: _i4.Stream<List<_i5.News>>.empty(),
+      ) as _i4.Stream<List<_i5.News>>);
 
   @override
-  _i4.Stream<_i5.Novedad> watchOne(String? id) => (super.noSuchMethod(
+  _i4.Stream<_i5.News> watchOne(String? id) => (super.noSuchMethod(
         Invocation.method(
           #watchOne,
           [id],
         ),
-        returnValue: _i4.Stream<_i5.Novedad>.empty(),
-        returnValueForMissingStub: _i4.Stream<_i5.Novedad>.empty(),
-      ) as _i4.Stream<_i5.Novedad>);
+        returnValue: _i4.Stream<_i5.News>.empty(),
+        returnValueForMissingStub: _i4.Stream<_i5.News>.empty(),
+      ) as _i4.Stream<_i5.News>);
 }
 
 /// A class which mocks [UserService].

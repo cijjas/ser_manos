@@ -2,17 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/wireframes/error/error_page.dart';
-import 'package:ser_manos/shared/wireframes/ingreso/entry_page.dart';
-import 'package:ser_manos/shared/wireframes/ingreso/welcome_page.dart';
-import 'package:ser_manos/shared/wireframes/novedades/novedades.dart';
+import 'package:ser_manos/shared/wireframes/entry/entry_page.dart';
+import 'package:ser_manos/shared/wireframes/entry/welcome_page.dart';
+import 'package:ser_manos/shared/wireframes/news/news.dart';
 
 import '../constants/app_routes.dart';
 import '../providers/auth_provider.dart';
 import '../providers/user_provider.dart';
 import '../shared/cells/header/header.dart';
-import '../shared/wireframes/ingreso/login_page.dart';
-import '../shared/wireframes/ingreso/register_page.dart';
-import '../shared/wireframes/novedades/novedad_detail.dart';
+import '../shared/wireframes/entry/login_page.dart';
+import '../shared/wireframes/entry/register_page.dart';
+import '../shared/wireframes/news/news_detail.dart';
 import '../shared/wireframes/perfil/editar_perfil.dart';
 import '../shared/wireframes/perfil/perfil_wrapper.dart';
 import '../shared/wireframes/volunteerings/volunteering_detail.dart';
@@ -142,7 +142,7 @@ final routerProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutes.news,
         name: RouteNames.newsDetail,
-        builder: (_, state) => NovedadDetail(id: state.pathParameters['id']!),
+        builder: (_, state) => NewsDetail(id: state.pathParameters['id']!),
       ),
       GoRoute(
         path: AppRoutes.homeProfileEdit,

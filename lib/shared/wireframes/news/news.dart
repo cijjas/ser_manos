@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:ser_manos/shared/cells/cards/card_novedades.dart';
-import '../../../providers/novedad_provider.dart';
+import 'package:ser_manos/shared/cells/cards/news_card.dart';
+import '../../../providers/news_provider.dart';
 import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
@@ -12,7 +12,7 @@ class NewsPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final novedadesAsync = ref.watch(novedadesProvider);
+    final newsAsync = ref.watch(newsProvider);
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -22,13 +22,13 @@ class NewsPage extends ConsumerWidget {
           const SizedBox(height: 8),
           Text(context.strings.news, style: AppTypography.headline01),
           const SizedBox(height: 16),
-          novedadesAsync.when(
+          newsAsync.when(
             data: (news) => news.isNotEmpty
                 ? Column(
                     children: news
-                        .map((novedad) => Padding(
+                        .map((news) => Padding(
                               padding: const EdgeInsets.only(bottom: 24),
-                              child: CardNovedades(novedad: novedad),
+                              child: NewsCard(news: news),
                             ))
                         .toList(),
                   )

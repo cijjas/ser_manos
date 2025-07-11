@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:ser_manos/models/novedad.dart';
+import 'package:ser_manos/models/news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 void main() {
@@ -18,28 +18,28 @@ void main() {
     };
 
     test('fromJson convierte Timestamp a DateTime', () {
-      final n = Novedad.fromJson(json);
+      final n = News.fromJson(json);
 
       expect(n.id, 'n1');
       expect(n.createdAt, ts.toDate());
-      expect(n.titulo, contains('colecta'));
+      expect(n.title, contains('colecta'));
     });
 
     test('toJson vuelve a Timestamp y mantiene valores', () {
-      final encoded = Novedad.fromJson(json).toJson();
+      final encoded = News.fromJson(json).toJson();
 
       expect(encoded['createdAt'], isA<Timestamp>());
       expect(encoded['titulo'], 'Nueva colecta de abrigo');
     });
 
     test('round-trip y copyWith', () {
-      final original = Novedad.fromJson(json);
-      final round    = Novedad.fromJson(original.toJson());
+      final original = News.fromJson(json);
+      final round    = News.fromJson(original.toJson());
 
       expect(round, equals(original));
 
-      final mod = original.copyWith(titulo: 'Título actualizado');
-      expect(mod.titulo, 'Título actualizado');
+      final mod = original.copyWith(title: 'Título actualizado');
+      expect(mod.title, 'Título actualizado');
       expect(original, isNot(mod));
     });
   });

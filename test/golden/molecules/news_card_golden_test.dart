@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:golden_toolkit/golden_toolkit.dart';
 import 'package:network_image_mock/network_image_mock.dart';
 
-import 'package:ser_manos/models/novedad.dart';
-import 'package:ser_manos/shared/cells/cards/card_novedades.dart';
+import 'package:ser_manos/models/news.dart';
+import 'package:ser_manos/shared/cells/cards/news_card.dart';
 import '../../utils/test_utils.dart';
 
 Widget _frame(Widget w, {ThemeData? theme}) => testApp(
@@ -11,19 +11,19 @@ Widget _frame(Widget w, {ThemeData? theme}) => testApp(
       theme: theme,
     );
 
-Novedad fakeNews(String id) => Novedad(
+News fakeNews(String id) => News(
       id: id,
-      titulo: 'New spaces for volunteering',
-      resumen:
+      title: 'New spaces for volunteering',
+      summary:
           'Discover the latest opportunities we’ve opened for community work.',
-      emisor: 'SerManos',
-      imagenUrl: 'https://dummyimage.com/300x400/ccc/aaa&text=news',
-      descripcion: 'Long **markdown** body …',
+      sender: 'SerManos',
+      imageUrl: 'https://dummyimage.com/300x400/ccc/aaa&text=news',
+      description: 'Long **markdown** body …',
       createdAt: DateTime(2025, 6, 1),
     );
 
 void main() {
-  testGoldens('CardNovedades widget', (tester) async {
+  testGoldens('NewsCard widget', (tester) async {
     await loadAppFonts();
 
     await mockNetworkImagesFor(() async {
@@ -31,12 +31,12 @@ void main() {
         ..overrideDevicesForAllScenarios(devices: [Device.phone])
         ..addScenario(
           name: 'light',
-          widget: _frame(CardNovedades(novedad: fakeNews('n1'))),
+          widget: _frame(NewsCard(news: fakeNews('n1'))),
         )
         ..addScenario(
           name: 'dark',
           widget: _frame(
-            CardNovedades(novedad: fakeNews('n1')),
+            NewsCard(news: fakeNews('n1')),
             theme: ThemeData.dark(useMaterial3: true),
           ),
         );
@@ -44,7 +44,7 @@ void main() {
       await tester.pumpDeviceBuilder(builder);
       await tester.pump(const Duration(milliseconds: 200)); // fonts-settle
 
-      await screenMatchesGolden(tester, 'card_novedades');
+      await screenMatchesGolden(tester, 'news_card');
     });
   });
 }

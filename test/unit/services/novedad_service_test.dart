@@ -1,17 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:fake_cloud_firestore/fake_cloud_firestore.dart';
-import 'package:ser_manos/services/novedad_service.dart';
-import 'package:ser_manos/models/novedad.dart';
+import 'package:ser_manos/services/news_service.dart';
+import 'package:ser_manos/models/news.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:async/async.dart';
 
 void main() {
   late FakeFirebaseFirestore fakeDb;
-  late NovedadService        sut;
+  late NewsService        sut;
 
   setUp(() {
     fakeDb = FakeFirebaseFirestore();
-    sut    = NovedadService(firestore: fakeDb);
+    sut    = NewsService(firestore: fakeDb);
   });
 
   Timestamp ts(int year) => Timestamp.fromDate(DateTime(year));
@@ -54,7 +54,7 @@ void main() {
       'createdAt' : Timestamp.now(),
     });
 
-    expectLater(stream, emits(isA<List<Novedad>>()));
+    expectLater(stream, emits(isA<List<News>>()));
   });
 
   test('watchOne emite actualización del documento', () async {
@@ -68,16 +68,16 @@ void main() {
       'createdAt' : Timestamp.now(),
     });
 
-    final q = StreamQueue<Novedad>(sut.watchOne('n4'));
+    final q = StreamQueue<News>(sut.watchOne('n4'));
 
     final first = await q.next.timeout(const Duration(seconds: 1));
-    expect(first.titulo, 'init');
+    expect(first.title, 'init');
 
     // actualizamos
     await fakeDb.doc('novedades/n4').update({'titulo': 'upd'});
 
     final updated = await q.next.timeout(const Duration(seconds: 1));
-    expect(updated.titulo, 'upd');
+    expect(updated.title, 'upd');
 
     await q.cancel();
   });

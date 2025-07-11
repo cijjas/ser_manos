@@ -8,26 +8,26 @@ import 'package:share_plus/share_plus.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 
-import 'package:ser_manos/models/novedad.dart';
-import 'package:ser_manos/providers/novedad_provider.dart';
+import 'package:ser_manos/models/news.dart';
+import 'package:ser_manos/providers/news_provider.dart';
 import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 import '../../../utils/app_strings.dart';
 import '../../cells/header/header_seccion.dart';
 
-class NovedadDetail extends ConsumerStatefulWidget {
+class NewsDetail extends ConsumerStatefulWidget {
   final String id;
-  const NovedadDetail({super.key, required this.id});
+  const NewsDetail({super.key, required this.id});
 
   @override
-  ConsumerState<NovedadDetail> createState() => _NovedadDetailState();
+  ConsumerState<NewsDetail> createState() => _NewsDetailState();
 }
 
-class _NovedadDetailState extends ConsumerState<NovedadDetail> {
+class _NewsDetailState extends ConsumerState<NewsDetail> {
   bool isSharing = false;
 
-  Future<void> _handleShare(Novedad novedad) async {
+  Future<void> _handleShare(News news) async {
     if (isSharing || !mounted) return;
 
     setState(() => isSharing = true);
@@ -35,25 +35,25 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
     await FirebaseAnalytics.instance.logEvent(
       name: 'share_news',
       parameters: {
-        'news_id': novedad.id,
-        'news_title': novedad.titulo,
+        'news_id': news.id,
+        'news_title': news.title,
       },
     );
 
-    final url = 'http://sermanos.app/novedad/${novedad.id}';
+    final url = 'http://sermanos.app/news/${news.id}';
     final discoverMoreText =
         mounted ? context.strings.discoverMore : 'Descubre más aquí:';
-    final text = '${novedad.resumen}\n\n$discoverMoreText\n$url';
+    final text = '${news.summary}\n\n$discoverMoreText\n$url';
 
     try {
-      final response = await http.get(Uri.parse(novedad.imagenUrl));
+      final response = await http.get(Uri.parse(news.imageUrl));
       if (response.statusCode != 200) {
         throw Exception('No se pudo descargar la imagen.');
       }
 
       final dir = await getTemporaryDirectory();
       final fileName =
-          'shared_novedad_${DateTime.now().millisecondsSinceEpoch}.jpg';
+          'shared_news_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final path = '${dir.path}/$fileName';
       final file = File(path);
       await file.writeAsBytes(response.bodyBytes);
@@ -65,8 +65,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
         stack,
         reason: 'Failed to download news image for sharing',
         information: [
-          'Novedad ID: ${novedad.id}',
-          'Image URL: ${novedad.imagenUrl}'
+          'News ID: ${news.id}',
+          'Image URL: ${news.imageUrl}'
         ],
         fatal: false,
       );
@@ -83,35 +83,35 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
 
   @override
   Widget build(BuildContext context) {
-    final novedadAsync = ref.watch(novedadByIdProvider(widget.id));
+    final newsAsync = ref.watch(newsByIdProvider(widget.id));
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
-      body: novedadAsync.when(
+      body: newsAsync.when(
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, stack) {
           FirebaseCrashlytics.instance.recordError(e, stack);
           return Center(child: Text(context.strings.loadNewsError));
         },
-        data: (novedad) => SingleChildScrollView(
+        data: (news) => SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const AppHeaderSection(title: 'Novedades'),
+              const AppHeaderSection(title: 'Novedades'), // TODO i18n
               Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(novedad.emisor.toUpperCase(),
+                    Text(news.sender.toUpperCase(),
                         style: AppTypography.overline),
                     const SizedBox(height: 4),
-                    Text(novedad.titulo, style: AppTypography.headline02),
+                    Text(news.title, style: AppTypography.headline02),
                     const SizedBox(height: 16),
                     ClipRRect(
                       borderRadius: BorderRadius.circular(6),
                       child: Image.network(
-                        novedad.imagenUrl,
+                        news.imageUrl,
                         height: 160,
                         width: double.infinity,
                         fit: BoxFit.cover,
@@ -130,8 +130,8 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                             stackTrace,
                             reason: 'Failed to load news image for display',
                             information: [
-                              'Novedad ID: ${novedad.id}',
-                              'Image URL: ${novedad.imagenUrl}'
+                              'News ID: ${news.id}',
+                              'Image URL: ${news.imageUrl}'
                             ],
                             fatal: false,
                           );
@@ -149,13 +149,13 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      novedad.resumen,
+                      news.summary,
                       style: AppTypography.subtitle01.copyWith(
                         color: AppColors.secondary200,
                       ),
                     ),
                     const SizedBox(height: 16),
-                    Text(novedad.descripcion, style: AppTypography.body01),
+                    Text(news.description, style: AppTypography.body01),
                     const SizedBox(height: 32),
                   ],
                 ),
@@ -171,7 +171,7 @@ class _NovedadDetailState extends ConsumerState<NovedadDetail> {
                       AppButton(
                         label: context.strings.share,
                         onPressed:
-                            isSharing ? null : () => _handleShare(novedad),
+                            isSharing ? null : () => _handleShare(news),
                         type: AppButtonType.filled,
                         isLoading: isSharing,
                       ),
