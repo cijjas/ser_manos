@@ -217,7 +217,8 @@ Notifications can **only be tested on Android devices**.
 
 The backend listens for two types of events:
 
-- **Application Status Change:** See [How to Test Volunteer Acceptance](#-how-to-test-volunteer-acceptance) for detailed steps.
+- **Application Status Change:** See [How to Test Volunteer Acceptance](#-how-to-test-volunteer-acceptance)
+    for detailed steps.
 - **New Novedad Created:**  
   Adding a new document to the `novedades` collection triggers a "news" notification.
 
@@ -253,7 +254,8 @@ To test volunteer application status notifications, you need to simulate an admi
 5. Locate the specific volunteer application entry
 6. Change the `estado` field from `"pending"` to either `"accepted"` or `"rejected"` to simulate the application process
 
-This will trigger a push notification to the user's device notifying them of the status change, and the notification will deep link directly to the volunteer opportunity details when tapped.
+This will trigger a push notification to the user's device notifying them of the status change,
+and the notification will deep link directly to the volunteer opportunity details when tapped.
 
 #### 3.2.3. Camera
 
@@ -314,6 +316,7 @@ used in the development of Ser Manos.
 The app supports deep linking on both Android and iOS platforms with the domain `sermanos.app`:
 
 **Android Configuration** ✅
+
 - Configured in `android/app/src/main/AndroidManifest.xml` with intent filters
 - Supports both HTTP and HTTPS schemes
 - Handles URLs like `https://sermanos.app/volunteer/123`
@@ -328,6 +331,7 @@ The app supports deep linking on both Android and iOS platforms with the domain 
 ```
 
 **iOS Configuration** ✅
+
 - Configured in `ios/Runner/Info.plist` with URL scheme registration
 - Supports both HTTP and HTTPS schemes
 - Handles the same URL patterns as Android
@@ -348,21 +352,10 @@ The app supports deep linking on both Android and iOS platforms with the domain 
 ```
 
 **Supported Deep Link Routes:**
-- Profile pages: `https://sermanos.app/profile`
-- Volunteer opportunities: `https://sermanos.app/volunteer/{id}`
-- News sections: `https://sermanos.app/news/{id}`
-- Authentication flows: `https://sermanos.app/auth`
 
-**Testing Deep Links:**
-```bash
-# Android
-adb shell am start -W -a android.intent.action.VIEW -d "https://sermanos.app/volunteer/123" com.example.ser_manos
-
-# iOS Simulator
-xcrun simctl openurl booted "https://sermanos.app/volunteer/123"
-```
-
-For complete deep linking documentation, see [docs/DEEP_LINKING.md](docs/DEEP_LINKING.md).
+- Profile page: `https://sermanos.app/profile`
+- Volunteer opportunities: `https://sermanos.app/volunteering/details/{id}`
+- News sections: `https://sermanos.app/news/details/{id}`
 
 ### 4.3. Backend Integration
 
@@ -463,7 +456,10 @@ The application utilizes three main data models, implemented using `freezed` for
 immutability and `json_serializable` for JSON serialization/deserialization.
 These models can be found in the `lib/models/` directory.
 
-> **Note on Field Names:** The database fields are stored in Spanish (e.g., `titulo`, `resumen`, `emisor`, `imagenUrl`) and have been maintained this way for backward compatibility with existing data and services. The Dart models use `@JsonKey` annotations to map between English property names in the code and Spanish field names in Firestore.
+> **Note on Field Names:** The database fields are stored in Spanish (e.g., `titulo`, `resumen`,
+  `emisor`, `imagenUrl`) and have been maintained this way for backward compatibility with
+   existing data and services. The Dart models use `@JsonKey` annotations to map between English
+   property names in the code and Spanish field names in Firestore.
 
 - **User Model (`user.dart`):** Represents the application user and their
   volunteer-related states.
