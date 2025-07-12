@@ -217,11 +217,7 @@ Notifications can **only be tested on Android devices**.
 
 The backend listens for two types of events:
 
-- **Application Status Change:**  
-  Find the user's `voluntariados` field in Firestore. Change the `estado` field from `"pending"` to
-  either `"accepted"` or `"rejected"` to simulate the application process and trigger a
-  notification.
-
+- **Application Status Change:** See [How to Test Volunteer Acceptance](#-how-to-test-volunteer-acceptance) for detailed steps.
 - **New Novedad Created:**  
   Adding a new document to the `novedades` collection triggers a "news" notification.
 
@@ -245,6 +241,19 @@ The backend listens for two types of events:
 
 Once saved, the notification should appear on any Android device with the app installed and
 notification permissions enabled.
+
+### 📋 How to Test Volunteer Acceptance
+
+To test volunteer application status notifications, you need to simulate an admin accepting or rejecting a volunteer application:
+
+1. Go to the [Firebase Console](https://console.firebase.google.com/)
+2. Select your project and navigate to **Firestore Database**
+3. Find the user document whose application status you want to change
+4. Navigate to the user's `voluntariados` field
+5. Locate the specific volunteer application entry
+6. Change the `estado` field from `"pending"` to either `"accepted"` or `"rejected"` to simulate the application process
+
+This will trigger a push notification to the user's device notifying them of the status change, and the notification will deep link directly to the volunteer opportunity details when tapped.
 
 #### 3.2.3. Camera
 
@@ -454,6 +463,8 @@ The application utilizes three main data models, implemented using `freezed` for
 immutability and `json_serializable` for JSON serialization/deserialization.
 These models can be found in the `lib/models/` directory.
 
+> **Note on Field Names:** The database fields are stored in Spanish (e.g., `titulo`, `resumen`, `emisor`, `imagenUrl`) and have been maintained this way for backward compatibility with existing data and services. The Dart models use `@JsonKey` annotations to map between English property names in the code and Spanish field names in Firestore.
+
 - **User Model (`user.dart`):** Represents the application user and their
   volunteer-related states.
 
@@ -522,7 +533,7 @@ This project follows a **hybrid architecture** that combines both
   (e.g., `models`, `services`, `providers`, `router`). This makes it easy to
   locate shared logic and maintain consistency.
 - **Feature-first**: At the UI level, particularly under `shared/wireframes/`,
-  screens are grouped by feature domain (`home`, `perfil`, `novedades`, etc.),
+  screens are grouped by feature domain (`home`, `perfil`, `novedades`, `voluntariados`, `ingreso`, and `error`),
   enabling easier collaboration, testing, and navigation for large teams.
 
 This hybrid approach allows for:
