@@ -15,7 +15,7 @@ todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 - [ ] Revisar manejo de sesión para cuentas recién creadas.
 - [x] Corregir márgenes del modal de perfil según el Design System.
 - [ ] Reemplazar logo de baja calidad por uno de mejor resolución.
-- [ ] Corregir actualización inconsistente de email (aparece erróneamente como mail primario en la sesión tras editar perfil).
+- [x] Corregir actualización inconsistente de email (aparece erróneamente como mail primario en la sesión tras editar perfil).
 
 ## 🔗 Deep Linking
 - [~] Hacer que los deep links funcionen en dispositivos físicos. TESTEAR IOS

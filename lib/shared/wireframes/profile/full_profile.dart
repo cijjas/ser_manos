@@ -18,6 +18,7 @@ class FullProfilePage extends StatelessWidget {
     required this.role,
     required this.name,
     required this.email,
+    required this.contactEmail,
     required this.birthDate,
     required this.gender,
     required this.phone,
@@ -28,6 +29,7 @@ class FullProfilePage extends StatelessWidget {
   final String role;
   final String name;
   final String email;
+  final String contactEmail;
   final String birthDate;
   final String gender;
   final String phone;
@@ -109,7 +111,7 @@ class FullProfilePage extends StatelessWidget {
                       label1: context.strings.phone,
                       content1: phone,
                       label2: context.strings.email,
-                      content2: email,
+                      content2: contactEmail,
                     ),
                   ],
                 ),

@@ -15,7 +15,7 @@ class ProfileWrapperPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
-
+    
     return authState.when(
       loading: () => const Scaffold(
         body: Center(child: CircularProgressIndicator()),
@@ -71,7 +71,8 @@ class ProfileWrapperPage extends ConsumerWidget {
                 imageUrl: u.imagenUrl!,
                 role: context.strings.volunteer,
                 name: fullName,
-                email: u.email,
+                email: authState.value!.email ?? u.email,
+                contactEmail: u.email,
                 birthDate: birthDate,
                 gender: gender,
                 phone: phone,
