@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:ser_manos/shared/atoms/icons/_app_icon.dart';
 import 'package:ser_manos/constants/app_icons.dart';
+import 'package:ser_manos/constants/app_routes.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 
@@ -31,7 +32,21 @@ class AppHeaderSection extends StatelessWidget {
               Material(
                 color: Colors.transparent,
                 child: GestureDetector(
-                  onTap: () => context.pop(),
+                  onTap: () {
+                    if (context.canPop()) {
+                      context.pop();
+                    } else {
+                      final currentLocation = GoRouterState.of(context).uri.path;
+
+                      if (currentLocation.startsWith(AppRoutes.newsDetail.replaceAll('/:id', '/'))) {
+                        context.go(AppRoutes.homeNews);
+                      } else if (currentLocation.startsWith(AppRoutes.volunteeringDetail.replaceAll('/:id', '/'))) {
+                        context.go(AppRoutes.homeVolunteering);
+                      } else if (currentLocation == AppRoutes.homeProfileEdit) {
+                        context.go(AppRoutes.homeProfile);
+                      }
+                    }
+                  },
                   child: const AppIcon(icon: AppIcons.back),
                 ),
               ),

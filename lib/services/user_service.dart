@@ -102,7 +102,11 @@ class UserService {
   }
 
   Future<bool> postulateToVolunteering(User user, String id) async {
-    if (user.volunteerings?.any((v) => v.id == id) ?? false) {
+    if (user.volunteerings?.any((v) =>
+            v.id == id &&
+            v.estado != VolunteeringUserState.rejected &&
+            v.estado != VolunteeringUserState.completed) ??
+        false) {
       _crashlytics.recordError(
         'User already postulated',
         null,

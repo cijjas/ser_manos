@@ -60,5 +60,17 @@
     <true/>
     <key>GMSApiKey</key>
     <string>AIzaSyAiP_UZqZEVC4Y5kq0L6tpPw_VA75MN39g</string>
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLName</key>
+            <string>sermanos.app</string>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>https</string>
+                <string>http</string>
+            </array>
+        </dict>
+    </array>
 </dict>
 </plist>

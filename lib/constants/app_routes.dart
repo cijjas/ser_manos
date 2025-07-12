@@ -1,4 +1,3 @@
-
 class AppRoutes {
   // Auth & onboarding
   static const entry            = '/';
@@ -6,16 +5,14 @@ class AppRoutes {
   static const register         = '/register';
   static const welcome          = '/welcome';
 
-  // Home + tabs
-  static const homeProfile         = '/home/profile';
-  static const homeVolunteering    = '/home/volunteering';
-  static const homeNews            = '/home/news';
+  static const homeProfile         = '/profile';
+  static const homeVolunteering    = '/volunteering';
+  static const homeNews            = '/news';
 
-  // Details
-  static const volunteering        = '/volunteering/:id';
-  static const news                = '/news/:id';
+  static const volunteeringDetail  = '/volunteering/detail/:id';
+  static const newsDetail          = '/news/detail/:id';
 
-  static const homeProfileEdit     = '/home/profile/edit';
+  static const homeProfileEdit     = '/profile/edit';
 }
 
 class RouteNames {

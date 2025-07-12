@@ -14,6 +14,7 @@ import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 import '../../../utils/app_strings.dart';
+import '../../../constants/app_routes.dart';
 import '../../cells/header/header_section.dart';
 
 class NewsDetail extends ConsumerStatefulWidget {
@@ -40,7 +41,7 @@ class _NewsDetailState extends ConsumerState<NewsDetail> {
       },
     );
 
-    final url = 'http://sermanos.app/news/${news.id}';
+    final url = 'https://sermanos.app${AppRoutes.newsDetail.replaceAll(':id', news.id)}';
     final discoverMoreText =
         mounted ? context.strings.discoverMore : 'Descubre más aquí:';
     final text = '${news.summary}\n\n$discoverMoreText\n$url';

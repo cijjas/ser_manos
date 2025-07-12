@@ -300,6 +300,61 @@ used in the development of Ser Manos.
   linking. This allowed us to easily handle incoming links from notifications
   and other external sources, providing a seamless user experience.
 
+#### Deep Linking Configuration
+
+The app supports deep linking on both Android and iOS platforms with the domain `sermanos.app`:
+
+**Android Configuration** ✅
+- Configured in `android/app/src/main/AndroidManifest.xml` with intent filters
+- Supports both HTTP and HTTPS schemes
+- Handles URLs like `https://sermanos.app/volunteer/123`
+
+```xml
+<intent-filter>
+    <action android:name="android.intent.action.VIEW" />
+    <category android:name="android.intent.category.DEFAULT" />
+    <category android:name="android.intent.category.BROWSABLE" />
+    <data android:host="sermanos.app" android:scheme="https" />
+</intent-filter>
+```
+
+**iOS Configuration** ✅
+- Configured in `ios/Runner/Info.plist` with URL scheme registration
+- Supports both HTTP and HTTPS schemes
+- Handles the same URL patterns as Android
+
+```xml
+<key>CFBundleURLTypes</key>
+<array>
+    <dict>
+        <key>CFBundleURLName</key>
+        <string>sermanos.app</string>
+        <key>CFBundleURLSchemes</key>
+        <array>
+            <string>https</string>
+            <string>http</string>
+        </array>
+    </dict>
+</array>
+```
+
+**Supported Deep Link Routes:**
+- Profile pages: `https://sermanos.app/profile`
+- Volunteer opportunities: `https://sermanos.app/volunteer/{id}`
+- News sections: `https://sermanos.app/news/{id}`
+- Authentication flows: `https://sermanos.app/auth`
+
+**Testing Deep Links:**
+```bash
+# Android
+adb shell am start -W -a android.intent.action.VIEW -d "https://sermanos.app/volunteer/123" com.example.ser_manos
+
+# iOS Simulator
+xcrun simctl openurl booted "https://sermanos.app/volunteer/123"
+```
+
+For complete deep linking documentation, see [docs/DEEP_LINKING.md](docs/DEEP_LINKING.md).
+
 ### 4.3. Backend Integration
 
 - **Decision:** The application integrates with a **Firebase backend**,

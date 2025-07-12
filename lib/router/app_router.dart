@@ -20,9 +20,13 @@ import '../shared/wireframes/volunteerings/volunteering_page.dart';
 import 'go_router_observer.dart';
 
 int tabIndexFromLocation(String loc) {
-  if (loc.startsWith(AppRoutes.homeVolunteering)) return 0;
-  if (loc.startsWith(AppRoutes.homeProfile)) return 1;
-  return 2; // news
+  final uri = Uri.parse(loc);
+  final path = uri.path;
+
+  if (path.startsWith(AppRoutes.homeVolunteering)) return 0;
+  if (path.startsWith(AppRoutes.homeProfile)) return 1;
+  if (path.startsWith(AppRoutes.homeNews)) return 2;
+  return 0;
 }
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -134,13 +138,13 @@ final routerProvider = Provider<GoRouter>((ref) {
         ],
       ),
       GoRoute(
-        path: AppRoutes.volunteering,
+        path: AppRoutes.volunteeringDetail,
         name: RouteNames.volunteeringDetails,
         builder: (_, state) => VolunteeringDetallePage(
             volunteeringId: state.pathParameters['id']!),
       ),
       GoRoute(
-        path: AppRoutes.news,
+        path: AppRoutes.newsDetail,
         name: RouteNames.newsDetail,
         builder: (_, state) => NewsDetail(id: state.pathParameters['id']!),
       ),
