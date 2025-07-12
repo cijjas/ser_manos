@@ -6,15 +6,13 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$UserVolunteeringImpl _$$UserVolunteeringImplFromJson(
-        Map<String, dynamic> json) =>
-    _$UserVolunteeringImpl(
+UserVolunteering _$UserVolunteeringFromJson(Map<String, dynamic> json) =>
+    UserVolunteering(
       id: json['id'] as String,
       estado: $enumDecode(_$VolunteeringUserStateEnumMap, json['estado']),
     );
 
-Map<String, dynamic> _$$UserVolunteeringImplToJson(
-        _$UserVolunteeringImpl instance) =>
+Map<String, dynamic> _$UserVolunteeringToJson(UserVolunteering instance) =>
     <String, dynamic>{
       'id': instance.id,
       'estado': _$VolunteeringUserStateEnumMap[instance.estado]!,
@@ -31,7 +29,7 @@ const _$VolunteeringUserStateEnumMap = {
   VolunteeringUserState.completed: 'completed',
 };
 
-_$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
+User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['id'] as String,
       nombre: json['nombre'] as String,
       apellido: json['apellido'] as String,
@@ -52,8 +50,7 @@ _$UserImpl _$$UserImplFromJson(Map<String, dynamic> json) => _$UserImpl(
       fcmToken: json['fcmToken'] as String?,
     );
 
-Map<String, dynamic> _$$UserImplToJson(_$UserImpl instance) =>
-    <String, dynamic>{
+Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
       'nombre': instance.nombre,
       'apellido': instance.apellido,

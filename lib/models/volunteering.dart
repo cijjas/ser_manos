@@ -19,25 +19,61 @@ enum VoluntariadoStatus {
   none,
 }
 
+@JsonSerializable()
 @freezed
 class Volunteering with _$Volunteering {
-  const Volunteering._();
-  const factory Volunteering({
-    required String id,
-    @JsonKey(name: 'nombre') required String name,
-    @JsonKey(name: 'tipo') required String type,
-    @JsonKey(name: 'vacantes') required int vacancies,
-    @GeoPointConverter() @JsonKey(name: 'location') required LatLng location,
-    @TrimConverter() @JsonKey(name: 'imageUrl') required String imageUrl,
-    @JsonKey(name: 'descripcion') required String description,
-    @JsonKey(name: 'resumen') required String summary,
-    @JsonKey(name: 'requisitos') required String requirements,
-    @JsonKey(name: 'costo') required double cost,
-    @TimestampConverter() @JsonKey(name: 'createdAt') required DateTime createdAt,
-  }) = _Volunteering;
+  const Volunteering({
+    required this.id,
+    required this.name,
+    required this.type,
+    required this.vacancies,
+    required this.location,
+    required this.imageUrl,
+    required this.description,
+    required this.summary,
+    required this.requirements,
+    required this.cost,
+    required this.createdAt,
+  });
 
   factory Volunteering.fromJson(String id, Map<String, dynamic> json) => _$VolunteeringFromJson({
     'id': id,
     ...json,
   });
+  Map<String, dynamic> toJson() => _$VolunteeringToJson(this);
+
+  @override
+  final String id;
+  @override
+  @JsonKey(name: 'nombre')
+  final String name;
+  @override
+  @JsonKey(name: 'tipo')
+  final String type;
+  @override
+  @JsonKey(name: 'vacantes')
+  final int vacancies;
+  @override
+  @GeoPointConverter()
+  @JsonKey(name: 'location')
+  final LatLng location;
+  @override
+  @TrimConverter()
+  @JsonKey(name: 'imageUrl')
+  final String imageUrl;
+  @override
+  @JsonKey(name: 'descripcion')
+  final String description;
+  @override
+  @JsonKey(name: 'resumen')
+  final String summary;
+  @override
+  @JsonKey(name: 'requisitos')
+  final String requirements;
+  @override
+  @JsonKey(name: 'costo')
+  final double cost;
+  @override
+  @TimestampConverter()
+  final DateTime createdAt;
 }

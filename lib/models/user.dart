@@ -15,33 +15,70 @@ enum VolunteeringUserState {
   completed
 }
 
-@Freezed(toJson: true)
+@JsonSerializable()
+@freezed
 class UserVolunteering with _$UserVolunteering {
-  const factory UserVolunteering({
-    required String id,
-    required VolunteeringUserState estado,
-  }) = _UserVolunteering;
+  UserVolunteering({
+    required this.id,
+    required this.estado,
+  });
 
   factory UserVolunteering.fromJson(Map<String, dynamic> json) =>
       _$UserVolunteeringFromJson(json);
+  Map<String, dynamic> toJson() => _$UserVolunteeringToJson(this);
+
+
+  @override
+  final String id;
+  @override
+  final VolunteeringUserState estado;
 }
 
-@Freezed(toJson: true)
+@JsonSerializable()
+@freezed
 class User with _$User {
-  const factory User({
-    required String id,
-    required String nombre,
-    required String apellido,
-    required String email,
-    required bool hasSeenOnboarding,
-    @JsonKey(name: 'voluntariados') List<UserVolunteering>? volunteerings,
-    @JsonKey(name: 'likedVoluntariados') List<String>? likedVolunteerings,
-    String? telefono,
-    DateTime? fechaNacimiento,
-    String? genero,
-    String? imagenUrl,
-    String? fcmToken,
-  }) = _User;
+  const User({
+    required this.id,
+    required this.nombre,
+    required this.apellido,
+    required this.email,
+    required this.hasSeenOnboarding,
+    this.volunteerings,
+    this.likedVolunteerings,
+    this.telefono,
+    this.fechaNacimiento,
+    this.genero,
+    this.imagenUrl,
+    this.fcmToken,
+  });
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
+  Map<String, dynamic> toJson() => _$UserToJson(this);
+
+  @override
+  final String id;
+  @override
+  final String nombre;
+  @override
+  final String apellido;
+  @override
+  final String email;
+  @override
+  final bool hasSeenOnboarding;
+  @override
+  @JsonKey(name: 'voluntariados')
+  final List<UserVolunteering>? volunteerings;
+  @override
+  @JsonKey(name: 'likedVoluntariados')
+  final List<String>? likedVolunteerings;
+  @override
+  final String? telefono;
+  @override
+  final DateTime? fechaNacimiento;
+  @override
+  final String? genero;
+  @override
+  final String? imagenUrl;
+  @override
+  final String? fcmToken;
 }

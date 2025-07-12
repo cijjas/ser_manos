@@ -1,3 +1,4 @@
+// dart format width=80
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
@@ -9,312 +10,36 @@ part of 'volunteering.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
-Volunteering _$VolunteeringFromJson(Map<String, dynamic> json) {
-  return _Volunteering.fromJson(json);
-}
 
 /// @nodoc
 mixin _$Volunteering {
-  String get id => throw _privateConstructorUsedError;
-  @JsonKey(name: 'nombre')
-  String get name => throw _privateConstructorUsedError;
-  @JsonKey(name: 'tipo')
-  String get type => throw _privateConstructorUsedError;
-  @JsonKey(name: 'vacantes')
-  int get vacancies => throw _privateConstructorUsedError;
-  @GeoPointConverter()
-  @JsonKey(name: 'location')
-  LatLng get location => throw _privateConstructorUsedError;
-  @TrimConverter()
-  @JsonKey(name: 'imageUrl')
-  String get imageUrl => throw _privateConstructorUsedError;
-  @JsonKey(name: 'descripcion')
-  String get description => throw _privateConstructorUsedError;
-  @JsonKey(name: 'resumen')
-  String get summary => throw _privateConstructorUsedError;
-  @JsonKey(name: 'requisitos')
-  String get requirements => throw _privateConstructorUsedError;
-  @JsonKey(name: 'costo')
-  double get cost => throw _privateConstructorUsedError;
-  @TimestampConverter()
-  @JsonKey(name: 'createdAt')
-  DateTime get createdAt => throw _privateConstructorUsedError;
-
-  /// Serializes this Volunteering to a JSON map.
-  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  String get id;
+  String get name;
+  String get type;
+  int get vacancies;
+  LatLng get location;
+  String get imageUrl;
+  String get description;
+  String get summary;
+  String get requirements;
+  double get cost;
+  DateTime get createdAt;
 
   /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
   $VolunteeringCopyWith<Volunteering> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class $VolunteeringCopyWith<$Res> {
-  factory $VolunteeringCopyWith(
-          Volunteering value, $Res Function(Volunteering) then) =
-      _$VolunteeringCopyWithImpl<$Res, Volunteering>;
-  @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'nombre') String name,
-      @JsonKey(name: 'tipo') String type,
-      @JsonKey(name: 'vacantes') int vacancies,
-      @GeoPointConverter() @JsonKey(name: 'location') LatLng location,
-      @TrimConverter() @JsonKey(name: 'imageUrl') String imageUrl,
-      @JsonKey(name: 'descripcion') String description,
-      @JsonKey(name: 'resumen') String summary,
-      @JsonKey(name: 'requisitos') String requirements,
-      @JsonKey(name: 'costo') double cost,
-      @TimestampConverter() @JsonKey(name: 'createdAt') DateTime createdAt});
-}
-
-/// @nodoc
-class _$VolunteeringCopyWithImpl<$Res, $Val extends Volunteering>
-    implements $VolunteeringCopyWith<$Res> {
-  _$VolunteeringCopyWithImpl(this._value, this._then);
-
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
-
-  /// Create a copy of Volunteering
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? type = null,
-    Object? vacancies = null,
-    Object? location = null,
-    Object? imageUrl = null,
-    Object? description = null,
-    Object? summary = null,
-    Object? requirements = null,
-    Object? cost = null,
-    Object? createdAt = null,
-  }) {
-    return _then(_value.copyWith(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      vacancies: null == vacancies
-          ? _value.vacancies
-          : vacancies // ignore: cast_nullable_to_non_nullable
-              as int,
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as LatLng,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      summary: null == summary
-          ? _value.summary
-          : summary // ignore: cast_nullable_to_non_nullable
-              as String,
-      requirements: null == requirements
-          ? _value.requirements
-          : requirements // ignore: cast_nullable_to_non_nullable
-              as String,
-      cost: null == cost
-          ? _value.cost
-          : cost // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ) as $Val);
-  }
-}
-
-/// @nodoc
-abstract class _$$VolunteeringImplCopyWith<$Res>
-    implements $VolunteeringCopyWith<$Res> {
-  factory _$$VolunteeringImplCopyWith(
-          _$VolunteeringImpl value, $Res Function(_$VolunteeringImpl) then) =
-      __$$VolunteeringImplCopyWithImpl<$Res>;
-  @override
-  @useResult
-  $Res call(
-      {String id,
-      @JsonKey(name: 'nombre') String name,
-      @JsonKey(name: 'tipo') String type,
-      @JsonKey(name: 'vacantes') int vacancies,
-      @GeoPointConverter() @JsonKey(name: 'location') LatLng location,
-      @TrimConverter() @JsonKey(name: 'imageUrl') String imageUrl,
-      @JsonKey(name: 'descripcion') String description,
-      @JsonKey(name: 'resumen') String summary,
-      @JsonKey(name: 'requisitos') String requirements,
-      @JsonKey(name: 'costo') double cost,
-      @TimestampConverter() @JsonKey(name: 'createdAt') DateTime createdAt});
-}
-
-/// @nodoc
-class __$$VolunteeringImplCopyWithImpl<$Res>
-    extends _$VolunteeringCopyWithImpl<$Res, _$VolunteeringImpl>
-    implements _$$VolunteeringImplCopyWith<$Res> {
-  __$$VolunteeringImplCopyWithImpl(
-      _$VolunteeringImpl _value, $Res Function(_$VolunteeringImpl) _then)
-      : super(_value, _then);
-
-  /// Create a copy of Volunteering
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? id = null,
-    Object? name = null,
-    Object? type = null,
-    Object? vacancies = null,
-    Object? location = null,
-    Object? imageUrl = null,
-    Object? description = null,
-    Object? summary = null,
-    Object? requirements = null,
-    Object? cost = null,
-    Object? createdAt = null,
-  }) {
-    return _then(_$VolunteeringImpl(
-      id: null == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String,
-      name: null == name
-          ? _value.name
-          : name // ignore: cast_nullable_to_non_nullable
-              as String,
-      type: null == type
-          ? _value.type
-          : type // ignore: cast_nullable_to_non_nullable
-              as String,
-      vacancies: null == vacancies
-          ? _value.vacancies
-          : vacancies // ignore: cast_nullable_to_non_nullable
-              as int,
-      location: null == location
-          ? _value.location
-          : location // ignore: cast_nullable_to_non_nullable
-              as LatLng,
-      imageUrl: null == imageUrl
-          ? _value.imageUrl
-          : imageUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String,
-      summary: null == summary
-          ? _value.summary
-          : summary // ignore: cast_nullable_to_non_nullable
-              as String,
-      requirements: null == requirements
-          ? _value.requirements
-          : requirements // ignore: cast_nullable_to_non_nullable
-              as String,
-      cost: null == cost
-          ? _value.cost
-          : cost // ignore: cast_nullable_to_non_nullable
-              as double,
-      createdAt: null == createdAt
-          ? _value.createdAt
-          : createdAt // ignore: cast_nullable_to_non_nullable
-              as DateTime,
-    ));
-  }
-}
-
-/// @nodoc
-@JsonSerializable()
-class _$VolunteeringImpl extends _Volunteering {
-  const _$VolunteeringImpl(
-      {required this.id,
-      @JsonKey(name: 'nombre') required this.name,
-      @JsonKey(name: 'tipo') required this.type,
-      @JsonKey(name: 'vacantes') required this.vacancies,
-      @GeoPointConverter() @JsonKey(name: 'location') required this.location,
-      @TrimConverter() @JsonKey(name: 'imageUrl') required this.imageUrl,
-      @JsonKey(name: 'descripcion') required this.description,
-      @JsonKey(name: 'resumen') required this.summary,
-      @JsonKey(name: 'requisitos') required this.requirements,
-      @JsonKey(name: 'costo') required this.cost,
-      @TimestampConverter()
-      @JsonKey(name: 'createdAt')
-      required this.createdAt})
-      : super._();
-
-  factory _$VolunteeringImpl.fromJson(Map<String, dynamic> json) =>
-      _$$VolunteeringImplFromJson(json);
-
-  @override
-  final String id;
-  @override
-  @JsonKey(name: 'nombre')
-  final String name;
-  @override
-  @JsonKey(name: 'tipo')
-  final String type;
-  @override
-  @JsonKey(name: 'vacantes')
-  final int vacancies;
-  @override
-  @GeoPointConverter()
-  @JsonKey(name: 'location')
-  final LatLng location;
-  @override
-  @TrimConverter()
-  @JsonKey(name: 'imageUrl')
-  final String imageUrl;
-  @override
-  @JsonKey(name: 'descripcion')
-  final String description;
-  @override
-  @JsonKey(name: 'resumen')
-  final String summary;
-  @override
-  @JsonKey(name: 'requisitos')
-  final String requirements;
-  @override
-  @JsonKey(name: 'costo')
-  final double cost;
-  @override
-  @TimestampConverter()
-  @JsonKey(name: 'createdAt')
-  final DateTime createdAt;
-
-  @override
-  String toString() {
-    return 'Volunteering(id: $id, name: $name, type: $type, vacancies: $vacancies, location: $location, imageUrl: $imageUrl, description: $description, summary: $summary, requirements: $requirements, cost: $cost, createdAt: $createdAt)';
-  }
+      _$VolunteeringCopyWithImpl<Volunteering>(
+          this as Volunteering, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$VolunteeringImpl &&
+            other is Volunteering &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.name, name) || other.name == name) &&
             (identical(other.type, type) || other.type == type) &&
@@ -339,86 +64,103 @@ class _$VolunteeringImpl extends _Volunteering {
   int get hashCode => Object.hash(runtimeType, id, name, type, vacancies,
       location, imageUrl, description, summary, requirements, cost, createdAt);
 
-  /// Create a copy of Volunteering
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
   @override
-  @pragma('vm:prefer-inline')
-  _$$VolunteeringImplCopyWith<_$VolunteeringImpl> get copyWith =>
-      __$$VolunteeringImplCopyWithImpl<_$VolunteeringImpl>(this, _$identity);
-
-  @override
-  Map<String, dynamic> toJson() {
-    return _$$VolunteeringImplToJson(
-      this,
-    );
+  String toString() {
+    return 'Volunteering(id: $id, name: $name, type: $type, vacancies: $vacancies, location: $location, imageUrl: $imageUrl, description: $description, summary: $summary, requirements: $requirements, cost: $cost, createdAt: $createdAt)';
   }
 }
 
-abstract class _Volunteering extends Volunteering {
-  const factory _Volunteering(
-      {required final String id,
-      @JsonKey(name: 'nombre') required final String name,
-      @JsonKey(name: 'tipo') required final String type,
-      @JsonKey(name: 'vacantes') required final int vacancies,
-      @GeoPointConverter()
-      @JsonKey(name: 'location')
-      required final LatLng location,
-      @TrimConverter()
-      @JsonKey(name: 'imageUrl')
-      required final String imageUrl,
-      @JsonKey(name: 'descripcion') required final String description,
-      @JsonKey(name: 'resumen') required final String summary,
-      @JsonKey(name: 'requisitos') required final String requirements,
-      @JsonKey(name: 'costo') required final double cost,
-      @TimestampConverter()
-      @JsonKey(name: 'createdAt')
-      required final DateTime createdAt}) = _$VolunteeringImpl;
-  const _Volunteering._() : super._();
+/// @nodoc
+abstract mixin class $VolunteeringCopyWith<$Res> {
+  factory $VolunteeringCopyWith(
+          Volunteering value, $Res Function(Volunteering) _then) =
+      _$VolunteeringCopyWithImpl;
+  @useResult
+  $Res call(
+      {String id,
+      String name,
+      String type,
+      int vacancies,
+      LatLng location,
+      String imageUrl,
+      String description,
+      String summary,
+      String requirements,
+      double cost,
+      DateTime createdAt});
+}
 
-  factory _Volunteering.fromJson(Map<String, dynamic> json) =
-      _$VolunteeringImpl.fromJson;
+/// @nodoc
+class _$VolunteeringCopyWithImpl<$Res> implements $VolunteeringCopyWith<$Res> {
+  _$VolunteeringCopyWithImpl(this._self, this._then);
 
-  @override
-  String get id;
-  @override
-  @JsonKey(name: 'nombre')
-  String get name;
-  @override
-  @JsonKey(name: 'tipo')
-  String get type;
-  @override
-  @JsonKey(name: 'vacantes')
-  int get vacancies;
-  @override
-  @GeoPointConverter()
-  @JsonKey(name: 'location')
-  LatLng get location;
-  @override
-  @TrimConverter()
-  @JsonKey(name: 'imageUrl')
-  String get imageUrl;
-  @override
-  @JsonKey(name: 'descripcion')
-  String get description;
-  @override
-  @JsonKey(name: 'resumen')
-  String get summary;
-  @override
-  @JsonKey(name: 'requisitos')
-  String get requirements;
-  @override
-  @JsonKey(name: 'costo')
-  double get cost;
-  @override
-  @TimestampConverter()
-  @JsonKey(name: 'createdAt')
-  DateTime get createdAt;
+  final Volunteering _self;
+  final $Res Function(Volunteering) _then;
 
   /// Create a copy of Volunteering
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
   @override
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$VolunteeringImplCopyWith<_$VolunteeringImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  $Res call({
+    Object? id = null,
+    Object? name = null,
+    Object? type = null,
+    Object? vacancies = null,
+    Object? location = null,
+    Object? imageUrl = null,
+    Object? description = null,
+    Object? summary = null,
+    Object? requirements = null,
+    Object? cost = null,
+    Object? createdAt = null,
+  }) {
+    return _then(Volunteering(
+      id: null == id
+          ? _self.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String,
+      type: null == type
+          ? _self.type
+          : type // ignore: cast_nullable_to_non_nullable
+              as String,
+      vacancies: null == vacancies
+          ? _self.vacancies
+          : vacancies // ignore: cast_nullable_to_non_nullable
+              as int,
+      location: null == location
+          ? _self.location
+          : location // ignore: cast_nullable_to_non_nullable
+              as LatLng,
+      imageUrl: null == imageUrl
+          ? _self.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
+              as String,
+      description: null == description
+          ? _self.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String,
+      summary: null == summary
+          ? _self.summary
+          : summary // ignore: cast_nullable_to_non_nullable
+              as String,
+      requirements: null == requirements
+          ? _self.requirements
+          : requirements // ignore: cast_nullable_to_non_nullable
+              as String,
+      cost: null == cost
+          ? _self.cost
+          : cost // ignore: cast_nullable_to_non_nullable
+              as double,
+      createdAt: null == createdAt
+          ? _self.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+    ));
+  }
 }
+
+// dart format on

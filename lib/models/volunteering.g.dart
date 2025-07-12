@@ -6,8 +6,7 @@ part of 'volunteering.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_$VolunteeringImpl _$$VolunteeringImplFromJson(Map<String, dynamic> json) =>
-    _$VolunteeringImpl(
+Volunteering _$VolunteeringFromJson(Map<String, dynamic> json) => Volunteering(
       id: json['id'] as String,
       name: json['nombre'] as String,
       type: json['tipo'] as String,
@@ -23,7 +22,7 @@ _$VolunteeringImpl _$$VolunteeringImplFromJson(Map<String, dynamic> json) =>
           const TimestampConverter().fromJson(json['createdAt'] as Timestamp),
     );
 
-Map<String, dynamic> _$$VolunteeringImplToJson(_$VolunteeringImpl instance) =>
+Map<String, dynamic> _$VolunteeringToJson(Volunteering instance) =>
     <String, dynamic>{
       'id': instance.id,
       'nombre': instance.name,
