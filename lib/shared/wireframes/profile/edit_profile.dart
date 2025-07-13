@@ -62,6 +62,39 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
         context.strings.genderNonBinary,
       ];
 
+  int? _getGenderIndex(String? storedGender) {
+    if (storedGender == null) return null;
+
+    switch (storedGender.toLowerCase()) {
+      case 'hombre':
+      case 'male':
+        return 0;
+      case 'mujer':
+      case 'female':
+        return 1;
+      case 'no binario':
+      case 'non-binary':
+        return 2;
+      default:
+        return null;
+    }
+  }
+
+  String? _getStoredGender(int? index) {
+    if (index == null) return null;
+
+    switch (index) {
+      case 0:
+        return 'Hombre';
+      case 1:
+        return 'Mujer';
+      case 2:
+        return 'No binario';
+      default:
+        return null;
+    }
+  }
+
   bool _hasChanges() {
     if (_originalUser == null) return true;
     final values = _formKey.currentState?.value ?? {};
@@ -76,9 +109,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
       return true;
     }
     final generoIndex = values['genero'] as int?;
-    final currentGenero = (generoIndex != null)
-        ? _genderOptions[generoIndex]
-        : null;
+    final currentGenero = _getStoredGender(generoIndex);
     if (currentGenero != _originalUser!.genero) return true;
     if (_localImageToUpload != null) return true;
     return false;
@@ -97,9 +128,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
         _fotoUrl = user.imagenUrl;
       });
 
-      final initialGenderIndex = user.genero != null
-          ? _genderOptions.indexOf(user.genero!)
-          : null;
+      final initialGenderIndex = _getGenderIndex(user.genero);
 
       _formKey.currentState?.patchValue({
         'email': user.email,
@@ -227,9 +256,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
         email: (values['email'] as String).trim(),
         telefono: (values['telefono'] as String).trim(),
         fechaNacimiento: values['fechaNacimiento'] as DateTime,
-        genero: (genderIndex != null)
-            ? _genderOptions[genderIndex]
-            : null,
+        genero: _getStoredGender(genderIndex),
         imagenUrl: urlImagenFinalParaGuardar,
       );
 
@@ -282,7 +309,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // ───────────────── Header with X button ─────────────────
                 Container(
                   height: 64,
                   padding: const EdgeInsets.fromLTRB(0, 20, 16, 20),
@@ -305,7 +331,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                  // ───────────────── Datos de perfil section ─────────────────
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -316,7 +341,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        // ───────────────── Fecha de nacimiento ─────────────────
                         FormBuilderDateField(
                             name: 'fechaNacimiento',
                             label: context.strings.birthDateLabel,
@@ -325,7 +349,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                             validator: (v) => AppValidators.required(v,
                                 label: context.strings.birthDateValidationLabel)),
                         const SizedBox(height: 24),
-                        // ───────────────── Información de perfil (género) ─────────────────
                         SizedBox(
                           width: double.infinity,
                           height: 152,
@@ -359,7 +382,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        // ───────────────── Foto de perfil ─────────────────
                         FormBuilderField<bool>(
                           name: 'imagenValida',
                           initialValue:
@@ -392,7 +414,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                       ],
                     ),
                   const SizedBox(height: 32),
-                  // ───────────────── Datos de contacto section ─────────────────
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
@@ -410,7 +431,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           ),
                         ),
                         const SizedBox(height: 24),
-                        // ───────────────── Teléfono ─────────────────
                         FormBuilderAppTextField(
                           focusNode: _phoneFocus,
                           name: 'telefono',
@@ -425,7 +445,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           textInputAction: TextInputAction.next,
                         ),
                         const SizedBox(height: 24),
-                        // ───────────────── Email ─────────────────
                         FormBuilderAppTextField(
                           focusNode: _emailFocus,
                           name: 'email',
@@ -440,7 +459,6 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                       ],
                     ),
                   const SizedBox(height: 32),
-                  // ───────────────── Botón Guardar ─────────────────
                   SizedBox(
                     width: double.infinity,
                     height: 44,

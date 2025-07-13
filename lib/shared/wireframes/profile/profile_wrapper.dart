@@ -14,6 +14,21 @@ import 'full_profile.dart';
 class ProfileWrapperPage extends ConsumerWidget {
   const ProfileWrapperPage({super.key});
 
+  String _getLocalizedGender(BuildContext context, String? storedGender) {
+    if (storedGender == null) return '';
+
+    switch (storedGender.toLowerCase()) {
+      case 'hombre':
+        return context.strings.genderMale;
+      case 'mujer':
+        return context.strings.genderFemale;
+      case 'no binario':
+        return context.strings.genderNonBinary;
+      default:
+        return storedGender;
+    }
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
@@ -33,9 +48,9 @@ class ProfileWrapperPage extends ConsumerWidget {
           data: (u) {
             final fullName = '${u.nombre} ${u.apellido}';
             final birthDate = u.fechaNacimiento != null
-                ? DateFormat('dd/MM/yyyy').format(u.fechaNacimiento!)
+                ? DateFormat.yMd(Localizations.localeOf(context).toString()).format(u.fechaNacimiento!)
                 : '';
-            final gender = u.genero ?? '';
+            final gender = _getLocalizedGender(context, u.genero);
             final phone = u.telefono ?? '';
 
             final incomplete = u.telefono == null ||
