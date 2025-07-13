@@ -52,12 +52,9 @@ class ShortButton extends StatelessWidget {
         children.add(Icon(icon, size: 20, color: foregroundColor));
         children.add(const SizedBox(width: 8));
       }
-      children.add(Flexible(
-        child: Text(
-          label,
-          style: AppTypography.button.copyWith(color: foregroundColor),
-          overflow: TextOverflow.ellipsis,
-        ),
+      children.add(Text(
+        label,
+        style: AppTypography.button.copyWith(color: foregroundColor),
       ));
 
       child = Row(

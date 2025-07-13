@@ -53,14 +53,11 @@ class ProfilePictureCard extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(height: 8),
-                      SizedBox(
-                        width: 107,
+                      ShortButton(
+                        label: context.strings.changePhoto,
+                        onPressed: isLoading ? null : onChange,
+                        variant: ShortButtonVariant.compact,
                         height: 36,
-                        child: ShortButton(
-                          label: context.strings.changePhoto,
-                          onPressed: isLoading ? null : onChange,
-                          variant: ShortButtonVariant.compact,
-                        ),
                       ),
                     ],
                   ),
@@ -92,13 +89,11 @@ class ProfilePictureCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                SizedBox(
+                ShortButton(
+                  label: context.strings.uploadPhoto,
+                  onPressed: isLoading ? null : onChange,
+                  variant: ShortButtonVariant.compact,
                   height: 36,
-                  child: ShortButton(
-                    label: context.strings.uploadPhoto,
-                    onPressed: isLoading ? null : onChange,
-                    variant: ShortButtonVariant.compact,
-                  ),
                 ),
               ],
             ),
