@@ -407,7 +407,6 @@
     "description": "Error when image file not found"
   },
 
-
   "errorUser": "User error",
   "@errorUser": {
     "description": "User error message"
@@ -615,5 +614,30 @@
   "updateUserDataError": "Error updating your data. Try applying again.",
   "@updateUserDataError": {
     "description": "Error message when updating user data fails during application process"
+  },
+
+  "profileDataTitle": "Profile Data",
+  "@profileDataTitle": {
+    "description": "Title for profile data section"
+  },
+
+  "birthDateLabel": "Date of Birth",
+  "@birthDateLabel": {
+    "description": "Label for birth date field"
+  },
+
+  "birthDateValidationLabel": "date of birth",
+  "@birthDateValidationLabel": {
+    "description": "Label used in validation for birth date field"
+  },
+
+  "selectProfilePhoto": "Select a profile photo",
+  "@selectProfilePhoto": {
+    "description": "Validation message for profile photo"
+  },
+
+  "contactDataDescription": "This data will be what other users see when you apply to an activity.",
+  "@contactDataDescription": {
+    "description": "Description text for contact data section"
   }
 }

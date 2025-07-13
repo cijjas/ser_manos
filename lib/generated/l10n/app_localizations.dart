@@ -826,6 +826,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error updating your data. Try applying again.'**
   String get updateUserDataError;
+
+  /// Title for profile data section
+  ///
+  /// In en, this message translates to:
+  /// **'Profile Data'**
+  String get profileDataTitle;
+
+  /// Label for birth date field
+  ///
+  /// In en, this message translates to:
+  /// **'Date of Birth'**
+  String get birthDateLabel;
+
+  /// Label used in validation for birth date field
+  ///
+  /// In en, this message translates to:
+  /// **'date of birth'**
+  String get birthDateValidationLabel;
+
+  /// Validation message for profile photo
+  ///
+  /// In en, this message translates to:
+  /// **'Select a profile photo'**
+  String get selectProfilePhoto;
+
+  /// Description text for contact data section
+  ///
+  /// In en, this message translates to:
+  /// **'This data will be what other users see when you apply to an activity.'**
+  String get contactDataDescription;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

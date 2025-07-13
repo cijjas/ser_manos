@@ -122,5 +122,10 @@
   "loadVolunteeringError": "Error al cargar los voluntariados.",
   "loadUserDataError": "Ocurrió un error al cargar tus datos. Por favor, intenta de nuevo.",
   "getUserInfoError": "Error: No se pudo obtener la información del usuario.",
-  "updateUserDataError": "Error al actualizar tus datos. Intenta postularte de nuevo."
+  "updateUserDataError": "Error al actualizar tus datos. Intenta postularte de nuevo.",
+  "profileDataTitle": "Datos de perfil",
+  "birthDateLabel": "Fecha de nacimiento",
+  "birthDateValidationLabel": "fecha de nacimiento",
+  "selectProfilePhoto": "Selecciona una foto de perfil",
+  "contactDataDescription": "Estos datos serán los que otros usuarios vean cuando te postules a una actividad."
 }

@@ -12,13 +12,14 @@
 - [4. Technical Specifications and Decisions](#4-technical-specifications-and-decisions)
   - [4.1. Architecture and State Management](#41-architecture-and-state-management)
   - [4.2. Deep Links and Routing](#42-deep-links-and-routing)
-  - [4.3. Backend Integration](#43-backend-integration)
-  - [4.4. Testing Strategy](#44-testing-strategy)
-  - [4.5. Monitoring and Events](#45-monitoring-and-events)
-  - [4.6. Security and Portability](#46-security-and-portability)
-  - [4.7. Data Models](#47-data-models)
-  - [4.8. Project Structure](#48-project-structure)
-  - [4.9. Dependencies (pubspec.yaml)](#49-dependencies-pubspecyaml)
+  - [4.3. Internationalization (i18n)](#43-internationalization-i18n)
+  - [4.4. Backend Integration](#44-backend-integration)
+  - [4.5. Testing Strategy](#45-testing-strategy)
+  - [4.6. Monitoring and Events](#46-monitoring-and-events)
+  - [4.7. Security and Portability](#47-security-and-portability)
+  - [4.8. Data Models](#48-data-models)
+  - [4.9. Project Structure](#49-project-structure)
+  - [4.10. Dependencies (pubspec.yaml)](#410-dependencies-pubspecyaml)
 - [5. Installation and Setup](#5-installation-and-setup)
 - [6. Running the Application](#6-running-the-application)
 - [7. Development Team](#7-development-team)
@@ -357,7 +358,14 @@ The app supports deep linking on both Android and iOS platforms with the domain 
 - Volunteer opportunities: `https://sermanos.app/volunteering/details/{id}`
 - News sections: `https://sermanos.app/news/details/{id}`
 
-### 4.3. Backend Integration
+### 4.3. Internationalization (i18n)
+
+- **Decision:** The app supports multiple languages (English/Spanish) using Flutter's built-in i18n
+  framework with ARB files.
+- **Implementation:** Translations are stored in `lib/l10n/app_en.arb` and `lib/l10n/app_es.arb`.
+   New translations are added to both files and generated using `flutter gen-l10n`.
+
+### 4.4. Backend Integration
 
 - **Decision:** The application integrates with a **Firebase backend**,
   specifically utilizing **Firebase Authentication**, **Cloud Firestore**, and
@@ -375,7 +383,7 @@ The app supports deep linking on both Android and iOS platforms with the domain 
   - **Firebase Storage** is used for storing images associated with volunteer
       opportunities and user profile pictures.
 
-### 4.4. Testing Strategy
+### 4.5. Testing Strategy
 
 - **Decision:** The project incorporates both **unit tests** and **golden
   tests**. This fulfills the requirement to write both unit and golden tests for
@@ -406,7 +414,7 @@ fvm dart run build_runner build --delete-conflicting-outputs
 fvm flutter test --update-goldens
 ```
 
-### 4.5. Monitoring and Events
+### 4.6. Monitoring and Events
 
 - **Decision:**  
   The application integrates **Firebase Crashlytics** and **Firebase Analytics** to ensure robust
@@ -439,7 +447,7 @@ fvm flutter test --update-goldens
                metrics help us analyze user confidence, the quality of information presented, and
                the overall effectiveness of the app’s content and processes.
 
-### 4.6. Security and Portability
+### 4.7. Security and Portability
 
 - **Security:** The application utilizes secure communication protocols. API
   Keys are not exposed in the repository, and the application is kept updated
@@ -450,7 +458,7 @@ fvm flutter test --update-goldens
 - **Privacy:** On iOS, the application requests necessary permissions for App
   Tracking Transparency to comply with privacy guidelines for event tracking.
 
-### 4.7. Data Models
+### 4.8. Data Models
 
 The application utilizes three main data models, implemented using `freezed` for
 immutability and `json_serializable` for JSON serialization/deserialization.
@@ -520,7 +528,7 @@ These models can be found in the `lib/models/` directory.
   }
   ```
 
-### 4.8. Project Structure
+### 4.9. Project Structure
 
 This project follows a **hybrid architecture** that combines both
 **feature-first** and **layer-first** organization:
@@ -615,7 +623,7 @@ layers for reuse and domain directories for cohesion.
   - `home/`, `perfil/`, `novedades/`, `voluntariados/`, `ingreso/`, and
       `error/`.
 
-### 4.9. Dependencies (`pubspec.yaml`)
+### 4.10. Dependencies (`pubspec.yaml`)
 
 The project uses a robust set of dependencies to support a modular architecture,
 seamless Firebase integration, native device features, and a modern Flutter
@@ -762,6 +770,12 @@ To set up the project locally, follow these steps:
 
       ```bash
       fvm dart run build_runner build --delete-conflicting-outputs
+      ```
+
+    - Generate internationalization files:
+
+      ```bash
+      fvm flutter gen-l10n
       ```
 
 ## 6. Running the Application

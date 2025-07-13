@@ -373,4 +373,19 @@ class AppLocalizationsEs extends AppLocalizations {
 
   @override
   String get updateUserDataError => 'Error al actualizar tus datos. Intenta postularte de nuevo.';
+
+  @override
+  String get profileDataTitle => 'Datos de perfil';
+
+  @override
+  String get birthDateLabel => 'Fecha de nacimiento';
+
+  @override
+  String get birthDateValidationLabel => 'fecha de nacimiento';
+
+  @override
+  String get selectProfilePhoto => 'Selecciona una foto de perfil';
+
+  @override
+  String get contactDataDescription => 'Estos datos serán los que otros usuarios vean cuando te postules a una actividad.';
 }

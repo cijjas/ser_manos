@@ -56,6 +56,12 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
     super.dispose();
   }
 
+  List<String> get _genderOptions => [
+        context.strings.genderMale,
+        context.strings.genderFemale,
+        context.strings.genderNonBinary,
+      ];
+
   bool _hasChanges() {
     if (_originalUser == null) return true;
     final values = _formKey.currentState?.value ?? {};
@@ -71,7 +77,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
     }
     final generoIndex = values['genero'] as int?;
     final currentGenero = (generoIndex != null)
-        ? ['Hombre', 'Mujer', 'No binario'][generoIndex]
+        ? _genderOptions[generoIndex]
         : null;
     if (currentGenero != _originalUser!.genero) return true;
     if (_localImageToUpload != null) return true;
@@ -92,7 +98,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
       });
 
       final initialGenderIndex = user.genero != null
-          ? ['Hombre', 'Mujer', 'No binario'].indexOf(user.genero!)
+          ? _genderOptions.indexOf(user.genero!)
           : null;
 
       _formKey.currentState?.patchValue({
@@ -143,12 +149,12 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
           children: [
             ListTile(
               leading: const Icon(Icons.camera_alt),
-              title: const Text('Tomar una foto'),
+              title: Text(context.strings.takePhoto),
               onTap: () => Navigator.pop(context, ImageSource.camera),
             ),
             ListTile(
               leading: const Icon(Icons.photo_library),
-              title: const Text('Elegir de galería'),
+              title: Text(context.strings.chooseFromGallery),
               onTap: () => Navigator.pop(context, ImageSource.gallery),
             ),
           ],
@@ -173,7 +179,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
 
     if (!tmpFile.existsSync()) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('La imagen no existe en disco.')),
+        SnackBar(content: Text(context.strings.imageNotOnDisk)),
       );
       return;
     }
@@ -222,7 +228,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
         telefono: (values['telefono'] as String).trim(),
         fechaNacimiento: values['fechaNacimiento'] as DateTime,
         genero: (genderIndex != null)
-            ? ['Hombre', 'Mujer', 'No binario'][genderIndex]
+            ? _genderOptions[genderIndex]
             : null,
         imagenUrl: urlImagenFinalParaGuardar,
       );
@@ -232,7 +238,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
       if (!mounted) return;
 
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Datos guardados exitosamente')),
+        SnackBar(content: Text(context.strings.dataSavedSuccessfully)),
       );
 
       setState(() {
@@ -247,8 +253,8 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text('Hubo un error al guardar. Intentalo en un rato.')));
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text(context.strings.saveErrorMessage)));
       }
     } finally {
       if (mounted) {
@@ -304,7 +310,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                         Text(
-                          'Datos de profile',
+                          context.strings.profileDataTitle,
                           style: AppTypography.headline01.copyWith(
                             color: AppColors.neutral100,
                           ),
@@ -313,11 +319,11 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                         // ───────────────── Fecha de nacimiento ─────────────────
                         FormBuilderDateField(
                             name: 'fechaNacimiento',
-                            label: 'Fecha de nacimiento',
+                            label: context.strings.birthDateLabel,
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
                             validator: (v) => AppValidators.required(v,
-                                label: 'fecha de nacimiento')),
+                                label: context.strings.birthDateValidationLabel)),
                         const SizedBox(height: 24),
                         // ───────────────── Información de perfil (género) ─────────────────
                         SizedBox(
@@ -326,14 +332,14 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           child: FormBuilderField<int?>(
                             name: 'genero',
                             validator: (value) =>
-                                value == null ? 'Seleccioná tu género.' : null,
+                                value == null ? context.strings.selectGenderError : null,
                             builder: (field) {
                               return Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   CardInput(
-                                    title: 'Información de profile',
-                                    options: const ['Hombre', 'Mujer', 'No binario'],
+                                    title: context.strings.profileInformation,
+                                    options: _genderOptions,
                                     selectedIndex: field.value,
                                     onSelected:
                                         _isSaving ? null : (i) => field.didChange(i),
@@ -359,7 +365,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           initialValue:
                               _fotoUrl != null || _localImageToUpload != null,
                           validator: FormBuilderValidators.equal(true,
-                              errorText: 'Selecciona una foto de profile'),
+                              errorText: context.strings.selectProfilePhoto),
                           builder: (field) {
                             return Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,14 +397,14 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                         Text(
-                          'Datos de contacto',
+                          context.strings.contactData,
                           style: AppTypography.headline01.copyWith(
                             color: AppColors.neutral100,
                           ),
                         ),
                         const SizedBox(height: 24),
                         Text(
-                          'Estos datos serán los que otros usuarios vean cuando te postules a una actividad.',
+                          context.strings.contactDataDescription,
                           style: AppTypography.body01.copyWith(
                             color: AppColors.neutral75,
                           ),

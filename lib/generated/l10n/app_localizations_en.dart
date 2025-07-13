@@ -373,4 +373,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get updateUserDataError => 'Error updating your data. Try applying again.';
+
+  @override
+  String get profileDataTitle => 'Profile Data';
+
+  @override
+  String get birthDateLabel => 'Date of Birth';
+
+  @override
+  String get birthDateValidationLabel => 'date of birth';
+
+  @override
+  String get selectProfilePhoto => 'Select a profile photo';
+
+  @override
+  String get contactDataDescription => 'This data will be what other users see when you apply to an activity.';
 }
