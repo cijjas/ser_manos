@@ -42,25 +42,34 @@ class _NewsDetailState extends ConsumerState<NewsDetail> {
       },
     );
 
+    if (!mounted) return;
+
     final url = 'https://sermanos.app${AppRoutes.newsDetail.replaceAll(':id', news.id)}';
-    final discoverMoreText =
-        mounted ? context.strings.discoverMore : 'Descubre más aquí:';
-    final text = '${news.summary}\n\n$discoverMoreText\n$url';
+    final text = '${news.summary}\n\n${context.strings.discoverMore}\n$url';
 
     try {
       final response = await http.get(Uri.parse(news.imageUrl));
+      if (!mounted) return;
+
       if (response.statusCode != 200) {
-        throw Exception('No se pudo descargar la imagen.');
+        throw Exception(context.strings.shareErrorMessage);
       }
 
       final dir = await getTemporaryDirectory();
-      final fileName =
-          'shared_news_${DateTime.now().millisecondsSinceEpoch}.jpg';
+      final fileName = 'shared_news_${DateTime.now().millisecondsSinceEpoch}.jpg';
       final path = '${dir.path}/$fileName';
       final file = File(path);
       await file.writeAsBytes(response.bodyBytes);
 
-      await Share.shareXFiles([XFile(path)], text: text);
+      await Share.shareXFiles(
+        [XFile(path)],
+        text: text,
+        sharePositionOrigin: mounted ? _getSharePositionOrigin() : null,
+      );
+
+      if (await file.exists()) {
+        await file.delete();
+      }
     } catch (e, stack) {
       FirebaseCrashlytics.instance.recordError(
         e,
@@ -79,8 +88,17 @@ class _NewsDetailState extends ConsumerState<NewsDetail> {
         );
       }
     } finally {
-      if (mounted) setState(() => isSharing = false);
+      if (mounted) {
+        setState(() => isSharing = false);
+      }
     }
+  }
+
+  Rect? _getSharePositionOrigin() {
+    final RenderBox? box = context.findRenderObject() as RenderBox?;
+    if (box == null) return null;
+
+    return box.localToGlobal(Offset.zero) & box.size;
   }
 
   @override
