@@ -8,7 +8,9 @@ import '../../../constants/app_routes.dart';
 import '../../../providers/auth_provider.dart';
 import '../../../providers/user_provider.dart';
 import '../../../utils/app_strings.dart';
+import '../../../utils/debounced_async_builder.dart';
 import 'full_profile.dart';
+
 class ProfileWrapperPage extends ConsumerWidget {
   const ProfileWrapperPage({super.key});
 
@@ -16,13 +18,7 @@ class ProfileWrapperPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authStateProvider);
     
-    return authState.when(
-      loading: () => const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      ),
-      error: (e, _) => Scaffold(
-        body: Center(child: Text(context.strings.errorAuth)),
-      ),
+    return authState.whenDebounced(
       data: (fbUser) {
         if (fbUser == null) {
           WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -33,13 +29,7 @@ class ProfileWrapperPage extends ConsumerWidget {
 
         final userAsync = ref.watch(currentUserProvider);
 
-        return userAsync.when(
-          loading: () => const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          ),
-          error: (e, _) => Scaffold(
-            body: Center(child: Text(context.strings.errorUser)),
-          ),
+        return userAsync.whenDebounced(
           data: (u) {
             final fullName = '${u.nombre} ${u.apellido}';
             final birthDate = u.fechaNacimiento != null
@@ -85,8 +75,20 @@ class ProfileWrapperPage extends ConsumerWidget {
               );
             }
           },
+          loading: () => const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          ),
+          error: (error, stackTrace) => Scaffold(
+            body: Center(child: Text(context.strings.errorUser)),
+          ),
         );
       },
+      loading: () => const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      ),
+      error: (error, stackTrace) => Scaffold(
+        body: Center(child: Text(context.strings.errorAuth)),
+      ),
     );
   }
 }

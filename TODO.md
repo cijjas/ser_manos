@@ -9,10 +9,10 @@ todo_md_content = """# ✅ Correcciones Grupo 3 – To-Do List
 - [x] Corregir márgenes en la card de detalle de perfil.
 - [x] Permitir que presionar Enter en el último campo de inicio de sesión envíe el formulario.
 - [x] Corregir márgenes de la vista “completar perfil” para respetar el Design System.
-- [ ] Prevenir error momentáneo al cargar voluntariados tras crear cuenta nueva sin completar perfil.
-- [ ] Evitar re-render innecesario al dar like en cards de voluntariados (con cuenta nueva).
-- [ ] Corregir error al navegar a novedades en cuentas nuevas sin perfil completo.
-- [ ] Revisar manejo de sesión para cuentas recién creadas.
+- [~] Prevenir error momentáneo al cargar voluntariados tras crear cuenta nueva sin completar perfil.
+- [~] Evitar re-render innecesario al dar like en cards de voluntariados (con cuenta nueva).
+- [~] Corregir error al navegar a novedades en cuentas nuevas sin perfil completo.
+- [~] Revisar manejo de sesión para cuentas recién creadas.
 - [x] Corregir márgenes del modal de perfil según el Design System.
 - [ ] Reemplazar logo de baja calidad por uno de mejor resolución.
 - [x] Corregir actualización inconsistente de email (aparece erróneamente como mail primario en la sesión tras editar perfil).

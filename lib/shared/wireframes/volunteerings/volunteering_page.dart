@@ -14,6 +14,7 @@ import '../../../providers/user_provider.dart';
 import '../../../providers/volunteering_provider.dart';
 import '../../cells/cards/current_volunteering_card.dart';
 import '../../molecules/input/search_field.dart';
+import '../../../utils/debounced_async_builder.dart';
 import '../../tokens/typography.dart';
 
 class VolunteeringsPage extends ConsumerWidget {
@@ -96,13 +97,12 @@ class ParticipatingVolunteeringSection extends ConsumerWidget {
         ref.watch(volunteeringParticipatingProvider);
     final lastVolunteering = ref.watch(lastVolunteeringProvider);
 
-    return participatingVolunteering.when(
-      skipLoadingOnRefresh: true,
+    return participatingVolunteering.whenDebounced(
       data: (volunteering) {
-        if (volunteering == null) return const SizedBox();
         WidgetsBinding.instance.addPostFrameCallback((_) {
           ref.read(lastVolunteeringProvider.notifier).state = volunteering;
         });
+        if (volunteering == null) return const SizedBox();
         return buildParticipatingVolunteering(context, volunteering);
       },
       error: (e, _) => VolunteeringError(
@@ -112,6 +112,9 @@ class ParticipatingVolunteeringSection extends ConsumerWidget {
           return buildParticipatingVolunteering(context, lastVolunteering);
         }
         return const SizedBox();
+      },
+      onError: (error, stackTrace) {
+        ref.invalidate(volunteeringParticipatingProvider);
       },
     );
   }
@@ -144,8 +147,7 @@ class VolunteeringsListSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final volunteeringsAsync = ref.watch(volunteeringsProvider);
     final user = ref.watch(currentUserProvider).value;
-    final query = ref.watch(volunteeringSearchQueryProvider);
-    final isSearching = query.trim().isNotEmpty;
+    final isSearching = ref.watch(volunteeringSearchQueryProvider).isNotEmpty;
 
     Future<void> onLikeTap(WidgetRef ref, String volunteeringId) async {
       if (user == null) {
@@ -156,8 +158,7 @@ class VolunteeringsListSection extends ConsumerWidget {
           .toggleLikeVolunteering(user, volunteeringId);
     }
 
-    return volunteeringsAsync.when(
-      skipLoadingOnRefresh: true,
+    return volunteeringsAsync.whenDebounced(
       data: (volunteerings) => Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -171,12 +172,12 @@ class VolunteeringsListSection extends ConsumerWidget {
           const SizedBox(height: 16),
         ],
       ),
-      error: (e, _) {
-        ref.invalidate(volunteeringsProvider);
-        return VolunteeringError(
-            message: context.strings.loadVolunteeringError);
-      },
       loading: () => const VolunteeringLoading(),
+      error: (error, stackTrace) => VolunteeringError(
+          message: context.strings.loadVolunteeringError),
+      onError: (error, stackTrace) {
+        ref.invalidate(volunteeringsProvider);
+      },
     );
   }
 }

@@ -6,6 +6,7 @@ import '../../../utils/app_strings.dart';
 import '../../tokens/colors.dart';
 import '../../tokens/typography.dart';
 import '../../tokens/border_radius.dart';
+import '../../../utils/debounced_async_builder.dart';
 
 class NewsPage extends ConsumerWidget {
   const NewsPage({super.key});
@@ -22,7 +23,7 @@ class NewsPage extends ConsumerWidget {
           const SizedBox(height: 8),
           Text(context.strings.news, style: AppTypography.headline01),
           const SizedBox(height: 16),
-          newsAsync.when(
+          newsAsync.whenDebounced(
             data: (news) => news.isNotEmpty
                 ? Column(
                     children: news
@@ -47,7 +48,10 @@ class NewsPage extends ConsumerWidget {
                     ),
                   ),
             loading: () => const Center(child: CircularProgressIndicator()),
-            error: (e, _) => Center(child: Text('Error: $e')),
+            error: (error, stackTrace) => Center(child: Text(context.strings.loadNewsError)),
+            onError: (error, stackTrace) {
+              ref.invalidate(newsProvider);
+            },
           ),
         ],
       ),

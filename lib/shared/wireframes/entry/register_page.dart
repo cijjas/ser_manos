@@ -96,6 +96,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       await saveFcmTokenToFirestore(uid);
 
       await ref.read(authServiceProvider).signIn(email, password);
+
+      await FirebaseAuth.instance.authStateChanges().first;
     } on FirebaseAuthException catch (e) {
       // Si fallo el registro y el usuario quedó creado, lo borramos
       final current = FirebaseAuth.instance.currentUser;

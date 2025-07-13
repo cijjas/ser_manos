@@ -14,6 +14,7 @@ import 'package:ser_manos/shared/molecules/buttons/app_button.dart';
 import 'package:ser_manos/shared/tokens/colors.dart';
 import 'package:ser_manos/shared/tokens/typography.dart';
 import '../../../utils/app_strings.dart';
+import '../../../utils/debounced_async_builder.dart';
 import '../../../constants/app_routes.dart';
 import '../../cells/header/header_section.dart';
 
@@ -88,12 +89,7 @@ class _NewsDetailState extends ConsumerState<NewsDetail> {
 
     return Scaffold(
       backgroundColor: AppColors.neutral0,
-      body: newsAsync.when(
-        loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, stack) {
-          FirebaseCrashlytics.instance.recordError(e, stack);
-          return Center(child: Text(context.strings.loadNewsError));
-        },
+      body: newsAsync.whenDebounced(
         data: (news) => SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -184,6 +180,14 @@ class _NewsDetailState extends ConsumerState<NewsDetail> {
             ],
           ),
         ),
+        loading: () => const Center(child: CircularProgressIndicator()),
+        error: (e, stack) {
+          FirebaseCrashlytics.instance.recordError(e, stack);
+          return Center(child: Text(context.strings.loadNewsError));
+        },
+        onError: (error, stackTrace) {
+          ref.invalidate(newsByIdProvider(widget.id));
+        },
       ),
     );
   }
