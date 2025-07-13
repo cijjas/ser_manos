@@ -128,16 +128,12 @@ class IncompleteProfilePage extends StatelessWidget {
                 child: Column(
                   children: [
                     Center(
-                      child: SizedBox(
-                        width: 123,
+                      child: ShortButton(
+                        label: context.strings.complete,
+                        icon: Icons.add,
+                        onPressed: onCompletePressed,
+                        variant: ShortButtonVariant.regular,
                         height: 48,
-                        child: ShortButton(
-                          label: context.strings.complete,
-                          icon: Icons.add,
-                          onPressed: onCompletePressed,
-                          variant: ShortButtonVariant.regular,
-                          height: 48,
-                        ),
                       ),
                     ),
                     const SizedBox(height: 10),
