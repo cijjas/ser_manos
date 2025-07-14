@@ -643,11 +643,7 @@ class _LocationCardState extends State<_LocationCard> {
         fatal: false,
       );
       if (!mounted) return;
-      setState(() => _address = 'No se pudo obtener la dirección');
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-            content: Text('Error al cargar la dirección. Intenta de nuevo.')),
-      );
+      setState(() => _address = context.strings.loadAddressError);
     }
   }
 
@@ -670,9 +666,7 @@ class _LocationCardState extends State<_LocationCard> {
       );
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content: Text(
-                  'No se pudo abrir el mapa. Asegúrate de tener una aplicación de mapas instalada.')),
+          SnackBar(content: Text(context.strings.openMapsError)),
         );
       }
     }
@@ -692,7 +686,8 @@ class _LocationCardState extends State<_LocationCard> {
           Container(
             padding: const EdgeInsets.all(12),
             color: AppColors.secondary25,
-            child: Text(context.strings.location, style: AppTypography.subtitle01),
+            child:
+                Text(context.strings.location, style: AppTypography.subtitle01),
           ),
           GestureDetector(
             onTap: _openNativeMaps,
@@ -710,7 +705,7 @@ class _LocationCardState extends State<_LocationCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                 Text(context.strings.address, style: AppTypography.overline),
+                Text(context.strings.address, style: AppTypography.overline),
                 const SizedBox(height: 4),
                 Text(_address ?? context.strings.loadingMessage,
                     style: AppTypography.body01),

@@ -261,7 +261,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get address => 'Address';
 
   @override
-  String get loadAddressError => 'Error loading address. Try again.';
+  String get loadAddressError => 'Error loading address.';
 
   @override
   String get leaveCurrentVolunteering => 'Leave current volunteering';
@@ -388,4 +388,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get contactDataDescription => 'This data will be what other users see when you apply to an activity.';
+
+  @override
+  String get emailAlreadyRegistered => 'This email is already registered.';
+
+  @override
+  String get invalidEmailFormat => 'The email format is invalid.';
+
+  @override
+  String get weakPassword => 'The password is too weak.';
+
+  @override
+  String get userRegistrationError => 'Error registering user.';
+
+  @override
+  String get genericError => 'An error occurred.';
 }

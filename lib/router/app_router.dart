@@ -7,6 +7,7 @@ import 'package:ser_manos/shared/wireframes/entry/welcome_page.dart';
 import 'package:ser_manos/shared/wireframes/news/news.dart';
 import 'package:ser_manos/shared/wireframes/profile/edit_profile.dart';
 import 'package:ser_manos/shared/wireframes/profile/profile_wrapper.dart';
+import 'package:ser_manos/utils/app_strings.dart';
 
 import '../constants/app_routes.dart';
 import '../providers/auth_provider.dart';
@@ -53,7 +54,8 @@ final routerProvider = Provider<GoRouter>((ref) {
     navigatorKey: navigatorKey,
     restorationScopeId: 'router',
     refreshListenable: refreshNotifier,
-    errorBuilder: (_, __) => const ErrorPage(message: 'Página no encontrada'),
+    errorBuilder: (context, __) =>
+        ErrorPage(message: context.strings.pageNotFound),
     initialLocation: AppRoutes.entry,
     redirect: (context, state) {
       final authState = ref.read(authStateProvider);

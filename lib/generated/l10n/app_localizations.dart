@@ -602,7 +602,7 @@ abstract class AppLocalizations {
   /// Error when loading address fails
   ///
   /// In en, this message translates to:
-  /// **'Error loading address. Try again.'**
+  /// **'Error loading address.'**
   String get loadAddressError;
 
   /// Leave current volunteering action
@@ -856,6 +856,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This data will be what other users see when you apply to an activity.'**
   String get contactDataDescription;
+
+  /// Error message when email is already registered
+  ///
+  /// In en, this message translates to:
+  /// **'This email is already registered.'**
+  String get emailAlreadyRegistered;
+
+  /// Error message when email format is invalid
+  ///
+  /// In en, this message translates to:
+  /// **'The email format is invalid.'**
+  String get invalidEmailFormat;
+
+  /// Error message when password is too weak
+  ///
+  /// In en, this message translates to:
+  /// **'The password is too weak.'**
+  String get weakPassword;
+
+  /// Error message when user registration fails
+  ///
+  /// In en, this message translates to:
+  /// **'Error registering user.'**
+  String get userRegistrationError;
+
+  /// Generic error message for unexpected issues
+  ///
+  /// In en, this message translates to:
+  /// **'An error occurred.'**
+  String get genericError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

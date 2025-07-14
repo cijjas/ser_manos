@@ -106,21 +106,21 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
       setState(() {
         switch (e.code) {
           case 'email-already-in-use':
-            _errorMessage = 'Este email ya está registrado.';
+            _errorMessage = context.strings.emailAlreadyRegistered;
             break;
           case 'invalid-email':
-            _errorMessage = 'El formato del email no es válido.';
+            _errorMessage = context.strings.invalidEmailFormat;
             break;
           case 'weak-password':
-            _errorMessage = 'La contraseña es demasiado débil.';
+            _errorMessage = context.strings.weakPassword;
             break;
           default:
-            _errorMessage = 'Error: ${e.message}';
+            _errorMessage = context.strings.genericError;
         }
       });
     } catch (_) {
       if (mounted) {
-        setState(() => _errorMessage = 'Error al registrar usuario.$_');
+        setState(() => _errorMessage = context.strings.userRegistrationError);
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

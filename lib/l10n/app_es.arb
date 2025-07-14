@@ -69,7 +69,7 @@
   "errorUser": "Error de usuario",
   "location": "Ubicación",
   "address": "Dirección",
-  "loadAddressError": "Error al cargar la dirección. Intenta de nuevo.",
+  "loadAddressError": "Error al cargar la dirección.",
   "leaveCurrentVolunteering": "Abandonar voluntariado actual",
   "logoutConfirmTitle": "¿Estás seguro que quieres cerrar sesión?",
   "logoutButton": "Cerrar sesión",
@@ -127,5 +127,10 @@
   "birthDateLabel": "Fecha de nacimiento",
   "birthDateValidationLabel": "fecha de nacimiento",
   "selectProfilePhoto": "Selecciona una foto de perfil",
-  "contactDataDescription": "Estos datos serán los que otros usuarios vean cuando te postules a una actividad."
+  "contactDataDescription": "Estos datos serán los que otros usuarios vean cuando te postules a una actividad.",
+  "emailAlreadyRegistered": "Este email ya está registrado.",
+  "invalidEmailFormat": "El formato del email no es válido.",
+  "weakPassword": "La contraseña es demasiado débil.",
+  "userRegistrationError": "Error al registrar usuario.",
+  "genericError": "Ocurrió un error inesperado."
 }
