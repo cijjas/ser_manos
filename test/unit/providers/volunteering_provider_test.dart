@@ -83,8 +83,8 @@ void main() {
 
       domainUser = const domain.User(
         id:                'uid1',
-        nombre:            'Ada',
-        apellido:          'Lovelace',
+        name:            'Ada',
+        surname:          'Lovelace',
         email:             'a@b.c',
         hasSeenOnboarding: false,
       );

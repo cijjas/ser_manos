@@ -210,10 +210,10 @@ class _VolunteeringDetallePageState
   }
 
   bool _isProfileComplete(User user) {
-    return user.fechaNacimiento != null &&
-        (user.genero != null && user.genero!.isNotEmpty) &&
-        (user.imagenUrl != null && user.imagenUrl!.isNotEmpty) &&
-        (user.telefono != null && user.telefono!.isNotEmpty);
+    return user.birthDate != null &&
+        (user.gender != null && user.gender!.isNotEmpty) &&
+        (user.imageUrl != null && user.imageUrl!.isNotEmpty) &&
+        (user.phoneNumber != null && user.phoneNumber!.isNotEmpty);
   }
 
   Widget _buildContent(

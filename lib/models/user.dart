@@ -39,16 +39,16 @@ class UserVolunteering with _$UserVolunteering {
 class User with _$User {
   const User({
     required this.id,
-    required this.nombre,
-    required this.apellido,
+    required this.name,
+    required this.surname,
     required this.email,
     required this.hasSeenOnboarding,
     this.volunteerings,
     this.likedVolunteerings,
-    this.telefono,
-    this.fechaNacimiento,
-    this.genero,
-    this.imagenUrl,
+    this.phoneNumber,
+    this.birthDate,
+    this.gender,
+    this.imageUrl,
     this.fcmToken,
   });
 
@@ -58,9 +58,11 @@ class User with _$User {
   @override
   final String id;
   @override
-  final String nombre;
+  @JsonKey(name: 'nombre')
+  final String name;
   @override
-  final String apellido;
+  @JsonKey(name: 'apellido')
+  final String surname;
   @override
   final String email;
   @override
@@ -72,13 +74,17 @@ class User with _$User {
   @JsonKey(name: 'likedVoluntariados')
   final List<String>? likedVolunteerings;
   @override
-  final String? telefono;
+  @JsonKey(name: 'telefono')
+  final String? phoneNumber;
   @override
-  final DateTime? fechaNacimiento;
+  @JsonKey(name: 'fechaNacimiento')
+  final DateTime? birthDate;
   @override
-  final String? genero;
+  @JsonKey(name: 'genero')
+  final String? gender;
   @override
-  final String? imagenUrl;
+  @JsonKey(name: 'imagenUrl')
+  final String? imageUrl;
   @override
   final String? fcmToken;
 }

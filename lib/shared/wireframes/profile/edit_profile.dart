@@ -102,15 +102,15 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
       return true;
     }
     if ((values['telefono'] as String?)?.trim() !=
-        _originalUser!.telefono?.trim()) {
+        _originalUser!.phoneNumber?.trim()) {
       return true;
     }
-    if (values['fechaNacimiento'] != _originalUser!.fechaNacimiento) {
+    if (values['fechaNacimiento'] != _originalUser!.birthDate) {
       return true;
     }
     final generoIndex = values['genero'] as int?;
     final currentGenero = _getStoredGender(generoIndex);
-    if (currentGenero != _originalUser!.genero) return true;
+    if (currentGenero != _originalUser!.gender) return true;
     if (_localImageToUpload != null) return true;
     return false;
   }
@@ -125,17 +125,17 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
 
       setState(() {
         _originalUser = user;
-        _fotoUrl = user.imagenUrl;
+        _fotoUrl = user.imageUrl;
       });
 
-      final initialGenderIndex = _getGenderIndex(user.genero);
+      final initialGenderIndex = _getGenderIndex(user.gender);
 
       _formKey.currentState?.patchValue({
         'email': user.email,
-        'telefono': user.telefono,
-        'fechaNacimiento': user.fechaNacimiento,
+        'telefono': user.phoneNumber,
+        'fechaNacimiento': user.birthDate,
         'genero': initialGenderIndex,
-        'imagenValida': user.imagenUrl != null,
+        'imagenValida': user.imageUrl != null,
       });
 
       _updateButtonState();
@@ -254,10 +254,10 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
       final genderIndex = values['genero'] as int?;
       final updated = _originalUser!.copyWith(
         email: (values['email'] as String).trim(),
-        telefono: (values['telefono'] as String).trim(),
-        fechaNacimiento: values['fechaNacimiento'] as DateTime,
-        genero: _getStoredGender(genderIndex),
-        imagenUrl: urlImagenFinalParaGuardar,
+        phoneNumber: (values['telefono'] as String).trim(),
+        birthDate: values['fechaNacimiento'] as DateTime,
+        gender: _getStoredGender(genderIndex),
+        imageUrl: urlImagenFinalParaGuardar,
       );
 
       await ref.read(updateUserProvider(updated).future);

@@ -31,8 +31,8 @@ const _$VolunteeringUserStateEnumMap = {
 
 User _$UserFromJson(Map<String, dynamic> json) => User(
       id: json['id'] as String,
-      nombre: json['nombre'] as String,
-      apellido: json['apellido'] as String,
+      name: json['nombre'] as String,
+      surname: json['apellido'] as String,
       email: json['email'] as String,
       hasSeenOnboarding: json['hasSeenOnboarding'] as bool,
       volunteerings: (json['voluntariados'] as List<dynamic>?)
@@ -41,26 +41,26 @@ User _$UserFromJson(Map<String, dynamic> json) => User(
       likedVolunteerings: (json['likedVoluntariados'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
-      telefono: json['telefono'] as String?,
-      fechaNacimiento: json['fechaNacimiento'] == null
+      phoneNumber: json['telefono'] as String?,
+      birthDate: json['fechaNacimiento'] == null
           ? null
           : DateTime.parse(json['fechaNacimiento'] as String),
-      genero: json['genero'] as String?,
-      imagenUrl: json['imagenUrl'] as String?,
+      gender: json['genero'] as String?,
+      imageUrl: json['imagenUrl'] as String?,
       fcmToken: json['fcmToken'] as String?,
     );
 
 Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
       'id': instance.id,
-      'nombre': instance.nombre,
-      'apellido': instance.apellido,
+      'nombre': instance.name,
+      'apellido': instance.surname,
       'email': instance.email,
       'hasSeenOnboarding': instance.hasSeenOnboarding,
       'voluntariados': instance.volunteerings,
       'likedVoluntariados': instance.likedVolunteerings,
-      'telefono': instance.telefono,
-      'fechaNacimiento': instance.fechaNacimiento?.toIso8601String(),
-      'genero': instance.genero,
-      'imagenUrl': instance.imagenUrl,
+      'telefono': instance.phoneNumber,
+      'fechaNacimiento': instance.birthDate?.toIso8601String(),
+      'genero': instance.gender,
+      'imagenUrl': instance.imageUrl,
       'fcmToken': instance.fcmToken,
     };
