@@ -72,15 +72,22 @@ class VolunteeringCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(volunteering.type.toUpperCase(),
-                        style: AppTypography.overline),
-                    Text(volunteering.name, style: AppTypography.subtitle01),
-                    const SizedBox(height: 4),
-                    VacantsDisplay(number: volunteering.vacancies),
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(volunteering.type.toUpperCase(),
+                          style: AppTypography.overline),
+                      Text(
+                        volunteering.name,
+                        style: AppTypography.subtitle01,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      const SizedBox(height: 4),
+                      VacantsDisplay(number: volunteering.vacancies),
+                    ],
+                  ),
                 ),
                 Row(
                   children: [

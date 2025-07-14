@@ -40,17 +40,24 @@ class CardVolunteeringActual extends VolunteeringCard {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(volunteering.type.toUpperCase(), style: AppTypography.caption),
-                        Text(volunteering.name, style: AppTypography.subtitle01)
-                      ],
-                    )
-                  ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(volunteering.type.toUpperCase(), style: AppTypography.caption),
+                          Text(
+                            volunteering.name,
+                            style: AppTypography.subtitle01,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          )
+                        ],
+                      )
+                    ],
+                  ),
                 ),
                 Row(
                   children: [
