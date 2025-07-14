@@ -161,7 +161,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   labelText: context.strings.name,
                                   hintText: context.strings.nameHint,
                                   keyboardType: TextInputType.name,
-                                  validator: (v) => AppValidators.required(v,
+                                  validator: (v) => AppValidators.required(
+                                      v, context,
                                       label:
                                           context.strings.name.toLowerCase()),
                                   onChanged: (_) => _updateCanRegister(),
@@ -179,7 +180,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: context.strings.surname,
                                     hintText: context.strings.surnameHint,
                                     keyboardType: TextInputType.name,
-                                    validator: (v) => AppValidators.required(v,
+                                    validator: (v) => AppValidators.required(
+                                        v, context,
                                         label: context.strings.surname
                                             .toLowerCase()),
                                     onChanged: (_) => _updateCanRegister(),
@@ -197,7 +199,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                     labelText: context.strings.email,
                                     hintText: context.strings.emailHint,
                                     keyboardType: TextInputType.emailAddress,
-                                    validator: AppValidators.email,
+                                    validator: (value) =>
+                                        AppValidators.email(value, context),
                                     onChanged: (_) => _updateCanRegister(),
                                     textInputAction: TextInputAction.next,
                                     onFieldSubmitted: (_) => {
@@ -211,7 +214,9 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
                                   name: 'password',
                                   labelText: context.strings.password,
                                   hintText: context.strings.passwordHint,
-                                  validator: AppValidators.registerPassword,
+                                  validator: (value) =>
+                                      AppValidators.registerPassword(
+                                          value, context),
                                   onChanged: (_) => _updateCanRegister(),
                                   textInputAction: TextInputAction.done,
                                   onFieldSubmitted: (_) {

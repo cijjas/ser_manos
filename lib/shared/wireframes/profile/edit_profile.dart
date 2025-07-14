@@ -346,7 +346,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                             label: context.strings.birthDateLabel,
                             firstDate: DateTime(1900),
                             lastDate: DateTime.now(),
-                            validator: (v) => AppValidators.required(v,
+                            validator: (v) => AppValidators.required(v, context,
                                 label: context.strings.birthDateValidationLabel)),
                         const SizedBox(height: 24),
                         SizedBox(
@@ -437,7 +437,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           labelText: context.strings.phone,
                           hintText: context.strings.phoneHint,
                           keyboardType: TextInputType.phone,
-                          validator: (v) => AppValidators.phone(v),
+                          validator: (v) => AppValidators.phone(v, context),
                           inputFormatters: [
                             FilteringTextInputFormatter.allow(RegExp(r'[0-9+]')),
                           ],
@@ -451,7 +451,7 @@ class _EditarPerfilPageState extends ConsumerState<EditProfilePage> {
                           labelText: context.strings.email,
                           hintText: context.strings.emailEditHint,
                           keyboardType: TextInputType.emailAddress,
-                          validator: AppValidators.email,
+                          validator: (v) => AppValidators.email(v, context),
                           onFieldSubmitted: (_) =>
                               _formKey.currentState?.fields['email']?.validate(),
                           textInputAction: TextInputAction.done,

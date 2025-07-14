@@ -37,7 +37,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   bool _submitPressed = false;
 
   String? _passwordValidator(String? value) =>
-      AppValidators.loginPassword(value, submitPressed: _submitPressed);
+      AppValidators.loginPassword(value, context, submitPressed: _submitPressed);
 
   @override
   void dispose() {
@@ -134,8 +134,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                                   labelText: context.strings.email,
                                   hintText: context.strings.email,
                                   keyboardType: TextInputType.emailAddress,
-                                  validator: AppValidators.email,
-                                  textInputAction: TextInputAction.next,
+                                  validator: (value) => AppValidators.email(value, context),                                  textInputAction: TextInputAction.next,
                                   onFieldSubmitted: (_) {
                                     _formKey.currentState?.fields['email']
                                         ?.validate();

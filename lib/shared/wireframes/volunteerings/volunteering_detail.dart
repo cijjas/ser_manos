@@ -400,14 +400,12 @@ class _VolunteeringDetallePageState
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                // Localized cost label and value
                                 '${context.strings.volunteerCostLabel}: '
                                 '${NumberFormat.simpleCurrency(locale: Localizations.localeOf(context).toString()).format(volunteering.cost)}',
                                 style: AppTypography.body01,
                               ),
                               const SizedBox(height: 4),
                               Text(
-                                // Localized creation date label and value
                                 '${context.strings.volunteerCreatedAtLabel}: '
                                 '${DateFormat.yMMMMd(Localizations.localeOf(context).toString()).format(volunteering.createdAt)}',
                                 style: AppTypography.body01,
@@ -694,7 +692,7 @@ class _LocationCardState extends State<_LocationCard> {
           Container(
             padding: const EdgeInsets.all(12),
             color: AppColors.secondary25,
-            child: const Text('Ubicación', style: AppTypography.subtitle01),
+            child: Text(context.strings.location, style: AppTypography.subtitle01),
           ),
           GestureDetector(
             onTap: _openNativeMaps,
@@ -712,9 +710,9 @@ class _LocationCardState extends State<_LocationCard> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Dirección', style: AppTypography.overline),
+                 Text(context.strings.address, style: AppTypography.overline),
                 const SizedBox(height: 4),
-                Text(_address ?? 'Cargando dirección...',
+                Text(_address ?? context.strings.loadingMessage,
                     style: AppTypography.body01),
               ],
             ),
