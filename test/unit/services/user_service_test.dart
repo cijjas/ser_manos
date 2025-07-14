@@ -16,8 +16,8 @@ void main() {
   // ───────────────── usuario base ─────────────────
   const baseUser = User(
     id: 'u1',
-    nombre: 'Ada',
-    apellido: 'Lovelace',
+    name: 'Ada',
+    surname: 'Lovelace',
     email: 'ada@lovelace.dev',
     hasSeenOnboarding: false,
   );

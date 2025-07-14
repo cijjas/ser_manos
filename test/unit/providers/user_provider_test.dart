@@ -20,8 +20,8 @@ void main() {
       firebaseUser    = MockUser(uid: 'uid1', email: 'a@b.c');
       domainUser      = const domain.User(
         id: 'uid1',
-        nombre: 'Ada',
-        apellido: 'Lovelace',
+        name: 'Ada',
+        surname: 'Lovelace',
         email: 'a@b.c',
         hasSeenOnboarding: false,
       );

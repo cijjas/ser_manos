@@ -55,7 +55,7 @@ void main() {
       final encoded = user.toJson();
 
       // getters
-      expect(user.telefono, isNull);
+      expect(user.phoneNumber, isNull);
       expect(user.hasSeenOnboarding, isFalse);
 
       // la clave existe y su valor es null
@@ -71,10 +71,10 @@ void main() {
 
     test('copyWith mantiene inmutabilidad', () {
       final original = User.fromJson(srcJson);
-      final updated  = original.copyWith(nombre: 'Grace');
+      final updated  = original.copyWith(name: 'Grace');
 
-      expect(original.nombre, 'Ada');
-      expect(updated.nombre,  'Grace');
+      expect(original.name, 'Ada');
+      expect(updated.name,  'Grace');
       expect(original, isNot(updated));
     });
   });

@@ -87,8 +87,8 @@ class _RegisterPageState extends ConsumerState<RegisterPage> {
 
       final newUser = model.User(
           id: uid,
-          nombre: name,
-          apellido: surname,
+          name: name,
+          surname: surname,
           email: email,
           hasSeenOnboarding: false);
 

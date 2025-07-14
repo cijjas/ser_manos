@@ -46,18 +46,18 @@ class ProfileWrapperPage extends ConsumerWidget {
 
         return userAsync.whenDebounced(
           data: (u) {
-            final fullName = '${u.nombre} ${u.apellido}';
-            final birthDate = u.fechaNacimiento != null
-                ? DateFormat.yMd(Localizations.localeOf(context).toString()).format(u.fechaNacimiento!)
+            final fullName = '${u.name} ${u.surname}';
+            final birthDate = u.birthDate != null
+                ? DateFormat.yMd(Localizations.localeOf(context).toString()).format(u.birthDate!)
                 : '';
-            final gender = _getLocalizedGender(context, u.genero);
-            final phone = u.telefono ?? '';
+            final gender = _getLocalizedGender(context, u.gender);
+            final phone = u.phoneNumber ?? '';
 
-            final incomplete = u.telefono == null ||
-                u.fechaNacimiento == null ||
-                u.genero == null ||
-                u.imagenUrl == null ||
-                u.imagenUrl!.isEmpty;
+            final incomplete = u.phoneNumber == null ||
+                u.birthDate == null ||
+                u.gender == null ||
+                u.imageUrl == null ||
+                u.imageUrl!.isEmpty;
 
             if (incomplete) {
               return IncompleteProfilePage(
@@ -73,7 +73,7 @@ class ProfileWrapperPage extends ConsumerWidget {
               );
             } else {
               return FullProfilePage(
-                imageUrl: u.imagenUrl!,
+                imageUrl: u.imageUrl!,
                 role: context.strings.volunteer,
                 name: fullName,
                 email: authState.value!.email ?? u.email,

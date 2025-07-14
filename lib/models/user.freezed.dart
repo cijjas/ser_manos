@@ -86,16 +86,16 @@ class _$UserVolunteeringCopyWithImpl<$Res>
 /// @nodoc
 mixin _$User {
   String get id;
-  String get nombre;
-  String get apellido;
+  String get name;
+  String get surname;
   String get email;
   bool get hasSeenOnboarding;
   List<UserVolunteering>? get volunteerings;
   List<String>? get likedVolunteerings;
-  String? get telefono;
-  DateTime? get fechaNacimiento;
-  String? get genero;
-  String? get imagenUrl;
+  String? get phoneNumber;
+  DateTime? get birthDate;
+  String? get gender;
+  String? get imageUrl;
   String? get fcmToken;
 
   /// Create a copy of User
@@ -111,9 +111,8 @@ mixin _$User {
         (other.runtimeType == runtimeType &&
             other is User &&
             (identical(other.id, id) || other.id == id) &&
-            (identical(other.nombre, nombre) || other.nombre == nombre) &&
-            (identical(other.apellido, apellido) ||
-                other.apellido == apellido) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.surname, surname) || other.surname == surname) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.hasSeenOnboarding, hasSeenOnboarding) ||
                 other.hasSeenOnboarding == hasSeenOnboarding) &&
@@ -121,13 +120,13 @@ mixin _$User {
                 .equals(other.volunteerings, volunteerings) &&
             const DeepCollectionEquality()
                 .equals(other.likedVolunteerings, likedVolunteerings) &&
-            (identical(other.telefono, telefono) ||
-                other.telefono == telefono) &&
-            (identical(other.fechaNacimiento, fechaNacimiento) ||
-                other.fechaNacimiento == fechaNacimiento) &&
-            (identical(other.genero, genero) || other.genero == genero) &&
-            (identical(other.imagenUrl, imagenUrl) ||
-                other.imagenUrl == imagenUrl) &&
+            (identical(other.phoneNumber, phoneNumber) ||
+                other.phoneNumber == phoneNumber) &&
+            (identical(other.birthDate, birthDate) ||
+                other.birthDate == birthDate) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
+            (identical(other.imageUrl, imageUrl) ||
+                other.imageUrl == imageUrl) &&
             (identical(other.fcmToken, fcmToken) ||
                 other.fcmToken == fcmToken));
   }
@@ -137,21 +136,21 @@ mixin _$User {
   int get hashCode => Object.hash(
       runtimeType,
       id,
-      nombre,
-      apellido,
+      name,
+      surname,
       email,
       hasSeenOnboarding,
       const DeepCollectionEquality().hash(volunteerings),
       const DeepCollectionEquality().hash(likedVolunteerings),
-      telefono,
-      fechaNacimiento,
-      genero,
-      imagenUrl,
+      phoneNumber,
+      birthDate,
+      gender,
+      imageUrl,
       fcmToken);
 
   @override
   String toString() {
-    return 'User(id: $id, nombre: $nombre, apellido: $apellido, email: $email, hasSeenOnboarding: $hasSeenOnboarding, volunteerings: $volunteerings, likedVolunteerings: $likedVolunteerings, telefono: $telefono, fechaNacimiento: $fechaNacimiento, genero: $genero, imagenUrl: $imagenUrl, fcmToken: $fcmToken)';
+    return 'User(id: $id, name: $name, surname: $surname, email: $email, hasSeenOnboarding: $hasSeenOnboarding, volunteerings: $volunteerings, likedVolunteerings: $likedVolunteerings, phoneNumber: $phoneNumber, birthDate: $birthDate, gender: $gender, imageUrl: $imageUrl, fcmToken: $fcmToken)';
   }
 }
 
@@ -162,16 +161,16 @@ abstract mixin class $UserCopyWith<$Res> {
   @useResult
   $Res call(
       {String id,
-      String nombre,
-      String apellido,
+      String name,
+      String surname,
       String email,
       bool hasSeenOnboarding,
       List<UserVolunteering>? volunteerings,
       List<String>? likedVolunteerings,
-      String? telefono,
-      DateTime? fechaNacimiento,
-      String? genero,
-      String? imagenUrl,
+      String? phoneNumber,
+      DateTime? birthDate,
+      String? gender,
+      String? imageUrl,
       String? fcmToken});
 }
 
@@ -188,16 +187,16 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
   @override
   $Res call({
     Object? id = null,
-    Object? nombre = null,
-    Object? apellido = null,
+    Object? name = null,
+    Object? surname = null,
     Object? email = null,
     Object? hasSeenOnboarding = null,
     Object? volunteerings = freezed,
     Object? likedVolunteerings = freezed,
-    Object? telefono = freezed,
-    Object? fechaNacimiento = freezed,
-    Object? genero = freezed,
-    Object? imagenUrl = freezed,
+    Object? phoneNumber = freezed,
+    Object? birthDate = freezed,
+    Object? gender = freezed,
+    Object? imageUrl = freezed,
     Object? fcmToken = freezed,
   }) {
     return _then(User(
@@ -205,13 +204,13 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.id
           : id // ignore: cast_nullable_to_non_nullable
               as String,
-      nombre: null == nombre
-          ? _self.nombre
-          : nombre // ignore: cast_nullable_to_non_nullable
+      name: null == name
+          ? _self.name
+          : name // ignore: cast_nullable_to_non_nullable
               as String,
-      apellido: null == apellido
-          ? _self.apellido
-          : apellido // ignore: cast_nullable_to_non_nullable
+      surname: null == surname
+          ? _self.surname
+          : surname // ignore: cast_nullable_to_non_nullable
               as String,
       email: null == email
           ? _self.email
@@ -229,21 +228,21 @@ class _$UserCopyWithImpl<$Res> implements $UserCopyWith<$Res> {
           ? _self.likedVolunteerings
           : likedVolunteerings // ignore: cast_nullable_to_non_nullable
               as List<String>?,
-      telefono: freezed == telefono
-          ? _self.telefono
-          : telefono // ignore: cast_nullable_to_non_nullable
+      phoneNumber: freezed == phoneNumber
+          ? _self.phoneNumber
+          : phoneNumber // ignore: cast_nullable_to_non_nullable
               as String?,
-      fechaNacimiento: freezed == fechaNacimiento
-          ? _self.fechaNacimiento
-          : fechaNacimiento // ignore: cast_nullable_to_non_nullable
+      birthDate: freezed == birthDate
+          ? _self.birthDate
+          : birthDate // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      genero: freezed == genero
-          ? _self.genero
-          : genero // ignore: cast_nullable_to_non_nullable
+      gender: freezed == gender
+          ? _self.gender
+          : gender // ignore: cast_nullable_to_non_nullable
               as String?,
-      imagenUrl: freezed == imagenUrl
-          ? _self.imagenUrl
-          : imagenUrl // ignore: cast_nullable_to_non_nullable
+      imageUrl: freezed == imageUrl
+          ? _self.imageUrl
+          : imageUrl // ignore: cast_nullable_to_non_nullable
               as String?,
       fcmToken: freezed == fcmToken
           ? _self.fcmToken

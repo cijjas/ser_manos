@@ -53,8 +53,8 @@ Volunteering _fakeVol(String id) => Volunteering(
 
 const _fakeUser = User(
   id: 'u1',
-  nombre: 'Ada',
-  apellido: 'Lovelace',
+  name: 'Ada',
+  surname: 'Lovelace',
   email: 'ada@lovelace.dev',
   hasSeenOnboarding: true,
 );
